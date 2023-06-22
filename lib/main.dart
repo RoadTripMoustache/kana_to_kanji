@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kana_to_kanji/src/app.dart';
+import 'package:kana_to_kanji/src/locator.dart';
 
-import 'src/app.dart';
 
 void main() async {
-  // Run the app and pass in the SettingsController. The app listens to the
-  // SettingsController for changes, then passes it further down to the
-  // SettingsView.
+  setupLocator();
+
   runApp(const KanaToKanjiApp());
 }
