@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/quiz/constants/types.dart';
+import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
 
 class SubCategoryCard extends StatelessWidget {
-  final Types category;
+  final Alphabets category;
   final String subCategory;
-  final Function(Types, String)? onTap;
+  final Function(Alphabets, String)? onTap;
   final bool isChecked;
 
   const SubCategoryCard(
