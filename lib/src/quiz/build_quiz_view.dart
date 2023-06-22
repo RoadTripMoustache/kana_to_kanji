@@ -4,6 +4,7 @@ import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/build_quiz_view_model.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/alphabet_groups_expansion_tile.dart';
+import 'package:kana_to_kanji/src/quiz/widgets/chip_list.dart';
 import 'package:stacked/stacked.dart';
 
 class BuildQuizView extends StatelessWidget {
@@ -24,8 +25,8 @@ class BuildQuizView extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Wrap(
-                  spacing: 6.0,
+                ChipList(
+                  emptyListLabel: Text(l10n.quiz_build_nothing_selected),
                   children: List.generate(
                       viewModel.selectedGroups.length,
                       (index) => Chip(
