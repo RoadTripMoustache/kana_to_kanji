@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/build_quiz_view_model.dart';
-import 'package:kana_to_kanji/src/quiz/constants/categories.dart';
+import 'package:kana_to_kanji/src/quiz/constants/types.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/subcategory_card.dart';
 import 'package:stacked/stacked.dart';
 
@@ -34,12 +34,12 @@ class BuildQuizView extends StatelessWidget {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               childAspectRatio: 3.5, crossAxisCount: 2),
                       itemCount:
-                          viewModel.categoryTiles[Categories.hiragana]!.length,
+                          viewModel.categoryTiles[Types.hiragana]!.length,
                       itemBuilder: (context, index) => SubCategoryCard(
-                          category: Categories.hiragana,
+                          category: Types.hiragana,
                           isChecked: true,
                           subCategory: viewModel
-                              .categoryTiles[Categories.hiragana]![index]),
+                              .categoryTiles[Types.hiragana]![index]),
                     )
                   ],
                 ),
@@ -52,12 +52,12 @@ class BuildQuizView extends StatelessWidget {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               childAspectRatio: 3.5, crossAxisCount: 2),
                       itemCount:
-                          viewModel.categoryTiles[Categories.katakana]!.length,
+                          viewModel.categoryTiles[Types.katakana]!.length,
                       itemBuilder: (context, index) => SubCategoryCard(
-                          category: Categories.katakana,
+                          category: Types.katakana,
                           isChecked: true,
                           subCategory: viewModel
-                              .categoryTiles[Categories.katakana]![index]),
+                              .categoryTiles[Types.katakana]![index]),
                     )
                   ],
                 )

@@ -1,9 +1,9 @@
-enum Categories {
+enum Types {
   hiragana("hiragana"),
   katakana("katakana"),
   kanji("kanji");
 
   final String value;
 
-  const Categories(this.value);
+  const Types(this.value);
 }

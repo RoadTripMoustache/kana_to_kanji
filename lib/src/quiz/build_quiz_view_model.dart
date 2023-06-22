@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/quiz/constants/categories.dart';
+import 'package:kana_to_kanji/src/quiz/constants/types.dart';
 import 'package:stacked/stacked.dart';
 
 class BuildQuizViewModel extends BaseViewModel {
-  final Map<Categories, List<String>> categoryTiles = {
-    Categories.hiragana: [
+  final Map<Types, List<String>> categoryTiles = {
+    Types.hiragana: [
       "a あ",
       "ka か",
       "sa さ",
@@ -16,7 +16,7 @@ class BuildQuizViewModel extends BaseViewModel {
       "ra ら",
       "wa わ"
     ],
-    Categories.katakana: [
+    Types.katakana: [
       "a ア",
       "ka カ",
       "sa サ",
@@ -28,7 +28,7 @@ class BuildQuizViewModel extends BaseViewModel {
       "ra ラ",
       "wa ワ"
     ],
-    Categories.kanji: []
+    Types.kanji: []
   };
 
   bool _readyToStart = false;
