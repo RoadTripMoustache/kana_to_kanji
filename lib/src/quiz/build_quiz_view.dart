@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/build_quiz_view_model.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/subcategory_card.dart';
+import 'package:kana_to_kanji/src/quiz/widgets/group_card.dart';
 import 'package:stacked/stacked.dart';
 
 class BuildQuizView extends StatelessWidget {
@@ -24,6 +24,17 @@ class BuildQuizView extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
+                Wrap(
+                  spacing: 6.0,
+                  runSpacing: 4.0,
+                  children: List.generate(
+                      viewModel.selectedGroups.length,
+                      (index) => Chip(
+                            label: Text(viewModel.selectedGroups[index].name),
+                            onDeleted: () => viewModel.onGroupCardTapped(
+                                viewModel.selectedGroups[index]),
+                          )),
+                ),
                 ExpansionTile(
                   title: Text(l10n.hiragana),
                   initiallyExpanded: true,
@@ -33,13 +44,12 @@ class BuildQuizView extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               childAspectRatio: 3.5, crossAxisCount: 2),
-                      itemCount:
-                          viewModel.categoryTiles[Alphabets.hiragana]!.length,
-                      itemBuilder: (context, index) => SubCategoryCard(
-                          category: Alphabets.hiragana,
-                          isChecked: true,
-                          subCategory: viewModel
-                              .categoryTiles[Alphabets.hiragana]![index]),
+                      itemCount: viewModel.getGroup(Alphabets.hiragana).length,
+                      itemBuilder: (context, index) => GroupCard(
+                          isChecked: viewModel.selectedGroups.contains(
+                              viewModel.getGroup(Alphabets.hiragana)[index]),
+                          onTap: viewModel.onGroupCardTapped,
+                          group: viewModel.getGroup(Alphabets.hiragana)[index]),
                     )
                   ],
                 ),
@@ -51,13 +61,12 @@ class BuildQuizView extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               childAspectRatio: 3.5, crossAxisCount: 2),
-                      itemCount:
-                          viewModel.categoryTiles[Alphabets.katakana]!.length,
-                      itemBuilder: (context, index) => SubCategoryCard(
-                          category: Alphabets.katakana,
-                          isChecked: true,
-                          subCategory: viewModel
-                              .categoryTiles[Alphabets.katakana]![index]),
+                      itemCount: viewModel.getGroup(Alphabets.katakana).length,
+                      itemBuilder: (context, index) => GroupCard(
+                          isChecked: viewModel.selectedGroups.contains(
+                              viewModel.getGroup(Alphabets.katakana)[index]),
+                          onTap: viewModel.onGroupCardTapped,
+                          group: viewModel.getGroup(Alphabets.katakana)[index]),
                     )
                   ],
                 )

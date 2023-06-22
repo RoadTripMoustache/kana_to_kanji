@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/quiz/models/group.dart';
 
-class SubCategoryCard extends StatelessWidget {
-  final Alphabets category;
-  final String subCategory;
-  final Function(Alphabets, String)? onTap;
+class GroupCard extends StatelessWidget {
+  final Group group;
+  final Function(Group)? onTap;
   final bool isChecked;
 
-  const SubCategoryCard(
+  const GroupCard(
       {super.key,
-      required this.category,
-      required this.subCategory,
+      required this.group,
       this.onTap,
       this.isChecked = false});
 
   onChanged(bool? value) {
     if (onTap != null) {
-      onTap!(category, subCategory);
+      onTap!(group);
     }
   }
 
@@ -25,7 +24,7 @@ class SubCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: CheckboxListTile(
-        title: Text(subCategory),
+        title: Text(group.localizedName ?? group.name),
         value: isChecked,
         onChanged: onChanged,
       ),
