@@ -50,4 +50,9 @@ class BuildQuizViewModel extends BaseViewModel {
     }
     notifyListeners();
   }
+
+  void resetSelected() {
+    _selectedGroups.clear();
+    notifyListeners();
+  }
 }

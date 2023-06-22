@@ -21,6 +21,12 @@ class BuildQuizView extends StatelessWidget {
       builder: (context, viewModel, _) => AppScaffold(
           appBar: AppBar(
             title: Text(l10n.quiz_build_title),
+            actions: [
+              if (viewModel.selectedGroups.isNotEmpty)
+                IconButton(
+                    onPressed: viewModel.resetSelected,
+                    icon: const Icon(Icons.clear_all))
+            ],
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -50,6 +56,14 @@ class BuildQuizView extends StatelessWidget {
                       AlphabetGroupsExpansionTile(
                         alphabet: Alphabets.katakana,
                         groups: viewModel.getGroup(Alphabets.katakana),
+                        selectedGroups: viewModel.selectedGroups,
+                        onGroupTapped: viewModel.onGroupCardTapped,
+                        onSelectAllTapped: viewModel.onSelectAllAlphabetTapped,
+                      ),
+                      const Divider(height: 0),
+                      AlphabetGroupsExpansionTile(
+                        alphabet: Alphabets.kanji,
+                        groups: viewModel.getGroup(Alphabets.kanji),
                         selectedGroups: viewModel.selectedGroups,
                         onGroupTapped: viewModel.onGroupCardTapped,
                         onSelectAllTapped: viewModel.onSelectAllAlphabetTapped,
