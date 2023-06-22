@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/router.dart';
-
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
 
 class KanaToKanjiApp extends StatelessWidget {
   const KanaToKanjiApp({
@@ -22,8 +20,8 @@ class KanaToKanjiApp extends StatelessWidget {
             AppLocalizations.of(context).appTitle,
 
         // Theme
-        theme: ThemeData(),
-        darkTheme: ThemeData.dark(),
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
         themeMode: ThemeMode.system,
 
         // Router
