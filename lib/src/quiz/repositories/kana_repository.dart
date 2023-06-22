@@ -1,6 +1,5 @@
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/quiz/models/group.dart';
-import 'package:kana_to_kanji/src/quiz/models/kana.dart';
 
 class KanaRepository {
   static const List<Group> _hiraganaGroup = [
