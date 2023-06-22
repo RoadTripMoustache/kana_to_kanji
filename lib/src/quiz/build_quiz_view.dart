@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/build_quiz_view_model.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/quiz/widgets/alphabet_groups_expansion_tile.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/group_card.dart';
 import 'package:stacked/stacked.dart';
 
@@ -26,7 +27,6 @@ class BuildQuizView extends StatelessWidget {
               children: [
                 Wrap(
                   spacing: 6.0,
-                  runSpacing: 4.0,
                   children: List.generate(
                       viewModel.selectedGroups.length,
                       (index) => Chip(
@@ -35,40 +35,24 @@ class BuildQuizView extends StatelessWidget {
                                 viewModel.selectedGroups[index]),
                           )),
                 ),
-                ExpansionTile(
-                  title: Text(l10n.hiragana),
-                  initiallyExpanded: true,
-                  children: [
-                    GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 3.5, crossAxisCount: 2),
-                      itemCount: viewModel.getGroup(Alphabets.hiragana).length,
-                      itemBuilder: (context, index) => GroupCard(
-                          isChecked: viewModel.selectedGroups.contains(
-                              viewModel.getGroup(Alphabets.hiragana)[index]),
-                          onTap: viewModel.onGroupCardTapped,
-                          group: viewModel.getGroup(Alphabets.hiragana)[index]),
-                    )
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text(l10n.katakana),
-                  children: [
-                    GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 3.5, crossAxisCount: 2),
-                      itemCount: viewModel.getGroup(Alphabets.katakana).length,
-                      itemBuilder: (context, index) => GroupCard(
-                          isChecked: viewModel.selectedGroups.contains(
-                              viewModel.getGroup(Alphabets.katakana)[index]),
-                          onTap: viewModel.onGroupCardTapped,
-                          group: viewModel.getGroup(Alphabets.katakana)[index]),
-                    )
-                  ],
+                Card(
+                  child: Column(
+                    children: [
+                      AlphabetGroupsExpansionTile(
+                        alphabet: Alphabets.hiragana,
+                        groups: viewModel.getGroup(Alphabets.hiragana),
+                        selectedGroups: viewModel.selectedGroups,
+                        onGroupTapped: viewModel.onGroupCardTapped,
+                        initiallyExpanded: true,
+                      ),
+                      AlphabetGroupsExpansionTile(
+                        alphabet: Alphabets.katakana,
+                        groups: viewModel.getGroup(Alphabets.katakana),
+                        selectedGroups: viewModel.selectedGroups,
+                        onGroupTapped: viewModel.onGroupCardTapped,
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
