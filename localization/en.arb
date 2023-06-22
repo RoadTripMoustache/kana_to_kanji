@@ -1,4 +1,9 @@
 {
   "@@locale": "en",
-  "appTitle": "Kana to Kanji"
+  "appTitle": "Kana to Kanji",
+  "quiz_build_title": "Build your quiz",
+  "quiz_build_ready": "Start quiz",
+  "hiragana": "Hiragana ひらがな",
+  "katakana": "Katakana カタカナ",
+  "kanji": "Kanji 漢字"
 }
