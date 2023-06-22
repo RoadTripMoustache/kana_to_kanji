@@ -1,12 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/sample_feature/sample_item_details_view.dart';
-import 'package:kana_to_kanji/src/sample_feature/sample_item_list_view.dart';
+import 'package:kana_to_kanji/src/quiz/build_quiz_view.dart';
 
-final router = GoRouter(routes: [
+final router = GoRouter(initialLocation: BuildQuizView.routeName, routes: [
   GoRoute(
-      path: SampleItemDetailsView.routeName,
-      builder: (_, __) => const SampleItemDetailsView()),
-  GoRoute(
-      path: SampleItemListView.routeName,
-      builder: (_, __) => const SampleItemListView())
+      path: BuildQuizView.routeName, builder: (_, __) => const BuildQuizView()),
 ]);
