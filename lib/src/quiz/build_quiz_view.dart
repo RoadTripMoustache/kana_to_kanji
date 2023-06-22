@@ -60,14 +60,6 @@ class BuildQuizView extends StatelessWidget {
                         onGroupTapped: viewModel.onGroupCardTapped,
                         onSelectAllTapped: viewModel.onSelectAllAlphabetTapped,
                       ),
-                      const Divider(height: 0),
-                      AlphabetGroupsExpansionTile(
-                        alphabet: Alphabets.kanji,
-                        groups: viewModel.getGroup(Alphabets.kanji),
-                        selectedGroups: viewModel.selectedGroups,
-                        onGroupTapped: viewModel.onGroupCardTapped,
-                        onSelectAllTapped: viewModel.onSelectAllAlphabetTapped,
-                      ),
                     ],
                   ),
                 )
