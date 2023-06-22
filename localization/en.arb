@@ -3,6 +3,18 @@
   "appTitle": "Kana to Kanji",
   "quiz_build_title": "Build your quiz",
   "quiz_build_ready": "Start quiz",
+  "quiz_build_select_all": "Select all {type, select, kana{kana} kanji{kanji} other{}}",
+  "@quiz_build_select_all": {
+    "placeholders": {
+      "type": {}
+    }
+  },
+  "quiz_build_unselect_all": "Unselect all {type, select, kana{kana} kanji{kanji} other{}}",
+  "@quiz_build_unselect_all": {
+    "placeholders": {
+      "type": {}
+    }
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "kanji": "Kanji 漢字"

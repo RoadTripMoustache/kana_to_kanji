@@ -4,7 +4,6 @@ import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/build_quiz_view_model.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/alphabet_groups_expansion_tile.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/group_card.dart';
 import 'package:stacked/stacked.dart';
 
 class BuildQuizView extends StatelessWidget {
@@ -43,13 +42,16 @@ class BuildQuizView extends StatelessWidget {
                         groups: viewModel.getGroup(Alphabets.hiragana),
                         selectedGroups: viewModel.selectedGroups,
                         onGroupTapped: viewModel.onGroupCardTapped,
+                        onSelectAllTapped: viewModel.onSelectAllAlphabetTapped,
                         initiallyExpanded: true,
                       ),
+                      const Divider(height: 0),
                       AlphabetGroupsExpansionTile(
                         alphabet: Alphabets.katakana,
                         groups: viewModel.getGroup(Alphabets.katakana),
                         selectedGroups: viewModel.selectedGroups,
                         onGroupTapped: viewModel.onGroupCardTapped,
+                        onSelectAllTapped: viewModel.onSelectAllAlphabetTapped,
                       ),
                     ],
                   ),

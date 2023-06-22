@@ -32,4 +32,22 @@ class BuildQuizViewModel extends BaseViewModel {
     }
     notifyListeners();
   }
+
+  void onSelectAllAlphabetTapped(Alphabets alphabet) {
+    final areAllSelected = selectedGroups
+            .where((element) => element.alphabet == alphabet)
+            .length ==
+        _categoryTiles[alphabet]!.length;
+
+    if (!areAllSelected) {
+      for (final Group group in _categoryTiles[alphabet] ?? []) {
+        if (!_selectedGroups.contains(group)) {
+          _selectedGroups.add(group);
+        }
+      }
+    } else {
+      _selectedGroups.removeWhere((element) => element.alphabet == alphabet);
+    }
+    notifyListeners();
+  }
 }

@@ -26,6 +26,7 @@ class GroupCard extends StatelessWidget {
       child: CheckboxListTile(
         title: Text(group.localizedName ?? group.name),
         value: isChecked,
+        selected: isChecked,
         onChanged: onChanged,
       ),
     );
