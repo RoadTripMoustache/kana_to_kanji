@@ -1,0 +1,27 @@
+{
+  "groups": [
+    { "id": 0, "alphabet": "hiragana", "name": "a/あ" },
+    { "id": 1, "alphabet": "hiragana", "name": "ka/か" },
+    { "id": 2, "alphabet": "hiragana", "name": "sa/さ" },
+    { "id": 3, "alphabet": "hiragana", "name": "ta/た" },
+    { "id": 4, "alphabet": "hiragana", "name": "na/な" },
+    { "id": 5, "alphabet": "hiragana", "name": "ha/は" },
+    { "id": 6, "alphabet": "hiragana", "name": "ma/ま" },
+    { "id": 7, "alphabet": "hiragana", "name": "ya/や" },
+    { "id": 8, "alphabet": "hiragana", "name": "ra/ら" },
+    { "id": 9, "alphabet": "hiragana", "name": "wa/わ" },
+    { "id": 10, "alphabet": "katakana", "name": "a/ア" },
+    { "id": 11, "alphabet": "katakana", "name": "ka/カ" },
+    { "id": 12, "alphabet": "katakana", "name": "sa/サ" },
+    { "id": 13, "alphabet": "katakana", "name": "ta/タ" },
+    { "id": 14, "alphabet": "katakana", "name": "na/ナ" },
+    { "id": 15, "alphabet": "katakana", "name": "ha/ハ" },
+    { "id": 16, "alphabet": "katakana", "name": "ma/マ" },
+    { "id": 17, "alphabet": "katakana", "name": "ya/ヤ" },
+    { "id": 18, "alphabet": "katakana", "name": "ra/ラ" },
+    { "id": 19, "alphabet": "katakana", "name": "wa/ワ" }
+  ],
+  "kana": [
+    { "id": 0, "alphabet": "hiragana", "group_id": 0, "kana": "あ", "romanji": "a" }
+  ]
+}
