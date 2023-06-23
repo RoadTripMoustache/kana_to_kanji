@@ -1,11 +1,11 @@
+import 'package:stacked/stacked.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/quiz/models/group.dart';
-import 'package:kana_to_kanji/src/quiz/repositories/kana_repository.dart';
-import 'package:stacked/stacked.dart';
+import 'package:kana_to_kanji/src/quiz/repositories/groups_repository.dart';
 
-class BuildQuizViewModel extends BaseViewModel {
-  final KanaRepository _kanaRepository = locator<KanaRepository>();
+class BuildQuizViewModel extends FutureViewModel {
+  final GroupsRepository _groupsRepository = locator<GroupsRepository>();
 
   final Map<Alphabets, List<Group>> _categoryTiles = {};
 
@@ -15,13 +15,17 @@ class BuildQuizViewModel extends BaseViewModel {
 
   List<Group> get selectedGroups => _selectedGroups;
 
-  List<Group> getGroup(Alphabets alphabet) {
-    if (!_categoryTiles.containsKey(alphabet)) {
-      _categoryTiles.putIfAbsent(
-          alphabet, () => _kanaRepository.getGroups(alphabet));
-    }
+  @override
+  Future futureToRun() async {
+    for (final alphabet in [Alphabets.hiragana, Alphabets.katakana]) {
+      final groups = await _groupsRepository.getGroups(alphabet);
 
-    return _categoryTiles[alphabet]!;
+      _categoryTiles.putIfAbsent(alphabet, () => groups);
+    }
+  }
+
+  List<Group> getGroup(Alphabets alphabet) {
+    return _categoryTiles[alphabet] ?? [];
   }
 
   void onGroupCardTapped(Group groupTapped) {
