@@ -37,6 +37,19 @@ class BuildQuizViewModel extends FutureViewModel {
     notifyListeners();
   }
 
+  void onSelectAllTapped(List<Group> groups, bool toAdd) {
+    if (toAdd) {
+      for (final Group group in groups) {
+        if (!_selectedGroups.contains(group)) {
+          _selectedGroups.add(group);
+        }
+      }
+    } else {
+      _selectedGroups.removeWhere((group) => groups.contains(group));
+    }
+    notifyListeners();
+  }
+
   void onSelectAllAlphabetTapped(Alphabets alphabet) {
     final areAllSelected = selectedGroups
             .where((element) => element.alphabet == alphabet)

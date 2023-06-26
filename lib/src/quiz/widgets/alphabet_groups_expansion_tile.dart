@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/quiz/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/group_card.dart';
+import 'package:kana_to_kanji/src/quiz/widgets/kana_groups.dart';
 
 class AlphabetGroupsExpansionTile extends StatelessWidget {
   final Alphabets alphabet;
@@ -15,7 +16,7 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
 
   final Function(Group) onGroupTapped;
 
-  final Function(Alphabets) onSelectAllTapped;
+  final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
 
   const AlphabetGroupsExpansionTile(
       {super.key,
@@ -62,19 +63,26 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
       childrenPadding: const EdgeInsets.all(8.0),
       children: [
         ElevatedButton(
-            onPressed: () => onSelectAllTapped(alphabet),
+            onPressed: () => onSelectAllTapped(groups, !areAllSelected),
             child: Text(multiselectButtonText)),
-        GridView.builder(
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 3.5, crossAxisCount: 2),
-          itemCount: groups.length,
-          itemBuilder: (context, index) => GroupCard(
-              isChecked: selectedGroups.contains(groups[index]),
-              onTap: onGroupTapped,
-              group: groups[index]),
-        )
+        alphabet != Alphabets.kanji
+            ? KanaGroups(
+                groups: groups,
+                selectedGroups: selectedGroups,
+                onGroupTapped: onGroupTapped,
+                onSelectAllTapped: onSelectAllTapped)
+            : GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 3.5, crossAxisCount: 2),
+                itemCount: groups.length,
+                itemBuilder: (context, index) => GroupCard(
+                    isChecked: selectedGroups.contains(groups[index]),
+                    onTap: onGroupTapped,
+                    group: groups[index]),
+              )
       ],
     );
   }
 }
+
