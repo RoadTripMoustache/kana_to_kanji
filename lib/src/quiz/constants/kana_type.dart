@@ -1,9 +1,9 @@
-enum KanaType {
+enum KanaTypes {
   main("main"),
   dakuten("dakuten"),
   combination("combination");
 
   final String value;
 
-  const KanaType(this.value);
+  const KanaTypes(this.value);
 }
