@@ -29,9 +29,9 @@ jobs:
   tests:
     name: Run the tests and checks
     runs-on: ubuntu-latest
-    needs:
-      - bump_version
-    if: needs.bump_version.outputs.stop == 'false'
+#    needs:
+#      - bump_version
+#    if: needs.bump_version.outputs.stop == 'false'
     outputs:
       coverage: ${{ steps.coverage.outputs.percentage }}
     steps:
@@ -82,7 +82,7 @@ jobs:
     needs:
       - tests
       - bump_version
-    if: needs.bump_version.outputs.stop == 'false'
+#    if: needs.bump_version.outputs.stop == 'false'
     env:
       VERSION: ${{ needs.bump_version.outputs.version }}
     strategy:
