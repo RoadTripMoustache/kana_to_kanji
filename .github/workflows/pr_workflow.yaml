@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       stop: ${{ steps.bump.outputs.has_changed }}
+      version: ${{ steps.bump.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Bump version using labels
@@ -90,7 +91,7 @@ jobs:
       - bump_version
     if: needs.bump_version.outputs.stop == 'false'
     env:
-      VERSION: ${{ needs.get_version.outputs.version }}
+      VERSION: ${{ needs.bump_version.outputs.version }}
     strategy:
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false

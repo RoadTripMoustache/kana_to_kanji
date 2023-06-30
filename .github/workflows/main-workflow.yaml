@@ -62,6 +62,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs:
       - tests
+      - get_version
     env:
       VERSION: ${{ needs.get_version.outputs.version }}
     strategy:
