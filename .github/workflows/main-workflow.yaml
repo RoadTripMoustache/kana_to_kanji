@@ -62,15 +62,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs:
       - tests
+      - get_version
     env:
       VERSION: ${{ needs.get_version.outputs.version }}
     strategy:
+      # Disable fail-fast as we want results from all even if one fails.
+      fail-fast: false
       matrix:
         target:
           - iOS
           - Android
-        # Disable fail-fast as we want results from all even if one fails.
-        fail-fast: false
         include:
           - target: iOS
             os: macos-latest
@@ -120,7 +121,7 @@ jobs:
         if: matrix.target == 'iOS'
         run: |
           mv Runner.app ${{ env.APP_NAME }}.app
-          ditto -c -k --sequesterRsrc --keepParent ${{ env.APP_NAME }}.app ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }_${{ matrix.target }}.${{ matrix.asset_extension }}
+          ditto -c -k --sequesterRsrc --keepParent ${{ env.APP_NAME }}.app ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Upload build artifact
