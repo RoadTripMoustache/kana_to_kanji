@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kana_to_kanji/src/build_quiz/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/build_quiz/models/group.dart';
+import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/models/group.dart';
 
 part 'kana.freezed.dart';
 

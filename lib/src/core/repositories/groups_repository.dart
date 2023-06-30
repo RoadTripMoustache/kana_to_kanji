@@ -1,8 +1,8 @@
 import 'package:kana_to_kanji/src/core/services/database_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/build_quiz/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/build_quiz/constants/group_queries.dart';
-import 'package:kana_to_kanji/src/build_quiz/models/group.dart';
+import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/group_queries.dart';
+import 'package:kana_to_kanji/src/core/models/group.dart';
 
 class GroupsRepository {
   final DatabaseService _databaseService = locator<DatabaseService>();

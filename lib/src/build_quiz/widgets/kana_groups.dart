@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/build_quiz/constants/kana_type.dart';
-import 'package:kana_to_kanji/src/build_quiz/models/group.dart';
+import 'package:kana_to_kanji/src/core/constants/kana_type.dart';
+import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/build_quiz/widgets/kana_groups_section.dart';
 
 class KanaGroups extends StatelessWidget {

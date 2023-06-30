@@ -1,8 +1,8 @@
 import 'package:stacked/stacked.dart';
 import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/build_quiz/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/build_quiz/models/group.dart';
-import 'package:kana_to_kanji/src/build_quiz/repositories/groups_repository.dart';
+import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/models/group.dart';
+import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 
 class BuildQuizViewModel extends FutureViewModel {
   final GroupsRepository _groupsRepository = locator<GroupsRepository>();
