@@ -9,6 +9,7 @@ on:
       - 'README.md'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions: write-all
 
 jobs:
   get_version:
