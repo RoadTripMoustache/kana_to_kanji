@@ -9,16 +9,6 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  delete_bot_comments:
-    name: Delete the bot comments on the PR.
-    runs-on: ubuntu-latest
-    steps:
-      - uses: izhangzhihao/delete-comment@master
-        if: ${{ github.event_name == 'pull_request' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          delete_user_name: github-actions[bot]
-          issue_number: ${{ github.event.number }}
   bump_version:
     name: Bump version
     runs-on: ubuntu-latest
