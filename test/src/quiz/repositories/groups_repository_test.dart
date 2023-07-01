@@ -46,28 +46,29 @@ void main() {
         final results = await service.getGroups(groupSample.alphabet);
 
         expect(results, [groupSample]);
-        verify(databaseServiceMock
-            .getMultiple(getGroupsQuery, Group.fromJson, arguments: [Alphabets.hiragana.value]));
+        verify(databaseServiceMock.getMultiple(getGroupsQuery, Group.fromJson,
+            arguments: [Alphabets.hiragana.value]));
         verifyNoMoreInteractions(databaseServiceMock);
       });
 
-      test("shouldn't call the database to retrieve the groups of the alphabet if not necessary",
-              () async {
-            when(databaseServiceMock.getMultiple(getGroupsQuery, Group.fromJson,
+      test(
+          "shouldn't call the database to retrieve the groups of the alphabet if not necessary",
+          () async {
+        when(databaseServiceMock.getMultiple(getGroupsQuery, Group.fromJson,
                 arguments: [Alphabets.hiragana.value]))
-                .thenAnswer((_) async => <Group>[groupSample]);
+            .thenAnswer((_) async => <Group>[groupSample]);
 
-            List<Group> results = await service.getGroups(groupSample.alphabet);
+        List<Group> results = await service.getGroups(groupSample.alphabet);
 
-            expect(results, [groupSample]);
-            verify(databaseServiceMock
-                .getMultiple(getGroupsQuery, Group.fromJson, arguments: [Alphabets.hiragana.value]));
+        expect(results, [groupSample]);
+        verify(databaseServiceMock.getMultiple(getGroupsQuery, Group.fromJson,
+            arguments: [Alphabets.hiragana.value]));
 
-            results = await service.getGroups(groupSample.alphabet, reload: false);
+        results = await service.getGroups(groupSample.alphabet, reload: false);
 
-            expect(results, [groupSample]);
-            verifyNoMoreInteractions(databaseServiceMock);
-          });
+        expect(results, [groupSample]);
+        verifyNoMoreInteractions(databaseServiceMock);
+      });
     });
   });
 }

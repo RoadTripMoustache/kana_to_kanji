@@ -56,7 +56,7 @@ class DatabaseService {
     _logger.d(
         "Start creation of database.\nCreating ${entitiesCreationQueries.length} tables...");
     Batch batch = db.batch();
-    for(String query in entitiesCreationQueries) {
+    for (String query in entitiesCreationQueries) {
       batch.execute(query);
     }
     await batch.commit();
