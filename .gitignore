@@ -230,3 +230,8 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter,android,xcode,intellij+all,visualstudiocode
+
+# Generated files
+**/*.freezed.dart
+**/*.g.dart
+**/*.mocks.dart

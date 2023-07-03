@@ -18,7 +18,12 @@
   "quiz_build_nothing_selected": "Select one or more groups before starting",
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
+  "main_kana": "Main kana",
+  "dakuten_kana": "Dakuten kana",
+  "combination_kana": "Combination kana",
   "kanji": "Kanji 漢字",
   "show_more": "Show more",
-  "show_less": "Show less"
+  "show_less": "Show less",
+  "select_all": "Select all",
+  "unselect_all": "Unselect all"
 }
