@@ -7,10 +7,7 @@ class GroupCard extends StatelessWidget {
   final bool isChecked;
 
   const GroupCard(
-      {super.key,
-      required this.group,
-      this.onTap,
-      this.isChecked = false});
+      {super.key, required this.group, this.onTap, this.isChecked = false});
 
   onChanged(bool? value) {
     if (onTap != null) {
