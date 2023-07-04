@@ -1,7 +1,7 @@
+import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/group_queries.dart';
+import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/quiz/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/quiz/constants/group_queries.dart';
-import 'package:kana_to_kanji/src/quiz/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/repositories/groups_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:flutter_test/flutter_test.dart';
