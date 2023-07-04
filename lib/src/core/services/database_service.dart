@@ -91,7 +91,7 @@ class DatabaseService {
       throw Error();
     }
 
-    final data = await _database.rawQuery(query, arguments);
+    final data = await _database.rawQuery(query, _sanitizeArguments(arguments));
 
     if (data.isEmpty) {
       return null;
@@ -106,7 +106,7 @@ class DatabaseService {
       throw Error();
     }
 
-    final data = await _database.rawQuery(query, arguments);
+    final data = await _database.rawQuery(query, _sanitizeArguments(arguments));
 
     if (data.isEmpty) {
       return [];
@@ -123,5 +123,18 @@ class DatabaseService {
   Future<int> delete(String table, String whereQuery, List<Object?> arguments) {
     _logger.d("Deletion $table, where: $whereQuery, $arguments");
     return _database.delete(table, where: whereQuery, whereArgs: arguments);
+  }
+
+  List<Object?> _sanitizeArguments(List<Object?> arguments) {
+    final sanitizedArguments = [];
+    for (Object? argument in arguments) {
+      if (argument is List) {
+        sanitizedArguments.add(argument.join(","));
+      } else {
+        sanitizedArguments.add(argument);
+      }
+    }
+
+    return sanitizedArguments;
   }
 }
