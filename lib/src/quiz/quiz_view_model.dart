@@ -1,4 +1,3 @@
-
 import 'package:stacked/stacked.dart';
 
 class QuizViewModel extends FutureViewModel {
@@ -7,5 +6,4 @@ class QuizViewModel extends FutureViewModel {
     // TODO: implement futureToRun
     throw UnimplementedError();
   }
-
 }
