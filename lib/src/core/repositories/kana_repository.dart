@@ -14,8 +14,8 @@ class KanaRepository {
 
     if (kana.isEmpty) {
       kana.addAll(await _databaseService.getMultiple(
-          getKanaByGroups, Kana.fromJson,
-          arguments: [groupIds]));
+          getKanaByGroups(groupIds.length), Kana.fromJson,
+          arguments: [...groupIds]));
       _kana.addAll(kana);
     }
 
