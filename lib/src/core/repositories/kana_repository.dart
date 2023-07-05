@@ -2,7 +2,6 @@ import 'package:kana_to_kanji/src/core/constants/kana_queries.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/database_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
-import 'package:logger/logger.dart';
 
 class KanaRepository {
   final DatabaseService _databaseService = locator<DatabaseService>();
@@ -10,16 +9,13 @@ class KanaRepository {
   final List<Kana> _kana = [];
 
   Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
-    final logger = locator<Logger>();
     final kana =
         _kana.where((element) => groupIds.contains(element.groupId)).toList();
 
     if (kana.isEmpty) {
-      logger.d("Loading kana...");
       kana.addAll(await _databaseService.getMultiple(
           getKanaByGroups, Kana.fromJson,
           arguments: [groupIds]));
-      logger.d("Kana loaded: $kana");
       _kana.addAll(kana);
     }
 

@@ -16,6 +16,19 @@
     }
   },
   "quiz_build_nothing_selected": "Select one or more groups before starting",
+  "quiz_length": "{done} / {total}",
+  "@quiz_length": {
+    "placeholders": {
+      "done": {
+        "type": "int",
+        "description": "Number of question answered"
+      },
+      "total": {
+        "type": "int",
+        "description": "Number of question in the quiz"
+      }
+    }
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",

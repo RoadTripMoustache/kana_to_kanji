@@ -28,7 +28,7 @@ class QuizViewModel extends FutureViewModel {
         .getByGroupIds(groups.map((e) => e.id).toList(growable: false));
 
     _questions.addAll(kana.map((element) =>
-        Question(question: element, type: QuestionTypes.toRomanji)));
+        Question(kana: element, type: QuestionTypes.toRomanji)));
     _questions.shuffle();
   }
 
@@ -38,30 +38,20 @@ class QuizViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  void validateAnswer(String answer) {
+  bool validateAnswer(String answer) {
     final question = _questions[_currentQuestionIndex];
-    String expectedAnswer;
 
-    switch(question.type) {
-      case QuestionTypes.toJapanese:
-        expectedAnswer = question.question.kana;
-        break;
-      case QuestionTypes.toRomanji:
-        expectedAnswer = question.question.romanji;
-        break;
-      case QuestionTypes.translate:
-        throw UnimplementedError();
-    }
-
-    if(answer != expectedAnswer) {
+    if(answer != question.answer) {
       question.remainingAttempt -= 1;
+      return false;
     } else {
       _currentQuestionIndex++;
 
       if(_currentQuestionIndex == _questions.length) {
         // TODO Trigger quiz end
       }
+      notifyListeners();
+      return true;
     }
-    notifyListeners();
   }
 }
