@@ -22,6 +22,7 @@ class BuildQuizView extends StatelessWidget {
       builder: (context, viewModel, _) => AppScaffold(
           appBar: AppBar(
             title: Text(l10n.quiz_build_title),
+            backgroundColor: Colors.transparent,
             actions: [
               if (viewModel.selectedGroups.isNotEmpty)
                 IconButton(
