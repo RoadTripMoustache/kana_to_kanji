@@ -4,6 +4,7 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view_model.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/question_tile.dart';
+import 'package:kana_to_kanji/src/quiz/widgets/rounded_linear_progress_indicator.dart';
 import 'package:stacked/stacked.dart';
 
 class QuizView extends StatelessWidget {
@@ -31,9 +32,11 @@ class QuizView extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
-                    child: LinearProgressIndicator(
+                    child: RoundedLinearProgressIndicator(
                       minHeight: 6.0,
-                      value: (viewModel.questionNumber / viewModel.quizLength),
+                      value: viewModel.quizLength > 0
+                          ? (viewModel.questionNumber / viewModel.quizLength)
+                          : 0.0,
                     ),
                   ),
                   Padding(
