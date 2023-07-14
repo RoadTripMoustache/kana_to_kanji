@@ -9,6 +9,8 @@ class FlipCard extends StatefulWidget {
 
   final bool flipped;
 
+  final bool showShadow;
+
   final bool allowFlip;
 
   const FlipCard(
@@ -16,7 +18,8 @@ class FlipCard extends StatefulWidget {
       required this.front,
       required this.back,
       this.flipped = false,
-      this.allowFlip = false});
+      this.allowFlip = false,
+      this.showShadow = false});
 
   @override
   State<FlipCard> createState() => _FlipCardState();
@@ -67,7 +70,8 @@ class _FlipCardState extends State<FlipCard> {
   }
 
   Widget _build(Widget child, double size, Color? backgroundColor) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
       key: ValueKey(_flipped),
       width: size,
       height: size,
@@ -75,6 +79,14 @@ class _FlipCardState extends State<FlipCard> {
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(20.0),
         color: backgroundColor,
+        boxShadow: [
+          if (widget.showShadow)
+            BoxShadow(
+              color: Colors.green.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 7,
+            ),
+        ],
       ),
       child: Card(
         key: ValueKey(_flipped),

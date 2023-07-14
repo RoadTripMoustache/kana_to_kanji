@@ -30,16 +30,27 @@ class _QuestionTileState extends State<QuestionTile> {
 
   final FocusNode _focusNode = FocusNode();
 
+  bool _showShadow = false;
+
   onSubmit(String answer) {
-    if(answer.isEmpty) {
+    if (answer.isEmpty) {
       _focusNode.requestFocus();
       return;
     }
     final result = widget.submitAnswer(answer);
 
-    if (!result) {
-      _controller.clear();
-      _focusNode.requestFocus();
+    _controller.clear();
+    _focusNode.requestFocus();
+
+    if (result) {
+      setState(() {
+        _showShadow = true;
+      });
+      Future.delayed(
+          const Duration(milliseconds: 300),
+          () => setState(() {
+                _showShadow = false;
+              }));
     }
   }
 
@@ -79,6 +90,7 @@ class _QuestionTileState extends State<QuestionTile> {
         Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
           child: FlipCard(
+            showShadow: _showShadow,
             allowFlip: widget.question.remainingAttempt == 0,
             flipped: widget.question.remainingAttempt == 0,
             front: AutoSizeText(
