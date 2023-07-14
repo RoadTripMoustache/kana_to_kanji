@@ -26,10 +26,25 @@ class QuizView extends StatelessWidget {
               centerTitle: true,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
-              title: Text(
-                l10n.quiz_length(
-                    viewModel.questionNumber, viewModel.quizLength),
-                style: textTheme.titleMedium,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: LinearProgressIndicator(
+                      minHeight: 6.0,
+                      value: (viewModel.questionNumber / viewModel.quizLength),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: Text(
+                      l10n.quiz_length(
+                          viewModel.questionNumber, viewModel.quizLength),
+                      style: textTheme.titleMedium,
+                    ),
+                  )
+                ],
               ),
             ),
             body: viewModel.isBusy

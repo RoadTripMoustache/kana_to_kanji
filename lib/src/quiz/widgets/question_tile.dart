@@ -30,7 +30,7 @@ class _QuestionTileState extends State<QuestionTile> {
 
   final FocusNode _focusNode = FocusNode();
 
-  bool _showShadow = false;
+  bool _showSuccess = false;
 
   onSubmit(String answer) {
     if (answer.isEmpty) {
@@ -40,16 +40,16 @@ class _QuestionTileState extends State<QuestionTile> {
     final result = widget.submitAnswer(answer);
 
     _controller.clear();
-    _focusNode.requestFocus();
 
     if (result) {
       setState(() {
-        _showShadow = true;
+        _showSuccess = true;
       });
       Future.delayed(
-          const Duration(milliseconds: 300),
+          const Duration(milliseconds: 500),
           () => setState(() {
-                _showShadow = false;
+                _showSuccess = false;
+                _focusNode.requestFocus();
               }));
     }
   }
@@ -64,6 +64,7 @@ class _QuestionTileState extends State<QuestionTile> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final inputTheme = Theme.of(context).inputDecorationTheme;
     final l10n = AppLocalizations.of(context);
 
     final nextButton = widget.question.remainingAttempt > 0
@@ -90,7 +91,6 @@ class _QuestionTileState extends State<QuestionTile> {
         Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
           child: FlipCard(
-            showShadow: _showShadow,
             allowFlip: widget.question.remainingAttempt == 0,
             flipped: widget.question.remainingAttempt == 0,
             front: AutoSizeText(
@@ -115,6 +115,14 @@ class _QuestionTileState extends State<QuestionTile> {
                 autofocus: true,
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.send,
+                decoration: InputDecoration(
+                    enabledBorder: _showSuccess
+                        ? const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))
+                        : null,
+                    suffixIcon: _showSuccess
+                        ? const Icon(Icons.check, color: Colors.green)
+                        : null),
                 onSubmitted: onSubmit),
           ),
         nextButton
