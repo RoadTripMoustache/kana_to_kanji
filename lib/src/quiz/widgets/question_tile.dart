@@ -31,6 +31,10 @@ class _QuestionTileState extends State<QuestionTile> {
   final FocusNode _focusNode = FocusNode();
 
   onSubmit(String answer) {
+    if(answer.isEmpty) {
+      _focusNode.requestFocus();
+      return;
+    }
     final result = widget.submitAnswer(answer);
 
     if (!result) {
