@@ -22,28 +22,31 @@ class QuizView extends StatelessWidget {
         viewModelBuilder: () => QuizViewModel(groups),
         builder: (context, viewModel, child) => AppScaffold(
             resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              title: Text(
+                l10n.quiz_length(
+                    viewModel.questionNumber, viewModel.quizLength),
+                style: textTheme.titleMedium,
+              ),
+            ),
             body: viewModel.isBusy
                 ? const CircularProgressIndicator()
                 : Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            l10n.quiz_length(
-                                viewModel.questionNumber, viewModel.quizLength),
-                            style: textTheme.titleMedium,
-                          )
-                        ],
-                      ),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             QuestionTile(
-                                question: viewModel.current,
-                                submitAnswer: viewModel.validateAnswer),
+                              question: viewModel.current,
+                              submitAnswer: viewModel.validateAnswer,
+                              maximumAttempts: viewModel.attemptMaxNumber,
+                              nextQuestion: viewModel.nextQuestion,
+                            ),
                           ],
                         ),
                       )

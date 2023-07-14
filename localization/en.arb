@@ -29,6 +29,8 @@
       }
     }
   },
+  "quiz_skip_question": "Skip",
+  "quiz_next_question": "Next",
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",
