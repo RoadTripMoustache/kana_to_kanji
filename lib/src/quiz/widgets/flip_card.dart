@@ -31,6 +31,16 @@ class _FlipCardState extends State<FlipCard> {
     _flipped = widget.flipped;
   }
 
+  @override
+  void didUpdateWidget(FlipCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.flipped != widget.flipped) {
+      setState(() {
+        _flipped = widget.flipped;
+      });
+    }
+  }
+
   onTap() {
     if (widget.allowFlip) {
       setState(() {
