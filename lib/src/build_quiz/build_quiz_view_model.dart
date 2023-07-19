@@ -80,6 +80,6 @@ class BuildQuizViewModel extends FutureViewModel {
   }
 
   void startQuiz() {
-    router.go(QuizView.routeName, extra: _selectedGroups);
+    router.push(QuizView.routeName, extra: _selectedGroups);
   }
 }
