@@ -92,7 +92,7 @@ class _QuestionTileState extends State<QuestionTile> {
         Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
           child: FlipCard(
-            allowFlip: widget.question.remainingAttempt == 0,
+            allowTapToFlip: widget.question.remainingAttempt == 0,
             flipped: widget.question.remainingAttempt == 0,
             front: AutoSizeText(
               widget.question.question,

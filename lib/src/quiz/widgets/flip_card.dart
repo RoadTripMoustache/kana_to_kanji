@@ -9,14 +9,14 @@ class FlipCard extends StatefulWidget {
 
   final bool flipped;
 
-  final bool allowFlip;
+  final bool allowTapToFlip;
 
   const FlipCard(
       {super.key,
       required this.front,
       required this.back,
       this.flipped = false,
-      this.allowFlip = false});
+      this.allowTapToFlip = false});
 
   @override
   State<FlipCard> createState() => _FlipCardState();
@@ -74,7 +74,7 @@ class _FlipCardState extends State<FlipCard> {
   }
 
   onTap() {
-    if (widget.allowFlip) {
+    if (widget.allowTapToFlip) {
       setState(() {
         _flipped = !_flipped;
       });
