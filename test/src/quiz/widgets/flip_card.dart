@@ -56,9 +56,7 @@ void main() {
       testWidgets("should flip when tapped and tap to flip is allowed",
           (WidgetTester tester) async {
         const widget = FlipCard(
-            front: Text(frontText),
-            back: Text(rearText),
-            allowTapToFlip: true);
+            front: Text(frontText), back: Text(rearText), allowTapToFlip: true);
 
         await tester.pumpWidget(const LocalizedWidget(child: widget));
         await tester.pumpAndSettle();

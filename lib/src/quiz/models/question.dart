@@ -15,7 +15,7 @@ class Question with _$Question {
   }) = _Question;
 
   String get question {
-    switch(type) {
+    switch (type) {
       case QuestionTypes.toJapanese:
         return kana.romanji;
       case QuestionTypes.toRomanji:
@@ -26,7 +26,7 @@ class Question with _$Question {
   }
 
   String get answer {
-    switch(type) {
+    switch (type) {
       case QuestionTypes.toJapanese:
         return kana.kana;
       case QuestionTypes.toRomanji:
