@@ -23,22 +23,54 @@ class FlipCard extends StatefulWidget {
 }
 
 class _FlipCardState extends State<FlipCard> {
+  final Duration _animationDuration = const Duration(milliseconds: 800);
+
   bool _flipped = false;
+
+  late Widget _front;
+  late Widget _back;
 
   @override
   void initState() {
     super.initState();
     _flipped = widget.flipped;
+    _front = widget.front;
+    _back = widget.back;
   }
 
   @override
   void didUpdateWidget(FlipCard oldWidget) {
     super.didUpdateWidget(oldWidget);
+    bool newFlipped = _flipped;
+    Widget newFront = _front;
+    Widget newBack = _back;
+
     if (oldWidget.flipped != widget.flipped) {
-      setState(() {
-        _flipped = widget.flipped;
-      });
+      newFlipped = !_flipped;
     }
+
+    if (oldWidget.front.key != widget.front.key ||
+        oldWidget.back.key != widget.back.key) {
+      newFront = widget.front;
+      newBack = widget.back;
+      newFlipped = !_flipped;
+
+      if (!_flipped) {
+        newBack = widget.front;
+        newFront = _front;
+        Future.delayed(_animationDuration, () {
+          setState(() {
+            _front = widget.back;
+          });
+        });
+      }
+    }
+
+    setState(() {
+      _flipped = newFlipped;
+      _front = newFront;
+      _back = newBack;
+    });
   }
 
   onTap() {
@@ -52,15 +84,16 @@ class _FlipCardState extends State<FlipCard> {
   @override
   Widget build(BuildContext context) {
     final cardBackgroundColor = Theme.of(context).cardTheme.color;
+
     return GestureDetector(
       onTap: onTap,
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 800),
+        duration: _animationDuration,
         transitionBuilder: _transitionBuilder,
         layoutBuilder: (child, list) => Stack(children: [child!, ...list]),
         switchInCurve: Curves.easeInBack,
         switchOutCurve: Curves.easeInBack.flipped,
-        child: _build(_flipped ? widget.back : widget.front,
+        child: _build(_flipped ? _back : _front,
             MediaQuery.of(context).size.width * 0.5, cardBackgroundColor),
       ),
     );
@@ -77,7 +110,6 @@ class _FlipCardState extends State<FlipCard> {
         color: backgroundColor,
       ),
       child: Card(
-        key: ValueKey(_flipped),
         child: Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),

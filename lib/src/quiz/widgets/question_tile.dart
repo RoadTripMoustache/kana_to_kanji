@@ -51,6 +51,8 @@ class _QuestionTileState extends State<QuestionTile> {
                 _showSuccess = false;
                 _focusNode.requestFocus();
               }));
+    } else {
+      _focusNode.requestFocus();
     }
   }
 
@@ -64,7 +66,6 @@ class _QuestionTileState extends State<QuestionTile> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final inputTheme = Theme.of(context).inputDecorationTheme;
     final l10n = AppLocalizations.of(context);
 
     final nextButton = widget.question.remainingAttempt > 0
@@ -95,11 +96,13 @@ class _QuestionTileState extends State<QuestionTile> {
             flipped: widget.question.remainingAttempt == 0,
             front: AutoSizeText(
               widget.question.question,
+              key: ValueKey("q${widget.question.kana.id}"),
               style: textTheme.displayLarge!.copyWith(fontSize: 96),
               maxLines: 1,
             ),
             back: AutoSizeText(
               widget.question.answer,
+              key: ValueKey("a${widget.question.kana.id}"),
               style: textTheme.displayLarge!,
               maxLines: 1,
             ),
