@@ -43,26 +43,29 @@ class BuildQuizView extends StatelessWidget {
                                 viewModel.selectedGroups[index]),
                           )),
                 ),
-                Card(
-                  child: Column(
-                    children: [
-                      AlphabetGroupsExpansionTile(
-                        alphabet: Alphabets.hiragana,
-                        groups: viewModel.getGroup(Alphabets.hiragana),
-                        selectedGroups: viewModel.selectedGroups,
-                        onGroupTapped: viewModel.onGroupCardTapped,
-                        onSelectAllTapped: viewModel.onSelectAllTapped,
-                        initiallyExpanded: true,
-                      ),
-                      const Divider(height: 0),
-                      AlphabetGroupsExpansionTile(
-                        alphabet: Alphabets.katakana,
-                        groups: viewModel.getGroup(Alphabets.katakana),
-                        selectedGroups: viewModel.selectedGroups,
-                        onGroupTapped: viewModel.onGroupCardTapped,
-                        onSelectAllTapped: viewModel.onSelectAllTapped,
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        AlphabetGroupsExpansionTile(
+                          alphabet: Alphabets.hiragana,
+                          groups: viewModel.getGroup(Alphabets.hiragana),
+                          selectedGroups: viewModel.selectedGroups,
+                          onGroupTapped: viewModel.onGroupCardTapped,
+                          onSelectAllTapped: viewModel.onSelectAllTapped,
+                          initiallyExpanded: true,
+                        ),
+                        const Divider(height: 0),
+                        AlphabetGroupsExpansionTile(
+                          alphabet: Alphabets.katakana,
+                          groups: viewModel.getGroup(Alphabets.katakana),
+                          selectedGroups: viewModel.selectedGroups,
+                          onGroupTapped: viewModel.onGroupCardTapped,
+                          onSelectAllTapped: viewModel.onSelectAllTapped,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
