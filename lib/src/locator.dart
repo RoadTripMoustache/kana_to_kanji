@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/services/database_service.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
@@ -19,4 +20,5 @@ void setupLocator() {
   });
   locator.registerLazySingleton<GroupsRepository>(() => GroupsRepository());
   locator.registerLazySingleton<KanaRepository>(() => KanaRepository());
+  locator.registerLazySingleton<SettingsRepository>(() => SettingsRepository());
 }

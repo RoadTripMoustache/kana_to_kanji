@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
@@ -5,6 +7,8 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 
 class BuildQuizViewModel extends FutureViewModel {
+  final GoRouter router;
+
   final GroupsRepository _groupsRepository = locator<GroupsRepository>();
 
   final Map<Alphabets, List<Group>> _categoryTiles = {};
@@ -14,6 +18,8 @@ class BuildQuizViewModel extends FutureViewModel {
   final List<Group> _selectedGroups = [];
 
   List<Group> get selectedGroups => _selectedGroups;
+
+  BuildQuizViewModel(this.router);
 
   @override
   Future futureToRun() async {
@@ -71,5 +77,9 @@ class BuildQuizViewModel extends FutureViewModel {
   void resetSelected() {
     _selectedGroups.clear();
     notifyListeners();
+  }
+
+  void startQuiz() {
+    router.push(QuizView.routeName, extra: _selectedGroups);
   }
 }

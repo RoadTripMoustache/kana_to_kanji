@@ -25,7 +25,6 @@ class AppScaffold extends StatelessWidget {
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: appBar,
       body: SafeArea(
-        top: false,
         child: Stack(children: [
           body,
         ]),
