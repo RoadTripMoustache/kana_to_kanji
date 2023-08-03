@@ -69,6 +69,7 @@ class QuizView extends StatelessWidget {
                               submitAnswer: viewModel.validateAnswer,
                               maximumAttempts: viewModel.attemptMaxNumber,
                               nextQuestion: viewModel.nextQuestion,
+                              skipQuestion: viewModel.skipQuestion,
                             ),
                           ],
                         ),

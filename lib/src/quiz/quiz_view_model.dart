@@ -64,7 +64,6 @@ class QuizViewModel extends FutureViewModel {
 
   nextQuestion() {
     if (_currentQuestionIndex + 1 == _questions.length) {
-      print("Go to conclusion");
       router.pushReplacement(QuizConclusionView.routeName, extra: _questions);
     } else {
       _currentQuestionIndex++;
