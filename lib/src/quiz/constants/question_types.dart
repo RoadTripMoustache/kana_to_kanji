@@ -1,5 +1,5 @@
 enum QuestionTypes {
   toJapanese,
-  toRomanji,
+  toRomaji,
   translate;
 }

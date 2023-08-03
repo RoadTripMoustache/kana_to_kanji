@@ -11,7 +11,7 @@ class Kana with _$Kana {
       required Alphabets alphabet,
       @JsonKey(name: "group_id") required int groupId,
       required String kana,
-      required String romanji}) = _Kana;
+      required String romaji}) = _Kana;
 
   factory Kana.fromJson(Map<String, Object?> json) => _$KanaFromJson(json);
 
@@ -20,6 +20,6 @@ class Kana with _$Kana {
       "alphabet TEXT NOT NULL, "
       "group_id INTEGER, "
       "kana TEXT NOT NULL, "
-      "romanji TEXT NOT NULL,"
+      "romaji TEXT NOT NULL,"
       "FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE SET NULL)";
 }
