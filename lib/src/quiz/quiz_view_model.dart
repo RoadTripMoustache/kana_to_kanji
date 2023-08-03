@@ -35,7 +35,7 @@ class QuizViewModel extends FutureViewModel {
 
     _questions.addAll(kana.map((element) => Question(
         kana: element,
-        type: QuestionTypes.toRomanji,
+        type: QuestionTypes.toRomaji,
         remainingAttempt: _settingsRepository.getMaximumAttemptsByQuestion())));
     _questions.shuffle();
   }

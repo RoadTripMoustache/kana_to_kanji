@@ -17,8 +17,8 @@ class Question with _$Question {
   String get question {
     switch (type) {
       case QuestionTypes.toJapanese:
-        return kana.romanji;
-      case QuestionTypes.toRomanji:
+        return kana.romaji;
+      case QuestionTypes.toRomaji:
         return kana.kana;
       case QuestionTypes.translate:
         throw UnimplementedError();
@@ -29,8 +29,8 @@ class Question with _$Question {
     switch (type) {
       case QuestionTypes.toJapanese:
         return kana.kana;
-      case QuestionTypes.toRomanji:
-        return kana.romanji;
+      case QuestionTypes.toRomaji:
+        return kana.romaji;
       case QuestionTypes.translate:
         throw UnimplementedError();
     }
