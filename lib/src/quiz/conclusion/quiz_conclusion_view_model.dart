@@ -10,7 +10,6 @@ class QuizConclusionViewModel extends BaseViewModel {
 
   QuizConclusionViewModel(this.questions) {
     for (final question in questions) {
-      print(question.remainingAttempt);
       if (question.remainingAttempt > 0) {
         rightAnswers.add(question);
       } else {
