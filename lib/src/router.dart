@@ -24,6 +24,19 @@ final router = GoRouter(
                 },
                 builder: (_, state) => QuizView(
                       groups: state.extra as List<Group>,
+                    )),
+            GoRoute(
+                path: QuizConclusionView.routeName
+                    .substring(BuildQuizView.routeName.length + 1),
+                redirect: (_, state) {
+                  if (state.extra is! List<Question>) {
+                    return "/error";
+                  }
+                  return null;
+                },
+                // +1 remove the /
+                builder: (_, state) => QuizConclusionView(
+                      questions: state.extra as List<Question>,
                     ))
           ])
     ]);
