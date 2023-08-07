@@ -28,9 +28,9 @@ class QuizConclusionView extends StatelessWidget {
                 icon: const Icon(Icons.close),
                 onPressed: () => context.pop(),
               ),
+              title: Text(l10n.quiz_conclusion),
             ),
             body: Center(
-                child: Text(
-                    "${viewModel.rightAnswers.length} / ${viewModel.questions.length}"))));
+                child: Text(l10n.quiz_conclusion_percent(viewModel.percent)))));
   }
 }

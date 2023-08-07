@@ -8,6 +8,8 @@ class QuizConclusionViewModel extends BaseViewModel {
 
   final List<Question> rightAnswers = [];
 
+  double get percent => rightAnswers.length / questions.length;
+
   QuizConclusionViewModel(this.questions) {
     for (final question in questions) {
       if (question.remainingAttempt > 0) {

@@ -31,6 +31,19 @@
   },
   "quiz_skip_question": "Skip",
   "quiz_next_question": "Next",
+  "quiz_conclusion": "Finished! 🎉",
+  "quiz_conclusion_percent": "{percent}",
+  "@quiz_conclusion_percent": {
+    "placeholders": {
+      "percent": {
+        "type": "double",
+        "format": "decimalPercentPattern",
+        "optionalParameters": {
+          "decimalDigits": 0
+        }
+      }
+    }
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",
