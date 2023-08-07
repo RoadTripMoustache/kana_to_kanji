@@ -1,30 +1,40 @@
 # kana_to_kanji
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
-
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## Assets
-
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
-
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+An application to help you learn Japanese.
 
 ## Localization
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+We want our application to be as much as possible accessible, for that purpose we want
+to translate the application in multiple language. In the table below you can find the 
+list of language and their support state. If your language isn't listed don't hesitate 
+to create an issue!
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+| Language     | Support        |
+|--------------|----------------|
+| 🇬🇧 English | ✅ Full support |
+| 🇫🇷 French  | Coming soon    |
+
+
+## Getting Started
+
+### Requirements
+
+- Flutter 3.10 or higher
+
+### Development setup
+
+Before trying to build the application, run the following in a terminal:
+
+```shell
+# Get the dependencies and generate l10n files
+flutter pub get
+
+# Generate Freezed and JSON Serializable files
+flutter pub run build_runner build
+```
+
+Now you are ready to run the application. To do so execute the following command:
+
+```shell
+flutter run
+```
