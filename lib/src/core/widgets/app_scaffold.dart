@@ -25,6 +25,7 @@ class AppScaffold extends StatelessWidget {
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: appBar,
       body: SafeArea(
+        minimum: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Stack(children: [
           body,
         ]),
