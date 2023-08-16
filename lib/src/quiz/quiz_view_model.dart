@@ -38,6 +38,7 @@ class QuizViewModel extends FutureViewModel {
         .getByGroupIds(groups.map((e) => e.id).toList(growable: false));
 
     _questions.addAll(kana.map((element) => Question(
+        alphabet: element.alphabet,
         kana: element,
         type: QuestionTypes.toRomaji,
         remainingAttempt: _settingsRepository.getMaximumAttemptsByQuestion())));
