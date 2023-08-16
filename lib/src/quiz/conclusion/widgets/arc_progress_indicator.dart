@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const int _kIndeterminateLinearDuration = 1800;
-const double _kMinSize = 150.0;
+const int _kAnimationDuration = 1800;
+const double _kMinRadius = 150.0;
 
 class ArcProgressIndicator extends StatefulWidget {
   /// The value of this progress indicator.
@@ -55,11 +55,14 @@ class ArcProgressIndicator extends StatefulWidget {
   /// become '10%'.
   final String? semanticsValue;
 
-  final double? minSize;
+  /// The radius of the progress indicator
+  ///
+  /// If not provided 150.0 will be used
+  final double? radius;
 
   const ArcProgressIndicator(
       {super.key,
-      this.minSize,
+      this.radius,
       required this.value,
       this.backgroundColor,
       this.color,
@@ -80,7 +83,7 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: _kIndeterminateLinearDuration),
+        duration: const Duration(milliseconds: _kAnimationDuration),
         vsync: this,
         animationBehavior: AnimationBehavior.preserve)
       ..forward();
@@ -132,7 +135,7 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
     final Color backColor = widget.backgroundColor ??
         indicatorTheme.circularTrackColor ??
         Theme.of(context).colorScheme.surfaceVariant;
-    final double size = widget.minSize ?? _kMinSize;
+    final double size = widget.radius ?? _kMinRadius;
 
     return AnimatedBuilder(
       animation: _animation,

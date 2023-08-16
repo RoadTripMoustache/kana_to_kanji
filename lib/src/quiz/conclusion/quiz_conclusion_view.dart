@@ -40,7 +40,7 @@ class QuizConclusionView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                     child: ArcProgressIndicator(
-                        value: viewModel.percent, minSize: 200),
+                        value: viewModel.percent, radius: 200),
                   ),
                 ),
                 Text(l10n.quiz_conclusion_to_review,
