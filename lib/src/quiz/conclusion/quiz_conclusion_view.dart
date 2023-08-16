@@ -3,6 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view_model.dart';
+import 'package:kana_to_kanji/src/quiz/conclusion/widgets/arc_progress_indicator.dart';
+import 'package:kana_to_kanji/src/quiz/conclusion/widgets/question_review_tile.dart';
 import 'package:kana_to_kanji/src/quiz/models/question.dart';
 import 'package:stacked/stacked.dart';
 
@@ -30,7 +32,37 @@ class QuizConclusionView extends StatelessWidget {
               ),
               title: Text(l10n.quiz_conclusion),
             ),
-            body: Center(
-                child: Text(l10n.quiz_conclusion_percent(viewModel.percent)))));
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                    child: ArcProgressIndicator(
+                        value: viewModel.percent, minSize: 200),
+                  ),
+                ),
+                Text(l10n.quiz_conclusion_to_review,
+                    style: Theme.of(context).textTheme.titleLarge),
+                const Divider(
+                  thickness: 0,
+                  indent: 0,
+                  endIndent: 150,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 2.5, crossAxisCount: 3),
+                      itemCount: viewModel.wrongAnswers.length,
+                      itemBuilder: (context, index) =>
+                          QuestionReviewTile(question: viewModel.wrongAnswers[index]),
+                    ),
+                  ),
+                )
+              ],
+            )));
   }
 }

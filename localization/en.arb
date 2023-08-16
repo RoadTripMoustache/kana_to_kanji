@@ -44,6 +44,24 @@
       }
     }
   },
+  "quiz_conclusion_to_review": "📚 To review",
+  "@quiz_conclusion_to_review": {
+    "description": "Introduce the 'to review' section, listing the errors/skipped question."
+  },
+  "quiz_conclusion_kana": "{kana} → {romaji}",
+  "@quiz_conclusion_kana": {
+    "description": "Single sentence that show the kana and it's romaji",
+    "placeholders": {
+      "kana": {
+        "type": "String",
+        "example": "ひ"
+      },
+      "romaji": {
+        "type": "String",
+        "example": "hi"
+      }
+    }
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",
