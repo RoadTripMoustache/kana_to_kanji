@@ -60,6 +60,18 @@ class ArcProgressIndicator extends StatefulWidget {
   /// If not provided 150.0 will be used
   final double? radius;
 
+  /// Indicate if the percentage should be displayed at the center of the progress
+  /// indicator.
+  ///
+  /// By default true.
+  final bool showPercentage;
+
+  /// Text that will be displayed at the center of the progress indicator.
+  ///
+  /// If [showPercentage] is true and this isn't null, the user could switch from
+  /// one text to the other by tapping on it.
+  final String? alternativeText;
+
   const ArcProgressIndicator(
       {super.key,
       this.radius,
@@ -68,7 +80,9 @@ class ArcProgressIndicator extends StatefulWidget {
       this.color,
       this.valueColor,
       this.semanticsLabel,
-      this.semanticsValue});
+      this.semanticsValue,
+      this.showPercentage = true,
+      this.alternativeText});
 
   @override
   State<ArcProgressIndicator> createState() => _ArcProgressIndicatorState();
@@ -78,6 +92,8 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+
+  bool _showAlternativeText = false;
 
   @override
   void initState() {
@@ -158,7 +174,21 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
                           valueColor: _getValueColor(context),
                           backgroundColor: backColor),
                     ))),
-            Text(l10n.quiz_conclusion_percent(animatedValue), style: textStyle)
+            if (widget.showPercentage)
+              GestureDetector(
+                onTap: widget.alternativeText != null
+                    ? () {
+                        setState(() {
+                          _showAlternativeText = !_showAlternativeText;
+                        });
+                      }
+                    : null,
+                child: Text(
+                    _showAlternativeText && widget.alternativeText != null
+                        ? widget.alternativeText!
+                        : l10n.quiz_conclusion_percent(animatedValue),
+                    style: textStyle),
+              )
           ],
         );
       },

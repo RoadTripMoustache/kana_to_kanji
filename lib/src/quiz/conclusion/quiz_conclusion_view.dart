@@ -40,7 +40,11 @@ class QuizConclusionView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                     child: ArcProgressIndicator(
-                        value: viewModel.percent, radius: 200),
+                        value: viewModel.percent,
+                        radius: 200,
+                        alternativeText: l10n.quiz_length(
+                            viewModel.rightAnswers.length,
+                            viewModel.questions.length)),
                   ),
                 ),
                 Text(l10n.quiz_conclusion_to_review,
@@ -54,11 +58,12 @@ class QuizConclusionView extends StatelessWidget {
                   child: GridView.builder(
                     shrinkWrap: true,
                     physics: const ScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 2.5, crossAxisCount: 3),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 2.5, crossAxisCount: 3),
                     itemCount: viewModel.wrongAnswers.length,
-                    itemBuilder: (context, index) =>
-                        QuestionReviewTile(question: viewModel.wrongAnswers[index]),
+                    itemBuilder: (context, index) => QuestionReviewTile(
+                        question: viewModel.wrongAnswers[index]),
                   ),
                 )
               ],
