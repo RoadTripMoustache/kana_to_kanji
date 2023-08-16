@@ -51,15 +51,14 @@ class QuizConclusionView extends StatelessWidget {
                   endIndent: 150,
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 2.5, crossAxisCount: 3),
-                      itemCount: viewModel.wrongAnswers.length,
-                      itemBuilder: (context, index) =>
-                          QuestionReviewTile(question: viewModel.wrongAnswers[index]),
-                    ),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 2.5, crossAxisCount: 3),
+                    itemCount: viewModel.wrongAnswers.length,
+                    itemBuilder: (context, index) =>
+                        QuestionReviewTile(question: viewModel.wrongAnswers[index]),
                   ),
                 )
               ],
