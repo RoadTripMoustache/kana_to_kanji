@@ -48,9 +48,12 @@ void main() {
       // Don't skip off stage to make sure everything is here.
       expect(
           find.descendant(
-              of: widget, matching: find.byType(QuestionReviewTile), skipOffstage: true),
+              of: widget,
+              matching: find.byType(QuestionReviewTile),
+              skipOffstage: true),
           findsNWidgets(questions.length),
-          reason: "Should be displaying ${questions.length} question to review tiles");
+          reason:
+              "Should be displaying ${questions.length} question to review tiles");
     });
   });
 }
