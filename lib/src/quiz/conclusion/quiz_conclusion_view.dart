@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
@@ -19,19 +20,21 @@ class QuizConclusionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
+    final width = (MediaQuery.of(context).size.width - 24) / 3;
+
     return ViewModelBuilder<QuizConclusionViewModel>.reactive(
         viewModelBuilder: () => QuizConclusionViewModel(questions),
         builder: (context, viewModel, child) => AppScaffold(
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => context.pop(),
-              ),
-              title: Text(l10n.quiz_conclusion),
-            ),
+                centerTitle: true,
+                surfaceTintColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
+                leading: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => context.pop(),
+                ),
+                title: Text(l10n.quiz_conclusion)),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,15 +58,27 @@ class QuizConclusionView extends StatelessWidget {
                   endIndent: 150,
                 ),
                 Expanded(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 2.5, crossAxisCount: 3),
-                    itemCount: viewModel.wrongAnswers.length,
-                    itemBuilder: (context, index) => QuestionReviewTile(
-                        question: viewModel.wrongAnswers[index]),
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          direction: Axis.horizontal,
+                          children: List.generate(
+                              viewModel.wrongAnswers.length,
+                              (index) => SizedBox(
+                                    width: width,
+                                    height: 54.1,
+                                    child: QuestionReviewTile(
+                                        question:
+                                            viewModel.wrongAnswers[index]),
+                                  )),
+                        ),
+                      ),
+                    ),
                   ),
                 )
               ],
