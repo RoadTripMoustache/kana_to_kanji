@@ -21,7 +21,7 @@ class QuizConclusionViewModel extends BaseViewModel {
       if (question.remainingAttempt > 0) {
         rightAnswers.add(question);
 
-        if(question.remainingAttempt != maxAttempts) {
+        if (question.remainingAttempt != maxAttempts) {
           wrongAnswers.add(question);
         }
       } else {
@@ -29,6 +29,7 @@ class QuizConclusionViewModel extends BaseViewModel {
       }
     }
 
-    wrongAnswers.sort((a, b) => a.remainingAttempt > b.remainingAttempt ? 1:-1);
+    wrongAnswers
+        .sort((a, b) => a.remainingAttempt > b.remainingAttempt ? 1 : -1);
   }
 }
