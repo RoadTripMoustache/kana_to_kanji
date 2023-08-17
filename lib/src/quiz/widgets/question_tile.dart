@@ -77,7 +77,7 @@ class _QuestionTileState extends State<QuestionTile> {
             child: Text(l10n.quiz_skip_question))
         : ElevatedButton(
             onPressed: widget.nextQuestion,
-            child: Text(l10n.quiz_next_question));
+            child: Text(l10n.button_continue));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

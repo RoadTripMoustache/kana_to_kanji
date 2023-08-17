@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
   "appTitle": "Kana to Kanji",
+  "button_continue": "Continue",
   "quiz_build_title": "Build your quiz",
   "quiz_build_ready": "Start quiz",
   "quiz_build_select_all": "Select all {type, select, kana{kana} kanji{kanji} other{}}",
