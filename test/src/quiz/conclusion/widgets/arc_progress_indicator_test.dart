@@ -14,8 +14,8 @@ void main() {
 
         await tester.pumpWidget(const LocalizedWidget(
             child: ArcProgressIndicator(
-              value: value,
-            )));
+          value: value,
+        )));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);
@@ -23,8 +23,7 @@ void main() {
         expect(widget, findsOneWidget);
         expect(
             find.descendant(
-                of: widget,
-                matching: find.text(l10n.percent(value))),
+                of: widget, matching: find.text(l10n.percent(value))),
             findsOneWidget);
       });
 
@@ -34,9 +33,9 @@ void main() {
 
         await tester.pumpWidget(const LocalizedWidget(
             child: ArcProgressIndicator(
-              value: value,
-              showPercentage: false,
-            )));
+          value: value,
+          showPercentage: false,
+        )));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);
@@ -44,8 +43,7 @@ void main() {
         expect(widget, findsOneWidget);
         expect(
             find.descendant(
-                of: widget,
-                matching: find.text(l10n.percent(value))),
+                of: widget, matching: find.text(l10n.percent(value))),
             findsNothing);
       });
 
@@ -109,8 +107,7 @@ void main() {
 
         expect(
             find.descendant(
-                of: widget,
-                matching: find.text(l10n.percent(value))),
+                of: widget, matching: find.text(l10n.percent(value))),
             findsNothing,
             reason:
                 "The percent text shouldn't be displayed after a tapped when alternativeText is provided.");
@@ -144,8 +141,7 @@ void main() {
 
         expect(
             find.descendant(
-                of: widget,
-                matching: find.text(l10n.percent(value))),
+                of: widget, matching: find.text(l10n.percent(value))),
             findsOneWidget,
             reason: "The tap shouldn't have changed the text value.");
       });
