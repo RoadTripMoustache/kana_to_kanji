@@ -2,6 +2,18 @@
   "@@locale": "en",
   "appTitle": "Kana to Kanji",
   "button_continue": "Continue",
+  "percent": "{percent}",
+  "@percent": {
+    "placeholders": {
+      "percent": {
+        "type": "double",
+        "format": "decimalPercentPattern",
+        "optionalParameters": {
+          "decimalDigits": 0
+        }
+      }
+    }
+  },
   "quiz_build_title": "Build your quiz",
   "quiz_build_ready": "Start quiz",
   "quiz_build_select_all": "Select all {type, select, kana{kana} kanji{kanji} other{}}",
@@ -33,18 +45,6 @@
   "quiz_skip_question": "Skip",
   "quiz_next_question": "Next",
   "quiz_conclusion": "Finished! 🎉",
-  "quiz_conclusion_percent": "{percent}",
-  "@quiz_conclusion_percent": {
-    "placeholders": {
-      "percent": {
-        "type": "double",
-        "format": "decimalPercentPattern",
-        "optionalParameters": {
-          "decimalDigits": 0
-        }
-      }
-    }
-  },
   "quiz_conclusion_to_review": "📚 To review",
   "@quiz_conclusion_to_review": {
     "description": "Introduce the 'to review' section, listing the errors/skipped question."

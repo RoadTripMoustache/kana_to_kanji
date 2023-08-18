@@ -186,7 +186,7 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
                 child: Text(
                     _showAlternativeText && widget.alternativeText != null
                         ? widget.alternativeText!
-                        : l10n.quiz_conclusion_percent(animatedValue),
+                        : l10n.percent(animatedValue),
                     style: textStyle),
               )
           ],
