@@ -9,7 +9,7 @@ import 'package:kana_to_kanji/src/quiz/widgets/rounded_linear_progress_indicator
 import 'package:stacked/stacked.dart';
 
 class QuizView extends StatelessWidget {
-  static const routeName = "/quiz";
+  static const routeName = "/quiz/questions";
 
   final List<Group> groups;
 
@@ -21,7 +21,7 @@ class QuizView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return ViewModelBuilder<QuizViewModel>.reactive(
-        viewModelBuilder: () => QuizViewModel(groups),
+        viewModelBuilder: () => QuizViewModel(groups, GoRouter.of(context)),
         builder: (context, viewModel, child) => AppScaffold(
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
@@ -69,6 +69,7 @@ class QuizView extends StatelessWidget {
                               submitAnswer: viewModel.validateAnswer,
                               maximumAttempts: viewModel.attemptMaxNumber,
                               nextQuestion: viewModel.nextQuestion,
+                              skipQuestion: viewModel.skipQuestion,
                             ),
                           ],
                         ),

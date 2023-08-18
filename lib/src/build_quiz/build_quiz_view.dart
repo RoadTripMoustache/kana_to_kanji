@@ -9,7 +9,7 @@ import 'package:kana_to_kanji/src/core/widgets/chip_list.dart';
 import 'package:stacked/stacked.dart';
 
 class BuildQuizView extends StatelessWidget {
-  static const routeName = "/quiz/build";
+  static const routeName = "/quiz";
 
   const BuildQuizView({super.key});
 
