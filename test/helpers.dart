@@ -10,9 +10,9 @@ void unregister<T extends Object>() {
   }
 }
 
-/// Load the Internationalization class
-Future<AppLocalizations> setupAppIntl() async {
-  return AppLocalizations.delegate.load(const Locale('en'));
+/// Load the l10n class
+Future<AppLocalizations> setupLocalizations([String locale = 'en']) async {
+  return AppLocalizations.delegate.load(Locale(locale));
 }
 
 /// Load the l10n classes. Take the [child] widget to test

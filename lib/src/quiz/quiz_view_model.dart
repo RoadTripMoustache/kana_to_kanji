@@ -1,7 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/locator.dart';
+import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
 import 'package:kana_to_kanji/src/quiz/constants/question_types.dart';
 import 'package:kana_to_kanji/src/quiz/models/question.dart';
 import 'package:stacked/stacked.dart';
@@ -10,6 +12,8 @@ class QuizViewModel extends FutureViewModel {
   final KanaRepository _kanaRepository = locator<KanaRepository>();
 
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();
+
+  final GoRouter router;
 
   final List<Group> groups;
 
@@ -26,7 +30,7 @@ class QuizViewModel extends FutureViewModel {
 
   Question get current => _questions[_currentQuestionIndex];
 
-  QuizViewModel(this.groups);
+  QuizViewModel(this.groups, this.router);
 
   @override
   Future futureToRun() async {
@@ -34,6 +38,7 @@ class QuizViewModel extends FutureViewModel {
         .getByGroupIds(groups.map((e) => e.id).toList(growable: false));
 
     _questions.addAll(kana.map((element) => Question(
+        alphabet: element.alphabet,
         kana: element,
         type: QuestionTypes.toRomaji,
         remainingAttempt: _settingsRepository.getMaximumAttemptsByQuestion())));
@@ -41,9 +46,8 @@ class QuizViewModel extends FutureViewModel {
   }
 
   void skipQuestion() {
-    final skipped = _questions.removeAt(_currentQuestionIndex);
-    _questions.add(skipped);
-    notifyListeners();
+    _questions[_currentQuestionIndex].remainingAttempt = 0;
+    nextQuestion();
   }
 
   bool validateAnswer(String answer) {
@@ -60,11 +64,11 @@ class QuizViewModel extends FutureViewModel {
   }
 
   nextQuestion() {
-    _currentQuestionIndex++;
-
-    if (_currentQuestionIndex == _questions.length) {
-      // TODO Trigger quiz end
+    if (_currentQuestionIndex + 1 == _questions.length) {
+      router.pushReplacement(QuizConclusionView.routeName, extra: _questions);
+    } else {
+      _currentQuestionIndex++;
+      notifyListeners();
     }
-    notifyListeners();
   }
 }

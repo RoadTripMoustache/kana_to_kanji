@@ -14,11 +14,14 @@ class QuestionTile extends StatefulWidget {
 
   final VoidCallback nextQuestion;
 
+  final VoidCallback skipQuestion;
+
   const QuestionTile(
       {super.key,
       required this.question,
       required this.submitAnswer,
       required this.nextQuestion,
+      required this.skipQuestion,
       required this.maximumAttempts});
 
   @override
@@ -70,11 +73,10 @@ class _QuestionTileState extends State<QuestionTile> {
 
     final nextButton = widget.question.remainingAttempt > 0
         ? TextButton(
-            onPressed: widget.nextQuestion,
+            onPressed: widget.skipQuestion,
             child: Text(l10n.quiz_skip_question))
         : ElevatedButton(
-            onPressed: widget.nextQuestion,
-            child: Text(l10n.quiz_next_question));
+            onPressed: widget.nextQuestion, child: Text(l10n.button_continue));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
