@@ -6,7 +6,7 @@ import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 
-class BuildQuizViewModel extends FutureViewModel {
+class PrepareQuizViewModel extends FutureViewModel {
   final GoRouter router;
 
   final GroupsRepository _groupsRepository = locator<GroupsRepository>();
@@ -19,7 +19,7 @@ class BuildQuizViewModel extends FutureViewModel {
 
   List<Group> get selectedGroups => _selectedGroups;
 
-  BuildQuizViewModel(this.router);
+  PrepareQuizViewModel(this.router);
 
   @override
   Future futureToRun() async {
