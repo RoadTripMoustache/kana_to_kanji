@@ -51,7 +51,10 @@ class KanaGroupsSection extends StatelessWidget {
             onPressed: () => onSelectAllTapped(groups, !areAllSelected),
             child: Text(areAllSelected ? l10n.unselect_all : l10n.select_all)),
       ),
-      const Divider(height: 0),
+      const Padding(
+        padding: EdgeInsets.only(bottom: 8.0),
+        child: Divider(height: 0),
+      ),
       GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
