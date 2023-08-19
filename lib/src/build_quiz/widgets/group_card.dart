@@ -17,12 +17,21 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: CheckboxListTile(
-        title: Text(group.localizedName ?? group.name),
-        value: isChecked,
-        selected: isChecked,
-        onChanged: onChanged,
+    return GestureDetector(
+      onTap: () => onChanged(!isChecked),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(group.localizedName ?? group.name,
+                  style: Theme.of(context).textTheme.bodyLarge),
+              Checkbox(value: isChecked, onChanged: onChanged)
+            ],
+          ),
+        ),
       ),
     );
   }
