@@ -1,18 +1,18 @@
 import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/build_quiz/build_quiz_view.dart';
+import 'package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
 import 'package:kana_to_kanji/src/quiz/models/question.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
 
-final router = GoRouter(initialLocation: BuildQuizView.routeName, routes: [
+final router = GoRouter(initialLocation: PrepareQuizView.routeName, routes: [
   GoRoute(
-      path: BuildQuizView.routeName,
-      builder: (_, __) => const BuildQuizView(),
+      path: PrepareQuizView.routeName,
+      builder: (_, __) => const PrepareQuizView(),
       routes: [
         GoRoute(
             path: QuizView.routeName
-                .substring(BuildQuizView.routeName.length + 1),
+                .substring(PrepareQuizView.routeName.length + 1),
             redirect: (_, state) {
               if (state.extra is! List<Group>) {
                 return "/error";
@@ -24,7 +24,7 @@ final router = GoRouter(initialLocation: BuildQuizView.routeName, routes: [
                 )),
         GoRoute(
             path: QuizConclusionView.routeName
-                .substring(BuildQuizView.routeName.length + 1),
+                .substring(PrepareQuizView.routeName.length + 1),
             redirect: (_, state) {
               if (state.extra is! List<Question>) {
                 return "/error";

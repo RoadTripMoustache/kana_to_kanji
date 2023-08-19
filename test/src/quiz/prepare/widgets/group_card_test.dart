@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/build_quiz/widgets/group_card.dart';
+import 'package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 
-import '../../../helpers.dart';
+import '../../../../helpers.dart';
 
 void main() {
   group("GroupCard", () {
