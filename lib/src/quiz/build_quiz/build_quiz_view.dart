@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
-import 'package:kana_to_kanji/src/build_quiz/build_quiz_view_model.dart';
+import 'package:kana_to_kanji/src/quiz/build_quiz/build_quiz_view_model.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/build_quiz/widgets/alphabet_groups_expansion_tile.dart';
+import 'package:kana_to_kanji/src/quiz/build_quiz/widgets/alphabet_groups_expansion_tile.dart';
 import 'package:kana_to_kanji/src/core/widgets/chip_list.dart';
 import 'package:stacked/stacked.dart';
 

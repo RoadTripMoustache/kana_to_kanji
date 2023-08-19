@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/build_quiz/build_quiz_view.dart';
+import 'package:kana_to_kanji/src/quiz/build_quiz/build_quiz_view.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
 import 'package:kana_to_kanji/src/quiz/models/question.dart';
