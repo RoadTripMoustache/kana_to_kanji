@@ -45,3 +45,28 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/database/
+
+  fonts:
+    - family: MPlusRounded1c
+      fonts:
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Thin.ttf
+          weight: 100
+          style: normal
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Light.ttf
+          weight: 300
+          style: normal
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Regular.ttf
+          weight: 400
+          style: normal
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Medium.ttf
+          weight: 500
+          style: normal
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Bold.ttf
+          weight: 700
+          style: normal
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-ExtraBold.ttf
+          weight: 800
+          style: normal
+        - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Black.ttf
+          weight: 900
+          style: normal
