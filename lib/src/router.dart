@@ -4,8 +4,10 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
 import 'package:kana_to_kanji/src/quiz/models/question.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
+import 'package:kana_to_kanji/src/splash/splash_view.dart';
 
-final router = GoRouter(initialLocation: PrepareQuizView.routeName, routes: [
+final router = GoRouter(initialLocation: SplashView.routeName, routes: [
+  GoRoute(path: SplashView.routeName, builder: (_, __) => const SplashView()),
   GoRoute(
       path: PrepareQuizView.routeName,
       builder: (_, __) => const PrepareQuizView(),
