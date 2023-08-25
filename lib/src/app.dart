@@ -20,7 +20,7 @@ class KanaToKanjiApp extends StatelessWidget {
             AppLocalizations.of(context).app_title,
 
         // Theme
-        theme: AppTheme.dark(),
+        theme: AppTheme.light(),
         darkTheme: AppTheme.dark(),
         themeMode: ThemeMode.system,
 
