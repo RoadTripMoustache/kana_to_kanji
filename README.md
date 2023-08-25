@@ -30,7 +30,7 @@ Before trying to build the application, run the following in a terminal:
 flutter pub get
 
 # Generate Freezed and JSON Serializable files
-flutter pub run build_runner build
+dart run build_runner build
 ```
 
 Now you are ready to run the application. To do so execute the following command:
