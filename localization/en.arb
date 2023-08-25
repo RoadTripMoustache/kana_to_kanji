@@ -1,6 +1,9 @@
 {
   "@@locale": "en",
-  "appTitle": "Kana to Kanji",
+  "app_title": "Kanaとkanji",
+  "app_title_kana": "Kana",
+  "app_title_to": "と",
+  "app_title_kanji": "kanji",
   "button_continue": "Continue",
   "percent": "{percent}",
   "@percent": {
