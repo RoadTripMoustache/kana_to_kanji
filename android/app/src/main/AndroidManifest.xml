@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="kana_to_kanji"
+        android:label="Kanaとkanji"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
