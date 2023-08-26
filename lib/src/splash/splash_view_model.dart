@@ -13,7 +13,8 @@ class SplashViewModel extends FutureViewModel {
   Future futureToRun() async {
     await Future.wait([
       locator.allReady(),
-      Future.delayed(const Duration(seconds: 1)) // Wait 1s to have the time to load the animation
+      Future.delayed(const Duration(
+          seconds: 1)) // Wait 1s to have the time to load the animation
     ]);
 
     // Move to main screen
