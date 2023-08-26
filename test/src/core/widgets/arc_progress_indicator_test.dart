@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/quiz/conclusion/widgets/arc_progress_indicator.dart';
+import 'package:kana_to_kanji/src/core/widgets/arc_progress_indicator.dart';
 
-import '../../../../helpers.dart';
+import '../../../helpers.dart';
 
 void main() {
   group("ArcProgressIndicator", () {
