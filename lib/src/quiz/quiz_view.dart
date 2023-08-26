@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +6,7 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view_model.dart';
 import 'package:kana_to_kanji/src/quiz/widgets/question_tile.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/rounded_linear_progress_indicator.dart';
+import 'package:kana_to_kanji/src/core/widgets/rounded_linear_progress_indicator.dart';
 import 'package:stacked/stacked.dart';
 
 class QuizView extends StatelessWidget {
@@ -32,13 +33,12 @@ class QuizView extends StatelessWidget {
                 onPressed: () => context.pop(),
               ),
               title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.60,
                     child: RoundedLinearProgressIndicator(
-                      minHeight: 12.0,
                       value: viewModel.quizLength > 0
                           ? (viewModel.questionNumber / viewModel.quizLength)
                           : 0.0,
@@ -46,7 +46,7 @@ class QuizView extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 12.0),
-                    child: Text(
+                    child: AutoSizeText(
                       l10n.quiz_length(
                           viewModel.questionNumber, viewModel.quizLength),
                       style: textTheme.titleMedium,

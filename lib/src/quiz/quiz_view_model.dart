@@ -58,7 +58,7 @@ class QuizViewModel extends FutureViewModel {
       notifyListeners();
       return false;
     } else {
-      Future.delayed(const Duration(milliseconds: 600), nextQuestion);
+      nextQuestion();
     }
     return true;
   }
