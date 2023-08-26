@@ -6,7 +6,7 @@ void main() async {
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
 
-  await locator.allReady();
+  locator.allReadySync();
 
   runApp(const KanaToKanjiApp());
 }
