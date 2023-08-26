@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +46,7 @@ class QuizView extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 12.0),
-                    child: Text(
+                    child: AutoSizeText(
                       l10n.quiz_length(
                           viewModel.questionNumber, viewModel.quizLength),
                       style: textTheme.titleMedium,
