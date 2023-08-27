@@ -4,6 +4,7 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
 import 'package:kana_to_kanji/src/quiz/models/question.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
+import 'package:kana_to_kanji/src/settings/settings_view.dart';
 import 'package:kana_to_kanji/src/splash/splash_view.dart';
 
 final router = GoRouter(initialLocation: SplashView.routeName, routes: [
@@ -37,5 +38,7 @@ final router = GoRouter(initialLocation: SplashView.routeName, routes: [
             builder: (_, state) => QuizConclusionView(
                   questions: state.extra as List<Question>,
                 ))
-      ])
+      ]),
+  GoRoute(
+      path: SettingsView.routeName, builder: (_, __) => const SettingsView())
 ]);
