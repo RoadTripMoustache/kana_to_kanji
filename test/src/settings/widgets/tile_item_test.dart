@@ -14,10 +14,10 @@ void main() {
 
       await tester.pumpWidget(const LocalizedWidget(
           child: TileItem(
-            title: Text(title),
-            subtitle: Text(subtitle),
-            leading: Icon(leading),
-            trailing: Icon(trailing),
+        title: Text(title),
+        subtitle: Text(subtitle),
+        leading: Icon(leading),
+        trailing: Icon(trailing),
       )));
       await tester.pumpAndSettle();
 
