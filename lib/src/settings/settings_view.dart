@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
+import 'package:kana_to_kanji/src/settings/settings_view_model.dart';
+import 'package:kana_to_kanji/src/settings/widgets/heading_item.dart';
+import 'package:kana_to_kanji/src/settings/widgets/tile_item.dart';
+import 'package:stacked/stacked.dart';
 
 class SettingsView extends StatelessWidget {
   static const routeName = "/settings";
@@ -8,9 +14,62 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-        body: Center(
-      child: Text("Settings"),
-    ));
+    final AppLocalizations l10n = AppLocalizations.of(context);
+
+    return ViewModelBuilder<SettingsViewModel>.reactive(
+        viewModelBuilder: () => SettingsViewModel(l10n: l10n),
+        builder: (context, viewModel, child) {
+          return AppScaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                title: Text(l10n.settings),
+                centerTitle: true,
+                leading: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => context.pop(),
+                ),
+              ),
+              body: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      HeadingItem(title: l10n.settings_general_section),
+                      TileItem(
+                        title: Text(l10n.settings_theme_mode),
+                        trailing: ToggleButtons(
+                          isSelected: viewModel.themeModeSelected,
+                          onPressed: viewModel.setThemeMode,
+                          children: viewModel.themeModes.values
+                              .map((value) => Tooltip(
+                                  message: value["tooltip"],
+                                  child: Icon(value["icon"])))
+                              .toList(growable: false),
+                        ),
+                      ),
+                      HeadingItem(title: l10n.settings_legal_section),
+                      TileItem(
+                        title: Text(l10n.settings_acknowledgements),
+                        onTap: () {
+                          showLicensePage(
+                              context: context,
+                              applicationVersion: viewModel.version);
+                        },
+                        trailing: const Icon(Icons.arrow_forward),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(l10n.settings_app_version(viewModel.version))
+                    ],
+                  )
+                ],
+              ));
+        });
   }
 }
