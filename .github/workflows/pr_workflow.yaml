@@ -20,6 +20,7 @@ jobs:
   bump_version:
     name: Bump version
     runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main'
     outputs:
       stop: ${{ steps.bump.outputs.has_changed }}
       version: ${{ steps.bump.outputs.version }}
