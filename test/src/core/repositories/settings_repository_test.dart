@@ -98,13 +98,13 @@ void main() {
 
           expect(repository.themeMode, ThemeMode.system,
               reason:
-              "No theme mode is saved or the saved one is invalid, instead should return system.");
+                  "No theme mode is saved or the saved one is invalid, instead should return system.");
           await repository.updateThemeMode(newMode);
           expect(repository.themeMode, ThemeMode.system,
               reason: "Mode should not have change");
           expect(fired, 1,
               reason:
-              "Listener should have been notified 1 time during loadSettings");
+                  "Listener should have been notified 1 time during loadSettings");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
           ]);

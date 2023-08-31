@@ -1,4 +1,1 @@
-
-enum PreferenceFlags {
-  themeMode
-}
+enum PreferenceFlags { themeMode }

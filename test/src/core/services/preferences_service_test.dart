@@ -86,7 +86,7 @@ void main() {
       test("getDateTime", () async {
         SharedPreferences.setMockInitialValues({
           PreferenceFlags.themeMode.toString():
-          DateTime(2000, 01, 02).toIso8601String()
+              DateTime(2000, 01, 02).toIso8601String()
         });
 
         expect(await service!.getDateTime(PreferenceFlags.themeMode),
