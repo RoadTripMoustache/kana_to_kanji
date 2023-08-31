@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsViewModel extends BaseViewModel {
+  final SettingsRepository _repository = locator<SettingsRepository>();
   final InfoService _infoService = locator<InfoService>();
 
   final AppLocalizations l10n;
@@ -28,13 +30,13 @@ class SettingsViewModel extends BaseViewModel {
         },
       };
 
-  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode get _themeMode => _repository.themeMode;
 
   List<bool> get themeModeSelected =>
       themeModes.keys.map((e) => e == _themeMode).toList(growable: false);
 
   Future<void> setThemeMode(int index) async {
-    _themeMode = themeModes.keys.elementAt(index);
+    await _repository.updateThemeMode(themeModes.keys.elementAt(index));
     notifyListeners();
   }
 }
