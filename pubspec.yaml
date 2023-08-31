@@ -25,6 +25,7 @@ dependencies:
   sqflite: ^2.2.8+4
   stacked: ^3.4.0
   rive: ^0.11.14
+  package_info_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:
