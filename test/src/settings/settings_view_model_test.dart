@@ -60,10 +60,8 @@ void main() async {
     test("Should update the SettingsRepository when a new theme is selected",
         () {
       const ThemeMode newMode = ThemeMode.dark;
-      when(settingsRepositoryMock.themeMode).thenReturnInOrder([
-        ThemeMode.system,
-        newMode
-      ]);
+      when(settingsRepositoryMock.themeMode)
+          .thenReturnInOrder([ThemeMode.system, newMode]);
 
       expect(viewModel.themeModeSelected, [false, true, false],
           reason: "[light: false, system: true, dark: false]");
