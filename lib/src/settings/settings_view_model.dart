@@ -15,7 +15,8 @@ class SettingsViewModel extends BaseViewModel {
 
   SettingsViewModel({required this.l10n});
 
-  Map<ThemeMode, Map<String, dynamic>> get themeModes => {
+  Map<ThemeMode, Map<String, dynamic>> get themeModes =>
+      {
         ThemeMode.light: {
           "icon": Icons.light_mode_outlined,
           "tooltip": l10n.settings_theme_light
@@ -32,8 +33,11 @@ class SettingsViewModel extends BaseViewModel {
 
   ThemeMode get _themeMode => _repository.themeMode;
 
-  List<bool> get themeModeSelected =>
-      themeModes.keys.map((e) => e == _themeMode).toList(growable: false);
+  List<bool> get themeModeSelected {
+    final themeMode = _themeMode;
+
+    return themeModes.keys.map((e) => e == themeMode).toList(growable: false);
+  }
 
   Future<void> setThemeMode(int index) async {
     await _repository.updateThemeMode(themeModes.keys.elementAt(index));
