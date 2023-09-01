@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
+import 'package:kana_to_kanji/src/settings/settings_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
@@ -81,5 +82,9 @@ class PrepareQuizViewModel extends FutureViewModel {
 
   void startQuiz() {
     router.push(QuizView.routeName, extra: _selectedGroups);
+  }
+
+  void onSettingsTapped() {
+    router.push(SettingsView.routeName);
   }
 }
