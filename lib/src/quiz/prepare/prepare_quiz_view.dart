@@ -22,12 +22,16 @@ class PrepareQuizView extends StatelessWidget {
       builder: (context, viewModel, _) => AppScaffold(
           appBar: AppBar(
             title: Text(l10n.quiz_build_title),
+            centerTitle: true,
             backgroundColor: Colors.transparent,
             actions: [
               if (viewModel.selectedGroups.isNotEmpty)
                 IconButton(
                     onPressed: viewModel.resetSelected,
-                    icon: const Icon(Icons.clear_all))
+                    icon: const Icon(Icons.clear_all)),
+              IconButton(
+                  onPressed: viewModel.onSettingsTapped,
+                  icon: const Icon(Icons.settings_outlined))
             ],
           ),
           body: SingleChildScrollView(

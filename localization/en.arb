@@ -66,6 +66,46 @@
       }
     }
   },
+  "settings": "Settings",
+  "settings_general_section": "General",
+  "@settings_general_section": {
+    "description": "Introduce the general section of the settings"
+  },
+  "settings_theme_mode": "Application theme",
+  "@settings_theme_mode": {
+    "description": "Represent the theme mode of the application"
+  },
+  "settings_theme_dark": "Dark mode",
+  "@settings_theme_dark": {
+    "description": "Tooltip for the dark mode of the application"
+  },
+  "settings_theme_light": "Light mode",
+  "@settings_theme_light": {
+    "description": "Tooltip for the light mode of the application"
+  },
+  "settings_theme_system": "System mode",
+  "@settings_theme_system": {
+    "description": "Tooltip for the system mode of the application"
+  },
+  "settings_legal_section": "Legal",
+  "@settings_legal_section": {
+    "description": "Introduce the legal section of the settings"
+  },
+  "settings_acknowledgements": "Licenses",
+  "@settings_acknowledgements": {
+    "description": "List of all the packages we are using and other acknowledgements"
+  },
+  "settings_app_version": "v{version}",
+  "@settings_app_version": {
+    "description": "Version of the application installed",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0",
+        "description": "Local version of the application"
+      }
+    }
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",
