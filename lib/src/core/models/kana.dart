@@ -4,17 +4,18 @@ import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 part 'kana.g.dart';
 
 @collection
+@Name("Kanas")
 class Kana {
   final int id;
 
   @enumValue
-  Alphabets alphabet;
+  final Alphabets alphabet;
 
-  int groupId;
+  final int groupId;
 
-  String kana;
+  final String kana;
 
-  String romaji;
+  final String romaji;
 
   Kana(this.id, this.alphabet, this.groupId, this.kana, this.romaji);
 

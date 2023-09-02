@@ -5,18 +5,19 @@ import 'package:kana_to_kanji/src/core/constants/kana_type.dart';
 part 'group.g.dart';
 
 @collection
+@Name("Groups")
 class Group  {
   final int id;
 
   @enumValue
-  Alphabets alphabet;
+  final Alphabets alphabet;
 
-  String name;
+  final String name;
 
   @enumValue
-  KanaTypes kanaType;
+  final KanaTypes kanaType;
 
-  String? localizedName;
+  final String? localizedName;
 
   Group(this.id, this.alphabet, this.name, this.kanaType, this.localizedName);
 

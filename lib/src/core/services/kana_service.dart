@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:http/http.dart' as http;

@@ -11,7 +11,7 @@ class GroupsService {
   final Isar _isar = locator<Isar>();
 
   Future<List<Group>> getGroups(Alphabets alphabet, {bool reload = false}) async {
-    debugPrint("GET GROUPS");
+    debugPrint("GET groups");
     final groups = _isar.groups.where().alphabetEqualTo(alphabet).findAll();
 
     if (reload || groups.isEmpty) {
@@ -32,22 +32,22 @@ class GroupsService {
   }
 
   void loadCollection() {
-    debugPrint("LOAD GROUPS");
+    debugPrint("LOAD groups");
     http
         .get(Uri.parse('http://localhost:8080/v1/groups'))
-        .then((response) => _extractGroups(response))
-        .then((listGroups) => {
-      for (var group in listGroups) {
+        .then((response) => _extractgroups(response))
+        .then((listgroups) => {
+      for (var group in listgroups) {
         insertOne(group)
       }
     });
   }
 
-  List<Group> _extractGroups(http.Response response) {
+  List<Group> _extractgroups(http.Response response) {
     if (response.statusCode == 200) {
       List<Group> groups = [];
-      var listGroups = jsonDecode(response.body);
-      for (final g in listGroups) {
+      var listgroups = jsonDecode(response.body);
+      for (final g in listgroups) {
         groups.add(Group.fromJson(g));
       }
       return groups;
