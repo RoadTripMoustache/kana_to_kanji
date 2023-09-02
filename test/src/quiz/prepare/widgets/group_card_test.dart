@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kana_to_kanji/src/core/constants/kana_type.dart';
 import 'package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
@@ -8,13 +9,13 @@ import '../../../../helpers.dart';
 
 void main() {
   group("GroupCard", () {
-    const Group groupSample =
-        Group(id: 0, alphabet: Alphabets.katakana, name: "Group name");
-    const Group localizedGroupSample = Group(
-        id: 0,
-        alphabet: Alphabets.katakana,
-        name: "Group name",
-        localizedName: "Localized group name");
+    final Group groupSample = Group(0, Alphabets.katakana, "Group name", KanaTypes.main, null);
+    final Group localizedGroupSample = Group(
+        0,
+        Alphabets.katakana,
+        "Group name",
+        KanaTypes.main,
+        "Localized group name");
 
     group("UI", () {
       testWidgets("Default", (WidgetTester tester) async {

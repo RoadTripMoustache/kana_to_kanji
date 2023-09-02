@@ -27,6 +27,9 @@ dependencies:
   rive: ^0.11.14
   package_info_plus: ^4.1.0
   shared_preferences: ^2.2.1
+  isar: ^4.0.0-dev.10
+  isar_flutter_libs: ^4.0.0-dev.10
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -34,7 +37,7 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   freezed: ^2.3.5
-  build_runner: ^2.4.5
+  build_runner: ^2.4.6
   json_serializable: ^6.7.0
   mockito: ^5.4.2
 
