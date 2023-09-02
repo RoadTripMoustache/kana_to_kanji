@@ -28,7 +28,6 @@ void setupLocator() {
 
   // Isar
   locator.registerSingletonAsync<Isar>(() async {
-    await Isar.initialize();
     var isar = Isar.open(
       schemas: [GroupSchema, KanaSchema],
       directory: Isar.sqliteInMemory,
