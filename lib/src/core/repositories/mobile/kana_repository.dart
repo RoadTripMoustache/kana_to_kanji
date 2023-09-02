@@ -1,13 +1,15 @@
 import 'package:kana_to_kanji/src/core/constants/kana_queries.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
+import 'package:kana_to_kanji/src/core/repositories/interfaces/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/services/database_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 
-class KanaRepository {
+class KanaRepository implements IKanaRepository {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
   final List<Kana> _kana = [];
 
+  @override
   Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
     final kana =
         _kana.where((element) => groupIds.contains(element.groupId)).toList();
@@ -22,6 +24,7 @@ class KanaRepository {
     return kana;
   }
 
+  @override
   Future<List<Kana>> getByGroupId(int groupId) async {
     final kana = _kana.where((element) => element.groupId == groupId).toList();
 

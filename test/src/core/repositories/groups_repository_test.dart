@@ -1,8 +1,9 @@
+import 'package:kana_to_kanji/src/core/repositories/interfaces/groups_repository.dart';
+import 'package:kana_to_kanji/src/core/repositories/mobile/groups_repository.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/constants/group_queries.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/services/database_service.dart';
@@ -17,7 +18,7 @@ void main() {
       Group(id: 1, alphabet: Alphabets.hiragana, name: "test");
   final databaseServiceMock = MockDatabaseService();
 
-  late GroupsRepository service;
+  late IGroupsRepository service;
 
   setUpAll(() {
     locator.registerSingleton<DatabaseService>(databaseServiceMock);

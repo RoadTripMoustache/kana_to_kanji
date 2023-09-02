@@ -1,16 +1,16 @@
 import 'package:go_router/go_router.dart';
+import 'package:kana_to_kanji/src/core/repositories/interfaces/groups_repository.dart';
 import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
 import 'package:kana_to_kanji/src/settings/settings_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 
 class PrepareQuizViewModel extends FutureViewModel {
   final GoRouter router;
 
-  final GroupsRepository _groupsRepository = locator<GroupsRepository>();
+  final IGroupsRepository _groupsRepository = locator<IGroupsRepository>();
 
   final Map<Alphabets, List<Group>> _categoryTiles = {};
 

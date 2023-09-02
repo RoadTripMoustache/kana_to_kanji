@@ -30,7 +30,7 @@ Before trying to build the application, run the following in a terminal:
 flutter pub get
 
 # Generate Freezed and JSON Serializable files
-dart run build_runner build
+dart run build_runner build 
 ```
 
 Now you are ready to run the application. To do so execute the following command:
@@ -38,3 +38,9 @@ Now you are ready to run the application. To do so execute the following command
 ```shell
 flutter run
 ```
+
+To run on other devices, list them with `flutter devices`, then start your app with `flutter run -d [device name]`
+
+
+#### Issues
+In case of an error with `dart run build_runner build` use : `flutter pub run build_runner build --delete-conflicting-outputs`

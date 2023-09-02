@@ -1,14 +1,16 @@
+import 'package:kana_to_kanji/src/core/repositories/interfaces/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/services/database_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/constants/group_queries.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 
-class GroupsRepository {
+class GroupsRepository implements IGroupsRepository {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
   final List<Group> _groups = [];
 
+  @override
   Future<List<Group>> getGroups(Alphabets alphabet,
       {bool reload = false}) async {
     final groups =

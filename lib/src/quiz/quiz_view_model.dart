@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
+import 'package:kana_to_kanji/src/core/repositories/interfaces/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
@@ -9,7 +9,7 @@ import 'package:kana_to_kanji/src/quiz/models/question.dart';
 import 'package:stacked/stacked.dart';
 
 class QuizViewModel extends FutureViewModel {
-  final KanaRepository _kanaRepository = locator<KanaRepository>();
+  final IKanaRepository _kanaRepository = locator<IKanaRepository>();
 
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();
 
