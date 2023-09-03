@@ -1,9 +1,8 @@
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
 
 class KanaRepository {
-  final KanaService _kanaService = locator<KanaService>();
+  final KanaService _kanaService = KanaService();
 
   Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
     return _kanaService.getByGroupIds(groupIds);
