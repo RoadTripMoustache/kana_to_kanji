@@ -23,9 +23,12 @@ class Group {
 
   factory Group.fromJson(Map<String, Object?> json) => Group(
       json['id'] as int,
-      Alphabets.values.where((element) => element.value == json['alphabet']).first,
+      Alphabets.values
+          .where((element) => element.value == json['alphabet'])
+          .first,
       json['name'] as String,
-      KanaTypes.values.where((element) => element.value == json['kanaType']).first,
-      json['localizedName'] as String?
-  );
+      KanaTypes.values
+          .where((element) => element.value == json['kanaType'])
+          .first,
+      json['localizedName'] as String?);
 }

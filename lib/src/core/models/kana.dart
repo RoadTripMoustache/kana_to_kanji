@@ -21,9 +21,10 @@ class Kana {
 
   factory Kana.fromJson(Map<String, Object?> json) => Kana(
       json['id'] as int,
-      Alphabets.values.where((element) => element.value == json['alphabet']).first,
+      Alphabets.values
+          .where((element) => element.value == json['alphabet'])
+          .first,
       json['group_id'] as int,
       json['kana'] as String,
-      json['romaji'] as String
-  );
+      json['romaji'] as String);
 }

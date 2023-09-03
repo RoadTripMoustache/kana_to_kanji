@@ -6,7 +6,8 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 class GroupsRepository {
   final GroupsService _groupsService = locator<GroupsService>();
 
-  Future<List<Group>> getGroups(Alphabets alphabet, {bool reload = false}) async {
+  Future<List<Group>> getGroups(Alphabets alphabet,
+      {bool reload = false}) async {
     return _groupsService.getGroups(alphabet, reload: false);
   }
 }

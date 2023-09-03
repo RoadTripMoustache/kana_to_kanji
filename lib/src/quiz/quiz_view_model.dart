@@ -33,19 +33,19 @@ class QuizViewModel extends FutureViewModel {
 
   QuizViewModel(this.groups, this.router);
 
-
   @override
   Future futureToRun() async {
     return _kanaRepository
         .getByGroupIds(groups.map((e) => e.id).toList(growable: false))
         .then((kana) async {
-          _questions.addAll(kana.map((element) => Question(
-              alphabet: element.alphabet,
-              kana: element,
-              type: QuestionTypes.toRomaji,
-              remainingAttempt: _settingsRepository.getMaximumAttemptsByQuestion())));
-          _questions.shuffle();
-        });
+      _questions.addAll(kana.map((element) => Question(
+          alphabet: element.alphabet,
+          kana: element,
+          type: QuestionTypes.toRomaji,
+          remainingAttempt:
+              _settingsRepository.getMaximumAttemptsByQuestion())));
+      _questions.shuffle();
+    });
   }
 
   void skipQuestion() {

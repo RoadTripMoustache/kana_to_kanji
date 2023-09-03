@@ -9,13 +9,10 @@ import '../../../../helpers.dart';
 
 void main() {
   group("GroupCard", () {
-    final Group groupSample = Group(0, Alphabets.katakana, "Group name", KanaTypes.main, "");
-    final Group localizedGroupSample = Group(
-        0,
-        Alphabets.katakana,
-        "Group name",
-        KanaTypes.main,
-        "Localized group name");
+    final Group groupSample =
+        Group(0, Alphabets.katakana, "Group name", KanaTypes.main, "");
+    final Group localizedGroupSample = Group(0, Alphabets.katakana,
+        "Group name", KanaTypes.main, "Localized group name");
 
     group("UI", () {
       testWidgets("Default", (WidgetTester tester) async {

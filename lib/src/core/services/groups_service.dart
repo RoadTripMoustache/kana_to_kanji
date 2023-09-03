@@ -10,21 +10,21 @@ import 'package:http/http.dart' as http;
 class GroupsService {
   final Isar _isar = locator<Isar>();
 
-  Future<List<Group>> getGroups(Alphabets alphabet, {bool reload = false}) async {
+  Future<List<Group>> getGroups(Alphabets alphabet,
+      {bool reload = false}) async {
     final groups = _isar.groups.where().alphabetEqualTo(alphabet).findAll();
 
     if (reload || groups.isEmpty) {
       deleteAll();
-      return loadCollection().then((_) => _isar.groups.where().alphabetEqualTo(alphabet).findAll());
+      return loadCollection().then(
+          (_) => _isar.groups.where().alphabetEqualTo(alphabet).findAll());
     }
 
     return Future.value(groups);
   }
 
   void deleteAll() {
-    _isar.write((isar) => {
-      isar.groups.where().deleteAll()
-    });
+    _isar.write((isar) => {isar.groups.where().deleteAll()});
   }
 
   void insertOne(Group group) {
@@ -35,7 +35,8 @@ class GroupsService {
     return http
         .get(Uri.parse('http://10.0.2.2:8080/v1/groups'))
         .then((response) => _extractgroups(response))
-        .then((listGroups) => _isar.write((isar) => isar.groups.putAll(listGroups)) );
+        .then((listGroups) =>
+            _isar.write((isar) => isar.groups.putAll(listGroups)));
   }
 
   List<Group> _extractgroups(http.Response response) {
@@ -52,8 +53,4 @@ class GroupsService {
       return List.empty();
     }
   }
-
-
-
-
 }

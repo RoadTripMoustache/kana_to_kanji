@@ -24,7 +24,9 @@ class KanaService {
 
     if (kanas.isEmpty) {
       deleteAll();
-      return loadCollection().then((_) => kanaQuery.findAll()).then((value) async {
+      return loadCollection()
+          .then((_) => kanaQuery.findAll())
+          .then((value) async {
         return value;
       });
     }
@@ -37,9 +39,7 @@ class KanaService {
   }
 
   void deleteAll() {
-    _isar.write((isar) => {
-      isar.kanas.where().deleteAll()
-    });
+    _isar.write((isar) => {isar.kanas.where().deleteAll()});
   }
 
   void insertOne(Kana kana) {
@@ -51,11 +51,11 @@ class KanaService {
     return http
         .get(Uri.parse('http://10.0.2.2:8080/v1/kanas'))
         .then((response) => _extractKanas(response))
-        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)) )
+        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)))
         .then((_) async {
-          var t = _isar.kanas.count();
-          debugPrint("kana count :: $t");
-        });
+      var t = _isar.kanas.count();
+      debugPrint("kana count :: $t");
+    });
   }
 
   List<Kana> _extractKanas(http.Response response) {
