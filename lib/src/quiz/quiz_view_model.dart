@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
@@ -32,17 +33,19 @@ class QuizViewModel extends FutureViewModel {
 
   QuizViewModel(this.groups, this.router);
 
+
   @override
   Future futureToRun() async {
-    final kana = await _kanaRepository
-        .getByGroupIds(groups.map((e) => e.id).toList(growable: false));
-
-    _questions.addAll(kana.map((element) => Question(
-        alphabet: element.alphabet,
-        kana: element,
-        type: QuestionTypes.toRomaji,
-        remainingAttempt: _settingsRepository.getMaximumAttemptsByQuestion())));
-    _questions.shuffle();
+    return _kanaRepository
+        .getByGroupIds(groups.map((e) => e.id).toList(growable: false))
+        .then((kana) async {
+          _questions.addAll(kana.map((element) => Question(
+              alphabet: element.alphabet,
+              kana: element,
+              type: QuestionTypes.toRomaji,
+              remainingAttempt: _settingsRepository.getMaximumAttemptsByQuestion())));
+          _questions.shuffle();
+        });
   }
 
   void skipQuestion() {

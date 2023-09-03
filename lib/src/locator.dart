@@ -34,8 +34,6 @@ void setupLocator() {
       engine: IsarEngine.sqlite,
     );
 
-    // TODO : Init database
-
     return isar;
   });
 

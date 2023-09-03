@@ -6,7 +6,7 @@ part 'group.g.dart';
 
 @collection
 @Name("Groups")
-class Group  {
+class Group {
   final int id;
 
   @enumValue

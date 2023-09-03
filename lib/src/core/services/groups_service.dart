@@ -11,36 +11,31 @@ class GroupsService {
   final Isar _isar = locator<Isar>();
 
   Future<List<Group>> getGroups(Alphabets alphabet, {bool reload = false}) async {
-    debugPrint("GET groups");
     final groups = _isar.groups.where().alphabetEqualTo(alphabet).findAll();
 
     if (reload || groups.isEmpty) {
       deleteAll();
-      loadCollection();
-      return _isar.groups.where().alphabetEqualTo(alphabet).findAll();
+      return loadCollection().then((_) => _isar.groups.where().alphabetEqualTo(alphabet).findAll());
     }
 
-    return groups;
+    return Future.value(groups);
   }
 
   void deleteAll() {
-    _isar.groups.where().deleteAll();
+    _isar.write((isar) => {
+      isar.groups.where().deleteAll()
+    });
   }
 
   void insertOne(Group group) {
-    _isar.groups.put(group);
+    _isar.write((isar) => isar.groups.put(group));
   }
 
-  void loadCollection() {
-    debugPrint("LOAD groups");
-    http
-        .get(Uri.parse('http://localhost:8080/v1/groups'))
+  Future<dynamic> loadCollection() {
+    return http
+        .get(Uri.parse('http://10.0.2.2:8080/v1/groups'))
         .then((response) => _extractgroups(response))
-        .then((listgroups) => {
-      for (var group in listgroups) {
-        insertOne(group)
-      }
-    });
+        .then((listGroups) => _isar.write((isar) => isar.groups.putAll(listGroups)) );
   }
 
   List<Group> _extractgroups(http.Response response) {

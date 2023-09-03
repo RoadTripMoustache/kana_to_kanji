@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/locator.dart';
@@ -9,25 +10,26 @@ class KanaService {
   final Isar _isar = locator<Isar>();
 
   Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
-    dynamic kanaQuery = _isar.kanas.where();
+    if (groupIds.isEmpty) {
+      return Future.value(_isar.kanas.where().findAll());
+    }
 
-    for (var i = 0; i < groupIds.length; i++) {
-      if (i > 0) {
-        kanaQuery = kanaQuery.or();
-      }
+    var kanaQuery = _isar.kanas.where().groupIdEqualTo(groupIds[0]);
 
-      kanaQuery = kanaQuery.groupIdEqualTo(groupIds[i]);
+    for (var i = 1; i < groupIds.length; i++) {
+      kanaQuery = kanaQuery.or().groupIdEqualTo(groupIds[i]);
     }
 
     final kanas = kanaQuery.findAll();
 
     if (kanas.isEmpty) {
       deleteAll();
-      loadCollection();
-      return kanaQuery.findAll();
+      return loadCollection().then((_) => kanaQuery.findAll()).then((value) async {
+        return value;
+      });
     }
 
-    return kanas;
+    return Future.value(kanas);
   }
 
   Future<List<Kana>> getByGroupId(int groupId) async {
@@ -35,22 +37,25 @@ class KanaService {
   }
 
   void deleteAll() {
-    _isar.kanas.where().deleteAll();
+    _isar.write((isar) => {
+      isar.kanas.where().deleteAll()
+    });
   }
 
   void insertOne(Kana kana) {
-    _isar.kanas.put(kana);
+    _isar.write((isar) => isar.kanas.put(kana));
   }
 
-  void loadCollection() {
-    http
-        .get(Uri.parse('http://localhost:8080/v1/kanas'))
+  Future<dynamic> loadCollection() {
+    debugPrint("LOAD KANAS");
+    return http
+        .get(Uri.parse('http://10.0.2.2:8080/v1/kanas'))
         .then((response) => _extractKanas(response))
-        .then((listKana) => {
-      for (var kana in listKana) {
-        insertOne(kana)
-      }
-    });
+        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)) )
+        .then((_) async {
+          var t = _isar.kanas.count();
+          debugPrint("kana count :: $t");
+        });
   }
 
   List<Kana> _extractKanas(http.Response response) {
