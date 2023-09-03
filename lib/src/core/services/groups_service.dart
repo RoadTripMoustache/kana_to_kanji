@@ -16,18 +16,12 @@ class GroupsService {
       {bool reload = false}) async {
     final groups = _isar.groups.where().alphabetEqualTo(alphabet).findAll();
 
-    if (reload || groups.isEmpty) {
-      deleteAll();
+    if (groups.isEmpty) {
       return loadCollection().then(
           (_) => _isar.groups.where().alphabetEqualTo(alphabet).findAll());
     }
 
     return Future.value(groups);
-  }
-
-  /// Delete all the groups.
-  void deleteAll() {
-    _isar.write((isar) => {isar.groups.where().deleteAll()});
   }
 
   /// Load all the groups from the API.

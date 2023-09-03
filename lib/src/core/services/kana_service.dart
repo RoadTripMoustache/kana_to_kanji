@@ -25,7 +25,6 @@ class KanaService {
     final kanas = kanaQuery.findAll();
 
     if (kanas.isEmpty) {
-      deleteAll();
       return loadCollection()
           .then((_) => kanaQuery.findAll())
           .then((value) async {
@@ -39,11 +38,6 @@ class KanaService {
   /// Get all the kana related to the group id given in parameter.
   Future<List<Kana>> getByGroupId(int groupId) async {
     return getByGroupIds([groupId]);
-  }
-
-  /// Delete all the kana.
-  void deleteAll() {
-    _isar.write((isar) => {isar.kanas.where().deleteAll()});
   }
 
   /// Load all the kana from the API.
