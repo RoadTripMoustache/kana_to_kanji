@@ -1,4 +1,4 @@
-package dev.xavierc.kana_to_kanji
+package com.roadtripmoustache.kana_to_kanji
 
 import io.flutter.embedding.android.FlutterActivity
 
