@@ -36,7 +36,11 @@ void setupLocator() {
   });
 
   // Repositories
-  locator.registerSingletonWithDependencies<GroupsRepository>(() => GroupsRepository(),  dependsOn: [GroupsService]);
-  locator.registerSingletonWithDependencies<KanaRepository>(() => KanaRepository(),  dependsOn: [KanaService]);
+  locator.registerSingletonWithDependencies<GroupsRepository>(
+      () => GroupsRepository(),
+      dependsOn: [GroupsService]);
+  locator.registerSingletonWithDependencies<KanaRepository>(
+      () => KanaRepository(),
+      dependsOn: [KanaService]);
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
 }
