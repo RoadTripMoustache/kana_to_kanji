@@ -12,7 +12,8 @@ class GroupsService {
   final ApiService _apiService = locator<ApiService>();
 
   /// Get all the groups related to the alphabet given in parameter.
-  Future<List<Group>> getGroups(Alphabets alphabet, {bool reload = false}) async {
+  Future<List<Group>> getGroups(Alphabets alphabet,
+      {bool reload = false}) async {
     final groups = _isar.groups.where().alphabetEqualTo(alphabet).findAll();
 
     if (reload || groups.isEmpty) {
@@ -34,7 +35,8 @@ class GroupsService {
     return _apiService
         .get('/v1/groups')
         .then((response) => _extractGroups(response))
-        .then((listGroups) => _isar.write((isar) => isar.groups.putAll(listGroups)) );
+        .then((listGroups) =>
+            _isar.write((isar) => isar.groups.putAll(listGroups)));
   }
 
   /// Extract all the groups

@@ -51,7 +51,7 @@ class KanaService {
     return _apiService
         .get('/v1/kanas')
         .then((response) => _extractKanas(response))
-        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)) );
+        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)));
   }
 
   /// Extract all the kana from the API Response.
