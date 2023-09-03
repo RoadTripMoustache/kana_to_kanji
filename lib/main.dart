@@ -8,7 +8,6 @@ void main() async {
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Isar.initialize();
   locator.allReadySync();
 
   // Load the user settings. Need to be run before the runApp for the theme mode.
