@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
