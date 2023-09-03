@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Required to fetch data from the internet. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="Kanaとkanji"
         android:name="${applicationName}"
@@ -30,4 +34,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 </manifest>
