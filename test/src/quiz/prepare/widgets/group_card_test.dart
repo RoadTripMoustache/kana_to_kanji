@@ -9,8 +9,8 @@ import '../../../../helpers.dart';
 
 void main() {
   group("GroupCard", () {
-    final Group groupSample =
-        Group(0, Alphabets.katakana, "Group name", KanaTypes.main, "Group name");
+    final Group groupSample = Group(
+        0, Alphabets.katakana, "Group name", KanaTypes.main, "Group name");
     final Group localizedGroupSample = Group(0, Alphabets.katakana,
         "Group name", KanaTypes.main, "Localized group name");
 
