@@ -6,9 +6,7 @@ import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
-import 'package:kana_to_kanji/src/core/services/groups_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
-import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
 import 'package:logger/logger.dart';
 
@@ -28,6 +26,7 @@ void setupLocator() {
 
   // Isar
   locator.registerSingletonAsync<Isar>(() async {
+    await Isar.initialize();
     var isar = Isar.open(
       schemas: [GroupSchema, KanaSchema],
       directory: Isar.sqliteInMemory,
@@ -40,9 +39,9 @@ void setupLocator() {
   // Repositories
   locator.registerSingletonWithDependencies<GroupsRepository>(
       () => GroupsRepository(),
-      dependsOn: [GroupsService]);
+      dependsOn: [Isar]);
   locator.registerSingletonWithDependencies<KanaRepository>(
       () => KanaRepository(),
-      dependsOn: [KanaService]);
+      dependsOn: [Isar]);
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
 }

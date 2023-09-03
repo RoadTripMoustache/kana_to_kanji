@@ -10,7 +10,8 @@ class KanaRepository {
         _kana.where((element) => groupIds.contains(element.groupId)).toList();
 
     if (kana.isEmpty) {
-      _kana.addAll(await _kanaService.getByGroupIds(groupIds));
+      kana.addAll(await _kanaService.getByGroupIds(groupIds));
+      _kana.addAll(kana);
     }
 
     return kana;

@@ -12,10 +12,13 @@ class GroupsRepository {
         _groups.where((element) => element.alphabet == alphabet).toList();
     if (reload || groups.isEmpty) {
       _groups.removeWhere((element) => element.alphabet == alphabet);
+      groups.clear();
 
-      _groups.addAll(await _groupsService.getGroups(alphabet, reload: false));
+      groups.addAll(await _groupsService.getGroups(alphabet, reload: false));
+
+      _groups.addAll(groups);
     }
 
-    return _groups;
+    return groups;
   }
 }
