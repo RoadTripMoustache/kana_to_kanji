@@ -6,5 +6,5 @@ void main() async {
   // Initialize the application
   await KanaToKanjiApp.initializeApp();
 
-  runApp(AppConfig(environment: Environment.beta, child: KanaToKanjiApp()));
+  runApp(AppConfig(environment: Environment.dev, child: KanaToKanjiApp()));
 }
