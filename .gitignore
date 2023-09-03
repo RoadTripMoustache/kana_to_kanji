@@ -235,3 +235,4 @@ xcuserdata/
 **/*.freezed.dart
 **/*.g.dart
 **/*.mocks.dart
+.DS_STORE
