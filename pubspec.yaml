@@ -37,7 +37,6 @@ dev_dependencies:
   build_runner: ^2.4.5
   json_serializable: ^6.7.0
   mockito: ^5.4.2
-  flutter_flavorizr: ^2.2.1
 
 flutter:
   uses-material-design: true
@@ -75,25 +74,3 @@ flutter:
         - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Black.ttf
           weight: 900
           style: normal
-
-flavorizr:
-  app:
-    name: "Kanaとkanji"
-  flavors:
-    main:
-      app:
-        name: "Kanaとkanji"
-      android:
-        applicationId: "dev.xavierc.kana_to_kanji"
-      ios:
-        bundleId: "dev.xavierc.kana_to_kanji"
-    beta:
-      app:
-        name: "Kanaとbeta"
-      ios:
-        bundleId: "dev.xavierc.kana-to-kanji.beta"
-    dev:
-      app:
-        name: "Kanaとdev"
-      ios:
-        bundleId: "dev.xavierc.kana-to-kanji.dev"
