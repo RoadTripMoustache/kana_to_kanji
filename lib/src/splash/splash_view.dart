@@ -26,15 +26,32 @@ class SplashView extends StatelessWidget {
           body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text.rich(
-                TextSpan(text: l10n.app_title_kana, children: [
-                  TextSpan(
-                      text: l10n.app_title_to,
-                      style: const TextStyle(color: Color(0xffFF862F))),
-                  TextSpan(text: l10n.app_title_kanji)
-                ]),
-                style: _style),
+            SizedBox(
+              height: 180,
+              child: Stack(
+                alignment: Alignment.center,
+                fit: StackFit.expand,
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Text.rich(
+                        TextSpan(text: l10n.app_title_kana, children: [
+                          TextSpan(
+                              text: l10n.app_title_to,
+                              style: const TextStyle(color: Color(0xffFF862F))),
+                          TextSpan(text: l10n.app_title_kanji)
+                        ]),
+                        style: _style),
+                  ),
+                  Positioned(
+                      top: 62.0,
+                      child:
+                          Image.asset("assets/images/beta_sign.png", width: 150)),
+                ],
+              ),
+            ),
             const Padding(
               padding: EdgeInsets.only(top: 40.0),
               child: SizedBox(
