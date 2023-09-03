@@ -6,8 +6,10 @@ class GroupsRepository {
   final GroupsService _groupsService = GroupsService();
   final List<Group> _groups = [];
 
-  Future<List<Group>> getGroups(Alphabets alphabet, {bool reload = false}) async {
-    final groups = _groups.where((element) => element.alphabet == alphabet).toList();
+  Future<List<Group>> getGroups(Alphabets alphabet,
+      {bool reload = false}) async {
+    final groups =
+        _groups.where((element) => element.alphabet == alphabet).toList();
     if (reload || groups.isEmpty) {
       _groups.removeWhere((element) => element.alphabet == alphabet);
 

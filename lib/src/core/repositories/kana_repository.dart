@@ -6,7 +6,8 @@ class KanaRepository {
   final List<Kana> _kana = [];
 
   Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
-    final kana = _kana.where((element) => groupIds.contains(element.groupId)).toList();
+    final kana =
+        _kana.where((element) => groupIds.contains(element.groupId)).toList();
 
     if (kana.isEmpty) {
       _kana.addAll(await _kanaService.getByGroupIds(groupIds));
