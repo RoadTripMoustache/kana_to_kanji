@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
+import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:http/http.dart' as http;
 
 class KanaService {
   final Isar _isar = locator<Isar>();
+  final ApiService _apiService = locator<ApiService>();
 
   Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
     if (groupIds.isEmpty) {
@@ -47,15 +49,10 @@ class KanaService {
   }
 
   Future<dynamic> loadCollection() {
-    debugPrint("LOAD KANAS");
-    return http
-        .get(Uri.parse('http://10.0.2.2:8080/v1/kanas'))
+    return _apiService
+        .get('/v1/kanas')
         .then((response) => _extractKanas(response))
-        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)))
-        .then((_) async {
-      var t = _isar.kanas.count();
-      debugPrint("kana count :: $t");
-    });
+        .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)) );
   }
 
   List<Kana> _extractKanas(http.Response response) {
