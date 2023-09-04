@@ -66,9 +66,7 @@ class SettingsView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(l10n.settings_app_version(viewModel.version)),
-                      if (AppConfig.of(context).environment != Environment.prod)
-                        Text(AppConfig.of(context).environment.toString())
+                      Text(l10n.settings_app_version(AppConfig.of(context).environment.name, viewModel.version)),
                     ],
                   )
                 ],
