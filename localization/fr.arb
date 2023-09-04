@@ -31,7 +31,7 @@
       "type": {}
     }
   },
-  "quiz_build_nothing_selected": "Sélectionner au moins un groupe avant de commencer",
+  "quiz_build_nothing_selected": "Sélectionnez au moins un groupe avant de commencer",
   "quiz_length": "{done} / {total}",
   "@quiz_length": {
     "placeholders": {
