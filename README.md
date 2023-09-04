@@ -38,3 +38,10 @@ Now you are ready to run the application. To do so execute the following command
 ```shell
 flutter run
 ```
+
+#### Troubleshoot
+##### `dart run build_runner build` -> "version solving failed"
+In case of this issue, use the following command instead : 
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
