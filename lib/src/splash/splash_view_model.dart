@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart';
+import 'package:kana_to_kanji/src/core/dataloaders/kana_dataloader.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart';
 import 'package:stacked/stacked.dart';
@@ -12,7 +14,11 @@ class SplashViewModel extends FutureViewModel {
   @override
   Future futureToRun() async {
     await Future.wait([
-      locator.allReady(),
+      locator.allReady().then((value) async {
+        // Do the data load only after all singletons are ready.
+        locator<GroupDataLoader>().loadCollection();
+        locator<KanaDataLoader>().loadCollection();
+      }),
       Future.delayed(const Duration(
           seconds: 1)) // Wait 1s to have the time to load the animation
     ]);

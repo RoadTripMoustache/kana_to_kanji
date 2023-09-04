@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
+import 'package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart';
+import 'package:kana_to_kanji/src/core/dataloaders/kana_dataloader.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
+import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
@@ -44,4 +46,12 @@ void setupLocator() {
       () => KanaRepository(),
       dependsOn: [Isar]);
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
+
+  // Data Loaders
+  locator.registerSingletonWithDependencies<GroupDataLoader>(
+          () => GroupDataLoader(),
+      dependsOn: [Isar]);
+  locator.registerSingletonWithDependencies<KanaDataLoader>(
+          () => KanaDataLoader(),
+      dependsOn: [Isar]);
 }
