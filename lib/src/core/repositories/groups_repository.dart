@@ -1,12 +1,9 @@
-import 'package:kana_to_kanji/src/core/services/database_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import 'package:kana_to_kanji/src/core/services/groups_service.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/constants/group_queries.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 
 class GroupsRepository {
-  final DatabaseService _databaseService = locator<DatabaseService>();
-
+  final GroupsService _groupsService = GroupsService();
   final List<Group> _groups = [];
 
   Future<List<Group>> getGroups(Alphabets alphabet,
@@ -17,9 +14,8 @@ class GroupsRepository {
       _groups.removeWhere((element) => element.alphabet == alphabet);
       groups.clear();
 
-      groups.addAll(await _databaseService.getMultiple(
-          getGroupsQuery, Group.fromJson,
-          arguments: [alphabet.value]));
+      groups.addAll(await _groupsService.getGroups(alphabet, reload: false));
+
       _groups.addAll(groups);
     }
 

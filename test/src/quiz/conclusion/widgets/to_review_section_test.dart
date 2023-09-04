@@ -10,12 +10,7 @@ import '../../../../helpers.dart';
 
 void main() {
   group("ToReviewSection", () {
-    const Kana kana = Kana(
-        id: 0,
-        alphabet: Alphabets.hiragana,
-        groupId: 0,
-        kana: "あ",
-        romaji: "a");
+    final Kana kana = Kana(0, Alphabets.hiragana, 0, "あ", "a");
 
     final Question kanaQuestionSample = Question(
         alphabet: kana.alphabet, kana: kana, type: QuestionTypes.toJapanese);

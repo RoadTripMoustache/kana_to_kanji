@@ -1,25 +1,26 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 
-part 'kana.freezed.dart';
 part 'kana.g.dart';
 
-@freezed
-class Kana with _$Kana {
-  const factory Kana(
-      {required int id,
-      required Alphabets alphabet,
-      @JsonKey(name: "group_id") required int groupId,
-      required String kana,
-      required String romaji}) = _Kana;
+@collection
+@Name("Kanas")
+@JsonSerializable()
+class Kana {
+  final int id;
 
-  factory Kana.fromJson(Map<String, Object?> json) => _$KanaFromJson(json);
+  @enumValue
+  final Alphabets alphabet;
 
-  static const tableCreate = "CREATE TABLE kana("
-      "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-      "alphabet TEXT NOT NULL, "
-      "group_id INTEGER, "
-      "kana TEXT NOT NULL, "
-      "romaji TEXT NOT NULL,"
-      "FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE SET NULL)";
+  @JsonKey(name: "group_id")
+  final int groupId;
+
+  final String kana;
+
+  final String romaji;
+
+  Kana(this.id, this.alphabet, this.groupId, this.kana, this.romaji);
+
+  factory Kana.fromJson(Map<String, dynamic> json) => _$KanaFromJson(json);
 }
