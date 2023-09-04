@@ -49,9 +49,9 @@ void setupLocator() {
 
   // Data Loaders
   locator.registerSingletonWithDependencies<GroupDataLoader>(
-          () => GroupDataLoader(),
+      () => GroupDataLoader(),
       dependsOn: [Isar]);
   locator.registerSingletonWithDependencies<KanaDataLoader>(
-          () => KanaDataLoader(),
+      () => KanaDataLoader(),
       dependsOn: [Isar]);
 }

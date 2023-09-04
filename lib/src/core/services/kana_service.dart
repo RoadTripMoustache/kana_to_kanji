@@ -24,5 +24,4 @@ class KanaService {
   Future<List<Kana>> getByGroupId(int groupId) async {
     return getByGroupIds([groupId]);
   }
-
 }

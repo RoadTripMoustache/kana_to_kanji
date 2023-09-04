@@ -9,10 +9,7 @@ class GroupsService {
   /// Get all the groups related to the alphabet given in parameter.
   Future<List<Group>> getGroups(Alphabets alphabet,
       {bool reload = false}) async {
-
     return Future.value(
-        _isar.groups.where().alphabetEqualTo(alphabet).findAll()
-    );
+        _isar.groups.where().alphabetEqualTo(alphabet).findAll());
   }
-
 }
