@@ -1,0 +1,119 @@
+{
+  "@@locale": "fr",
+  "app_title": "Kanaとkanji",
+  "app_title_kana": "Kana",
+  "app_title_to": "と",
+  "app_title_kanji": "kanji",
+  "button_continue": "Continuer",
+  "percent": "{percent}",
+  "@percent": {
+    "placeholders": {
+      "percent": {
+        "type": "double",
+        "format": "decimalPercentPattern",
+        "optionalParameters": {
+          "decimalDigits": 0
+        }
+      }
+    }
+  },
+  "quiz_build_title": "Construit ton quiz",
+  "quiz_build_ready": "Démarrer le quiz",
+  "quiz_build_select_all": "Sélectionner tous les {type, select, kana{kana} kanji{kanji} other{}}",
+  "@quiz_build_select_all": {
+    "placeholders": {
+      "type": {}
+    }
+  },
+  "quiz_build_unselect_all": "Désélectionner tous les {type, select, kana{kana} kanji{kanji} other{}}",
+  "@quiz_build_unselect_all": {
+    "placeholders": {
+      "type": {}
+    }
+  },
+  "quiz_build_nothing_selected": "Sélectionner au moins un groupe avant de commencer",
+  "quiz_length": "{done} / {total}",
+  "@quiz_length": {
+    "placeholders": {
+      "done": {
+        "type": "int",
+        "description": "Nombre de questions répondues"
+      },
+      "total": {
+        "type": "int",
+        "description": "Nombre de questions dans le quiz"
+      }
+    }
+  },
+  "quiz_skip_question": "Passer",
+  "quiz_next_question": "Suivant",
+  "quiz_conclusion": "Fini! 🎉",
+  "quiz_conclusion_to_review": "📚 À revoir",
+  "@quiz_conclusion_to_review": {
+    "description": "Introduction de la section 'à revoir', listant les questions passées/en erreur."
+  },
+  "quiz_conclusion_kana": "{kana} → {romaji}",
+  "@quiz_conclusion_kana": {
+    "description": "Une simple phrase montrant un kana et sa signification en romaji",
+    "placeholders": {
+      "kana": {
+        "type": "String",
+        "example": "ひ"
+      },
+      "romaji": {
+        "type": "String",
+        "example": "hi"
+      }
+    }
+  },
+  "settings": "Configurations",
+  "settings_general_section": "Général",
+  "@settings_general_section": {
+    "description": "Introduction de la section générale de la configuration"
+  },
+  "settings_theme_mode": "Thème de l'application",
+  "@settings_theme_mode": {
+    "description": "Représente le thème à utiliser dans l'application"
+  },
+  "settings_theme_dark": "Mode sombre",
+  "@settings_theme_dark": {
+    "description": "Label pour le mode sombre de l'application"
+  },
+  "settings_theme_light": "Mode clair",
+  "@settings_theme_light": {
+    "description": "Label pour le mode clair de l'application"
+  },
+  "settings_theme_system": "Mode système",
+  "@settings_theme_system": {
+    "description": "Label pour le mode système de l'application"
+  },
+  "settings_legal_section": "Légal",
+  "@settings_legal_section": {
+    "description": "Introduction de la section légale de la configuration"
+  },
+  "settings_acknowledgements": "Licences",
+  "@settings_acknowledgements": {
+    "description": "Liste de toutes les dépendances qui sont utilisées et autres remerciements"
+  },
+  "settings_app_version": "v{version}",
+  "@settings_app_version": {
+    "description": "Version de l'application installée",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0",
+        "description": "Version locale de l'application"
+      }
+    }
+  },
+  "hiragana": "Hiragana ひらがな",
+  "katakana": "Katakana カタカナ",
+  "main_kana": "Kana principaux",
+  "dakuten_kana": "Dakuten kana",
+  "combination_kana": "Combinaison de kana",
+  "kanji": "Kanji 漢字",
+  "show_more": "Voir plus",
+  "show_less": "Voir moins",
+  "select_all": "Tout sélectionner",
+  "unselect_all": "Tout désélectionner"
+}
