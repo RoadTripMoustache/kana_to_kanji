@@ -111,7 +111,7 @@ jobs:
 
       #### BUILD ####
       - name: Build the application
-        run: flutter build -v --flavor prod ${{ matrix.build_target }} ${{ matrix.build_args }} --release
+        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --flavor prod --release
 
       #### COMPRESS & UPLOAD ####
       - name: Rename Android build
