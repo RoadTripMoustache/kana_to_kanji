@@ -53,7 +53,7 @@
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                                    <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="LaunchImage-prod" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
                                         <rect key="frame" x="18" y="129" width="310" height="310"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="310" id="aga-51-Q00"/>
@@ -84,7 +84,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="666.66668701171875" height="666.66668701171875"/>
+        <image name="LaunchImage-prod" width="666.66668701171875" height="666.66668701171875"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

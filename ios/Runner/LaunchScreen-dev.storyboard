@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="u6R-u5-e9S">
+            <objects>
+                <viewController id="6lF-rj-9Xr" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="H2x-Y3-gJG"/>
+                        <viewControllerLayoutGuide type="bottom" id="t6P-V1-ZxU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="207-pz-U8L">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0N-2b-zNi">
+                                <rect key="frame" x="14.5" y="133" width="346" height="439"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cst-yI-6Dy">
+                                        <rect key="frame" x="9" y="0.0" width="328" height="84"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Kana">
+                                                <attributes>
+                                                    <color key="NSColor" systemColor="labelColor"/>
+                                                    <font key="NSFont" size="60" name="RoundedMplus1c-Regular"/>
+                                                    <font key="NSOriginalFont" size="14" name="RoundedMplus1c-Regular"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="と">
+                                                <attributes>
+                                                    <color key="NSColor" red="1" green="0.52545118329999996" blue="0.1844319999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="60" name="RoundedMplus1c-Regular"/>
+                                                    <font key="NSOriginalFont" size="14" name="RoundedMplus1c-Regular"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="kanji">
+                                                <attributes>
+                                                    <color key="NSColor" systemColor="labelColor"/>
+                                                    <font key="NSFont" size="60" name="RoundedMplus1c-Regular"/>
+                                                    <font key="NSOriginalFont" size="14" name="RoundedMplus1c-Regular"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="LaunchImage-dev" translatesAutoresizingMaskIntoConstraints="NO" id="kZa-3B-RMO">
+                                        <rect key="frame" x="18" y="129" width="310" height="310"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="310" id="Nsy-Fi-syd"/>
+                                            <constraint firstAttribute="width" constant="310" id="TZB-uS-DTr"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="kZa-3B-RMO" secondAttribute="bottom" id="3mF-cn-F5q"/>
+                                    <constraint firstItem="Cst-yI-6Dy" firstAttribute="centerX" secondItem="k0N-2b-zNi" secondAttribute="centerX" id="97c-oe-kdv"/>
+                                    <constraint firstAttribute="width" constant="346" id="OhN-SY-HRu"/>
+                                    <constraint firstItem="kZa-3B-RMO" firstAttribute="top" secondItem="Cst-yI-6Dy" secondAttribute="bottom" constant="45" id="WIl-C3-hNH"/>
+                                    <constraint firstItem="Cst-yI-6Dy" firstAttribute="top" secondItem="k0N-2b-zNi" secondAttribute="top" id="fQ2-z0-ZPy"/>
+                                    <constraint firstItem="kZa-3B-RMO" firstAttribute="centerX" secondItem="k0N-2b-zNi" secondAttribute="centerX" id="xIV-51-O7I"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="k0N-2b-zNi" firstAttribute="centerX" secondItem="207-pz-U8L" secondAttribute="centerX" id="0j0-JV-WmJ"/>
+                            <constraint firstItem="k0N-2b-zNi" firstAttribute="centerY" secondItem="207-pz-U8L" secondAttribute="centerY" constant="19" id="CeA-Ki-8nK"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lNz-Az-hsJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-486" y="270"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LaunchImage-dev" width="500" height="500"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
