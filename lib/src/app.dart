@@ -12,6 +12,16 @@ class KanaToKanjiApp extends StatelessWidget {
     super.key,
   });
 
+  static Future initializeApp() async {
+    setupLocator();
+    WidgetsFlutterBinding.ensureInitialized();
+
+    locator.allReadySync();
+
+    // Load the user settings. Need to be run before the runApp for the theme mode.
+    await locator<SettingsRepository>().loadSettings();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
