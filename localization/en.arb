@@ -95,10 +95,15 @@
   "@settings_acknowledgements": {
     "description": "List of all the packages we are using and other acknowledgements"
   },
-  "settings_app_version": "v{version}",
+  "settings_app_version": "{channel, select, dev{Dev - } beta{Beta - } other{}}v{version}",
   "@settings_app_version": {
     "description": "Version of the application installed",
     "placeholders": {
+      "channel": {
+        "type": "String",
+        "example": "beta",
+        "description": "Channel currently used for the application"
+      },
       "version": {
         "type": "String",
         "example": "1.0.0",

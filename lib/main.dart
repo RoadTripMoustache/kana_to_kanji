@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kana_to_kanji/src/app.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 
 void main() async {
-  setupLocator();
-  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize the application
+  await KanaToKanjiApp.initializeApp();
 
-  locator.allReadySync();
-
-  // Load the user settings. Need to be run before the runApp for the theme mode.
-  await locator<SettingsRepository>().loadSettings();
-
-  runApp(KanaToKanjiApp());
+  runApp(AppConfig(environment: Environment.prod, child: KanaToKanjiApp()));
 }

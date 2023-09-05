@@ -11,8 +11,8 @@ to create an issue!
 
 | Language     | Support        |
 |--------------|----------------|
-| 🇬🇧 English | ✅ Full support |
-| 🇫🇷 French  | Coming soon    |
+| 🇬🇧 English | ✅ Full support  |
+| 🇫🇷 French  | ✅ Full support  |
 
 
 ## Getting Started
@@ -36,8 +36,14 @@ dart run build_runner build
 Now you are ready to run the application. To do so execute the following command:
 
 ```shell
-flutter run
+flutter run --flavor <flavor> [--target lib/main_<flavor>.dart]
 ```
+
+This project has three (3) flavors:
+- Prod
+- Beta, target to specify `lib/main_beta.dart`
+- Dev, target to specify `lib/main_dev.dart`
+
 
 #### Troubleshoot
 ##### `dart run build_runner build` -> "version solving failed"

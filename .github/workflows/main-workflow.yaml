@@ -68,6 +68,7 @@ jobs:
       - get_version
     env:
       VERSION: ${{ needs.get_version.outputs.version }}
+      FLAVOR: prod
     strategy:
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false
@@ -87,7 +88,7 @@ jobs:
             os: ubuntu-latest
             build_target: apk
             build_args: ''
-            build_path: build/app/outputs/apk/release
+            build_path: build/app/outputs/flutter-apk
             asset_extension: apk
             asset_content_type: application/zip
     steps:
@@ -111,27 +112,26 @@ jobs:
 
       #### BUILD ####
       - name: Build the application
-        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --release
+        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --flavor ${{ env.FLAVOR }} --release
 
       #### COMPRESS & UPLOAD ####
       - name: Rename Android build
         if: matrix.target == 'Android'
         run: |
-          mv app-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          mv app-prod-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Compress iOS build
         if: matrix.target == 'iOS'
         run: |
-          mv Runner.app ${{ env.APP_NAME }}.app
-          ditto -c -k --sequesterRsrc --keepParent ${{ env.APP_NAME }}.app ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          ditto -c -k --sequesterRsrc --keepParent ${{ vars.APP_NAME }}.app ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}
-          path: ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
   create_pre_release:
     name: Create GitHub release
     needs:
