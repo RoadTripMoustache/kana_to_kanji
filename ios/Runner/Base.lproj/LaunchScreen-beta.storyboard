@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="NrG-lp-021">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="NrG-lp-021">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
@@ -13,15 +13,15 @@
             <objects>
                 <viewController id="NrG-lp-021" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="e2x-TE-8sd"/>
-                        <viewControllerLayoutGuide type="bottom" id="y1c-zP-5Au"/>
+                        <viewControllerLayoutGuide type="top" id="vRE-OT-btc"/>
+                        <viewControllerLayoutGuide type="bottom" id="2oK-qo-V2v"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="VQy-1s-K7J">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaI-tt-tuP">
-                                <rect key="frame" x="14.5" y="133" width="346" height="439"/>
+                                <rect key="frame" x="23.666666666666657" y="225.66666666666663" width="346" height="439"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gP0-oq-aRv">
                                         <rect key="frame" x="9" y="0.0" width="328" height="84"/>
@@ -84,7 +84,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage-beta" width="500" height="500"/>
+        <image name="LaunchImage-beta" width="666.66668701171875" height="666.66668701171875"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

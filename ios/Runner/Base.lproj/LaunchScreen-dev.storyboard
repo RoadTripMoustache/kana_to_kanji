@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="6lF-rj-9Xr">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
@@ -13,15 +13,15 @@
             <objects>
                 <viewController id="6lF-rj-9Xr" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="H2x-Y3-gJG"/>
-                        <viewControllerLayoutGuide type="bottom" id="t6P-V1-ZxU"/>
+                        <viewControllerLayoutGuide type="top" id="8wG-Ge-U4W"/>
+                        <viewControllerLayoutGuide type="bottom" id="sWI-01-0wE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="207-pz-U8L">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0N-2b-zNi">
-                                <rect key="frame" x="14.5" y="133" width="346" height="439"/>
+                                <rect key="frame" x="23.666666666666657" y="225.66666666666663" width="346" height="439"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cst-yI-6Dy">
                                         <rect key="frame" x="9" y="0.0" width="328" height="84"/>
@@ -84,7 +84,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage-dev" width="500" height="500"/>
+        <image name="LaunchImage-dev" width="666.66668701171875" height="666.66668701171875"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

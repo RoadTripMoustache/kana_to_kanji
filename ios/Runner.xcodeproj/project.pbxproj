@@ -16,8 +16,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen-prod.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen-prod.storyboard */; };
 		A796244A2A96EB6200FA2573 /* MPLUSRounded1c-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A79624492A96EB6200FA2573 /* MPLUSRounded1c-Regular.ttf */; };
-		A7E156322AA6ABEE00B6F395 /* LaunchScreen-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7E156302AA6ABEE00B6F395 /* LaunchScreen-beta.storyboard */; };
-		A7E156332AA6ABEE00B6F395 /* LaunchScreen-dev.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7E156312AA6ABEE00B6F395 /* LaunchScreen-dev.storyboard */; };
+		A7E156342AA6ADED00B6F395 /* LaunchScreen-beta.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7E156362AA6ADED00B6F395 /* LaunchScreen-beta.storyboard */; };
+		A7E156372AA6ADF700B6F395 /* LaunchScreen-dev.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7E156392AA6ADF700B6F395 /* LaunchScreen-dev.storyboard */; };
 		B5F2E724D6EAB2E5B78584FA /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D39955CB606D7C3AD3ADCD /* Pods_RunnerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,8 +77,8 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9E6DE063E021048112938480 /* Pods-RunnerTests.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release-dev.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release-dev.xcconfig"; sourceTree = "<group>"; };
 		A79624492A96EB6200FA2573 /* MPLUSRounded1c-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MPLUSRounded1c-Regular.ttf"; path = "../../fonts/MPLUSRounded1c/MPLUSRounded1c-Regular.ttf"; sourceTree = "<group>"; };
-		A7E156302AA6ABEE00B6F395 /* LaunchScreen-beta.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "LaunchScreen-beta.storyboard"; path = "Base.lproj/LaunchScreen-beta.storyboard"; sourceTree = "<group>"; };
-		A7E156312AA6ABEE00B6F395 /* LaunchScreen-dev.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "LaunchScreen-dev.storyboard"; path = "Base.lproj/LaunchScreen-dev.storyboard"; sourceTree = "<group>"; };
+		A7E156352AA6ADED00B6F395 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/LaunchScreen-beta.storyboard"; sourceTree = "<group>"; };
+		A7E156382AA6ADF700B6F395 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/LaunchScreen-dev.storyboard"; sourceTree = "<group>"; };
 		C49D650E850B82DF2DBEFC1B /* Pods-RunnerTests.debug-beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug-beta.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug-beta.xcconfig"; sourceTree = "<group>"; };
 		C6D39955CB606D7C3AD3ADCD /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D719E971EA3359CA9ECE2026 /* Pods-Runner.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-dev.xcconfig"; sourceTree = "<group>"; };
@@ -163,8 +163,8 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				A7E156312AA6ABEE00B6F395 /* LaunchScreen-dev.storyboard */,
-				A7E156302AA6ABEE00B6F395 /* LaunchScreen-beta.storyboard */,
+				A7E156392AA6ADF700B6F395 /* LaunchScreen-dev.storyboard */,
+				A7E156362AA6ADED00B6F395 /* LaunchScreen-beta.storyboard */,
 				97C146FF1CF9000F007C117D /* LaunchScreen-prod.storyboard */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -304,10 +304,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A796244A2A96EB6200FA2573 /* MPLUSRounded1c-Regular.ttf in Resources */,
-				A7E156322AA6ABEE00B6F395 /* LaunchScreen-beta.storyboard in Resources */,
+				A7E156342AA6ADED00B6F395 /* LaunchScreen-beta.storyboard in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen-prod.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				A7E156332AA6ABEE00B6F395 /* LaunchScreen-dev.storyboard in Resources */,
+				A7E156372AA6ADF700B6F395 /* LaunchScreen-dev.storyboard in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
@@ -453,6 +453,22 @@
 				97C147001CF9000F007C117D /* Base */,
 			);
 			name = "LaunchScreen-prod.storyboard";
+			sourceTree = "<group>";
+		};
+		A7E156362AA6ADED00B6F395 /* LaunchScreen-beta.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A7E156352AA6ADED00B6F395 /* Base */,
+			);
+			name = "LaunchScreen-beta.storyboard";
+			sourceTree = "<group>";
+		};
+		A7E156392AA6ADF700B6F395 /* LaunchScreen-dev.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A7E156382AA6ADF700B6F395 /* Base */,
+			);
+			name = "LaunchScreen-dev.storyboard";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
