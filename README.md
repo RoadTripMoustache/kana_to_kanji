@@ -43,5 +43,5 @@ flutter run
 ##### `dart run build_runner build` -> "version solving failed"
 In case of this issue, use the following command instead : 
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
