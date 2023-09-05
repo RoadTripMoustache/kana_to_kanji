@@ -90,6 +90,7 @@ jobs:
       - tests
     env:
       VERSION: ${{ github.event.pull_request.number }}
+      FLAVOR: dev
     strategy:
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false
@@ -133,24 +134,24 @@ jobs:
 
       #### BUILD ####
       - name: Build the application
-        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --flavor dev --release
+        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --flavor ${{ env.FLAVOR }} --release
 
       #### COMPRESS & UPLOAD ####
       - name: Rename Android build
         if: matrix.target == 'Android'
         run: |
-          mv app-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          mv app-${{ env.FLAVOR }}-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.DEV_APP_NAME }}_${{ env.FLAVOR }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Compress iOS build
         if: matrix.target == 'iOS'
         run: |
           mv Runner.app ${{ env.APP_NAME }}.app
-          ditto -c -k --sequesterRsrc --keepParent ${{ env.APP_NAME }}.app ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          ditto -c -k --sequesterRsrc --keepParent ${{ env.DEV_APP_NAME }}.app ${{ github.workspace }}/${{ env.DEV_APP_NAME }}_${{ env.FLAVOR }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}
-          path: ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          path: ${{ github.workspace }}/${{ env.DEV_APP_NAME }}_${{ env.FLAVOR }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}

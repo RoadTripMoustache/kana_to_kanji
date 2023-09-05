@@ -68,6 +68,7 @@ jobs:
       - get_version
     env:
       VERSION: ${{ needs.get_version.outputs.version }}
+      FLAVOR: prod
     strategy:
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false
@@ -111,13 +112,13 @@ jobs:
 
       #### BUILD ####
       - name: Build the application
-        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --flavor prod --release
+        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --flavor ${{ env.FLAVOR }} --release
 
       #### COMPRESS & UPLOAD ####
       - name: Rename Android build
         if: matrix.target == 'Android'
         run: |
-          mv app-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          mv app-prod-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ env.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Compress iOS build
