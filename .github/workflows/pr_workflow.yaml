@@ -88,10 +88,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs:
       - tests
-      - bump_version
-#    if: needs.bump_version.outputs.stop == 'false'
     env:
-      VERSION: ${{ needs.bump_version.outputs.version }}
+      VERSION: ${{ github.event.pull_request.number }}
     strategy:
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false
@@ -135,7 +133,7 @@ jobs:
 
       #### BUILD ####
       - name: Build the application
-        run: flutter build -v ${{ matrix.build_target }} ${{ matrix.build_args }} --release
+        run: flutter build -v --flavor dev ${{ matrix.build_target }} ${{ matrix.build_args }} --release
 
       #### COMPRESS & UPLOAD ####
       - name: Rename Android build
