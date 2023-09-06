@@ -30,6 +30,8 @@ dependencies:
   isar_flutter_libs: ^4.0.0-dev.10
   path_provider: ^2.1.1
   http: ^1.1.0
+  firebase_core: ^2.15.1
+  firebase_crashlytics: ^3.3.5
 
 dev_dependencies:
   flutter_test:
