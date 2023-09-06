@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart';
@@ -11,6 +12,7 @@ import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -29,9 +31,13 @@ void setupLocator() {
   // Isar
   locator.registerSingletonAsync<Isar>(() async {
     await Isar.initialize();
+    final String directory = kIsWeb
+        ? Isar.sqliteInMemory
+        : (await getApplicationSupportDirectory()).path;
+
     var isar = Isar.open(
       schemas: [GroupSchema, KanaSchema],
-      directory: Isar.sqliteInMemory,
+      directory: directory,
       engine: IsarEngine.sqlite,
     );
 
