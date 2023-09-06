@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/splash/splash_view_model.dart';
 import 'package:rive/rive.dart';
@@ -26,6 +27,7 @@ class SplashView extends StatelessWidget {
           body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text.rich(
                 TextSpan(text: l10n.app_title_kana, children: [
@@ -35,14 +37,14 @@ class SplashView extends StatelessWidget {
                   TextSpan(text: l10n.app_title_kanji)
                 ]),
                 style: _style),
-            const Padding(
-              padding: EdgeInsets.only(top: 40.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 40.0),
               child: SizedBox(
                   width: 300,
                   height: 300,
                   child: RiveAnimation.asset(
                     "assets/animations/kitsune_hot_cup_of_tea.riv",
-                    artboard: "main",
+                    artboard: AppConfig.of(context).environment.name,
                   )),
             ),
           ],
