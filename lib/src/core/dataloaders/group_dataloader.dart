@@ -12,8 +12,15 @@ class GroupDataLoader {
 
   /// Load all the groups from the API.
   Future loadCollection() async {
+    var lastLoadedVersion = _isar.groups.where().versionProperty().max();
+
+    var versionQueryParam = "";
+    if (lastLoadedVersion != null) {
+      versionQueryParam = "?version[current]=$lastLoadedVersion";
+    }
+
     return _apiService
-        .get('/v1/groups')
+        .get('/v1/groups$versionQueryParam')
         .then((response) => _extractGroups(response))
         .then((listGroups) =>
             _isar.write((isar) => isar.groups.putAll(listGroups)));

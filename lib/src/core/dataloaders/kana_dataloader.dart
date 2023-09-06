@@ -12,8 +12,14 @@ class KanaDataLoader {
 
   /// Load all the kana from the API.
   Future loadCollection() async {
+    var lastLoadedVersion = _isar.kanas.where().versionProperty().max();
+
+    var versionQueryParam = "";
+    if (lastLoadedVersion != null) {
+      versionQueryParam = "?version[current]=$lastLoadedVersion";
+    }
     return _apiService
-        .get('/v1/kanas')
+        .get('/v1/kanas$versionQueryParam')
         .then((response) => _extractKanas(response))
         .then((listKana) => _isar.write((isar) => isar.kanas.putAll(listKana)));
   }

@@ -54,10 +54,14 @@ void setupLocator() {
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
 
   // Data Loaders
-  locator.registerSingletonWithDependencies<GroupDataLoader>(
-      () => GroupDataLoader(),
-      dependsOn: [Isar]);
-  locator.registerSingletonWithDependencies<KanaDataLoader>(
-      () => KanaDataLoader(),
-      dependsOn: [Isar]);
+  locator.registerSingletonAsync<GroupDataLoader>(() async {
+    final instance = GroupDataLoader();
+    instance.loadCollection();
+    return instance;
+  }, dependsOn: [Isar]);
+  locator.registerSingletonAsync<KanaDataLoader>(() async {
+    final instance = KanaDataLoader();
+    instance.loadCollection();
+    return instance;
+  }, dependsOn: [Isar]);
 }
