@@ -140,8 +140,8 @@ jobs:
               --token=${{ secrets.FIREBASE_TOKEN }} \
               --out=lib/firebase_options.dart \
               --platforms=${{ matrix.target }} \
-              ${{ matrix.target == 'Android' && join('--android-package-name=', vars.ANDROID_PACKAGE_NAME) || '' }} \
-              ${{ matrix.target == 'iOS' && join('--ios-bundle-id=', vars.IOS_BUNDLE_ID) || '' }}
+              ${{ matrix.target == 'Android' && join(['--android-package-name', vars.ANDROID_PACKAGE_NAME], '=') || '' }} \
+              ${{ matrix.target == 'iOS' && join(['--ios-bundle-id', vars.IOS_BUNDLE_ID], '=') || '' }}
 
       - name: Get dependencies
         run: flutter pub get
