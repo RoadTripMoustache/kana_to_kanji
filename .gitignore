@@ -32,6 +32,8 @@ render.experimental.xml
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json
 
 # Android Profiling
 *.hprof
@@ -236,3 +238,5 @@ xcuserdata/
 **/*.g.dart
 **/*.mocks.dart
 .DS_Store
+## Firebase generated files
+firebase_options*.dart
