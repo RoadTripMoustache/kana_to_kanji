@@ -88,6 +88,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs:
       - tests
+    environment: Dev
     env:
       VERSION: ${{ github.event.pull_request.number }}
       FLAVOR: dev
@@ -127,6 +128,19 @@ jobs:
           channel: 'stable'
           cache: true
       - run: flutter doctor
+      - name: Install Firebase dependencies
+        run: |
+          curl -sL https://firebase.tools | bash
+          dart pub global activate flutterfire_cli
+      - name: Generate Firebase files
+        run: |
+          flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} --yes \
+              --token=${{ secrets.FIREBASE_TOKEN }} \
+              --out=lib/firebase_options.dart \
+              --platforms=${{ matrix.target }} \
+              ${{ matrix.target == 'Android' && '--android-package-name=${{ vars.ANDROID_PACKAGE_NAME }}' }} \
+              ${{ matrix.target == 'iOS' && '--ios-bundle-id=${{ vars.IOS_BUNDLE_ID }}' }}
+
       - name: Get dependencies
         run: flutter pub get
       - name: Generate files
