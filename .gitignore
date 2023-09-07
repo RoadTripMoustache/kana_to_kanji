@@ -239,4 +239,4 @@ xcuserdata/
 **/*.mocks.dart
 .DS_Store
 ## Firebase generated files
-firebase_options*.dart
+firebase_options.dart
