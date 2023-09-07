@@ -3,6 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// ignore: uri_does_not_exist
 import 'package:kana_to_kanji/firebase_options.dart';
 import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
@@ -22,6 +23,7 @@ class KanaToKanjiApp extends StatelessWidget {
 
     // Firebase initialization
     await Firebase.initializeApp(
+      // ignore: undefined_identifier
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
