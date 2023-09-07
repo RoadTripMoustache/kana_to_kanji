@@ -133,15 +133,13 @@ jobs:
           curl -sL https://firebase.tools | bash
           dart pub global activate flutterfire_cli
       - name: Generate Firebase files
-        env:
-          ANDROID_PACKAGE_NAME: ${{ vars.ANDROID_PACKAGE_NAME }}
         run: |
           flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} --yes \
               --token=${{ secrets.FIREBASE_TOKEN }} \
               --out=lib/firebase_options.dart \
               --platforms=${{ matrix.target }} \
-              ${{ matrix.target == 'Android' && join(['--android-package-name', vars.ANDROID_PACKAGE_NAME], '=') || '' }} \
-              ${{ matrix.target == 'iOS' && join(['--ios-bundle-id', vars.IOS_BUNDLE_ID], '=') || '' }}
+              ${{ matrix.target == 'Android' && format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) || '' }} \
+              ${{ matrix.target == 'iOS' && format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) || '' }}
 
       - name: Get dependencies
         run: flutter pub get
