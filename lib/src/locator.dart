@@ -1,14 +1,18 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
+import 'package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart';
+import 'package:kana_to_kanji/src/core/dataloaders/kana_dataloader.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
+import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
 
 final GetIt locator = GetIt.instance;
 
@@ -27,9 +31,13 @@ void setupLocator() {
   // Isar
   locator.registerSingletonAsync<Isar>(() async {
     await Isar.initialize();
+    final String directory = kIsWeb
+        ? Isar.sqliteInMemory
+        : (await getApplicationSupportDirectory()).path;
+
     var isar = Isar.open(
       schemas: [GroupSchema, KanaSchema],
-      directory: Isar.sqliteInMemory,
+      directory: directory,
       engine: IsarEngine.sqlite,
     );
 
@@ -44,4 +52,16 @@ void setupLocator() {
       () => KanaRepository(),
       dependsOn: [Isar]);
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
+
+  // Data Loaders
+  locator.registerSingletonAsync<GroupDataLoader>(() async {
+    final instance = GroupDataLoader();
+    instance.loadCollection();
+    return instance;
+  }, dependsOn: [Isar]);
+  locator.registerSingletonAsync<KanaDataLoader>(() async {
+    final instance = KanaDataLoader();
+    instance.loadCollection();
+    return instance;
+  }, dependsOn: [Isar]);
 }

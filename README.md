@@ -11,8 +11,8 @@ to create an issue!
 
 | Language     | Support        |
 |--------------|----------------|
-| 🇬🇧 English | ✅ Full support |
-| 🇫🇷 French  | Coming soon    |
+| 🇬🇧 English | ✅ Full support  |
+| 🇫🇷 French  | ✅ Full support  |
 
 
 ## Getting Started
@@ -57,3 +57,11 @@ This project has three (3) flavors:
 - Prod
 - Beta, target to specify `lib/main_beta.dart`
 - Dev, target to specify `lib/main_dev.dart`
+
+
+#### Troubleshoot
+##### `dart run build_runner build` -> "version solving failed"
+In case of this issue, use the following command instead : 
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```

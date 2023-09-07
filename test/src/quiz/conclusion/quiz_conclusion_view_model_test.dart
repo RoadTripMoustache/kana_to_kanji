@@ -17,7 +17,7 @@ void main() {
   group("QuizConclusionViewModel", () {
     final settingsRepositoryMock = MockSettingsRepository();
 
-    final Kana kana = Kana(0, Alphabets.hiragana, 0, "あ", "a");
+    final Kana kana = Kana(0, Alphabets.hiragana, 0, "あ", "a", "v1");
 
     final Question wrongQuestion = Question(
         alphabet: kana.alphabet,
