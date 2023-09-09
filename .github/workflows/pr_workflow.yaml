@@ -167,3 +167,17 @@ jobs:
         with:
           name: ${{ matrix.target }}
           path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ env.FLAVOR }}_${{ matrix.target }}*.${{ matrix.asset_extension }}
+  tmp:
+    name: Test
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build of Android and iOS
+        uses: actions/download-artifact@v3
+        with:
+          path: build
+      - name: List directory content
+        run: |
+          ls -ali
+        working-directory: build
