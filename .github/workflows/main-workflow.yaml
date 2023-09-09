@@ -131,6 +131,7 @@ jobs:
       - name: Rename Android build
         if: matrix.target == 'Android'
         run: |
+          sudo apt-get install rename
           rename 's/app-(.+)-(.*)-release.apk/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}_$1.${{ matrix.asset_extension }}/' *.apk
           mv *.apk ${{ github.workspace }}/
         working-directory: ${{ matrix.build_path }}
