@@ -34,10 +34,10 @@ dart pub global activate flutterfire_cli
 ## Login into Firebase 
 firebase login
 ## Generate firebase files
-flutterfire configure --project=kana-to-kanji-dev\
+flutterfire configure --project=<firebase-project-id>\
    --platforms=android,ios,web \
-   --android-package-name=com.roadtripmoustache.kana_to_kanji.dev \
-   --ios-bundle-id=com.roadtripmoustache.kana-to-kanji.dev \
+   --android-package-name=com.roadtripmoustache.kana_to_kanji[.<flavor>] \
+   --ios-bundle-id=com.roadtripmoustache.kana-to-kanji[.<flavor>] \
    --out=lib/firebase_options.dart
 
 # Get the dependencies and generate l10n files

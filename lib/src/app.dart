@@ -58,7 +58,7 @@ class KanaToKanjiApp extends StatelessWidget {
               supportedLocales: AppLocalizations.supportedLocales,
               onGenerateTitle: (BuildContext context) =>
                   AppLocalizations.of(context).app_title,
-              locale: _settingsRepository.locale ?? Localizations.maybeLocaleOf(context) ?? Locale.fromSubtags(languageCode: Platform.localeName.split('_')[0]),
+              locale: _settingsRepository.locale,
 
               // Theme
               theme: AppTheme.light(),
