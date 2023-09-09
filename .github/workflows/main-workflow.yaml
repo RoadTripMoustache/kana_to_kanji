@@ -146,7 +146,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}
-          path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}*.${{ matrix.asset_extension }}
   create_pre_release:
     name: Create GitHub release
     needs:
