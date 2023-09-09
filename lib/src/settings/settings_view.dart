@@ -56,7 +56,8 @@ class SettingsView extends StatelessWidget {
                       TileItem(
                         title: Text(l10n.settings_language),
                         trailing: DropdownButton<Locale>(
-                          value: viewModel.currentLocale ?? Localizations.localeOf(context),
+                          value: viewModel.currentLocale ??
+                              Localizations.localeOf(context),
                           icon: const Icon(Icons.arrow_downward),
                           style: const TextStyle(color: Colors.deepPurple),
                           underline: Container(
@@ -64,11 +65,12 @@ class SettingsView extends StatelessWidget {
                             color: Colors.deepPurpleAccent,
                           ),
                           onChanged: viewModel.setLocale,
-
-                          items: AppLocalizations.supportedLocales.map<DropdownMenuItem<Locale>>((Locale locale) {
+                          items: AppLocalizations.supportedLocales
+                              .map<DropdownMenuItem<Locale>>((Locale locale) {
                             return DropdownMenuItem<Locale>(
                               value: locale,
-                              child: Text(viewModel.languages(l10n)[locale.languageCode]!),
+                              child: Text(viewModel
+                                  .languages(l10n)[locale.languageCode]!),
                             );
                           }).toList(),
                         ),
