@@ -7,8 +7,10 @@ class SettingsRepository with ChangeNotifier {
   final PreferencesService _preferencesService = locator<PreferencesService>();
 
   late ThemeMode _themeMode;
+  late Locale? _locale;
 
   ThemeMode get themeMode => _themeMode;
+  Locale? get locale => _locale;
 
   int getMaximumAttemptsByQuestion() {
     return 3;
@@ -22,6 +24,14 @@ class SettingsRepository with ChangeNotifier {
     _themeMode = ThemeMode.values.firstWhere((e) => e.toString() == modeValue,
         orElse: () => ThemeMode.system);
 
+    String? localeValue =
+        await _preferencesService.getString(PreferenceFlags.locale);
+
+    _locale = null;
+    if (localeValue != null) {
+      _locale = Locale.fromSubtags(languageCode: localeValue);
+    }
+
     notifyListeners();
   }
 
@@ -34,5 +44,16 @@ class SettingsRepository with ChangeNotifier {
     notifyListeners();
     await _preferencesService.setString(
         PreferenceFlags.themeMode, newThemeMode.toString());
+  }
+
+  /// Update and persist the Locale based on the user's selection.
+  Future<void> updateLocale(Locale? newLocale) async {
+    if (newLocale == null || newLocale == _locale) return;
+
+    _locale = newLocale;
+
+    notifyListeners();
+    await _preferencesService.setString(
+        PreferenceFlags.locale, newLocale.languageCode);
   }
 }

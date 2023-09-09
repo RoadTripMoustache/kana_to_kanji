@@ -106,6 +106,9 @@
       }
     }
   },
+  "settings_language": "Langue",
+  "language_en": "Anglais",
+  "language_fr": "Français",
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Kana principaux",

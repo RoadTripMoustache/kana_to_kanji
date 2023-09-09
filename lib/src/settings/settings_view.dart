@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +51,26 @@ class SettingsView extends StatelessWidget {
                                   message: value["tooltip"],
                                   child: Icon(value["icon"])))
                               .toList(growable: false),
+                        ),
+                      ),
+                      TileItem(
+                        title: Text(l10n.settings_language),
+                        trailing: DropdownButton<Locale>(
+                          value: viewModel.currentLocale ?? Localizations.localeOf(context),
+                          icon: const Icon(Icons.arrow_downward),
+                          style: const TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: viewModel.setLocale,
+
+                          items: AppLocalizations.supportedLocales.map<DropdownMenuItem<Locale>>((Locale locale) {
+                            return DropdownMenuItem<Locale>(
+                              value: locale,
+                              child: Text(viewModel.languages(l10n)[locale.languageCode]!),
+                            );
+                          }).toList(),
                         ),
                       ),
                       HeadingItem(title: l10n.settings_legal_section),
