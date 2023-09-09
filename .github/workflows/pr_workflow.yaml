@@ -179,5 +179,5 @@ jobs:
           path: build
       - name: List directory content
         run: |
-          ls -ali
+          ls -ali */**
         working-directory: build
