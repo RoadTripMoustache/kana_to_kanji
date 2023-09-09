@@ -75,20 +75,20 @@ jobs:
       fail-fast: false
       matrix:
         target:
-          - iOS
-          - Android
+          - ios
+          - android
         include:
-          - target: iOS
+          - target: ios
             os: macos-latest
             build_target: ios
             build_args: --no-codesign
             build_path: build/ios/iphoneos
             asset_extension: zip
             asset_content_type: application/zip
-          - target: Android
+          - target: android
             os: ubuntu-latest
             build_target: apk
-            build_args: ''
+            build_args: --split-per-abi
             build_path: build/app/outputs/flutter-apk
             asset_extension: apk
             asset_content_type: application/zip
@@ -131,7 +131,9 @@ jobs:
       - name: Rename Android build
         if: matrix.target == 'Android'
         run: |
-          mv app-prod-release.${{ matrix.asset_extension }} ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          sudo apt-get install rename
+          rename 's/app-(.+)-(.*)-release.apk/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}_$1.${{ matrix.asset_extension }}/' *.apk
+          mv *.apk ${{ github.workspace }}/
         working-directory: ${{ matrix.build_path }}
 
       - name: Compress iOS build
