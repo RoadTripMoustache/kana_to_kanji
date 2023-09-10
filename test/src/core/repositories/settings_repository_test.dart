@@ -85,8 +85,9 @@ void main() {
                   "Listener should have been notified 2 times, during loadSettings and updateThemeMode");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
+            preferencesServiceMock.getString(PreferenceFlags.locale),
             preferencesServiceMock.setString(
-                PreferenceFlags.themeMode, newMode.toString())
+                PreferenceFlags.themeMode, newMode.toString()),
           ]);
           verifyNoMoreInteractions(preferencesServiceMock);
         });
@@ -107,6 +108,7 @@ void main() {
                   "Listener should have been notified 1 time during loadSettings");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
+            preferencesServiceMock.getString(PreferenceFlags.locale),
           ]);
           verifyNoMoreInteractions(preferencesServiceMock);
         });
