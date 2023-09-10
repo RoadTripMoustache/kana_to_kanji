@@ -42,4 +42,6 @@ class SettingsViewModel extends BaseViewModel {
     await _repository.updateThemeMode(themeModes.keys.elementAt(index));
     notifyListeners();
   }
+
+  void giveFeedback() {}
 }

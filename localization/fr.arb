@@ -106,6 +106,10 @@
       }
     }
   },
+  "settings_give_feedback": "Donner votre avis",
+  "@settings_give_feedback": {
+    "description": "Demande à l'utilisateur de donner son avis, que ce soit pour reporter un bug ou une fonctionnalité"
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Kana principaux",

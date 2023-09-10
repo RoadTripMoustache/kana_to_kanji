@@ -111,6 +111,10 @@
       }
     }
   },
+  "settings_give_feedback": "Give us feedback",
+  "@settings_give_feedback": {
+    "description": "Ask the user to give feedback, either reporting a bug or a feature"
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",
