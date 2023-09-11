@@ -67,7 +67,8 @@ class SettingsView extends StatelessWidget {
                               .map<DropdownMenuItem<Locale>>((Locale locale) {
                             return DropdownMenuItem<Locale>(
                               value: locale,
-                              child: Text(l10n.language(locale.languageCode, locale.languageCode)),
+                              child: Text(l10n.language(
+                                  locale.languageCode, locale.languageCode)),
                             );
                           }).toList(),
                         ),

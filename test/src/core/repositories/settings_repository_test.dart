@@ -120,11 +120,8 @@ void main() {
         test("should return the null when no locale is found", () async {
           await repository.loadSettings();
 
-          expect(
-              repository.locale,
-              null,
-              reason: "No locale saved, so it must be null."
-          );
+          expect(repository.locale, null,
+              reason: "No locale saved, so it must be null.");
           verify(preferencesServiceMock.getString(PreferenceFlags.locale));
         });
 
@@ -133,7 +130,8 @@ void main() {
               .thenAnswer((_) async => "fr");
           await repository.loadSettings();
 
-          expect(repository.locale, const Locale.fromSubtags(languageCode: "fr"));
+          expect(
+              repository.locale, const Locale.fromSubtags(languageCode: "fr"));
           verify(preferencesServiceMock.getString(PreferenceFlags.locale));
         });
       });
@@ -178,24 +176,16 @@ void main() {
         test("should not update the locale", () async {
           await repository.loadSettings();
 
-          expect(
-              repository.locale,
-              null,
-              reason: "No locale saved, so it must be null."
-          );
+          expect(repository.locale, null,
+              reason: "No locale saved, so it must be null.");
 
           await repository.updateThemeMode(null);
 
-          expect(
-              repository.locale,
-              null,
-              reason: "Locale should not have change"
-          );
-          expect(
-              fired,
-              1,
-              reason: "Listener should have been notified 1 time during loadSettings"
-          );
+          expect(repository.locale, null,
+              reason: "Locale should not have change");
+          expect(fired, 1,
+              reason:
+                  "Listener should have been notified 1 time during loadSettings");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
             preferencesServiceMock.getString(PreferenceFlags.locale),
