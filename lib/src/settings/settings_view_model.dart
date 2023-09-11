@@ -30,13 +30,6 @@ class SettingsViewModel extends BaseViewModel {
         },
       };
 
-  Map<String, String> languages(AppLocalizations a) {
-    return {
-      'en': a.language_en,
-      'fr': a.language_fr,
-    };
-  }
-
   ThemeMode get _themeMode => _repository.themeMode;
 
   Locale? get currentLocale => _repository.locale;

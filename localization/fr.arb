@@ -107,8 +107,17 @@
     }
   },
   "settings_language": "Langue",
-  "language_en": "Anglais",
-  "language_fr": "Français",
+  "language": "{languageCode, select, fr{Français} en{English} other{}}",
+  "@language": {
+    "description": "Display a language name based on the language code",
+    "placeholders": {
+      "shortCode": {
+        "type": "String",
+        "example": "fr",
+        "description": "Language code"
+      }
+    }
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Kana principaux",
