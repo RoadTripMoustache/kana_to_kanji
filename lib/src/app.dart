@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -56,6 +57,7 @@ class KanaToKanjiApp extends StatelessWidget {
               supportedLocales: AppLocalizations.supportedLocales,
               onGenerateTitle: (BuildContext context) =>
                   AppLocalizations.of(context).app_title,
+              locale: _settingsRepository.locale,
 
               // Theme
               theme: AppTheme.light(),

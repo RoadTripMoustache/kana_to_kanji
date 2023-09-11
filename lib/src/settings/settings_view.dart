@@ -51,6 +51,27 @@ class SettingsView extends StatelessWidget {
                               .toList(growable: false),
                         ),
                       ),
+                      TileItem(
+                        title: Text(l10n.settings_language),
+                        trailing: DropdownButton<Locale>(
+                          value: viewModel.currentLocale ??
+                              Localizations.localeOf(context),
+                          icon: const Icon(Icons.arrow_downward),
+                          style: const TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: viewModel.setLocale,
+                          items: AppLocalizations.supportedLocales
+                              .map<DropdownMenuItem<Locale>>((Locale locale) {
+                            return DropdownMenuItem<Locale>(
+                              value: locale,
+                              child: Text(l10n.language(locale.languageCode)),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                       HeadingItem(title: l10n.settings_legal_section),
                       TileItem(
                         title: Text(l10n.settings_acknowledgements),
