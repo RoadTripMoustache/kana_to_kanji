@@ -69,7 +69,7 @@ jobs:
     environment: beta
     env:
       VERSION: ${{ needs.get_version.outputs.version }}
-      FLAVOR: prod
+      FLAVOR: beta
     strategy:
       # Disable fail-fast as we want results from all even if one fails.
       fail-fast: false

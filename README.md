@@ -34,8 +34,8 @@ dart pub global activate flutterfire_cli
 ## Login into Firebase 
 firebase login
 ## Generate firebase files
-flutterfire configure --project=<firebase-project-name>\
-   --platforms=android,ios \
+flutterfire configure --project=<firebase-project-id>\
+   --platforms=android,ios,web \
    --android-package-name=com.roadtripmoustache.kana_to_kanji[.<flavor>] \
    --ios-bundle-id=com.roadtripmoustache.kana-to-kanji[.<flavor>] \
    --out=lib/firebase_options.dart
@@ -56,7 +56,7 @@ flutter run --flavor <flavor> [--target lib/main_<flavor>.dart]
 This project has three (3) flavors:
 - Prod
 - Beta, target to specify `lib/main_beta.dart`
-- Dev, target to specify `lib/main_dev.dart`
+- Dev, target to specify `lib/main_dev.dart` - **Must use this flavor for web**
 
 
 #### Troubleshoot

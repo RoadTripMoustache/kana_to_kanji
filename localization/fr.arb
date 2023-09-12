@@ -106,6 +106,18 @@
       }
     }
   },
+  "settings_language": "Langue",
+  "language": "{languageCode, select, fr{Français} en{English} other{}}",
+  "@language": {
+    "description": "Display a language name based on the language code",
+    "placeholders": {
+      "languageCode": {
+        "type": "String",
+        "example": "fr",
+        "description": "Language code"
+      }
+    }
+  },
   "settings_give_feedback": "Donner votre avis",
   "@settings_give_feedback": {
     "description": "Demande à l'utilisateur de donner son avis, que ce soit pour reporter un bug ou une fonctionnalité"
