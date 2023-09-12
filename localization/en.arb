@@ -115,6 +115,70 @@
   "@settings_give_feedback": {
     "description": "Ask the user to give feedback, either reporting a bug or a feature"
   },
+  "feedback_report_bug": "Report a bug",
+  "@feedback_report_bug": {
+    "description": "Text use on the button to report a bug"
+  },
+  "feedback_report_bug_subtitle": "When I try...",
+  "@feedback_report_bug_subtitle": {
+    "description": "Sentence suggested to explain a bug. When I try..."
+  },
+  "feedback_bug_steps": "Steps to reproduce",
+  "@feedback_bug_steps": {
+    "description": "Label for the text area asking the steps to reproduce to trigger the bug"
+  },
+  "feedback_bug_hint": "Create a quiz with hiragana ka group\nAnswer wrong 3 times\nSee bug",
+  "@feedback_bug_hint": {
+    "description": "Example of steps to reproduce a bug"
+  },
+  "feedback_empty_steps_to_reproduce": "Please provide the steps you did so we can reproduce the bug.",
+  "@feedback_empty_steps_to_reproduce": {
+    "description": "Error message shown when the user didn't provide the steps necessary to reproduce the bug"
+  },
+  "feedback_request_feature": "Suggest a feature",
+  "@feedback_request_feature": {
+    "description": "Text use on the button to suggest a feature"
+  },
+  "feedback_request_feature_subtitle": "I wish...",
+  "@feedback_request_feature_subtitle": {
+    "description": "Sentence that can be used to reference a feature request"
+  },
+  "feedback_description": "Description",
+  "@feedback_description": {
+    "description": "Label of the text area where the user can describe of the bug/feature the user wish to report/suggest"
+  },
+  "feedback_description_optional": "Description (optional)",
+  "@feedback_description_optional": {
+    "description": "Optional description of the bug/feature the user wish to report/suggest"
+  },
+  "feedback_empty_description": "Please provide a description so we can understand your request.",
+  "@feedback_empty_description": {
+    "description": "Error message shown when the user didn't provide a description"
+  },
+  "feedback_include_screenshot": "Include a screenshot",
+  "@feedback_include_screenshot": {
+    "description": "Text use on the button to add a screenshot"
+  },
+  "feedback_email_helper": "Provide us your email if you want to be kept in touch",
+  "@feedback_email_helper": {
+    "description": "Text helper on the email input, informing the user that email is optional"
+  },
+  "feedback_submit": "{feedbackType, select, bug{Report the bug} featureRequest{Send your feature request} other{}}",
+  "@feedback_submit": {
+    "description": "Text the user will press to send it's feedback",
+    "placeholders": {
+      "feedbackType": {
+        "type": "String",
+        "example": "bug",
+        "description": "Type of feedback. Accepted values are: bug, featureRequest"
+      }
+    }
+  },
+  "email": "Email",
+  "email_optional": "Email (optional)",
+  "@email_optional": {
+    "description": "Text to use when asking the user is email"
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",

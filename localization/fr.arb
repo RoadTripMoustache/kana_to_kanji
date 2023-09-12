@@ -110,6 +110,70 @@
   "@settings_give_feedback": {
     "description": "Demande à l'utilisateur de donner son avis, que ce soit pour reporter un bug ou une fonctionnalité"
   },
+  "feedback_report_bug": "Signaler un bogue",
+  "@feedback_report_bug": {
+    "description": "Texte utilisé dans le bouton pour signaler un bogue"
+  },
+  "feedback_report_bug_subtitle": "Quand j'essai...",
+  "@feedback_report_bug_subtitle": {
+    "description": "Début de phrase suggérer pour signaler un bogue"
+  },
+  "feedback_bug_steps": "Étapes pour reproduire",
+  "@feedback_bug_steps": {
+    "description": "Label utilisé pour la zone de texte oú l'utilisateur doit expliquer les étapes nécessaires pour reproduire le bogue"
+  },
+  "feedback_bug_hint": "Créer un quiz avec la ligne des ka (hiragana)\nRépondre faux trois fois\nVoir le bogue",
+  "@feedback_bug_hint": {
+    "description": "Exemple d'étapes a reproduire pour déclencher le bogue"
+  },
+  "feedback_empty_steps_to_reproduce": "Veuillez décrire les étapes pour reproduire le bogue.",
+  "@feedback_empty_steps_to_reproduce": {
+    "description": "Message d'erreur présenté quand l'utilisateur n'a pas indiqué les étapes pour reproduire le bogue"
+  },
+  "feedback_request_feature": "Suggérer une fonctionnalité",
+  "@feedback_request_feature": {
+    "description": "Texte utilisé dans le bouton pour suggérer une fonctionnalité"
+  },
+  "feedback_request_feature_subtitle": "J'aimerais...",
+  "@feedback_request_feature_subtitle": {
+    "description": "Début de phrase suggérer pour présenter une fonctionnalité"
+  },
+  "feedback_description": "Description",
+  "@feedback_description": {
+    "description": "Label utilisé pour la zone de texte oú l'utilisateur doit décrire la fonctionnalité/bogue"
+  },
+  "feedback_description_optional": "Description (optionnelle)",
+  "@feedback_description_optional": {
+    "description": "Label utilisé pour la zone de texte oú l'utilisateur peut décrire la fonctionnalité/bogue"
+  },
+  "feedback_empty_description": "Veuillez décrire votre requête pour nous aider à la comprendre.",
+  "@feedback_empty_description": {
+    "description": "Message d'erreur présenté quand la description n'est pas fournie"
+  },
+  "feedback_include_screenshot": "Ajouter une capture d'écran",
+  "@feedback_include_screenshot": {
+    "description": "Texte utilisé dans le bouton pour ajouter une capture d'écran"
+  },
+  "feedback_email_helper": "Inscrivez votre courriel si vous souhaitez être contacté",
+  "@feedback_email_helper": {
+    "description": "Texte d'aide pour le champ d'email, information l'utilisateur pourquoi son courriel est demandé"
+  },
+  "feedback_submit": "{feedbackType, select, bug{Signer le bogue} featureRequest{Envoyer votre suggestion} other{}}",
+  "@feedback_submit": {
+    "description": "Texte utilisé dans le bouton d'envoi d'un avis (feedback)",
+    "placeholders": {
+      "feedbackType": {
+        "type": "String",
+        "example": "bug",
+        "description": "Type d'avis (feedback). Les valeurs acceptées sont: bug, featureRequest"
+      }
+    }
+  },
+  "email": "Courriel",
+  "email_optional": "Courriel (optionnel)",
+  "@email_optional": {
+    "description": "Texte utilisé quand le courriel est optionnel"
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Kana principaux",
