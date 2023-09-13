@@ -1,3 +1,4 @@
+import 'package:feedback/feedback.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -49,23 +50,28 @@ class KanaToKanjiApp extends StatelessWidget {
     return AnimatedBuilder(
         animation: _settingsRepository,
         builder: (BuildContext context, _) {
-          return MaterialApp.router(
-              restorationScopeId: 'app',
+          return BetterFeedback(
+            mode: FeedbackMode.navigate,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            localeOverride: _settingsRepository.locale,
+            child: MaterialApp.router(
+                restorationScopeId: 'app',
 
-              // Localizations
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              onGenerateTitle: (BuildContext context) =>
-                  AppLocalizations.of(context).app_title,
+                // Localizations
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                onGenerateTitle: (BuildContext context) =>
+                    AppLocalizations.of(context).app_title,
               locale: _settingsRepository.locale,
 
-              // Theme
-              theme: AppTheme.light(),
-              darkTheme: AppTheme.dark(),
-              themeMode: _settingsRepository.themeMode,
+                // Theme
+                theme: AppTheme.light(),
+                darkTheme: AppTheme.dark(),
+                themeMode: _settingsRepository.themeMode,
 
-              // Router
-              routerConfig: router);
+                // Router
+                routerConfig: router),
+          );
         });
   }
 }
