@@ -53,7 +53,6 @@ class SettingsView extends StatelessWidget {
                               .toList(growable: false),
                         ),
                       ),
-                      ButtonItem(onPressed: viewModel.giveFeedback, child: Text(l10n.settings_give_feedback)),
                       TileItem(
                         title: Text(l10n.settings_language),
                         trailing: DropdownButton<Locale>(
@@ -75,6 +74,9 @@ class SettingsView extends StatelessWidget {
                           }).toList(),
                         ),
                       ),
+                      ButtonItem(
+                          onPressed: () => viewModel.giveFeedback(context),
+                          child: Text(l10n.settings_give_feedback)),
                       // Legal section
                       HeadingItem(title: l10n.settings_legal_section),
                       TileItem(

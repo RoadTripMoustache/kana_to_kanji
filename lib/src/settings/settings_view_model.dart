@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
+import 'package:kana_to_kanji/src/feedback/feedback_view.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 
@@ -49,5 +50,17 @@ class SettingsViewModel extends BaseViewModel {
     _repository.updateLocale(locale);
   }
 
-  void giveFeedback() {}
+  void giveFeedback(BuildContext context) async {
+    const radius = Radius.circular(10);
+
+    await showModalBottomSheet(
+        isDismissible: true,
+        enableDrag: false,
+        showDragHandle: true,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topLeft: radius, topRight: radius)),
+        context: context,
+        builder: (context) => const FeedbackView());
+  }
 }
