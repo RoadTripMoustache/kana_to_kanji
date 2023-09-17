@@ -12,6 +12,7 @@ import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/router.dart';
+import 'package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart';
 
 class KanaToKanjiApp extends StatelessWidget {
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();
@@ -54,6 +55,9 @@ class KanaToKanjiApp extends StatelessWidget {
             mode: FeedbackMode.navigate,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             localeOverride: _settingsRepository.locale,
+            feedbackBuilder: (context, onSubmit, scrollController) =>
+                FeedbackScreenshotForm(
+                    onSubmit: onSubmit, scrollController: scrollController),
             child: MaterialApp.router(
                 restorationScopeId: 'app',
 
@@ -62,7 +66,7 @@ class KanaToKanjiApp extends StatelessWidget {
                 supportedLocales: AppLocalizations.supportedLocales,
                 onGenerateTitle: (BuildContext context) =>
                     AppLocalizations.of(context).app_title,
-              locale: _settingsRepository.locale,
+                locale: _settingsRepository.locale,
 
                 // Theme
                 theme: AppTheme.light(),
