@@ -4,9 +4,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 import 'package:kana_to_kanji/src/feedback/widgets/feedback_form.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../helpers.dart';
+import 'feedback_form_test.mocks.dart';
+@GenerateNiceMocks([MockSpec<Functions>(as: #MockFunction)])
+abstract class Functions {
+  void onChange(FeedbackFormFields field, String value);
+
+  String? validator(FeedbackFormFields field, String? value);
+
+  void onSubmit();
+}
+
 
 void main() {
   group("FeedbackForm", () {
@@ -276,20 +287,10 @@ void main() {
               reason: "Submit button should be enabled");
           await tester.tap(button);
 
-          verify(mock.onSubmit());
+          verify(mock.onSubmit()).called(1);
           verifyNoMoreInteractions(mock);
         });
       });
     });
   });
 }
-
-abstract class Functions {
-  void onChange(FeedbackFormFields field, String value);
-
-  String? validator(FeedbackFormFields field, String? value);
-
-  void onSubmit();
-}
-
-class MockFunction extends Mock implements Functions {}
