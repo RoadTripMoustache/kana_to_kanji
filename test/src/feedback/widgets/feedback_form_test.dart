@@ -22,16 +22,18 @@ void main() {
       reset(mock);
     });
 
-    Future<Finder> buildWidget(WidgetTester tester, FeedbackType type,
-        [bool isSubmitEnabled = false]) async {
+    Future<Finder> buildWidget(WidgetTester tester,
+        {required FeedbackType type,
+        bool isSubmitEnabled = false,
+        bool allowScreenshot = false}) async {
       await tester.pumpWidget(LocalizedWidget(
           child: FeedbackForm(
-        feedbackType: type,
-        onChange: mock.onChange,
-        validator: mock.validator,
-        onSubmit: mock.onSubmit,
-        isSubmitEnabled: isSubmitEnabled,
-      )));
+              feedbackType: type,
+              onChange: mock.onChange,
+              validator: mock.validator,
+              onSubmit: mock.onSubmit,
+              isSubmitEnabled: isSubmitEnabled,
+              allowScreenshot: allowScreenshot)));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackForm);
@@ -43,7 +45,8 @@ void main() {
       testWidgets(
           "should have 2 fields (email and description) and submit button",
           (WidgetTester tester) async {
-        final widget = await buildWidget(tester, FeedbackType.featureRequest);
+        final widget =
+            await buildWidget(tester, type: FeedbackType.featureRequest);
 
         // Check fields
         expect(
@@ -79,12 +82,12 @@ void main() {
       testWidgets(
           "should have 'Steps to reproduce' text field when feedback type is bug report",
           (WidgetTester tester) async {
-        final widget = await buildWidget(tester, FeedbackType.bug);
+        final widget = await buildWidget(tester, type: FeedbackType.bug);
 
         // Check fields
         expect(
             find.descendant(of: widget, matching: find.byType(TextFormField)),
-            findsNWidgets(3));
+            findsNWidgets(2));
         expect(
             find.descendant(
                 of: widget,
@@ -96,18 +99,12 @@ void main() {
             find.descendant(
                 of: widget,
                 matching: find.widgetWithText(
-                    TextFormField, l10n.feedback_description_optional)),
-            findsOneWidget,
-            reason:
-                "Description field with optional label should be present on report bug form");
-        expect(
-            find.descendant(
-                of: widget,
-                matching: find.widgetWithText(
                     TextFormField, l10n.feedback_bug_steps)),
             findsOneWidget,
             reason:
                 "On bug report the steps to reproduce field should be provided");
+
+        // Check buttons
         expect(
             find.descendant(
                 of: widget,
@@ -116,13 +113,21 @@ void main() {
             findsOneWidget,
             reason:
                 "On bug report, the 'include screenshot button should be present");
+        expect(
+            find.descendant(
+                of: widget,
+                matching: find.widgetWithText(
+                    FilledButton, l10n.feedback_submit(FeedbackType.bug.name))),
+            findsOneWidget,
+            reason: "Submit button should have the bug submit text");
       });
     });
 
     group("Fields", () {
       testWidgets("should call onChange and validator for email",
           (WidgetTester tester) async {
-        final widget = await buildWidget(tester, FeedbackType.featureRequest);
+        final widget =
+            await buildWidget(tester, type: FeedbackType.featureRequest);
         const email = "test@email.com";
 
         await tester.enterText(
@@ -142,7 +147,8 @@ void main() {
 
       testWidgets("should call onChange and validator for description",
           (WidgetTester tester) async {
-        final widget = await buildWidget(tester, FeedbackType.featureRequest);
+        final widget =
+            await buildWidget(tester, type: FeedbackType.featureRequest);
         const description = "description";
 
         await tester.enterText(
@@ -162,7 +168,7 @@ void main() {
 
       testWidgets("should call onChange and validator for stepsToReproduce",
           (WidgetTester tester) async {
-        final widget = await buildWidget(tester, FeedbackType.bug);
+        final widget = await buildWidget(tester, type: FeedbackType.bug);
         const steps = "Steps to reproduce";
 
         await tester.enterText(
@@ -183,19 +189,97 @@ void main() {
 
     testWidgets(
         "should open BetterFeedback when 'Include screenshot' button with form data passed",
-            (WidgetTester tester) async {});
+        (WidgetTester tester) async {});
 
-    group("Submit", () {
-      testWidgets(
-          "submit button should be disabled when isSubmitEnabled is false",
-          (WidgetTester tester) async {});
+    group("Buttons", () {
+      group("Include screenshot", () {
+        testWidgets(
+            "Include screenshot button should be disabled when isSubmitEnabled is false",
+            (WidgetTester tester) async {
+          final widget = await buildWidget(tester,
+              type: FeedbackType.bug, allowScreenshot: false);
 
-      testWidgets(
-          "submit button should be enabled when isSubmitEnabled is true",
-          (WidgetTester tester) async {});
+          expect(
+              tester
+                  .widget<OutlinedButton>(find.descendant(
+                      of: widget,
+                      matching: find.widgetWithText(
+                          OutlinedButton, l10n.feedback_include_screenshot)))
+                  .enabled,
+              false,
+              reason: "Include screenshot button should be disabled");
+        });
 
-      testWidgets("should call onSubmit when button is enabled and tapped",
-          (WidgetTester tester) async {});
+        testWidgets(
+            "Include screenshot button should be enabled when isSubmitEnabled is true",
+            (WidgetTester tester) async {
+          final widget = await buildWidget(tester,
+              type: FeedbackType.bug, allowScreenshot: true);
+
+          expect(
+              tester
+                  .widget<OutlinedButton>(find.descendant(
+                      of: widget,
+                      matching: find.widgetWithText(
+                          OutlinedButton, l10n.feedback_include_screenshot)))
+                  .enabled,
+              true,
+              reason: "Include screenshot button should be enabled");
+        });
+      });
+
+      group("Submit", () {
+        testWidgets(
+            "submit button should be disabled when isSubmitEnabled is false",
+            (WidgetTester tester) async {
+          final widget = await buildWidget(tester,
+              type: FeedbackType.bug, isSubmitEnabled: false);
+
+          expect(
+              tester
+                  .widget<FilledButton>(find.descendant(
+                      of: widget,
+                      matching: find.widgetWithText(FilledButton,
+                          l10n.feedback_submit(FeedbackType.bug.name))))
+                  .enabled,
+              false,
+              reason: "Submit button should be disabled");
+        });
+
+        testWidgets(
+            "submit button should be enabled when isSubmitEnabled is true",
+            (WidgetTester tester) async {
+          final widget = await buildWidget(tester,
+              type: FeedbackType.bug, isSubmitEnabled: true);
+
+          expect(
+              tester
+                  .widget<FilledButton>(find.descendant(
+                      of: widget,
+                      matching: find.widgetWithText(FilledButton,
+                          l10n.feedback_submit(FeedbackType.bug.name))))
+                  .enabled,
+              true,
+              reason: "Submit button should be enabled");
+        });
+
+        testWidgets("should call onSubmit when button is enabled and tapped",
+            (WidgetTester tester) async {
+          final widget = await buildWidget(tester,
+              type: FeedbackType.bug, isSubmitEnabled: true);
+          final button = find.descendant(
+              of: widget,
+              matching: find.widgetWithText(
+                  FilledButton, l10n.feedback_submit(FeedbackType.bug.name)));
+
+          expect(tester.widget<FilledButton>(button).enabled, true,
+              reason: "Submit button should be enabled");
+          await tester.tap(button);
+
+          verify(mock.onSubmit());
+          verifyNoMoreInteractions(mock);
+        });
+      });
     });
   });
 }
@@ -205,7 +289,7 @@ abstract class Functions {
 
   String? validator(FeedbackFormFields field, String? value);
 
-  Future<void> onSubmit();
+  void onSubmit();
 }
 
 class MockFunction extends Mock implements Functions {}
