@@ -1,6 +1,7 @@
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 
@@ -13,6 +14,8 @@ class FeedbackForm extends StatelessWidget {
 
   final bool isSubmitEnabled;
 
+  final bool allowScreenshot;
+
   final VoidCallback onSubmit;
 
   const FeedbackForm({
@@ -22,6 +25,7 @@ class FeedbackForm extends StatelessWidget {
     required this.validator,
     required this.onSubmit,
     this.isSubmitEnabled = false,
+    this.allowScreenshot = false,
   });
 
   @override
@@ -29,7 +33,7 @@ class FeedbackForm extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     const EdgeInsetsGeometry padding = EdgeInsets.only(top: 12.0);
 
-    List<Widget> bugExtraWidgets = (feedbackType == FeedbackType.bug)
+    List<Widget> extraWidgets = (feedbackType == FeedbackType.bug)
         ? [
             Padding(
               padding: padding,
@@ -52,13 +56,40 @@ class FeedbackForm extends StatelessWidget {
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40)),
-                  onPressed: () {
-                    BetterFeedback.of(context).show((_) {});
-                  },
+                  onPressed: allowScreenshot
+                      ? () {
+                          // Close the dialog
+                          context.pop();
+                          BetterFeedback.of(context).show((UserFeedback feedback) {
+                          });
+                        }
+                      : null,
                   child: Text(l10n.feedback_include_screenshot)),
             )
           ]
-        : [];
+        : [
+            Padding(
+              padding: padding,
+              child: TextFormField(
+                  autofocus: true,
+                  keyboardType: TextInputType.text,
+                  maxLines: 4,
+                  maxLength: 1000,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: InputDecoration(
+                      labelText: feedbackType == FeedbackType.featureRequest
+                          ? l10n.feedback_description
+                          : l10n.feedback_description_optional,
+                      hintText: feedbackType == FeedbackType.featureRequest
+                          ? l10n.feedback_request_feature_subtitle
+                          : l10n.feedback_report_bug_subtitle),
+                  onChanged: (String value) =>
+                      onChange(FeedbackFormFields.description, value),
+                  validator: (String? value) =>
+                      validator(FeedbackFormFields.description, value),
+                  textInputAction: TextInputAction.next),
+            ),
+          ];
 
     return Form(
       child: Column(
@@ -77,28 +108,7 @@ class FeedbackForm extends StatelessWidget {
                   labelText: l10n.email_optional,
                   helperText: l10n.feedback_email_helper),
               textInputAction: TextInputAction.next),
-          Padding(
-            padding: padding,
-            child: TextFormField(
-                autofocus: true,
-                keyboardType: TextInputType.text,
-                maxLines: 4,
-                maxLength: 1000,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                    labelText: feedbackType == FeedbackType.featureRequest
-                        ? l10n.feedback_description
-                        : l10n.feedback_description_optional,
-                    hintText: feedbackType == FeedbackType.featureRequest
-                        ? l10n.feedback_request_feature_subtitle
-                        : l10n.feedback_report_bug_subtitle),
-                onChanged: (String value) =>
-                    onChange(FeedbackFormFields.description, value),
-                validator: (String? value) =>
-                    validator(FeedbackFormFields.description, value),
-                textInputAction: TextInputAction.next),
-          ),
-          if (feedbackType == FeedbackType.bug) ...bugExtraWidgets,
+          ...extraWidgets,
           FilledButton(
               onPressed: isSubmitEnabled ? onSubmit : null,
               style: FilledButton.styleFrom(
