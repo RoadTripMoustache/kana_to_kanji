@@ -7,7 +7,7 @@ on:
       - '.gitignore'
       - '.metadata'
       - 'README.md'
-#      - '.github/**'
+      - '.github/**'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 permissions:
