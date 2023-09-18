@@ -55,9 +55,10 @@ class KanaToKanjiApp extends StatelessWidget {
             mode: FeedbackMode.navigate,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             localeOverride: _settingsRepository.locale,
-            feedbackBuilder: (context, onSubmit, scrollController) =>
-                FeedbackScreenshotForm(
-                    onSubmit: onSubmit, scrollController: scrollController),
+            theme: FeedbackThemeData(
+                sheetIsDraggable: false, feedbackSheetHeight: 0.1),
+            feedbackBuilder: (context, onSubmit, _) =>
+                FeedbackScreenshotForm(onSubmit: onSubmit),
             child: MaterialApp.router(
                 restorationScopeId: 'app',
 
