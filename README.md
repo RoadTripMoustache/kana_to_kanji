@@ -43,6 +43,10 @@ flutterfire configure --project=<firebase-project-id>\
 # Get the dependencies and generate l10n files
 flutter pub get
 
+# Setup our .env file
+cp .env.template .env
+## Update the .env file with our values
+
 # Generate Freezed and JSON Serializable files
 dart run build_runner build
 ```
