@@ -143,8 +143,6 @@ jobs:
         run: |
           echo ${{ vars.CONFIGURATION }} >> .env
           echo ${{ secrets.CONFIGURATION }} >> .env
-          
-          cat .env
       - name: Get dependencies
         run: flutter pub get
       - name: Generate files
