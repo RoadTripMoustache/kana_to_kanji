@@ -6,4 +6,12 @@ part 'app_configuration.g.dart';
 abstract class AppConfiguration {
   @EnviedField(varName: "API_URL")
   static const String apiUrl = _AppConfiguration.apiUrl;
+
+  /// Configuration for Github service
+  @EnviedField(varName: "GITHUB_REPOSITORY_SLUG")
+  static const String githubRepoSlug = _AppConfiguration.githubRepoSlug;
+  @EnviedField(varName: "GITHUB_FEEDBACK_REPOSITORY_SLUG")
+  static const String githubFeedbackRepoSlug = _AppConfiguration.githubFeedbackRepoSlug;
+  @EnviedField(varName: "GITHUB_TOKEN", obfuscate: true)
+  static final String githubToken = _AppConfiguration.githubToken;
 }
