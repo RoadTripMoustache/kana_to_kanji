@@ -191,6 +191,10 @@
   "@email_optional": {
     "description": "Text to use when asking the user is email"
   },
+  "invalid_email": "Please enter a valid email address",
+  "@invalid_email": {
+    "description": "Error message to display when the provided email is incorrect"
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Main kana",

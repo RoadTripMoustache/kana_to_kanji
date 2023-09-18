@@ -1,7 +1,10 @@
+import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
+
+const String _emailRegex = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g';
 
 class FeedbackViewModel extends BaseViewModel {
   final AppLocalizations l10n;
@@ -19,10 +22,14 @@ class FeedbackViewModel extends BaseViewModel {
   bool get isFormSubmitEnabled =>
       (_selectedFeedbackType == FeedbackType.featureRequest &&
           _formData[FeedbackFormFields.description]!.isNotEmpty) ||
-      (_selectedFeedbackType == FeedbackType.bug &&
-          _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
+          (_selectedFeedbackType == FeedbackType.bug &&
+              _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
 
-  FeedbackViewModel(this.l10n);
+  bool get isFormAddScreenshotEnabled =>
+      _selectedFeedbackType == FeedbackType.bug &&
+          _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
+
+  FeedbackViewModel(this.l10n, [this._selectedFeedbackType]);
 
   void onFeedbackTypePressed(FeedbackType type) {
     _selectedFeedbackType = type;
@@ -39,7 +46,9 @@ class FeedbackViewModel extends BaseViewModel {
 
     switch (field) {
       case FeedbackFormFields.email:
-        // TODO validate email. Also create error message
+        if (value != null && value.isNotEmpty && !emailRegexp.hasMatch(value)) {
+          validation = l10n.invalid_email;
+        }
         break;
       case FeedbackFormFields.description:
         if (_selectedFeedbackType == FeedbackType.featureRequest &&

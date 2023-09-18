@@ -186,6 +186,10 @@
   "@email_optional": {
     "description": "Texte utilisé quand le courriel est optionnel"
   },
+  "invalid_email": "Veuillez entrer un adresse courriel valide",
+  "@invalid_email": {
+    "description": "Message d'erreur pour une adresse courriel invalide"
+  },
   "hiragana": "Hiragana ひらがな",
   "katakana": "Katakana カタカナ",
   "main_kana": "Kana principaux",
