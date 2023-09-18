@@ -4,8 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 
-const String _emailRegex = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g';
-
 class FeedbackViewModel extends BaseViewModel {
   final AppLocalizations l10n;
 

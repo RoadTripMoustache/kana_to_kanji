@@ -60,36 +60,14 @@ class FeedbackForm extends StatelessWidget {
                       ? () {
                           // Close the dialog
                           context.pop();
-                          BetterFeedback.of(context).show((UserFeedback feedback) {
-                          });
+                          BetterFeedback.of(context)
+                              .show((UserFeedback feedback) {});
                         }
                       : null,
                   child: Text(l10n.feedback_include_screenshot)),
             )
           ]
-        : [
-            Padding(
-              padding: padding,
-              child: TextFormField(
-                  autofocus: true,
-                  keyboardType: TextInputType.text,
-                  maxLines: 4,
-                  maxLength: 1000,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                      labelText: feedbackType == FeedbackType.featureRequest
-                          ? l10n.feedback_description
-                          : l10n.feedback_description_optional,
-                      hintText: feedbackType == FeedbackType.featureRequest
-                          ? l10n.feedback_request_feature_subtitle
-                          : l10n.feedback_report_bug_subtitle),
-                  onChanged: (String value) =>
-                      onChange(FeedbackFormFields.description, value),
-                  validator: (String? value) =>
-                      validator(FeedbackFormFields.description, value),
-                  textInputAction: TextInputAction.next),
-            ),
-          ];
+        : [];
 
     return Form(
       child: Column(
@@ -108,6 +86,27 @@ class FeedbackForm extends StatelessWidget {
                   labelText: l10n.email_optional,
                   helperText: l10n.feedback_email_helper),
               textInputAction: TextInputAction.next),
+          Padding(
+            padding: padding,
+            child: TextFormField(
+                autofocus: true,
+                keyboardType: TextInputType.text,
+                maxLines: 4,
+                maxLength: 1000,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                    labelText: feedbackType == FeedbackType.featureRequest
+                        ? l10n.feedback_description
+                        : l10n.feedback_description_optional,
+                    hintText: feedbackType == FeedbackType.featureRequest
+                        ? l10n.feedback_request_feature_subtitle
+                        : l10n.feedback_report_bug_subtitle),
+                onChanged: (String value) =>
+                    onChange(FeedbackFormFields.description, value),
+                validator: (String? value) =>
+                    validator(FeedbackFormFields.description, value),
+                textInputAction: TextInputAction.next),
+          ),
           ...extraWidgets,
           FilledButton(
               onPressed: isSubmitEnabled ? onSubmit : null,

@@ -9,6 +9,7 @@ import 'package:mockito/mockito.dart';
 
 import '../../../helpers.dart';
 import 'feedback_form_test.mocks.dart';
+
 @GenerateNiceMocks([MockSpec<Functions>(as: #MockFunction)])
 abstract class Functions {
   void onChange(FeedbackFormFields field, String value);
@@ -17,7 +18,6 @@ abstract class Functions {
 
   void onSubmit();
 }
-
 
 void main() {
   group("FeedbackForm", () {
@@ -91,14 +91,14 @@ void main() {
       });
 
       testWidgets(
-          "should have 'Steps to reproduce' text field when feedback type is bug report",
+          "should have 'Steps to reproduce' text field, optional email and description field when feedback type is bug report",
           (WidgetTester tester) async {
         final widget = await buildWidget(tester, type: FeedbackType.bug);
 
         // Check fields
         expect(
             find.descendant(of: widget, matching: find.byType(TextFormField)),
-            findsNWidgets(2));
+            findsNWidgets(3));
         expect(
             find.descendant(
                 of: widget,
@@ -106,6 +106,15 @@ void main() {
                     find.widgetWithText(TextFormField, l10n.email_optional)),
             findsOneWidget,
             reason: "Email field with optional label should always be present");
+        expect(
+            find.descendant(
+                of: widget,
+                matching: find.widgetWithText(
+                    TextFormField, l10n.feedback_description_optional)),
+            findsOneWidget,
+            reason:
+                "Description field with optional label should be present on feature request form");
+
         expect(
             find.descendant(
                 of: widget,

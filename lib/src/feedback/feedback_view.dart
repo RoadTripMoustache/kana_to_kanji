@@ -24,12 +24,16 @@ class FeedbackView extends StatelessWidget {
               onChange: viewModel.onFormChange,
               validator: viewModel.formValidator,
               isSubmitEnabled: viewModel.isFormSubmitEnabled,
+              allowScreenshot: viewModel.isFormAddScreenshotEnabled,
             );
           }
 
           return SafeArea(
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.only(
+                    left: 8.0,
+                    right: 8.0,
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: content),
           );
         },
