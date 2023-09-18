@@ -8,6 +8,7 @@ import 'package:mockito/mockito.dart';
 
 import '../../../helpers.dart';
 import 'feedback_screenshot_form_test.mocks.dart';
+
 @GenerateNiceMocks([MockSpec<Functions>(as: #MockFunction)])
 abstract class Functions {
   Future<void> onSubmit(String text, {Map<String, dynamic>? extras});
@@ -29,8 +30,7 @@ void main() {
 
     Future<Finder> buildWidget(WidgetTester tester) async {
       await tester.pumpWidget(LocalizedWidget(
-          child: FeedbackScreenshotForm(
-              onSubmit: mock.onSubmit, scrollController: ScrollController())));
+          child: FeedbackScreenshotForm(onSubmit: mock.onSubmit)));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackScreenshotForm);
@@ -39,55 +39,37 @@ void main() {
     }
 
     group("UI", () {
-      testWidgets("should have description field and submit button",
-              (WidgetTester tester) async {
-            final widget = await buildWidget(tester);
+      testWidgets("should have a submit button", (WidgetTester tester) async {
+        final widget = await buildWidget(tester);
 
-            // Check fields
-            expect(
-                find.descendant(
-                    of: widget, matching: find.byType(TextFormField)),
-                findsNWidgets(1));
-            expect(
-                find.descendant(
-                    of: widget,
-                    matching: find.widgetWithText(
-                        TextFormField, l10n.feedback_description_optional)),
-                findsOneWidget,
-                reason: "Description field with optional label should be present");
-
-            // Check submit button
-            expect(
-                find.descendant(
-                    of: widget,
-                    matching: find.widgetWithText(
-                        FilledButton,
-                        l10n.feedback_submit(FeedbackType.bug.name))),
-                findsOneWidget,
-                reason: "Submit button should have the report bug submit text");
-          });
+        // Check submit button
+        expect(
+            find.descendant(
+                of: widget,
+                matching: find.widgetWithText(
+                    FilledButton, l10n.feedback_submit(FeedbackType.bug.name))),
+            findsOneWidget,
+            reason: "Submit button should have the report bug submit text");
+      });
     });
 
     group("Interactions", () {
       group("Submit", () {
         testWidgets("should call onSubmit when button is enabled and tapped",
-                (WidgetTester tester) async {
-              final widget = await buildWidget(tester);
-              final button = find.descendant(
-                  of: widget,
-                  matching: find.widgetWithText(
-                      FilledButton,
-                      l10n.feedback_submit(FeedbackType.bug.name)));
+            (WidgetTester tester) async {
+          final widget = await buildWidget(tester);
+          final button = find.descendant(
+              of: widget,
+              matching: find.widgetWithText(
+                  FilledButton, l10n.feedback_submit(FeedbackType.bug.name)));
 
-              expect(tester
-                  .widget<FilledButton>(button)
-                  .enabled, true,
-                  reason: "Submit button should be enabled");
-              await tester.tap(button);
+          expect(tester.widget<FilledButton>(button).enabled, true,
+              reason: "Submit button should be enabled");
+          await tester.tap(button);
 
-              verify(mock.onSubmit("")).called(1);
-              verifyNoMoreInteractions(mock);
-            });
+          verify(mock.onSubmit("")).called(1);
+          verifyNoMoreInteractions(mock);
+        });
       });
     });
   });
