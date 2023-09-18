@@ -240,3 +240,6 @@ xcuserdata/
 .DS_Store
 ## Firebase generated files
 firebase_options.dart
+
+# Envied files
+.env
