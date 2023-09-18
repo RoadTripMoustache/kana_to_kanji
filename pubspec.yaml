@@ -34,6 +34,7 @@ dependencies:
   firebase_crashlytics: ^3.3.5
   feedback: ^2.6.0
   envied: ^0.3.0+3
+  github: ^9.19.0
 
 dev_dependencies:
   flutter_test:
