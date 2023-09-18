@@ -51,6 +51,8 @@ jobs:
       - run: flutter doctor
       - name: Get dependencies
         run: flutter pub get
+      - name: Setup .env
+        run: cp .env.template .env
       - name: Generate files
         run: flutter pub run build_runner build
 
@@ -137,7 +139,10 @@ jobs:
               --platforms=${{ matrix.target }} \
               ${{ matrix.target == 'Android' && format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) || '' }} \
               ${{ matrix.target == 'iOS' && format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) || '' }}
-
+      - name: Setup .env
+        run: |
+          echo ${{ vars.CONFIGURATION }} >> .env
+          echo ${{ secrets.CONFIGURATION }} >> .env
       - name: Get dependencies
         run: flutter pub get
       - name: Generate files
