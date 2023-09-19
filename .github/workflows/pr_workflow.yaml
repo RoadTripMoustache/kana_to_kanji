@@ -164,7 +164,7 @@ jobs:
       - name: Compress iOS build
         if: matrix.target == 'iOS'
         run: |
-          ditto -c -k --sequesterRsrc --keepParent ${{ vars.DEV_APP_NAME }}.app ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ env.FLAVOR }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          ditto -c -k --sequesterRsrc --keepParent ${{ vars.IOS_APP_NAME }}.app ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ env.FLAVOR }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Upload build artifact

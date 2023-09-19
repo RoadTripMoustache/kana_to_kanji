@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Get the version from the pubspec
         id: pubspecVersion
-        uses: CumulusDS/get-yaml-paths-action@v0.1.1
+        uses: CumulusDS/get-yaml-paths-action@v1.0.1
         with:
           file: pubspec.yaml
           version: version
@@ -50,6 +50,8 @@ jobs:
       - run: flutter doctor
       - name: Get dependencies
         run: flutter pub get
+      - name: Setup .env
+        run: cp .env.template .env
       - name: Generate files
         run: flutter pub run build_runner build
 
@@ -143,7 +145,7 @@ jobs:
       - name: Compress iOS build
         if: matrix.target == 'iOS'
         run: |
-          ditto -c -k --sequesterRsrc --keepParent ${{ vars.APP_NAME }}.app ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
+          ditto -c -k --sequesterRsrc --keepParent ${{ vars.IOS_APP_NAME }}.app ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}.${{ matrix.asset_extension }}
         working-directory: ${{ matrix.build_path }}
 
       - name: Upload build artifact
