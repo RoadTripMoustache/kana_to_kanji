@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +18,7 @@ class FeedbackForm extends StatelessWidget {
 
   final bool allowScreenshot;
 
-  final VoidCallback onSubmit;
+  final Future Function([Uint8List? screenshot]) onSubmit;
 
   const FeedbackForm({
     super.key,
@@ -27,6 +29,11 @@ class FeedbackForm extends StatelessWidget {
     this.isSubmitEnabled = false,
     this.allowScreenshot = false,
   });
+
+  void _onScreenshotSubmit(UserFeedback feedback, BuildContext context) {
+    onSubmit(feedback.screenshot);
+    BetterFeedback.of(context).hide();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +67,8 @@ class FeedbackForm extends StatelessWidget {
                       ? () {
                           // Close the dialog
                           context.pop();
-                          BetterFeedback.of(context)
-                              .show((UserFeedback feedback) {});
+                          BetterFeedback.of(context).show((feedback) =>
+                              _onScreenshotSubmit(feedback, context));
                         }
                       : null,
                   child: Text(l10n.feedback_include_screenshot)),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 import 'package:kana_to_kanji/src/feedback/feedback_view_model.dart';
 import 'package:kana_to_kanji/src/feedback/widgets/feedback_form.dart';
 import 'package:kana_to_kanji/src/feedback/widgets/feedback_type_selection.dart';
@@ -11,7 +12,8 @@ class FeedbackView extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<FeedbackViewModel>.reactive(
-        viewModelBuilder: () => FeedbackViewModel(AppLocalizations.of(context)),
+        viewModelBuilder: () => FeedbackViewModel(
+            AppConfig.of(context), AppLocalizations.of(context)),
         builder:
             (BuildContext context, FeedbackViewModel viewModel, Widget? child) {
           Widget content =

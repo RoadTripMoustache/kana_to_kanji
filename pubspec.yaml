@@ -35,6 +35,8 @@ dependencies:
   feedback: ^2.6.0
   envied: ^0.3.0+3
   github: ^9.19.0
+  device_info_plus: ^9.0.3
+  image: ^4.0.17
 
 dev_dependencies:
   flutter_test:

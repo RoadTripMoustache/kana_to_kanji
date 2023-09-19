@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +18,7 @@ abstract class Functions {
 
   String? validator(FeedbackFormFields field, String? value);
 
-  void onSubmit();
+  Future<void> onSubmit([Uint8List? screenshot]);
 }
 
 void main() {

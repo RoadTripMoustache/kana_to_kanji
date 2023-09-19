@@ -1,10 +1,20 @@
+import 'dart:typed_data';
+
 import 'package:kana_to_kanji/src/core/constants/regexp.dart';
+import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
+import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
+import 'package:kana_to_kanji/src/feedback/utils/build_issue_body.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
+import 'package:image/image.dart' as image;
+
+const _kScreenshotWidth = 300;
 
 class FeedbackViewModel extends BaseViewModel {
+  final GithubService _githubService = GithubService();
+  final AppConfig appConfig;
   final AppLocalizations l10n;
 
   FeedbackType? _selectedFeedbackType;
@@ -20,14 +30,14 @@ class FeedbackViewModel extends BaseViewModel {
   bool get isFormSubmitEnabled =>
       (_selectedFeedbackType == FeedbackType.featureRequest &&
           _formData[FeedbackFormFields.description]!.isNotEmpty) ||
-          (_selectedFeedbackType == FeedbackType.bug &&
-              _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
+      (_selectedFeedbackType == FeedbackType.bug &&
+          _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
 
   bool get isFormAddScreenshotEnabled =>
       _selectedFeedbackType == FeedbackType.bug &&
-          _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
+      _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
 
-  FeedbackViewModel(this.l10n, [this._selectedFeedbackType]);
+  FeedbackViewModel(this.appConfig, this.l10n, [this._selectedFeedbackType]);
 
   void onFeedbackTypePressed(FeedbackType type) {
     _selectedFeedbackType = type;
@@ -65,7 +75,31 @@ class FeedbackViewModel extends BaseViewModel {
     return validation;
   }
 
-  Future<void> onFormSubmit() async {
-    // TODO Send data to Github
+  Future<void> onFormSubmit([Uint8List? screenshot]) async {
+    final labels = [
+      _selectedFeedbackType!.value,
+    ];
+
+    setBusy(true);
+    if (screenshot != null) {
+      final Uint8List encodedScreenshot = image.encodePng(image.copyResize(
+          image.decodeImage(screenshot)!,
+          width: _kScreenshotWidth));
+      final screenshotUrl = await _githubService.uploadFileToGithub(
+          filePath: DateTime.now().toIso8601String(),
+          fileInBytes: encodedScreenshot.toList(growable: false));
+
+      await _githubService.createIssue(
+          title: buildIssueTitle(_selectedFeedbackType!),
+          body: buildIssueBody(appConfig, _formData, screenshotUrl),
+          labels: labels);
+    } else {
+      await _githubService.createIssue(
+          title: buildIssueTitle(_selectedFeedbackType!),
+          body: buildIssueBody(appConfig, _formData),
+          labels: labels);
+    }
+    setBusy(false);
+    // TODO Show success and close
   }
 }

@@ -53,7 +53,7 @@ class InfoService {
     }
     final info = await deviceInfoPlugin.androidInfo;
 
-    devicePlatformName = info.device;
+    devicePlatformName = info.model;
     platformVersion = info.version.release;
   }
 
