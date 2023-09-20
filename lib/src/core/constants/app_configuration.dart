@@ -7,6 +7,9 @@ abstract class AppConfiguration {
   @EnviedField(varName: "API_URL")
   static const String apiUrl = _AppConfiguration.apiUrl;
 
+  @EnviedField(varName: "ENABLE_CRASHLYTICS", defaultValue: true)
+  static const bool enableCrashlytics = _AppConfiguration.enableCrashlytics;
+
   /// Configuration for Github service
   @EnviedField(varName: "GITHUB_REPOSITORY_SLUG")
   static const String githubRepoSlug = _AppConfiguration.githubRepoSlug;
