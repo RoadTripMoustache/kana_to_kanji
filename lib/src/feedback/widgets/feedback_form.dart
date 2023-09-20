@@ -56,7 +56,7 @@ class FeedbackForm extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: l10n.feedback_bug_steps,
                   ),
-                  textInputAction: TextInputAction.next),
+                  textInputAction: TextInputAction.done),
             ),
             Padding(
               padding: padding,
@@ -112,7 +112,9 @@ class FeedbackForm extends StatelessWidget {
                     onChange(FeedbackFormFields.description, value),
                 validator: (String? value) =>
                     validator(FeedbackFormFields.description, value),
-                textInputAction: TextInputAction.next),
+                textInputAction: feedbackType == FeedbackType.featureRequest
+                    ? TextInputAction.done
+                    : TextInputAction.next),
           ),
           ...extraWidgets,
           FilledButton(
