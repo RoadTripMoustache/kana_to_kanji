@@ -91,12 +91,12 @@ class FeedbackViewModel extends BaseViewModel {
 
       await _githubService.createIssue(
           title: buildIssueTitle(_selectedFeedbackType!),
-          body: buildIssueBody(appConfig, _formData, screenshotUrl),
+          body: buildIssueBody(appConfig.environment, _formData, screenshotUrl),
           labels: labels);
     } else {
       await _githubService.createIssue(
           title: buildIssueTitle(_selectedFeedbackType!),
-          body: buildIssueBody(appConfig, _formData),
+          body: buildIssueBody(appConfig.environment, _formData),
           labels: labels);
     }
     setBusy(false);
