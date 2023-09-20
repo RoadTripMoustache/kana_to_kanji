@@ -9,7 +9,7 @@ String buildIssueTitle(FeedbackType feedbackType) {
 }
 
 String buildIssueBody(
-    AppConfig appConfig, Map<FeedbackFormFields, String> formData,
+    Environment environment, Map<FeedbackFormFields, String> formData,
     [String? screenshotUrl]) {
   final InfoService infoService = locator<InfoService>();
   String body = "";
@@ -39,10 +39,10 @@ String buildIssueBody(
 
   /// Add device and general information
   body +=
-      "### Other informations\n\n- **Device**: ${infoService.devicePlatformName}\n"
+      "### Other information\n\n- **Device**: ${infoService.devicePlatformName}\n"
       "- **Platform version**: ${infoService.platformVersion}\n"
       "- **Application version**: ${infoService.appFullVersion}\n"
-      "- **Channel**: ${appConfig.environment.name}\n\n";
+      "- **Channel**: ${environment.name}\n\n";
 
   return body;
 }

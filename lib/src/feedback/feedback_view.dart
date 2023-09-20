@@ -36,7 +36,7 @@ class FeedbackView extends StatelessWidget {
                     left: 8.0,
                     right: 8.0,
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: content),
+                child: SingleChildScrollView(child: content)),
           );
         },
       );
