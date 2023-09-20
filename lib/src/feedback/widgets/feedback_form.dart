@@ -76,55 +76,58 @@ class FeedbackForm extends StatelessWidget {
           ]
         : [];
 
-    return Form(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
-              autofocus: true,
-              keyboardType: TextInputType.emailAddress,
-              autofillHints: const [AutofillHints.email],
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              onChanged: (String value) =>
-                  onChange(FeedbackFormFields.email, value),
-              validator: (String? value) =>
-                  validator(FeedbackFormFields.email, value),
-              decoration: InputDecoration(
-                  labelText: l10n.email_optional,
-                  helperText: l10n.feedback_email_helper),
-              textInputAction: TextInputAction.next),
-          Padding(
-            padding: padding,
-            child: TextFormField(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Form(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
                 autofocus: true,
-                keyboardType: TextInputType.text,
-                maxLines: 4,
-                maxLength: 1000,
+                keyboardType: TextInputType.emailAddress,
+                autofillHints: const [AutofillHints.email],
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                    labelText: feedbackType == FeedbackType.featureRequest
-                        ? l10n.feedback_description
-                        : l10n.feedback_description_optional,
-                    hintText: feedbackType == FeedbackType.featureRequest
-                        ? l10n.feedback_request_feature_subtitle
-                        : l10n.feedback_report_bug_subtitle),
                 onChanged: (String value) =>
-                    onChange(FeedbackFormFields.description, value),
+                    onChange(FeedbackFormFields.email, value),
                 validator: (String? value) =>
-                    validator(FeedbackFormFields.description, value),
-                textInputAction: feedbackType == FeedbackType.featureRequest
-                    ? TextInputAction.done
-                    : TextInputAction.next),
-          ),
-          ...extraWidgets,
-          FilledButton(
-              onPressed: isSubmitEnabled ? onSubmit : null,
-              style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(40)),
-              child: Text(
-                l10n.feedback_submit(feedbackType.name),
-              ))
-        ],
+                    validator(FeedbackFormFields.email, value),
+                decoration: InputDecoration(
+                    labelText: l10n.email_optional,
+                    helperText: l10n.feedback_email_helper),
+                textInputAction: TextInputAction.next),
+            Padding(
+              padding: padding,
+              child: TextFormField(
+                  autofocus: true,
+                  keyboardType: TextInputType.text,
+                  maxLines: 4,
+                  maxLength: 1000,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: InputDecoration(
+                      labelText: feedbackType == FeedbackType.featureRequest
+                          ? l10n.feedback_description
+                          : l10n.feedback_description_optional,
+                      hintText: feedbackType == FeedbackType.featureRequest
+                          ? l10n.feedback_request_feature_subtitle
+                          : l10n.feedback_report_bug_subtitle),
+                  onChanged: (String value) =>
+                      onChange(FeedbackFormFields.description, value),
+                  validator: (String? value) =>
+                      validator(FeedbackFormFields.description, value),
+                  textInputAction: feedbackType == FeedbackType.featureRequest
+                      ? TextInputAction.done
+                      : TextInputAction.next),
+            ),
+            ...extraWidgets,
+            FilledButton(
+                onPressed: isSubmitEnabled ? onSubmit : null,
+                style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40)),
+                child: Text(
+                  l10n.feedback_submit(feedbackType.name),
+                ))
+          ],
+        ),
       ),
     );
   }
