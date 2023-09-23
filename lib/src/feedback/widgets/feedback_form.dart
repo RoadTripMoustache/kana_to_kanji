@@ -16,7 +16,7 @@ class FeedbackForm extends StatefulWidget {
 
   final bool allowScreenshot;
 
-  final VoidCallback? onScreenshot;
+  final VoidCallback? onScreenshotButtonPressed;
 
   final Future Function([Uint8List? screenshot]) onSubmit;
 
@@ -28,7 +28,7 @@ class FeedbackForm extends StatefulWidget {
       required this.onSubmit,
       this.isSubmitEnabled = false,
       this.allowScreenshot = false,
-      this.onScreenshot});
+      this.onScreenshotButtonPressed});
 
   @override
   State<FeedbackForm> createState() => _FeedbackFormState();
@@ -79,7 +79,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                   style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40)),
                   onPressed:
-                      widget.allowScreenshot && !_isLoading ? widget.onScreenshot : null,
+                      widget.allowScreenshot && !_isLoading ? widget.onScreenshotButtonPressed : null,
                   child: Text(l10n.feedback_include_screenshot)),
             )
           ]

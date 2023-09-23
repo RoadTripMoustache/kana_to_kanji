@@ -29,7 +29,7 @@ class FeedbackView extends StatelessWidget {
                   validator: viewModel.formValidator,
                   isSubmitEnabled: viewModel.isFormSubmitEnabled,
                   allowScreenshot: viewModel.isFormAddScreenshotEnabled,
-                  onScreenshot: () =>
+                  onScreenshotButtonPressed: () =>
                       viewModel.onIncludeScreenshotPressed(context));
             }
 
