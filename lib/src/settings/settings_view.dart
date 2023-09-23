@@ -75,7 +75,7 @@ class SettingsView extends StatelessWidget {
                         ),
                       ),
                       ButtonItem(
-                          onPressed: () => viewModel.giveFeedback(context),
+                          onPressed: viewModel.giveFeedback,
                           child: Text(l10n.settings_give_feedback)),
                       // Legal section
                       HeadingItem(title: l10n.settings_legal_section),

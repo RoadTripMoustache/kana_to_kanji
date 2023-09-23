@@ -11,6 +11,7 @@ import 'package:kana_to_kanji/firebase_options.dart';
 import 'package:kana_to_kanji/src/core/constants/app_configuration.dart';
 import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
+import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/router.dart';
 import 'package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart';
@@ -76,7 +77,7 @@ class KanaToKanjiApp extends StatelessWidget {
                 themeMode: _settingsRepository.themeMode,
 
                 // Router
-                routerConfig: router),
+                routerConfig: router(locator<DialogService>().navigatorKey)),
           );
         });
   }

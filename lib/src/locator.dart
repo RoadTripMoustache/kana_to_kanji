@@ -9,6 +9,7 @@ import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
+import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
 import 'package:logger/logger.dart';
@@ -20,6 +21,7 @@ void setupLocator() {
   locator.registerLazySingleton<Logger>(() => Logger());
 
   // Services
+  locator.registerSingleton<DialogService>(DialogService());
   locator.registerLazySingleton<PreferencesService>(() => PreferencesService());
   locator.registerLazySingleton<ApiService>(() => ApiService());
   locator.registerSingletonAsync<InfoService>(() async {
