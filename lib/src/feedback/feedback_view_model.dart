@@ -28,7 +28,8 @@ class FeedbackViewModel extends BaseViewModel {
 
   FeedbackType? get selectedFeedbackType => _selectedFeedbackType;
 
-  final Map<FeedbackFormFields, String> _formData = {
+  @visibleForTesting
+  final Map<FeedbackFormFields, String> formData = {
     FeedbackFormFields.email: "",
     FeedbackFormFields.description: "",
     FeedbackFormFields.stepsToReproduce: "",
@@ -39,14 +40,14 @@ class FeedbackViewModel extends BaseViewModel {
   bool get isFormSubmitEnabled =>
       !_formOnError &&
           (_selectedFeedbackType == FeedbackType.featureRequest &&
-              _formData[FeedbackFormFields.description]!.isNotEmpty) ||
+              formData[FeedbackFormFields.description]!.isNotEmpty) ||
       (_selectedFeedbackType == FeedbackType.bug &&
-          _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
+          formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
 
   bool get isFormAddScreenshotEnabled =>
       !_formOnError &&
       _selectedFeedbackType == FeedbackType.bug &&
-      _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
+      formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
 
   /// [githubService] is present for testing purpose only.
   FeedbackViewModel(
@@ -71,7 +72,7 @@ class FeedbackViewModel extends BaseViewModel {
   }
 
   void onFormChange(FeedbackFormFields field, String value) {
-    _formData.update(field, (_) => value, ifAbsent: () => value);
+    formData.update(field, (_) => value, ifAbsent: () => value);
     notifyListeners();
   }
 
@@ -120,12 +121,12 @@ class FeedbackViewModel extends BaseViewModel {
 
       await _githubService.createIssue(
           title: buildIssueTitle(_selectedFeedbackType!),
-          body: buildIssueBody(appConfig.environment, _formData, screenshotUrl),
+          body: buildIssueBody(appConfig.environment, formData, screenshotUrl),
           labels: labels);
     } else {
       await _githubService.createIssue(
           title: buildIssueTitle(_selectedFeedbackType!),
-          body: buildIssueBody(appConfig.environment, _formData),
+          body: buildIssueBody(appConfig.environment, formData),
           labels: labels);
     }
     setBusy(false);
