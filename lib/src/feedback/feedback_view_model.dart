@@ -1,5 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:feedback/feedback.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
@@ -14,6 +17,7 @@ const _kScreenshotWidth = 300;
 
 class FeedbackViewModel extends BaseViewModel {
   final GithubService _githubService = GithubService();
+  final GoRouter router;
   final AppConfig appConfig;
   final AppLocalizations l10n;
 
@@ -37,11 +41,19 @@ class FeedbackViewModel extends BaseViewModel {
       _selectedFeedbackType == FeedbackType.bug &&
       _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
 
-  FeedbackViewModel(this.appConfig, this.l10n, [this._selectedFeedbackType]);
+  FeedbackViewModel(this.appConfig, this.router, this.l10n,
+      [this._selectedFeedbackType]);
 
   void onFeedbackTypePressed(FeedbackType type) {
     _selectedFeedbackType = type;
     notifyListeners();
+  }
+
+  void onIncludeScreenshotPressed(BuildContext context) {
+    router.pop();
+    BetterFeedback.of(context).show((feedback) async {
+      await onFormSubmit(feedback.screenshot);
+    });
   }
 
   void onFormChange(FeedbackFormFields field, String value) {

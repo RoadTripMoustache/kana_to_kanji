@@ -18,28 +18,24 @@ class FeedbackForm extends StatelessWidget {
 
   final bool allowScreenshot;
 
+  final VoidCallback? onScreenshot;
+
   final Future Function([Uint8List? screenshot]) onSubmit;
 
-  const FeedbackForm({
-    super.key,
-    required this.feedbackType,
-    required this.onChange,
-    required this.validator,
-    required this.onSubmit,
-    this.isSubmitEnabled = false,
-    this.allowScreenshot = false,
-  });
-
-  void _onScreenshotSubmit(UserFeedback feedback, BuildContext context) {
-    onSubmit(feedback.screenshot);
-    BetterFeedback.of(context).hide();
-  }
+  const FeedbackForm(
+      {super.key,
+      required this.feedbackType,
+      required this.onChange,
+      required this.validator,
+      required this.onSubmit,
+      this.isSubmitEnabled = false,
+      this.allowScreenshot = false,
+      this.onScreenshot});
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     const EdgeInsetsGeometry padding = EdgeInsets.only(top: 12.0);
-
     List<Widget> extraWidgets = (feedbackType == FeedbackType.bug)
         ? [
             Padding(
@@ -48,6 +44,10 @@ class FeedbackForm extends StatelessWidget {
                   autofocus: true,
                   keyboardType: TextInputType.text,
                   maxLines: 4,
+                  scrollPadding: EdgeInsets.only(
+                      bottom:
+                          Theme.of(context).textTheme.bodyMedium!.fontSize! *
+                              8),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onChanged: (String value) =>
                       onChange(FeedbackFormFields.stepsToReproduce, value),
@@ -63,14 +63,7 @@ class FeedbackForm extends StatelessWidget {
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40)),
-                  onPressed: allowScreenshot
-                      ? () {
-                          // Close the dialog
-                          context.pop();
-                          BetterFeedback.of(context).show((feedback) =>
-                              _onScreenshotSubmit(feedback, context));
-                        }
-                      : null,
+                  onPressed: allowScreenshot ? onScreenshot : null,
                   child: Text(l10n.feedback_include_screenshot)),
             )
           ]
@@ -98,11 +91,14 @@ class FeedbackForm extends StatelessWidget {
             Padding(
               padding: padding,
               child: TextFormField(
-                  autofocus: true,
                   keyboardType: TextInputType.text,
                   maxLines: 4,
                   maxLength: 1000,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  scrollPadding: EdgeInsets.only(
+                      bottom:
+                          Theme.of(context).textTheme.bodyMedium!.fontSize! *
+                              8),
                   decoration: InputDecoration(
                       labelText: feedbackType == FeedbackType.featureRequest
                           ? l10n.feedback_description
