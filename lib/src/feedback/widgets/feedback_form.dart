@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 
-class FeedbackForm extends StatelessWidget {
+class FeedbackForm extends StatefulWidget {
   final FeedbackType feedbackType;
 
   final Function(FeedbackFormFields field, String value) onChange;
@@ -31,10 +31,27 @@ class FeedbackForm extends StatelessWidget {
       this.onScreenshot});
 
   @override
+  State<FeedbackForm> createState() => _FeedbackFormState();
+}
+
+class _FeedbackFormState extends State<FeedbackForm> {
+  bool _isLoading = false;
+
+  Future<void> onSubmit() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await widget.onSubmit();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     const EdgeInsetsGeometry padding = EdgeInsets.only(top: 12.0);
-    List<Widget> extraWidgets = (feedbackType == FeedbackType.bug)
+    List<Widget> extraWidgets = (widget.feedbackType == FeedbackType.bug)
         ? [
             Padding(
               padding: padding,
@@ -47,10 +64,10 @@ class FeedbackForm extends StatelessWidget {
                           Theme.of(context).textTheme.bodyMedium!.fontSize! *
                               8),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  onChanged: (String value) =>
-                      onChange(FeedbackFormFields.stepsToReproduce, value),
-                  validator: (String? value) =>
-                      validator(FeedbackFormFields.stepsToReproduce, value),
+                  onChanged: (String value) => widget.onChange(
+                      FeedbackFormFields.stepsToReproduce, value),
+                  validator: (String? value) => widget.validator(
+                      FeedbackFormFields.stepsToReproduce, value),
                   decoration: InputDecoration(
                     labelText: l10n.feedback_bug_steps,
                   ),
@@ -61,7 +78,8 @@ class FeedbackForm extends StatelessWidget {
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40)),
-                  onPressed: allowScreenshot ? onScreenshot : null,
+                  onPressed:
+                      widget.allowScreenshot && !_isLoading ? widget.onScreenshot : null,
                   child: Text(l10n.feedback_include_screenshot)),
             )
           ]
@@ -79,9 +97,9 @@ class FeedbackForm extends StatelessWidget {
                 autofillHints: const [AutofillHints.email],
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onChanged: (String value) =>
-                    onChange(FeedbackFormFields.email, value),
+                    widget.onChange(FeedbackFormFields.email, value),
                 validator: (String? value) =>
-                    validator(FeedbackFormFields.email, value),
+                    widget.validator(FeedbackFormFields.email, value),
                 decoration: InputDecoration(
                     labelText: l10n.email_optional,
                     helperText: l10n.feedback_email_helper),
@@ -98,28 +116,38 @@ class FeedbackForm extends StatelessWidget {
                           Theme.of(context).textTheme.bodyMedium!.fontSize! *
                               8),
                   decoration: InputDecoration(
-                      labelText: feedbackType == FeedbackType.featureRequest
-                          ? l10n.feedback_description
-                          : l10n.feedback_description_optional,
-                      hintText: feedbackType == FeedbackType.featureRequest
-                          ? l10n.feedback_request_feature_subtitle
-                          : l10n.feedback_report_bug_subtitle),
+                      labelText:
+                          widget.feedbackType == FeedbackType.featureRequest
+                              ? l10n.feedback_description
+                              : l10n.feedback_description_optional,
+                      hintText:
+                          widget.feedbackType == FeedbackType.featureRequest
+                              ? l10n.feedback_request_feature_subtitle
+                              : l10n.feedback_report_bug_subtitle),
                   onChanged: (String value) =>
-                      onChange(FeedbackFormFields.description, value),
+                      widget.onChange(FeedbackFormFields.description, value),
                   validator: (String? value) =>
-                      validator(FeedbackFormFields.description, value),
-                  textInputAction: feedbackType == FeedbackType.featureRequest
-                      ? TextInputAction.done
-                      : TextInputAction.next),
+                      widget.validator(FeedbackFormFields.description, value),
+                  textInputAction:
+                      widget.feedbackType == FeedbackType.featureRequest
+                          ? TextInputAction.done
+                          : TextInputAction.next),
             ),
             ...extraWidgets,
             FilledButton(
-                onPressed: isSubmitEnabled ? onSubmit : null,
+                onPressed: widget.isSubmitEnabled && !_isLoading
+                    ? onSubmit
+                    : null,
                 style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(40)),
-                child: Text(
-                  l10n.feedback_submit(feedbackType.name),
-                ))
+                child: _isLoading
+                    ? SizedBox.fromSize(
+                        size: const Size.square(24.0),
+                        child: const CircularProgressIndicator(),
+                      )
+                    : Text(
+                        l10n.feedback_submit(widget.feedbackType.name),
+                      ))
           ],
         ),
       ),

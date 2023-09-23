@@ -88,12 +88,14 @@ class FeedbackViewModel extends BaseViewModel {
   }
 
   Future<void> onFormSubmit([Uint8List? screenshot]) async {
+    bool needToBeClosed = true;
     final labels = [
       _selectedFeedbackType!.value,
     ];
 
     setBusy(true);
     if (screenshot != null) {
+      needToBeClosed = true;
       final Uint8List encodedScreenshot = image.encodePng(image.copyResize(
           image.decodeImage(screenshot)!,
           width: _kScreenshotWidth));
@@ -112,6 +114,9 @@ class FeedbackViewModel extends BaseViewModel {
           labels: labels);
     }
     setBusy(false);
-    // TODO Show success and close
+
+    if(needToBeClosed) {
+      router.pop();
+    }
   }
 }
