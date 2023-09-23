@@ -19,6 +19,8 @@ abstract class Functions {
   String? validator(FeedbackFormFields field, String? value);
 
   Future<void> onSubmit([Uint8List? screenshot]);
+
+  VoidCallback onScreenshotPressed();
 }
 
 void main() {
@@ -38,7 +40,8 @@ void main() {
     Future<Finder> buildWidget(WidgetTester tester,
         {required FeedbackType type,
         bool isSubmitEnabled = false,
-        bool allowScreenshot = false}) async {
+        bool allowScreenshot = false,
+        VoidCallback? onScreenshotButtonPressed}) async {
       await tester.pumpWidget(LocalizedWidget(
           child: FeedbackForm(
               feedbackType: type,
@@ -46,7 +49,8 @@ void main() {
               validator: mock.validator,
               onSubmit: mock.onSubmit,
               isSubmitEnabled: isSubmitEnabled,
-              allowScreenshot: allowScreenshot)));
+              allowScreenshot: allowScreenshot,
+              onScreenshotButtonPressed: onScreenshotButtonPressed)));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackForm);
@@ -209,10 +213,6 @@ void main() {
       });
     });
 
-    testWidgets(
-        "should open BetterFeedback when 'Include screenshot' button with form data passed",
-        (WidgetTester tester) async {});
-
     group("Buttons", () {
       group("Include screenshot", () {
         testWidgets(
@@ -236,7 +236,7 @@ void main() {
             "Include screenshot button should be enabled when isSubmitEnabled is true",
             (WidgetTester tester) async {
           final widget = await buildWidget(tester,
-              type: FeedbackType.bug, allowScreenshot: true);
+              type: FeedbackType.bug, allowScreenshot: true, onScreenshotButtonPressed: mock.onScreenshotPressed);
 
           expect(
               tester
