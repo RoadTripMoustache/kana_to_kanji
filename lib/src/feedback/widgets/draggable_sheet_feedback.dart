@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
-class DraggableSheetFeedback extends StatefulWidget {
+class DraggableSheetFeedback extends StatelessWidget {
   final Widget child;
 
   const DraggableSheetFeedback({super.key, required this.child});
 
   @override
-  State<DraggableSheetFeedback> createState() => _DraggableSheetFeedbackState();
-}
-
-class _DraggableSheetFeedbackState extends State<DraggableSheetFeedback> {
-  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          left: 8.0,
-          right: 8.0,
-          bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.22,
-          minChildSize: 0.20,
-          maxChildSize: 0.65,
-          builder: (_, scrollController) => SafeArea(
-                child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        widget.child,
-                      ],
-                    )),
-              )),
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isKeyboardShown = MediaQuery.of(context).viewInsets.bottom > 0;
+
+    final double maxHeight = isKeyboardShown
+        ? (mediaQuery.size.height - mediaQuery.viewInsets.bottom) * 0.5
+        :  double.infinity;
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+            left: 8.0, right: 8.0, bottom: mediaQuery.viewInsets.bottom),
+        child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: maxHeight),
+            child:
+                SingleChildScrollView(child: child)),
+      ),
     );
   }
 }
