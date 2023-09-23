@@ -50,6 +50,7 @@ class KanaToKanjiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = buildRouter(locator<DialogService>().navigatorKey);
     return AnimatedBuilder(
         animation: _settingsRepository,
         builder: (BuildContext context, _) {
@@ -77,7 +78,7 @@ class KanaToKanjiApp extends StatelessWidget {
                 themeMode: _settingsRepository.themeMode,
 
                 // Router
-                routerConfig: router(locator<DialogService>().navigatorKey)),
+                routerConfig: router),
           );
         });
   }

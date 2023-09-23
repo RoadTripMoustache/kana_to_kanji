@@ -8,7 +8,7 @@ import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
 import 'package:kana_to_kanji/src/settings/settings_view.dart';
 import 'package:kana_to_kanji/src/splash/splash_view.dart';
 
-GoRouter router([GlobalKey<NavigatorState>? key]) =>
+GoRouter buildRouter([GlobalKey<NavigatorState>? key]) =>
     GoRouter(navigatorKey: key, initialLocation: SplashView.routeName, routes: [
       GoRoute(
           path: SplashView.routeName, builder: (_, __) => const SplashView()),
