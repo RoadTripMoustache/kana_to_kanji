@@ -14,8 +14,10 @@ class FeedbackView extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<FeedbackViewModel>.reactive(
-          viewModelBuilder: () => FeedbackViewModel(AppConfig.of(context),
-              GoRouter.of(context), AppLocalizations.of(context)),
+          viewModelBuilder: () => FeedbackViewModel(
+              appConfig: AppConfig.of(context),
+              router: GoRouter.of(context),
+              l10n: AppLocalizations.of(context)),
           builder: (BuildContext context, FeedbackViewModel viewModel,
               Widget? child) {
             Widget content = FeedbackTypeSelection(

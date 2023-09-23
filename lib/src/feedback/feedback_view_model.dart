@@ -19,7 +19,7 @@ import 'package:image/image.dart' as image;
 const _kScreenshotWidth = 300;
 
 class FeedbackViewModel extends BaseViewModel {
-  final GithubService _githubService = GithubService();
+  final GithubService _githubService;
   final GoRouter router;
   final AppConfig appConfig;
   final AppLocalizations l10n;
@@ -34,18 +34,29 @@ class FeedbackViewModel extends BaseViewModel {
     FeedbackFormFields.stepsToReproduce: "",
   };
 
+  bool _formOnError = false;
+
   bool get isFormSubmitEnabled =>
-      (_selectedFeedbackType == FeedbackType.featureRequest &&
-          _formData[FeedbackFormFields.description]!.isNotEmpty) ||
+      !_formOnError &&
+          (_selectedFeedbackType == FeedbackType.featureRequest &&
+              _formData[FeedbackFormFields.description]!.isNotEmpty) ||
       (_selectedFeedbackType == FeedbackType.bug &&
           _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty);
 
   bool get isFormAddScreenshotEnabled =>
+      !_formOnError &&
       _selectedFeedbackType == FeedbackType.bug &&
       _formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
 
-  FeedbackViewModel(this.appConfig, this.router, this.l10n,
-      [this._selectedFeedbackType]);
+  /// [githubService] is present for testing purpose only.
+  FeedbackViewModel(
+      {required this.appConfig,
+      required this.router,
+      required this.l10n,
+      FeedbackType? feedbackType,
+      GithubService? githubService})
+      : _selectedFeedbackType = feedbackType,
+        _githubService = githubService ?? GithubService();
 
   void onFeedbackTypePressed(FeedbackType type) {
     _selectedFeedbackType = type;
@@ -87,6 +98,7 @@ class FeedbackViewModel extends BaseViewModel {
         break;
     }
 
+    _formOnError = validation != null;
     return validation;
   }
 
