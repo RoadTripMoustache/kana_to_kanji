@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:feedback/feedback.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_config.dart';

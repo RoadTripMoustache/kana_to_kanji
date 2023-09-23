@@ -1,4 +1,3 @@
-import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
