@@ -4,9 +4,12 @@ import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/constants/regexp.dart';
+import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
 import 'package:kana_to_kanji/src/feedback/utils/build_issue_body.dart';
+import 'package:kana_to_kanji/src/feedback/widgets/feedback_success_dialog.dart';
+import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
@@ -95,7 +98,7 @@ class FeedbackViewModel extends BaseViewModel {
 
     setBusy(true);
     if (screenshot != null) {
-      needToBeClosed = true;
+      needToBeClosed = false;
       final Uint8List encodedScreenshot = image.encodePng(image.copyResize(
           image.decodeImage(screenshot)!,
           width: _kScreenshotWidth));
@@ -115,8 +118,17 @@ class FeedbackViewModel extends BaseViewModel {
     }
     setBusy(false);
 
-    if(needToBeClosed) {
+    // Close the dialog if still opened
+    if (needToBeClosed) {
       router.pop();
     }
+
+    // Show success and thank the user
+    locator<DialogService>().showModalBottomSheet(
+        isDismissible: false,
+        builder: (BuildContext context) {
+          Future.delayed(const Duration(seconds: 3), () => context.pop());
+          return const FeedbackSuccessDialog();
+        });
   }
 }

@@ -186,6 +186,10 @@
       }
     }
   },
+  "feedback_thanks": "Thank you for your feedback!",
+  "@feedback_thanks": {
+    "description": "Text to thank the user for the feedback"
+  },
   "email": "Email",
   "email_optional": "Email (optional)",
   "@email_optional": {

@@ -181,6 +181,10 @@
       }
     }
   },
+  "feedback_thanks": "Merci d'avoir donner votre avis!",
+  "@feedback_thanks": {
+    "description": "Texte pour remercier l'utilisateur d'avoir donner son avis"
+  },
   "email": "Courriel",
   "email_optional": "Courriel (optionnel)",
   "@email_optional": {
