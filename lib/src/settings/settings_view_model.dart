@@ -59,8 +59,6 @@ class SettingsViewModel extends BaseViewModel {
         enableDrag: false,
         showDragHandle: true,
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(topLeft: radius, topRight: radius)),
         builder: (context) => const FeedbackView());
   }
 }
