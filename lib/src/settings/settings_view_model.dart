@@ -51,9 +51,7 @@ class SettingsViewModel extends BaseViewModel {
     _repository.updateLocale(locale);
   }
 
-  void giveFeedback() async {
-    const radius = Radius.circular(10);
-
+  void giveFeedback() {
     locator<DialogService>().showModalBottomSheet(
         isDismissible: true,
         enableDrag: false,
