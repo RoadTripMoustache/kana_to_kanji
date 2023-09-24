@@ -61,65 +61,66 @@ void main() async {
     group("Theme mode", () {
       test(
           "Should have selected the theme mode returned by the SettingsRepository",
-              () {
-            expect(viewModel.themeModeSelected, [false, true, false],
-                reason: "[light: false, system: true, dark: false]");
-            verify(settingsRepositoryMock.themeMode);
-            verifyNoMoreInteractions(settingsRepositoryMock);
-          });
+          () {
+        expect(viewModel.themeModeSelected, [false, true, false],
+            reason: "[light: false, system: true, dark: false]");
+        verify(settingsRepositoryMock.themeMode);
+        verifyNoMoreInteractions(settingsRepositoryMock);
+      });
 
       test("Should update the SettingsRepository when a new theme is selected",
-              () {
-            const ThemeMode newMode = ThemeMode.dark;
-            when(settingsRepositoryMock.themeMode)
-                .thenReturnInOrder([ThemeMode.system, newMode]);
+          () {
+        const ThemeMode newMode = ThemeMode.dark;
+        when(settingsRepositoryMock.themeMode)
+            .thenReturnInOrder([ThemeMode.system, newMode]);
 
-            expect(viewModel.themeModeSelected, [false, true, false],
-                reason: "[light: false, system: true, dark: false]");
-            viewModel.setThemeMode(2); // 0 = light, 1 = system, 2 = dark
-            expect(viewModel.themeModeSelected, [false, false, true],
-                reason: "[light: false, system: false, dark: true]");
+        expect(viewModel.themeModeSelected, [false, true, false],
+            reason: "[light: false, system: true, dark: false]");
+        viewModel.setThemeMode(2); // 0 = light, 1 = system, 2 = dark
+        expect(viewModel.themeModeSelected, [false, false, true],
+            reason: "[light: false, system: false, dark: true]");
 
-            verifyInOrder([
-              settingsRepositoryMock.themeMode,
-              settingsRepositoryMock.updateThemeMode(newMode),
-              settingsRepositoryMock.themeMode,
-            ]);
-          });
+        verifyInOrder([
+          settingsRepositoryMock.themeMode,
+          settingsRepositoryMock.updateThemeMode(newMode),
+          settingsRepositoryMock.themeMode,
+        ]);
+      });
     });
 
     group("Locale", () {
       test("Should have selected the locale returned by the SettingsRepository",
-              () {
-            expect(viewModel.currentLocale, const Locale("en"));
-            verify(settingsRepositoryMock.locale);
-            verifyNoMoreInteractions(settingsRepositoryMock);
-          });
+          () {
+        expect(viewModel.currentLocale, const Locale("en"));
+        verify(settingsRepositoryMock.locale);
+        verifyNoMoreInteractions(settingsRepositoryMock);
+      });
 
       test("Should update the SettingsRepository when a new locale is selected",
-              () {
-            const Locale locale = Locale("en");
-            const Locale newLocale = Locale("fr");
-            when(settingsRepositoryMock.locale)
-                .thenReturnInOrder([locale, newLocale]);
+          () {
+        const Locale locale = Locale("en");
+        const Locale newLocale = Locale("fr");
+        when(settingsRepositoryMock.locale)
+            .thenReturnInOrder([locale, newLocale]);
 
-            expect(viewModel.currentLocale, locale);
-            viewModel.setLocale(newLocale);
-            expect(viewModel.currentLocale, newLocale);
+        expect(viewModel.currentLocale, locale);
+        viewModel.setLocale(newLocale);
+        expect(viewModel.currentLocale, newLocale);
 
-            verifyInOrder([
-              settingsRepositoryMock.locale,
-              settingsRepositoryMock.updateLocale(newLocale),
-              settingsRepositoryMock.locale,
-            ]);
-          });
+        verifyInOrder([
+          settingsRepositoryMock.locale,
+          settingsRepositoryMock.updateLocale(newLocale),
+          settingsRepositoryMock.locale,
+        ]);
+      });
     });
 
     group("Feedback", () {
       test("Should call dialog service", () {
         viewModel.giveFeedback();
 
-        verify(dialogServiceMock.showModalBottomSheet(isDismissible: true,
+        verify(dialogServiceMock.showModalBottomSheet(
+            isDismissible: true,
             enableDrag: false,
             showDragHandle: true,
             isScrollControlled: true,
