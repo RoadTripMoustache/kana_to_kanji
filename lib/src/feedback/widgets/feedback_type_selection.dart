@@ -15,8 +15,6 @@ class FeedbackTypeSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final TextStyle? textStyle =
-        Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white);
 
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Padding(

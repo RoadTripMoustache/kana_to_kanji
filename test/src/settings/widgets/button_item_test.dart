@@ -9,9 +9,6 @@ void main() {
     testWidgets("UI", (WidgetTester tester) async {
       const String title = 'TEST';
       int called = 0;
-      void onPressed() {
-        called++;
-      }
 
       await tester.pumpWidget(LocalizedWidget(
           child: ButtonItem(
