@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 
+/// Size of the leading icon on the buttons
+const _kButtonLeadingIconSize = 36.0;
+
+/// Show buttons for each type of feedback available
 class FeedbackTypeSelection extends StatelessWidget {
   @visibleForTesting
   static const Key reportBugButtonKey = Key("report_bug_button");
@@ -24,7 +28,8 @@ class FeedbackTypeSelection extends StatelessWidget {
             style: FilledButton.styleFrom(
                 backgroundColor: Colors.red, foregroundColor: Colors.black),
             onPressed: () => onPressed(FeedbackType.bug),
-            icon: const Icon(Icons.bug_report_outlined, size: 36),
+            icon: const Icon(Icons.bug_report_outlined,
+                size: _kButtonLeadingIconSize),
             label: ListTile(
               title: Text(l10n.feedback_report_bug),
               subtitle: Text(l10n.feedback_report_bug_subtitle),
@@ -33,7 +38,8 @@ class FeedbackTypeSelection extends StatelessWidget {
       FilledButton.icon(
           key: featureRequestButtonKey,
           style: FilledButton.styleFrom(foregroundColor: Colors.white),
-          icon: const Icon(Icons.design_services_outlined, size: 36),
+          icon: const Icon(Icons.design_services_outlined,
+              size: _kButtonLeadingIconSize),
           onPressed: () => onPressed(FeedbackType.featureRequest),
           label: ListTile(
             textColor: Colors.white,

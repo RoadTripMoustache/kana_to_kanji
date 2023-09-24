@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 
+/// Form for the feedback, depending on [feedbackType] certains fields/buttons will be added
 class FeedbackForm extends StatefulWidget {
   final FeedbackType feedbackType;
 
@@ -51,6 +52,12 @@ class _FeedbackFormState extends State<FeedbackForm> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     const EdgeInsetsGeometry padding = EdgeInsets.only(top: 12.0);
+
+    // Padding used by the [TextFormField] if not visible when focused.
+    // This allows the entire field to be visible on screen.
+    final EdgeInsets scrollPadding = EdgeInsets.only(
+        bottom: Theme.of(context).textTheme.bodyMedium!.fontSize! * 8);
+
     List<Widget> extraWidgets = (widget.feedbackType == FeedbackType.bug)
         ? [
             Padding(
@@ -59,10 +66,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                   autofocus: true,
                   keyboardType: TextInputType.text,
                   maxLines: 4,
-                  scrollPadding: EdgeInsets.only(
-                      bottom:
-                          Theme.of(context).textTheme.bodyMedium!.fontSize! *
-                              8),
+                  scrollPadding: scrollPadding,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onChanged: (String value) => widget.onChange(
                       FeedbackFormFields.stepsToReproduce, value),
@@ -112,10 +116,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                   maxLines: 4,
                   maxLength: 1000,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  scrollPadding: EdgeInsets.only(
-                      bottom:
-                          Theme.of(context).textTheme.bodyMedium!.fontSize! *
-                              8),
+                  scrollPadding: scrollPadding,
                   decoration: InputDecoration(
                       labelText:
                           widget.feedbackType == FeedbackType.featureRequest

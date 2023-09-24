@@ -10,9 +10,13 @@ class DraggableSheetFeedback extends StatelessWidget {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isKeyboardShown = MediaQuery.of(context).viewInsets.bottom > 0;
 
+    // Maximum height of the sheet. If the virtual keyboard is shown we don't
+    // want to have the entire sheet moving on top of the keyboard but just a small
+    // part of it.
     final double maxHeight = isKeyboardShown
         ? (mediaQuery.size.height - mediaQuery.viewInsets.bottom) * 0.5
         : double.infinity;
+
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(

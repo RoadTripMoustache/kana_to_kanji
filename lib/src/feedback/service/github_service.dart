@@ -40,6 +40,8 @@ class GithubService {
     return "${content.content!.htmlUrl}?raw=true";
   }
 
+  /// Create a [Issue] on the [AppConfiguration.githubRepoSlug].
+  /// The issue created will have two(2) more labels: 'platform: {platform}' and 'need triage'
   Future<Issue?> createIssue(
       {String? title, String? body, List<String> labels = const []}) async {
     final IssueRequest issueToCreate = IssueRequest();
