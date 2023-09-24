@@ -12,7 +12,7 @@ import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 import 'package:kana_to_kanji/src/feedback/feedback_view_model.dart';
 import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
-import 'package:kana_to_kanji/src/feedback/utils/build_issue_body.dart';
+import 'package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

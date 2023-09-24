@@ -7,7 +7,7 @@ import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
-import 'package:kana_to_kanji/src/feedback/utils/build_issue_body.dart';
+import 'package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart';
 import 'package:kana_to_kanji/src/feedback/widgets/feedback_success_dialog.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
