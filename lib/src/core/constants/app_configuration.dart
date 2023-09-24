@@ -4,9 +4,11 @@ part 'app_configuration.g.dart';
 
 @Envied()
 abstract class AppConfiguration {
+  /// General configs
   @EnviedField(varName: "API_URL")
   static const String apiUrl = _AppConfiguration.apiUrl;
 
+  /// Firebase configs
   @EnviedField(varName: "ENABLE_CRASHLYTICS", defaultValue: true)
   static const bool enableCrashlytics = _AppConfiguration.enableCrashlytics;
 
