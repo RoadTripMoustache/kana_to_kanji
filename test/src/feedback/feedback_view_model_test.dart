@@ -290,7 +290,7 @@ void main() {
               .buffer
               .asUint8List();
           final Uint8List screenshotData = image.encodePng(
-              image.copyResize(image.decodeImage(bytes)!, width: 300));
+              image.copyResize(image.decodeImage(bytes)!, width: kScreenshotLandscapeWidth));
           const String screenshotUrl = "screenshotUrl";
 
           // Stub returns
@@ -307,7 +307,7 @@ void main() {
               (value) => "Steps to reproduce");
 
           // Execute the function
-          await viewModel.onFormSubmit(screenshotData);
+          await viewModel.onFormSubmit(bytes);
 
           // Verify Github upload image call
           verify(githubServiceMock.uploadFileToGithub(
