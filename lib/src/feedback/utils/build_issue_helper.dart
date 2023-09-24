@@ -4,10 +4,18 @@ import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
 import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 
+/// Build the title of a Github issue based on the [feedbackType].
+/// The title isn't localized, it's written in english.
 String buildIssueTitle(FeedbackType feedbackType) {
   return "${feedbackType == FeedbackType.bug ? "Bug" : "Feature request"} from a user";
 }
 
+/// Build the body of a Github issue. The text isn't localized, it's written in english.
+/// The text will include the description, email and steps to reproduced based on
+/// what is available on [formData].
+/// Using the [InfoService], device and application information like application version,
+/// device model, device OS will be added. Will also be added the [environment] of the application.
+/// If [screenshotUrl] is provided, a screenshot section will be added.
 String buildIssueBody(
     Environment environment, Map<FeedbackFormFields, String> formData,
     [String? screenshotUrl]) {
