@@ -16,10 +16,13 @@ abstract class AppConfiguration {
   @EnviedField(varName: "GITHUB_REPOSITORY_SLUG")
   static const String githubRepoSlug = _AppConfiguration.githubRepoSlug;
   @EnviedField(varName: "GITHUB_FEEDBACK_REPOSITORY_SLUG")
-  static const String githubFeedbackRepoSlug = _AppConfiguration.githubFeedbackRepoSlug;
+  static const String githubFeedbackRepoSlug =
+      _AppConfiguration.githubFeedbackRepoSlug;
   @EnviedField(varName: "GITHUB_USER", defaultValue: "github-actions[bot]")
   static const String githubUser = _AppConfiguration.githubUser;
-  @EnviedField(varName: "GITHUB_USER_EMAIL", defaultValue: "github-actions[bot]@users.noreply.github.com")
+  @EnviedField(
+      varName: "GITHUB_USER_EMAIL",
+      defaultValue: "github-actions[bot]@users.noreply.github.com")
   static const String githubUserEmail = _AppConfiguration.githubUserEmail;
   @EnviedField(varName: "GITHUB_TOKEN", obfuscate: true)
   static final String githubToken = _AppConfiguration.githubToken;

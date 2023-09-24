@@ -14,9 +14,11 @@ void main() {
       }
 
       await tester.pumpWidget(LocalizedWidget(
-          child: ButtonItem(child: const Text(title), onPressed: () {
-            called++;
-          })));
+          child: ButtonItem(
+              child: const Text(title),
+              onPressed: () {
+                called++;
+              })));
       await tester.pumpAndSettle();
 
       final widget = find.byType(ButtonItem);

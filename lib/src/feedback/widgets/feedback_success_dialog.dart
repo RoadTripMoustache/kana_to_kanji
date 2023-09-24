@@ -14,9 +14,8 @@ class FeedbackSuccessDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.done_rounded, color: Colors.green, size: 52),
-              Text(AppLocalizations
-                  .of(context)
-                  .feedback_thanks, style: Theme.of(context).textTheme.bodyLarge)
+              Text(AppLocalizations.of(context).feedback_thanks,
+                  style: Theme.of(context).textTheme.bodyLarge)
             ],
           ),
         ],

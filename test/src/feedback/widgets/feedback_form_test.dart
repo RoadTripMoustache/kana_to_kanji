@@ -236,7 +236,9 @@ void main() {
             "Include screenshot button should be enabled when isSubmitEnabled is true",
             (WidgetTester tester) async {
           final widget = await buildWidget(tester,
-              type: FeedbackType.bug, allowScreenshot: true, onScreenshotButtonPressed: mock.onScreenshotPressed);
+              type: FeedbackType.bug,
+              allowScreenshot: true,
+              onScreenshotButtonPressed: mock.onScreenshotPressed);
 
           expect(
               tester

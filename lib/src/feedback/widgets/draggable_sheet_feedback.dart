@@ -12,15 +12,14 @@ class DraggableSheetFeedback extends StatelessWidget {
 
     final double maxHeight = isKeyboardShown
         ? (mediaQuery.size.height - mediaQuery.viewInsets.bottom) * 0.5
-        :  double.infinity;
+        : double.infinity;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
             left: 8.0, right: 8.0, bottom: mediaQuery.viewInsets.bottom),
         child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: maxHeight),
-            child:
-                SingleChildScrollView(child: child)),
+            child: SingleChildScrollView(child: child)),
       ),
     );
   }

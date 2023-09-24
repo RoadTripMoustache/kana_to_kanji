@@ -78,8 +78,9 @@ class _FeedbackFormState extends State<FeedbackForm> {
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40)),
-                  onPressed:
-                      widget.allowScreenshot && !_isLoading ? widget.onScreenshotButtonPressed : null,
+                  onPressed: widget.allowScreenshot && !_isLoading
+                      ? widget.onScreenshotButtonPressed
+                      : null,
                   child: Text(l10n.feedback_include_screenshot)),
             )
           ]
@@ -135,9 +136,8 @@ class _FeedbackFormState extends State<FeedbackForm> {
             ),
             ...extraWidgets,
             FilledButton(
-                onPressed: widget.isSubmitEnabled && !_isLoading
-                    ? onSubmit
-                    : null,
+                onPressed:
+                    widget.isSubmitEnabled && !_isLoading ? onSubmit : null,
                 style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(40)),
                 child: _isLoading
