@@ -51,6 +51,7 @@ class SettingsViewModel extends BaseViewModel {
     _repository.updateLocale(locale);
   }
 
+  /// Open the feedback dialog
   void giveFeedback() {
     locator<DialogService>().showModalBottomSheet(
         isDismissible: true,
