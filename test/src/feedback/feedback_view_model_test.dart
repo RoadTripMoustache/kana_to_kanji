@@ -289,8 +289,9 @@ void main() {
                   'packages/kana_to_kanji/assets/images/flutter_logo.png'))
               .buffer
               .asUint8List();
-          final Uint8List screenshotData = image.encodePng(
-              image.copyResize(image.decodeImage(bytes)!, width: kScreenshotLandscapeWidth));
+          final Uint8List screenshotData = image.encodePng(image.copyResize(
+              image.decodeImage(bytes)!,
+              width: kScreenshotLandscapeWidth));
           const String screenshotUrl = "screenshotUrl";
 
           // Stub returns
