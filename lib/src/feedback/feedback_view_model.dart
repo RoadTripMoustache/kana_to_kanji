@@ -140,7 +140,7 @@ class FeedbackViewModel extends BaseViewModel {
     locator<DialogService>().showModalBottomSheet(
         isDismissible: false,
         builder: (BuildContext context) {
-          Future.delayed(const Duration(seconds: 3), () => context.pop());
+          Future.delayed(const Duration(seconds: 2), () => context.pop());
           return const FeedbackSuccessDialog();
         });
   }
