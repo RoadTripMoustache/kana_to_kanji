@@ -40,7 +40,7 @@ class GithubService {
     return "${content.content!.htmlUrl}?raw=true";
   }
 
-  Future<Issue> createIssue(
+  Future<Issue?> createIssue(
       {String? title, String? body, List<String> labels = const []}) async {
     final IssueRequest issueToCreate = IssueRequest();
     issueToCreate.title = title ?? "Issue reported by a user";
@@ -53,11 +53,12 @@ class GithubService {
       'need triage'
     ];
 
-    return _github.issues
-        .create(
-            RepositorySlug.full(AppConfiguration.githubRepoSlug), issueToCreate)
-        .catchError((error) {
+    try {
+      return await _github.issues.create(
+          RepositorySlug.full(AppConfiguration.githubRepoSlug), issueToCreate);
+    } on GitHubError catch (error) {
       _logger.e("createGithubIssue error: ${error.message}");
-    });
+      return null;
+    }
   }
 }
