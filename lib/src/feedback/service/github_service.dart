@@ -52,7 +52,8 @@ class GithubService {
 
     issueToCreate.labels = [
       ...labels,
-      'platform: ${kIsWeb ? "web" : defaultTargetPlatform.name}'
+      'platform: ${kIsWeb ? "web" : defaultTargetPlatform.name}',
+      'need triage'
     ];
 
     return _github.issues
