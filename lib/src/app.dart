@@ -1,3 +1,4 @@
+import 'package:feedback/feedback.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -10,8 +11,10 @@ import 'package:kana_to_kanji/firebase_options.dart';
 import 'package:kana_to_kanji/src/core/constants/app_configuration.dart';
 import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
+import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:kana_to_kanji/src/router.dart';
+import 'package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart';
 
 class KanaToKanjiApp extends StatelessWidget {
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();
@@ -47,26 +50,36 @@ class KanaToKanjiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = buildRouter(locator<DialogService>().navigatorKey);
     return AnimatedBuilder(
         animation: _settingsRepository,
         builder: (BuildContext context, _) {
-          return MaterialApp.router(
-              restorationScopeId: 'app',
+          return BetterFeedback(
+            mode: FeedbackMode.navigate,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            localeOverride: _settingsRepository.locale,
+            theme: FeedbackThemeData(
+                sheetIsDraggable: false, feedbackSheetHeight: 0.1),
+            feedbackBuilder: (context, onSubmit, _) =>
+                FeedbackScreenshotForm(onSubmit: onSubmit),
+            child: MaterialApp.router(
+                restorationScopeId: 'app',
 
-              // Localizations
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              onGenerateTitle: (BuildContext context) =>
-                  AppLocalizations.of(context).app_title,
-              locale: _settingsRepository.locale,
+                // Localizations
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                onGenerateTitle: (BuildContext context) =>
+                    AppLocalizations.of(context).app_title,
+                locale: _settingsRepository.locale,
 
-              // Theme
-              theme: AppTheme.light(),
-              darkTheme: AppTheme.dark(),
-              themeMode: _settingsRepository.themeMode,
+                // Theme
+                theme: AppTheme.light(),
+                darkTheme: AppTheme.dark(),
+                themeMode: _settingsRepository.themeMode,
 
-              // Router
-              routerConfig: router);
+                // Router
+                routerConfig: router),
+          );
         });
   }
 }

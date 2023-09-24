@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/settings/settings_view_model.dart';
+import 'package:kana_to_kanji/src/settings/widgets/button_item.dart';
 import 'package:kana_to_kanji/src/settings/widgets/heading_item.dart';
 import 'package:kana_to_kanji/src/settings/widgets/tile_item.dart';
 import 'package:stacked/stacked.dart';
@@ -38,6 +39,7 @@ class SettingsView extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
+                      // General section
                       HeadingItem(title: l10n.settings_general_section),
                       TileItem(
                         title: Text(l10n.settings_theme_mode),
@@ -72,6 +74,10 @@ class SettingsView extends StatelessWidget {
                           }).toList(),
                         ),
                       ),
+                      ButtonItem(
+                          onPressed: viewModel.giveFeedback,
+                          child: Text(l10n.settings_give_feedback)),
+                      // Legal section
                       HeadingItem(title: l10n.settings_legal_section),
                       TileItem(
                         title: Text(l10n.settings_acknowledgements),

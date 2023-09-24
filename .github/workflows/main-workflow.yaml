@@ -122,8 +122,8 @@ jobs:
               ${{ matrix.target == 'iOS' && format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) || '' }}
       - name: Setup .env
         run: |
-          echo ${{ vars.CONFIGURATION }} >> .env
-          echo ${{ secrets.CONFIGURATION }} >> .env
+          echo -e "${{ vars.CONFIGURATION }}" >> .env
+          echo -e "\n${{ secrets.CONFIGURATION }}" >> .env
       - name: Get dependencies
         run: flutter pub get
       - name: Generate files
