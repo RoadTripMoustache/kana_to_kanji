@@ -3,14 +3,11 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
 import 'package:github/github.dart';
 import 'package:kana_to_kanji/src/core/constants/app_configuration.dart';
-import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:logger/logger.dart';
 
 class GithubService {
   final Logger _logger = locator<Logger>();
-
-  final InfoService _infoService = locator<InfoService>();
 
   final CommitUser _commitUser =
       CommitUser(AppConfiguration.githubUser, AppConfiguration.githubUserEmail);
