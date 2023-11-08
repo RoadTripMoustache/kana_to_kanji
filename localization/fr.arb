@@ -4,6 +4,11 @@
   "app_title_kana": "Kana",
   "app_title_to": "と",
   "app_title_kanji": "kanji",
+  "app_bottom_bar_home": "Home",
+  "app_bottom_bar_lesson": "Learn",
+  "app_bottom_bar_practice": "Practice",
+  "app_bottom_bar_glossary": "Glossary",
+  "app_bottom_bar_profile": "You",
   "button_continue": "Continuer",
   "percent": "{percent}",
   "@percent": {

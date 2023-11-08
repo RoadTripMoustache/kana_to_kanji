@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kana_to_kanji/src/core/widgets/app_bottom_navigation_bar.dart';
 
 /// Basic Scaffold to avoid boilerplate code in the application.
 class AppScaffold extends StatelessWidget {
@@ -12,13 +13,16 @@ class AppScaffold extends StatelessWidget {
 
   final bool resizeToAvoidBottomInset;
 
+  final bool showBottomBar;
+
   const AppScaffold(
       {super.key,
       this.appBar,
       required this.body,
       this.fab,
       this.fabPosition,
-      this.resizeToAvoidBottomInset = false});
+      this.resizeToAvoidBottomInset = false,
+      this.showBottomBar = false});
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -30,6 +34,7 @@ class AppScaffold extends StatelessWidget {
           body,
         ]),
       ),
+      bottomNavigationBar: showBottomBar ? const AppBottomNavigationBar() : null,
       floatingActionButton: fab,
       floatingActionButtonLocation: fabPosition);
 }
