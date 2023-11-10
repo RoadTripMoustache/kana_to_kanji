@@ -26,16 +26,16 @@ class AppBottomNavigationBar extends StatelessWidget {
   }
 
   List<AppNavigationDestination> _buildDestinations(AppLocalizations l10n) => [
-        AppNavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home_rounded),
-            label: l10n.app_bottom_bar_home,
-            location: "/home"),
-        AppNavigationDestination(
-            icon: const Icon(Icons.school_outlined),
-            selectedIcon: const Icon(Icons.school_rounded),
-            label: l10n.app_bottom_bar_lesson,
-            location: "/lesson"),
+        // AppNavigationDestination(
+        //     icon: const Icon(Icons.home_outlined),
+        //     selectedIcon: const Icon(Icons.home_rounded),
+        //     label: l10n.app_bottom_bar_home,
+        //     location: "/home"),
+        // AppNavigationDestination(
+        //     icon: const Icon(Icons.school_outlined),
+        //     selectedIcon: const Icon(Icons.school_rounded),
+        //     label: l10n.app_bottom_bar_lesson,
+        //     location: "/lesson"),
         AppNavigationDestination(
             icon: const Icon(Icons.psychology_outlined),
             selectedIcon: const Icon(Icons.psychology_rounded),
@@ -46,10 +46,10 @@ class AppBottomNavigationBar extends StatelessWidget {
             selectedIcon: const Icon(Icons.menu_book_rounded),
             label: l10n.app_bottom_bar_glossary,
             location: "/glossary"),
-        AppNavigationDestination(
-            icon: const Icon(Icons.account_circle_outlined),
-            selectedIcon: const Icon(Icons.account_circle_rounded),
-            label: l10n.app_bottom_bar_profile,
-            location: "/profile")
+        // AppNavigationDestination(
+        //     icon: const Icon(Icons.account_circle_outlined),
+        //     selectedIcon: const Icon(Icons.account_circle_rounded),
+        //     label: l10n.app_bottom_bar_profile,
+        //     location: "/profile")
       ];
 }
