@@ -4,7 +4,7 @@ import 'package:isar/isar.dart';
 part 'vocabulary.g.dart';
 
 @collection
-@Name("Vocabulary")
+@Name("Vocabularies")
 @JsonSerializable()
 class Vocabulary {
   final int id;
@@ -24,8 +24,8 @@ class Vocabulary {
   final List<int>? relatedKanjis;
   final String version;
 
-  Vocabulary(this.id, this.kanji, this.kana, this.niveauJLPT,
-      this.significations, this.romaji, this.relatedKanjis, this.version);
+  Vocabulary(this.id, this.kanji, this.kana, this.jlptLevel,
+      this.meanings, this.romaji, this.relatedKanjis, this.version);
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);
