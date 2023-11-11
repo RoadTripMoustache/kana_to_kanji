@@ -14,17 +14,17 @@ class Kanji {
   final int? numberOfStrokes;
   /// Class in which kanji is taught
   final int? grade;
-  @JsonKey(name: "niveau_jlpt")
+  @JsonKey(name: "jlpt_level")
   final int jlptLevel;
   @Default([])
   final List<String> translations;
   /// Pronunciations in sino-Japanese
   @Default([])
-  @JsonKey(name: "lectures_on")
+  @JsonKey(name: "on_readings")
   final List<String> onPronunciations;
   /// Pronunciations in Japanese
   @Default([])
-  @JsonKey(name: "lectures_kun")
+  @JsonKey(name: "kun_readings")
   final List<String> kunPronunciations;
   final String version;
   /// List of vocabulary word ids that use the kanji

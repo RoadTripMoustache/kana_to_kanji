@@ -13,7 +13,7 @@ class Vocabulary {
   final String kanji;
   /// Full kana version of the word
   final String kana;
-  @JsonKey(name: "niveau_jlpt")
+  @JsonKey(name: "jlpt_level")
   final int jlptLevel;
   /// Translations and meaning of the word
   @Default([])
