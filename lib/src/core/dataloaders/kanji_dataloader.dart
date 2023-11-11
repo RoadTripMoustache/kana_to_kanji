@@ -21,7 +21,8 @@ class KanjiDataLoader {
     return _apiService
         .get('/v1/kanjis?details=light$versionQueryParam')
         .then((response) => _extractKanjis(response))
-        .then((listKanji) => _isar.write((isar) => isar.kanjis.putAll(listKanji)));
+        .then((listKanji) =>
+            _isar.write((isar) => isar.kanjis.putAll(listKanji)));
   }
 
   /// Extract all the kana from the API Response.
