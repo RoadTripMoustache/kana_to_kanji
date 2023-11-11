@@ -11,10 +11,12 @@ class Vocabulary {
 
   /// Contains the vocabulary word entirely even if it is a mix of kana and kanji.
   final String kanji;
+
   /// Full kana version of the word
   final String kana;
   @JsonKey(name: "jlpt_level")
   final int jlptLevel;
+
   /// Translations and meaning of the word
   @Default([])
   final List<String> meanings;
@@ -24,8 +26,8 @@ class Vocabulary {
   final List<int>? relatedKanjis;
   final String version;
 
-  Vocabulary(this.id, this.kanji, this.kana, this.jlptLevel,
-      this.meanings, this.romaji, this.relatedKanjis, this.version);
+  Vocabulary(this.id, this.kanji, this.kana, this.jlptLevel, this.meanings,
+      this.romaji, this.relatedKanjis, this.version);
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);
