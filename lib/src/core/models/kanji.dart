@@ -23,9 +23,10 @@ class Kanji {
   @JsonKey(name: "lectures_kun")
   final List<String> lecturesKun;
   final String version;
+  /// List of vocabulary words that use the kanji
   @Default([])
   @JsonKey(name: "vocabulaire_ids")
-  final List<int>? vocabulaireIds;
+  final List<int>? vocabularyIds;
 
   Kanji(
       this.id,
