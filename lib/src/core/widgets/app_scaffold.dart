@@ -34,7 +34,8 @@ class AppScaffold extends StatelessWidget {
           body,
         ]),
       ),
-      bottomNavigationBar: showBottomBar ? const AppBottomNavigationBar() : null,
+      bottomNavigationBar:
+          showBottomBar ? const AppBottomNavigationBar() : null,
       floatingActionButton: fab,
       floatingActionButtonLocation: fabPosition);
 }

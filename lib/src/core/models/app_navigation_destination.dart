@@ -9,16 +9,12 @@ class AppNavigationDestination with _$AppNavigationDestination {
 
   const factory AppNavigationDestination(
       {required Widget icon,
-        required String location,
-        required String label,
-        Widget? selectedIcon,
-        Color? backgroundColor,
-        String? tooltip}) = _AppNavigationDestination;
+      required String location,
+      required String label,
+      Widget? selectedIcon,
+      Color? backgroundColor,
+      String? tooltip}) = _AppNavigationDestination;
 
-  NavigationDestination get navigationDestination =>
-      NavigationDestination(
-          icon: icon,
-          selectedIcon: selectedIcon,
-          label: label,
-          tooltip: tooltip);
+  NavigationDestination get navigationDestination => NavigationDestination(
+      icon: icon, selectedIcon: selectedIcon, label: label, tooltip: tooltip);
 }
