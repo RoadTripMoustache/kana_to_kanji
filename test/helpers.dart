@@ -16,7 +16,10 @@ String getRouterKey(String route) {
   return 'key_$route';
 }
 
-extension RouterWidgetTester on WidgetTester {
+extension WidgetTesterExtension on WidgetTester {
+  /// Pump a router on [widget].
+  /// [initialLocation] is the current location of the widget and [allowedRoutes]
+  /// contains all the routes available for the router.
   Future<void> pumpRouterApp(Widget widget, String initialLocation,
       [List<String> allowedRoutes = const []]) {
     final router = GoRouter(
@@ -48,6 +51,9 @@ extension RouterWidgetTester on WidgetTester {
     );
   }
 
+  /// Pump a router on a localized [widget].
+  /// [initialLocation] is the current location of the widget and [allowedRoutes]
+  /// contains all the routes available for the router.
   Future<void> pumpLocalizedRouterWidget(Widget widget,
       {String initialLocation = "/",
       String locale = "en",
@@ -91,6 +97,7 @@ extension RouterWidgetTester on WidgetTester {
     );
   }
 
+  /// Pump a localized widget
   Future<void> pumpLocalizedWidget(Widget widget,
       {String locale = "en",
       double textScaleFactor = 0.9,
