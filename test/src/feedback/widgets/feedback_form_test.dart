@@ -42,15 +42,14 @@ void main() {
         bool isSubmitEnabled = false,
         bool allowScreenshot = false,
         VoidCallback? onScreenshotButtonPressed}) async {
-      await tester.pumpWidget(LocalizedWidget(
-          child: FeedbackForm(
-              feedbackType: type,
-              onChange: mock.onChange,
-              validator: mock.validator,
-              onSubmit: mock.onSubmit,
-              isSubmitEnabled: isSubmitEnabled,
-              allowScreenshot: allowScreenshot,
-              onScreenshotButtonPressed: onScreenshotButtonPressed)));
+      await tester.pumpLocalizedWidget(FeedbackForm(
+          feedbackType: type,
+          onChange: mock.onChange,
+          validator: mock.validator,
+          onSubmit: mock.onSubmit,
+          isSubmitEnabled: isSubmitEnabled,
+          allowScreenshot: allowScreenshot,
+          onScreenshotButtonPressed: onScreenshotButtonPressed));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackForm);

@@ -20,6 +20,7 @@ class PrepareQuizView extends StatelessWidget {
     return ViewModelBuilder<PrepareQuizViewModel>.reactive(
       viewModelBuilder: () => PrepareQuizViewModel(GoRouter.of(context)),
       builder: (context, viewModel, _) => AppScaffold(
+          showBottomBar: true,
           appBar: AppBar(
             title: Text(l10n.quiz_build_title),
             centerTitle: true,

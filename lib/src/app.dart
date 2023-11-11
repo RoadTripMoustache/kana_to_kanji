@@ -48,9 +48,10 @@ class KanaToKanjiApp extends StatelessWidget {
     await locator<SettingsRepository>().loadSettings();
   }
 
+  late final _router = buildRouter(locator<DialogService>().navigatorKey);
+
   @override
   Widget build(BuildContext context) {
-    final router = buildRouter(locator<DialogService>().navigatorKey);
     return AnimatedBuilder(
         animation: _settingsRepository,
         builder: (BuildContext context, _) {
@@ -78,7 +79,7 @@ class KanaToKanjiApp extends StatelessWidget {
                 themeMode: _settingsRepository.themeMode,
 
                 // Router
-                routerConfig: router),
+                routerConfig: _router),
           );
         });
   }

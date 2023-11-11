@@ -27,8 +27,8 @@ void main() {
           (WidgetTester tester) async {
         question.remainingAttempt = 0;
 
-        await tester.pumpWidget(
-            LocalizedWidget(child: QuestionReviewTile(question: question)));
+        await tester
+            .pumpLocalizedWidget(QuestionReviewTile(question: question));
         await tester.pumpAndSettle();
 
         final widget = find.byType(QuestionReviewTile);
@@ -58,8 +58,8 @@ void main() {
           (WidgetTester tester) async {
         question.remainingAttempt = 1;
 
-        await tester.pumpWidget(
-            LocalizedWidget(child: QuestionReviewTile(question: question)));
+        await tester
+            .pumpLocalizedWidget(QuestionReviewTile(question: question));
         await tester.pumpAndSettle();
 
         final widget = find.byType(QuestionReviewTile);

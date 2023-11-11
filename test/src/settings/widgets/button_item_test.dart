@@ -10,12 +10,11 @@ void main() {
       const String title = 'TEST';
       int called = 0;
 
-      await tester.pumpWidget(LocalizedWidget(
-          child: ButtonItem(
-              child: const Text(title),
-              onPressed: () {
-                called++;
-              })));
+      await tester.pumpLocalizedWidget(ButtonItem(
+          child: const Text(title),
+          onPressed: () {
+            called++;
+          }));
       await tester.pumpAndSettle();
 
       final widget = find.byType(ButtonItem);

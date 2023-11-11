@@ -12,13 +12,12 @@ void main() {
       const IconData leading = Icons.abc;
       const IconData trailing = Icons.account_circle_outlined;
 
-      await tester.pumpWidget(const LocalizedWidget(
-          child: TileItem(
+      await tester.pumpLocalizedWidget(const TileItem(
         title: Text(title),
         subtitle: Text(subtitle),
         leading: Icon(leading),
         trailing: Icon(trailing),
-      )));
+      ));
       await tester.pumpAndSettle();
 
       final widget = find.byType(TileItem);

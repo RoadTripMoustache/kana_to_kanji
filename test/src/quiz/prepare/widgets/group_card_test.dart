@@ -16,11 +16,10 @@ void main() {
 
     group("UI", () {
       testWidgets("Default", (WidgetTester tester) async {
-        await tester.pumpWidget(LocalizedWidget(
-            child: GroupCard(
+        await tester.pumpLocalizedWidget(GroupCard(
           group: groupSample,
           onTap: (Group group) {},
-        )));
+        ));
 
         final widget = find.byType(GroupCard);
 
@@ -41,12 +40,11 @@ void main() {
       });
 
       testWidgets("Checked", (WidgetTester tester) async {
-        await tester.pumpWidget(LocalizedWidget(
-            child: GroupCard(
+        await tester.pumpLocalizedWidget(GroupCard(
           group: groupSample,
           onTap: (Group group) {},
           isChecked: true,
-        )));
+        ));
 
         final widget = find.byType(GroupCard);
 
@@ -67,9 +65,8 @@ void main() {
       });
 
       testWidgets("Localized name", (WidgetTester tester) async {
-        await tester.pumpWidget(LocalizedWidget(
-            child: GroupCard(
-                group: localizedGroupSample, onTap: (Group group) {})));
+        await tester.pumpLocalizedWidget(
+            GroupCard(group: localizedGroupSample, onTap: (Group group) {}));
 
         final widget = find.byType(GroupCard);
 
@@ -91,13 +88,12 @@ void main() {
 
       testWidgets("Tapping on the checkbox should call onTap",
           (WidgetTester tester) async {
-        await tester.pumpWidget(LocalizedWidget(
-            child: GroupCard(
+        await tester.pumpLocalizedWidget(GroupCard(
           group: groupSample,
           onTap: (Group group) {
             log.add(group.id);
           },
-        )));
+        ));
 
         await tester.tap(find.byType(Checkbox));
 
@@ -106,13 +102,12 @@ void main() {
 
       testWidgets("Tapping on the text should call onTap",
           (WidgetTester tester) async {
-        await tester.pumpWidget(LocalizedWidget(
-            child: GroupCard(
+        await tester.pumpLocalizedWidget(GroupCard(
           group: groupSample,
           onTap: (Group group) {
             log.add(group.id);
           },
-        )));
+        ));
 
         await tester.tap(find.text(groupSample.name));
 
@@ -121,13 +116,12 @@ void main() {
 
       testWidgets("Tapping on the card should call onTap",
           (WidgetTester tester) async {
-        await tester.pumpWidget(LocalizedWidget(
-            child: GroupCard(
+        await tester.pumpLocalizedWidget(GroupCard(
           group: groupSample,
           onTap: (Group group) {
             log.add(group.id);
           },
-        )));
+        ));
 
         await tester.tap(find.byType(Card));
 

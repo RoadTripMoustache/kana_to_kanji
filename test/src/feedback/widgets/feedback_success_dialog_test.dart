@@ -15,8 +15,7 @@ void main() {
 
     testWidgets("Should have a done green icon and thanks text",
         (WidgetTester tester) async {
-      await tester
-          .pumpWidget(const LocalizedWidget(child: FeedbackSuccessDialog()));
+      await tester.pumpLocalizedWidget(const FeedbackSuccessDialog());
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackSuccessDialog);

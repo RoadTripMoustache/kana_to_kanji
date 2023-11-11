@@ -29,8 +29,8 @@ void main() {
     });
 
     Future<Finder> buildWidget(WidgetTester tester) async {
-      await tester.pumpWidget(LocalizedWidget(
-          child: FeedbackScreenshotForm(onSubmit: mock.onSubmit)));
+      await tester
+          .pumpLocalizedWidget(FeedbackScreenshotForm(onSubmit: mock.onSubmit));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackScreenshotForm);

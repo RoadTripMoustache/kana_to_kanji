@@ -24,8 +24,8 @@ void main() {
     });
 
     testWidgets("UI", (WidgetTester tester) async {
-      await tester.pumpWidget(LocalizedWidget(
-          child: ToReviewSection(questionsToReview: questions)));
+      await tester
+          .pumpLocalizedWidget(ToReviewSection(questionsToReview: questions));
       await tester.pumpAndSettle();
 
       final widget = find.byType(ToReviewSection);

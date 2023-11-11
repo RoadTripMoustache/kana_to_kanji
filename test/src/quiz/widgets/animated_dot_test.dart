@@ -8,8 +8,7 @@ void main() {
   group("AnimatedDot", () {
     testWidgets("Dot should be filled with the default color",
         (WidgetTester tester) async {
-      const widget = AnimatedDot(filledOut: true);
-      await tester.pumpWidget(const LocalizedWidget(child: widget));
+      await tester.pumpLocalizedWidget(const AnimatedDot(filledOut: true));
       await tester.pumpAndSettle();
 
       final found = find.byType(Container);
@@ -26,11 +25,10 @@ void main() {
     testWidgets("Dot should be filled with the passed color",
         (WidgetTester tester) async {
       const color = Colors.red;
-      const widget = AnimatedDot(
+      await tester.pumpLocalizedWidget(const AnimatedDot(
         filledOut: true,
         color: color,
-      );
-      await tester.pumpWidget(const LocalizedWidget(child: widget));
+      ));
       await tester.pumpAndSettle();
 
       final found = find.byType(Container);
@@ -46,8 +44,7 @@ void main() {
 
     testWidgets("Dot should be not filled out with the default color",
         (WidgetTester tester) async {
-      const widget = AnimatedDot(filledOut: false);
-      await tester.pumpWidget(const LocalizedWidget(child: widget));
+      await tester.pumpLocalizedWidget(const AnimatedDot(filledOut: false));
       await tester.pumpAndSettle();
 
       final found = find.byType(Container);

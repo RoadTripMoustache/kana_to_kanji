@@ -4,6 +4,25 @@
   "app_title_kana": "Kana",
   "app_title_to": "と",
   "app_title_kanji": "kanji",
+  "app_bottom_bar_home": "Home",
+  "app_bottom_bar_lesson": "Learn",
+  "app_bottom_bar_practice": "Practice",
+  "app_bottom_bar_glossary": "Glossary",
+  "app_bottom_bar_profile": "You",
+  "page_not_found": "The page you are search for ({uri}) wasn't found...",
+  "@page_not_found": {
+    "description": "Indication that the page search wasn't found",
+    "placeholders": {
+      "uri": {
+        "type": "String",
+        "example": "/home/you"
+      }
+    }
+  },
+  "go_home_button": "Go home",
+  "@go_home_button": {
+    "description": "Button text to return to home page"
+  },
   "button_continue": "Continue",
   "percent": "{percent}",
   "@percent": {

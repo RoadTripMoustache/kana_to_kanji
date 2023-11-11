@@ -16,8 +16,8 @@ void main() {
 
     testWidgets("Should display bug and feature request buttons",
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-          LocalizedWidget(child: FeedbackTypeSelection(onPressed: (_) {})));
+      await tester
+          .pumpLocalizedWidget(FeedbackTypeSelection(onPressed: (_) {}));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackTypeSelection);
@@ -72,8 +72,8 @@ void main() {
         typePassed = type;
       }
 
-      await tester.pumpWidget(
-          LocalizedWidget(child: FeedbackTypeSelection(onPressed: onPressed)));
+      await tester
+          .pumpLocalizedWidget(FeedbackTypeSelection(onPressed: onPressed));
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackTypeSelection);
