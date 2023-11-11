@@ -12,10 +12,9 @@ void main() {
         final l10n = await setupLocalizations();
         const value = 0.0;
 
-        await tester.pumpWidget(const LocalizedWidget(
-            child: ArcProgressIndicator(
+        await tester.pumpLocalizedWidget(const ArcProgressIndicator(
           value: value,
-        )));
+        ));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);
@@ -31,11 +30,10 @@ void main() {
         final l10n = await setupLocalizations();
         const value = 0.0;
 
-        await tester.pumpWidget(const LocalizedWidget(
-            child: ArcProgressIndicator(
+        await tester.pumpLocalizedWidget(const ArcProgressIndicator(
           value: value,
           showPercentage: false,
-        )));
+        ));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);
@@ -49,11 +47,10 @@ void main() {
 
       testWidgets("Custom radius", (WidgetTester tester) async {
         const double customRadius = 300.0;
-        await tester.pumpWidget(const LocalizedWidget(
-            child: ArcProgressIndicator(
+        await tester.pumpLocalizedWidget(const ArcProgressIndicator(
           value: 0.0,
           radius: customRadius,
-        )));
+        ));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);
@@ -85,9 +82,8 @@ void main() {
 
         final l10n = await setupLocalizations();
 
-        await tester.pumpWidget(const LocalizedWidget(
-            child: ArcProgressIndicator(
-                value: value, alternativeText: alternativeText)));
+        await tester.pumpLocalizedWidget(const ArcProgressIndicator(
+            value: value, alternativeText: alternativeText));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);
@@ -124,8 +120,8 @@ void main() {
 
         final l10n = await setupLocalizations();
 
-        await tester.pumpWidget(
-            const LocalizedWidget(child: ArcProgressIndicator(value: value)));
+        await tester
+            .pumpLocalizedWidget(const ArcProgressIndicator(value: value));
         await tester.pumpAndSettle();
 
         final widget = find.byType(ArcProgressIndicator);

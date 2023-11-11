@@ -113,35 +113,3 @@ extension RouterWidgetTester on WidgetTester {
 Future<AppLocalizations> setupLocalizations([String locale = 'en']) async {
   return AppLocalizations.delegate.load(Locale(locale));
 }
-
-/// Load the l10n classes. Take the [child] widget to test
-@Deprecated("Use pumpLocalizedWidget instead")
-class LocalizedWidget extends StatelessWidget {
-  final Widget child;
-
-  final bool useScaffold;
-
-  final String locale;
-
-  final double textScaleFactor;
-
-  final ThemeMode themeMode;
-
-  const LocalizedWidget(
-      {super.key,
-      required this.child,
-      this.useScaffold = true,
-      this.locale = 'en',
-      this.textScaleFactor = 0.9,
-      this.themeMode = ThemeMode.light});
-
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: themeMode,
-        locale: Locale(locale),
-        home: useScaffold ? Scaffold(body: child) : child,
-      );
-}

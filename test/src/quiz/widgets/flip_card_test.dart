@@ -13,7 +13,7 @@ void main() {
         (WidgetTester tester) async {
       const widget = FlipCard(front: Text(frontText), back: Text(rearText));
 
-      await tester.pumpWidget(const LocalizedWidget(child: widget));
+      await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
 
       expect(find.text(frontText), findsOneWidget);
@@ -25,7 +25,7 @@ void main() {
       const widget =
           FlipCard(front: Text(frontText), back: Text(rearText), flipped: true);
 
-      await tester.pumpWidget(const LocalizedWidget(child: widget));
+      await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
 
       expect(find.text(frontText), findsNothing);
@@ -40,7 +40,7 @@ void main() {
             back: Text(rearText),
             allowTapToFlip: false);
 
-        await tester.pumpWidget(const LocalizedWidget(child: widget));
+        await tester.pumpLocalizedWidget(widget);
         await tester.pumpAndSettle();
 
         expect(find.text(frontText), findsOneWidget);
@@ -58,7 +58,7 @@ void main() {
         const widget = FlipCard(
             front: Text(frontText), back: Text(rearText), allowTapToFlip: true);
 
-        await tester.pumpWidget(const LocalizedWidget(child: widget));
+        await tester.pumpLocalizedWidget(widget);
         await tester.pumpAndSettle();
 
         expect(find.text(frontText), findsOneWidget);
