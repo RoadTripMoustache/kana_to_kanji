@@ -10,18 +10,21 @@ class Kanji {
   final int id;
 
   final String kanji;
-  final int? nbrTraits;
+  /// Number of strokes necessary to draw the kanji
+  final int? numberOfStrokes;
   final int? grade;
   @JsonKey(name: "niveau_jlpt")
-  final int niveauJLPT;
+  final int jlptLevel;
   @Default([])
-  final List<String> traductions;
+  final List<String> translations;
+  /// Pronunciations in sino-Japanese
   @Default([])
   @JsonKey(name: "lectures_on")
-  final List<String> lecturesOn;
+  final List<String> onPronunciations;
+  /// Pronunciations in Japanese
   @Default([])
   @JsonKey(name: "lectures_kun")
-  final List<String> lecturesKun;
+  final List<String> kunPronunciations;
   final String version;
   /// List of vocabulary words that use the kanji
   @Default([])
