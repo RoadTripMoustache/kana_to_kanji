@@ -9,12 +9,15 @@ part 'vocabulary.g.dart';
 class Vocabulary {
   final int id;
 
+  /// Contains the vocabulary word entirely even if it is a mix of kana and kanji.
   final String kanji;
+  /// Full kana version of the word
   final String kana;
   @JsonKey(name: "niveau_jlpt")
-  final int niveauJLPT;
+  final int jlptLevel;
+  /// Translations and meaning of the word
   @Default([])
-  final List<String> significations;
+  final List<String> meanings;
   final String romaji;
   @Default([])
   @JsonKey(name: "related_kanjis")
