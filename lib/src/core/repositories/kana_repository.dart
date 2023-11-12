@@ -20,4 +20,12 @@ class KanaRepository {
   Future<List<Kana>> getByGroupId(int groupId) async {
     return _kanaService.getByGroupId(groupId);
   }
+
+  Future<List<Kana>> getHiragana() async {
+    return _kanaService.getHiragana();
+  }
+
+  Future<List<Kana>> getKatakana() async {
+    return _kanaService.getKatakana();
+  }
 }
