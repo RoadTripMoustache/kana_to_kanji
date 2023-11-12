@@ -12,6 +12,7 @@ class Kanji {
   final String kanji;
 
   /// Number of strokes necessary to draw the kanji
+  @JsonKey(name: "nbr_strokes")
   final int? numberOfStrokes;
 
   /// Class in which kanji is taught
@@ -19,17 +20,17 @@ class Kanji {
   @JsonKey(name: "jlpt_level")
   final int jlptLevel;
   @Default([])
-  final List<String> translations;
+  final List<String> meanings;
 
   /// Pronunciations in sino-Japanese
   @Default([])
   @JsonKey(name: "on_readings")
-  final List<String> onPronunciations;
+  final List<String> onReadings;
 
   /// Pronunciations in Japanese
   @Default([])
   @JsonKey(name: "kun_readings")
-  final List<String> kunPronunciations;
+  final List<String> kunReadings;
   final String version;
 
   /// List of vocabulary word ids that use the kanji
@@ -43,9 +44,9 @@ class Kanji {
       this.numberOfStrokes,
       this.grade,
       this.jlptLevel,
-      this.translations,
-      this.onPronunciations,
-      this.kunPronunciations,
+      this.meanings,
+      this.onReadings,
+      this.kunReadings,
       this.version,
       this.vocabularyIds);
 
