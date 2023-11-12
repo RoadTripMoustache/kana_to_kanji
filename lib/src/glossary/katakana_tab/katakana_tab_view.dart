@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/katakana_tab/katakana_tab_view_model.dart';
+import 'package:kana_to_kanji/src/glossary/katakana_tab/katakana_tab_view_model.dart';
 import 'package:stacked/stacked.dart';
 
 class KatakanaTabView extends StatelessWidget {

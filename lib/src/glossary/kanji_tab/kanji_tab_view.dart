@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/kanji_tab/kanji_tab_view_model.dart';
+import 'package:kana_to_kanji/src/glossary/kanji_tab/kanji_tab_view_model.dart';
 import 'package:stacked/stacked.dart';
 
 class KanjiTabView extends StatelessWidget {

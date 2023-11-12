@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/constants/icons.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view_model.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/hiragana_tab/hiragana_tab_view.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/kanji_tab/kanji_tab_view.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/katakana_tab/katakana_tab_view.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_tab/vocabulary_tab_view.dart';
+import 'package:kana_to_kanji/src/glossary/hiragana_tab/hiragana_tab_view.dart';
+import 'package:kana_to_kanji/src/glossary/kanji_tab/kanji_tab_view.dart';
+import 'package:kana_to_kanji/src/glossary/katakana_tab/katakana_tab_view.dart';
+import 'package:kana_to_kanji/src/glossary/vocabulary_tab/vocabulary_tab_view.dart';
 import 'package:stacked/stacked.dart';
 
 class GlossaryView extends StatefulWidget {
@@ -41,20 +41,43 @@ class _GlossaryViewState extends State<GlossaryView> with TickerProviderStateMix
     final AppLocalizations l10n = AppLocalizations.of(context);
 
     return ViewModelBuilder<GlossaryViewModel>.reactive(
-        viewModelBuilder: () => GlossaryViewModel(GoRouter.of(context), l10n: l10n),
+        viewModelBuilder: () => GlossaryViewModel(),
         builder: (context, viewModel, child) {
           return AppScaffold(
               resizeToAvoidBottomInset: true,
               showBottomBar: true,
               appBar: AppBar(
-                title: Text(l10n.glossary_page_title),
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: IconButton(
+                        onPressed: () => {},
+                        icon: const Icon(Icons.search),
+                      ),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Center(child: Text(l10n.glossary_page_title), ),
+                      flex: 8,
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        onPressed: () => {},
+                        icon: const Icon(Icons.filter_list_rounded),
+                      ),
+                      flex: 1,
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        onPressed: () => {},
+                        icon: const Icon(Icons.tune),
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
-                actions: [
-                  IconButton(
-                      onPressed: viewModel.onSettingsTapped,
-                      icon: const Icon(Icons.settings_outlined))
-                ],
               ),
               body: Column(
                 mainAxisSize: MainAxisSize.max,
