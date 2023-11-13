@@ -1,8 +1,4 @@
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
