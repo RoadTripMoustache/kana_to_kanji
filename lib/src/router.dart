@@ -20,8 +20,7 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
         routes: [
           GoRoute(
               path: SplashView.routeName,
-              builder: (_, __) => const SplashView()
-          ),
+              builder: (_, __) => const SplashView()),
           GoRoute(
               path: PrepareQuizView.routeName,
               builder: (_, __) => const PrepareQuizView(),
@@ -51,14 +50,11 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
                     builder: (_, state) => QuizConclusionView(
                           questions: state.extra as List<Question>,
                         ))
-              ]
-          ),
+              ]),
           GoRoute(
               path: SettingsView.routeName,
-              builder: (_, __) => const SettingsView()
-          ),
+              builder: (_, __) => const SettingsView()),
           GoRoute(
               path: GlossaryView.routeName,
-              builder: (_, __) => const GlossaryView()
-          )
+              builder: (_, __) => const GlossaryView())
         ]);

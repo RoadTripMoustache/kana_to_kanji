@@ -13,8 +13,10 @@ class HiraganaTabView extends StatelessWidget {
       builder: (context, viewModel, __) => AppScaffold(
           body: SingleChildScrollView(
         child: Column(
-            children:
-                List.generate(viewModel.hiraganaList.length, (index) => Card(child: Text(viewModel.hiraganaList[index].kana)))),
+            children: List.generate(
+                viewModel.hiraganaList.length,
+                (index) =>
+                    Card(child: Text(viewModel.hiraganaList[index].kana)))),
       )),
     );
   }

@@ -6,7 +6,6 @@ import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class KanjiTabViewModel extends FutureViewModel {
-
   final KanjiRepository _kanjiRepository = locator<KanjiRepository>();
 
   final List<Kanji> _kanjiList = [];
@@ -23,5 +22,4 @@ class KanjiTabViewModel extends FutureViewModel {
       kanjiList.add(kanji);
     }
   }
-
 }

@@ -8,8 +8,8 @@ import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class VocaabularyTabViewModel extends FutureViewModel {
-
-  final VocabularyRepository _vocabularyRepository = locator<VocabularyRepository>();
+  final VocabularyRepository _vocabularyRepository =
+      locator<VocabularyRepository>();
 
   final List<Vocabulary> _vocabularyList = [];
 
@@ -25,5 +25,4 @@ class VocaabularyTabViewModel extends FutureViewModel {
       vocabularyList.add(vocabulary);
     }
   }
-
 }

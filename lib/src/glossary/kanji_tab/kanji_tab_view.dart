@@ -13,8 +13,10 @@ class KanjiTabView extends StatelessWidget {
       builder: (context, viewModel, __) => AppScaffold(
           body: SingleChildScrollView(
         child: Column(
-            children:
-                List.generate(viewModel.kanjiList.length, (index) => Card(child: Text(viewModel.kanjiList[index].kanji)))),
+            children: List.generate(
+                viewModel.kanjiList.length,
+                (index) =>
+                    Card(child: Text(viewModel.kanjiList[index].kanji)))),
       )),
     );
   }

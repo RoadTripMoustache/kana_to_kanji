@@ -4,7 +4,6 @@ import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class HiraganaTabViewModel extends FutureViewModel {
-
   final KanaRepository _kanaRepository = locator<KanaRepository>();
 
   final List<Kana> _hiraganaList = [];
@@ -21,5 +20,4 @@ class HiraganaTabViewModel extends FutureViewModel {
       _hiraganaList.add(kana);
     }
   }
-
 }

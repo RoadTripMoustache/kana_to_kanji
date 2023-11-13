@@ -15,13 +15,12 @@ class GlossaryView extends StatefulWidget {
 
   const GlossaryView({super.key});
 
-
   @override
   State<GlossaryView> createState() => _GlossaryViewState();
 }
 
-class _GlossaryViewState extends State<GlossaryView> with TickerProviderStateMixin {
-
+class _GlossaryViewState extends State<GlossaryView>
+    with TickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -57,7 +56,9 @@ class _GlossaryViewState extends State<GlossaryView> with TickerProviderStateMix
                       flex: 2,
                     ),
                     Expanded(
-                      child: Center(child: Text(l10n.glossary_page_title), ),
+                      child: Center(
+                        child: Text(l10n.glossary_page_title),
+                      ),
                       flex: 8,
                     ),
                     Expanded(
@@ -91,15 +92,15 @@ class _GlossaryViewState extends State<GlossaryView> with TickerProviderStateMix
                         icon: Icon(hiraganaIcon),
                       ),
                       Tab(
-                          text: l10n.glossary_tab_katakana,
-                          icon: Icon(katakanaIcon),
+                        text: l10n.glossary_tab_katakana,
+                        icon: Icon(katakanaIcon),
                       ),
                       Tab(
-                          text: l10n.glossary_tab_kanji,
-                          icon: Icon(kanjiIcon),
+                        text: l10n.glossary_tab_kanji,
+                        icon: Icon(kanjiIcon),
                       ),
                       Tab(
-                          text: l10n.glossary_tab_vocabulary,
+                        text: l10n.glossary_tab_vocabulary,
                       ),
                     ],
                   ),

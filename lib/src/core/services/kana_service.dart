@@ -39,5 +39,4 @@ class KanaService {
   Future<List<Kana>> getKatakana() async {
     return getKana(Alphabets.katakana);
   }
-
 }
