@@ -1,6 +1,4 @@
 import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 
