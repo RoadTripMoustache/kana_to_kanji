@@ -48,31 +48,31 @@ class _GlossaryViewState extends State<GlossaryView>
                 title: Row(
                   children: [
                     Expanded(
+                      flex: 2,
                       child: IconButton(
                         onPressed: () => {},
                         icon: const Icon(Icons.search),
                       ),
-                      flex: 2,
                     ),
                     Expanded(
+                      flex: 8,
                       child: Center(
                         child: Text(l10n.glossary_page_title),
                       ),
-                      flex: 8,
                     ),
                     Expanded(
+                      flex: 1,
                       child: IconButton(
                         onPressed: () => {},
                         icon: const Icon(Icons.filter_list_rounded),
                       ),
-                      flex: 1,
                     ),
                     Expanded(
+                      flex: 1,
                       child: IconButton(
                         onPressed: () => {},
                         icon: const Icon(Icons.tune),
                       ),
-                      flex: 1,
                     ),
                   ],
                 ),
@@ -88,15 +88,15 @@ class _GlossaryViewState extends State<GlossaryView>
                     tabs: <Widget>[
                       Tab(
                         text: l10n.glossary_tab_hiragana,
-                        icon: Icon(hiraganaIcon),
+                        icon: const Icon(hiraganaIcon),
                       ),
                       Tab(
                         text: l10n.glossary_tab_katakana,
-                        icon: Icon(katakanaIcon),
+                        icon: const Icon(katakanaIcon),
                       ),
                       Tab(
                         text: l10n.glossary_tab_kanji,
-                        icon: Icon(kanjiIcon),
+                        icon: const Icon(kanjiIcon),
                       ),
                       Tab(
                         text: l10n.glossary_tab_vocabulary,
@@ -106,7 +106,7 @@ class _GlossaryViewState extends State<GlossaryView>
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,
-                      children: <Widget>[
+                      children: const <Widget>[
                         HiraganaTabView(),
                         KatakanaTabView(),
                         KanjiTabView(),
