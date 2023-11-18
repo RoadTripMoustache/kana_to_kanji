@@ -83,15 +83,14 @@ class _GlossaryViewState extends State<GlossaryView>
                         icon: const Icon(kanjiIcon),
                       ),
                       Tab(
-                        text: l10n.glossary_tab_vocabulary,
-                        icon: Row(
+                          text: l10n.glossary_tab_vocabulary,
+                          icon: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                                Icon(IconData(0x8a9e)),
-                                Icon(IconData(0x5f59)),
+                              Icon(IconData(0x8a9e)),
+                              Icon(IconData(0x5f59)),
                             ],
-                        )
-                      ),
+                          )),
                     ],
                   ),
                   Expanded(
