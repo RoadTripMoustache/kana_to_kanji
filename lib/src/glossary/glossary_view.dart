@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/constants/icons.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view_model.dart';
 import 'package:kana_to_kanji/src/glossary/hiragana_tab/hiragana_tab_view.dart';
@@ -62,39 +61,36 @@ class _GlossaryViewState extends State<GlossaryView>
                 ],
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
+                bottom: TabBar.secondary(
+                  controller: _tabController,
+                  tabs: <Widget>[
+                    Tab(
+                      text: l10n.glossary_tab_hiragana,
+                      icon: const Icon(IconData(0x3041)),
+                    ),
+                    Tab(
+                      text: l10n.glossary_tab_katakana,
+                      icon: const Icon(IconData(0x30a2)),
+                    ),
+                    Tab(
+                      text: l10n.glossary_tab_kanji,
+                      icon: const Icon(IconData(0x8a9e)),
+                    ),
+                    Tab(
+                        text: l10n.glossary_tab_vocabulary,
+                        icon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(IconData(0x8a9e)),
+                            Icon(IconData(0x5f59)),
+                          ],
+                        )
+                    ),
+                  ],
+                ),
               ),
-              body: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TabBar.secondary(
-                    controller: _tabController,
-                    tabs: <Widget>[
-                      Tab(
-                        text: l10n.glossary_tab_hiragana,
-                        icon: const Icon(hiraganaIcon),
-                      ),
-                      Tab(
-                        text: l10n.glossary_tab_katakana,
-                        icon: const Icon(katakanaIcon),
-                      ),
-                      Tab(
-                        text: l10n.glossary_tab_kanji,
-                        icon: const Icon(kanjiIcon),
-                      ),
-                      Tab(
-                          text: l10n.glossary_tab_vocabulary,
-                          icon: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(IconData(0x8a9e)),
-                              Icon(IconData(0x5f59)),
-                            ],
-                          )),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
+              body:
+                  TabBarView(
                       controller: _tabController,
                       children: const <Widget>[
                         HiraganaTabView(),
@@ -102,10 +98,8 @@ class _GlossaryViewState extends State<GlossaryView>
                         KanjiTabView(),
                         VocabularyTabView(),
                       ],
-                    ),
-                  ),
-                ],
-              ));
+                    )
+              );
         });
   }
 }
