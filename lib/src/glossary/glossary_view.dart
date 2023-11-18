@@ -45,37 +45,21 @@ class _GlossaryViewState extends State<GlossaryView>
               resizeToAvoidBottomInset: true,
               showBottomBar: true,
               appBar: AppBar(
-                title: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: IconButton(
-                        onPressed: () => {},
-                        icon: const Icon(Icons.search),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: Center(
-                        child: Text(l10n.glossary_page_title),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: IconButton(
-                        onPressed: () => {},
-                        icon: const Icon(Icons.filter_list_rounded),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: IconButton(
-                        onPressed: () => {},
-                        icon: const Icon(Icons.tune),
-                      ),
-                    ),
-                  ],
+                leading: IconButton(
+                  onPressed: () => {},
+                  icon: const Icon(Icons.search),
                 ),
+                title: Text(l10n.glossary_page_title),
+                actions: [
+                  IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.filter_list_rounded),
+                  ),
+                  IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.tune),
+                  ),
+                ],
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
               ),
