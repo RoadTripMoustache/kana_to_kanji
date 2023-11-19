@@ -40,7 +40,6 @@ extension WidgetTesterExtension on WidgetTester {
                 ),
               ),
             )
-            .toList()
       ],
     );
 
@@ -81,7 +80,6 @@ extension WidgetTesterExtension on WidgetTester {
                 ),
               ),
             )
-            .toList()
       ],
     );
 
