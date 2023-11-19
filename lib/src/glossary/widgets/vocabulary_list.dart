@@ -12,11 +12,9 @@ class VocabularyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
         body: SingleChildScrollView(
-          child: Column(
-              children: List.generate(
-                  dataList.length,
-                      (index) =>
-                          VocabularyListTile(data: dataList[index].romaji))),
-        ));
+      child: Column(
+          children: List.generate(dataList.length,
+              (index) => VocabularyListTile(data: dataList[index].romaji))),
+    ));
   }
 }

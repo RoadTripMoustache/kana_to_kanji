@@ -28,11 +28,15 @@ class KanaRepository {
 
   Future<List<Kana>> getHiragana() async {
     await loadKana();
-    return _kana.where((element) => Alphabets.hiragana == element.alphabet).toList();
+    return _kana
+        .where((element) => Alphabets.hiragana == element.alphabet)
+        .toList();
   }
 
   Future<List<Kana>> getKatakana() async {
     await loadKana();
-    return _kana.where((element) => Alphabets.katakana == element.alphabet).toList();
+    return _kana
+        .where((element) => Alphabets.katakana == element.alphabet)
+        .toList();
   }
 }

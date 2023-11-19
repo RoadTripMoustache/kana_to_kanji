@@ -83,22 +83,19 @@ class _GlossaryViewState extends State<GlossaryView>
                             Icon(IconData(0x8a9e)),
                             Icon(IconData(0x5f59)),
                           ],
-                        )
-                    ),
+                        )),
                   ],
                 ),
               ),
-              body:
-                  TabBarView(
-                      controller: _tabController,
-                      children: <Widget>[
-                        KanaList(dataList: viewModel.hiraganaList),
-                        KanaList(dataList: viewModel.katakanaList),
-                        KanjiList(dataList: viewModel.kanjiList),
-                        VocabularyList(dataList: viewModel.vocabularyList),
-                      ],
-                    )
-              );
+              body: TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  KanaList(dataList: viewModel.hiraganaList),
+                  KanaList(dataList: viewModel.katakanaList),
+                  KanjiList(dataList: viewModel.kanjiList),
+                  VocabularyList(dataList: viewModel.vocabularyList),
+                ],
+              ));
         });
   }
 }
