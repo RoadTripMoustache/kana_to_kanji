@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view_model.dart';
-import 'package:kana_to_kanji/src/glossary/hiragana_tab/hiragana_tab_view.dart';
-import 'package:kana_to_kanji/src/glossary/kanji_tab/kanji_tab_view.dart';
-import 'package:kana_to_kanji/src/glossary/katakana_tab/katakana_tab_view.dart';
-import 'package:kana_to_kanji/src/glossary/vocabulary_tab/vocabulary_tab_view.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/kana_list.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/kanji_list.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart';
 import 'package:stacked/stacked.dart';
 
 class GlossaryView extends StatefulWidget {
@@ -48,7 +47,7 @@ class _GlossaryViewState extends State<GlossaryView>
                   onPressed: () => {},
                   icon: const Icon(Icons.search),
                 ),
-                title: Text(l10n.glossary_page_title),
+                title: Text(l10n.glossary_view_title),
                 actions: [
                   IconButton(
                     onPressed: () => {},
@@ -92,11 +91,11 @@ class _GlossaryViewState extends State<GlossaryView>
               body:
                   TabBarView(
                       controller: _tabController,
-                      children: const <Widget>[
-                        HiraganaTabView(),
-                        KatakanaTabView(),
-                        KanjiTabView(),
-                        VocabularyTabView(),
+                      children: <Widget>[
+                        KanaList(dataList: viewModel.hiraganaList),
+                        KanaList(dataList: viewModel.katakanaList),
+                        KanjiList(dataList: viewModel.kanjiList),
+                        VocabularyList(dataList: viewModel.vocabularyList),
                       ],
                     )
               );

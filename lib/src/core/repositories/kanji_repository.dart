@@ -4,7 +4,15 @@ import 'package:kana_to_kanji/src/core/services/kanji_service.dart';
 class KanjiRepository {
   final KanjiService _kanjiService = KanjiService();
 
-  Future<List<Kanji>> getAll() {
-    return _kanjiService.getAll();
+  final List<Kanji> _kanjis = [];
+
+  Future<List<Kanji>> getAll() async {
+    if (_kanjis.isNotEmpty) {
+      return _kanjis;
+    }
+    var kanjis = await _kanjiService.getAll();
+    _kanjis.addAll(kanjis);
+
+    return kanjis;
   }
 }
