@@ -80,8 +80,8 @@ class _GlossaryViewState extends State<GlossaryView>
                         icon: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(IconData(0x8a9e)),
-                            const Icon(IconData(0x5f59)),
+                            Icon(IconData(0x8a9e)),
+                            Icon(IconData(0x5f59)),
                           ],
                         )),
                   ],
