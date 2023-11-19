@@ -9,7 +9,6 @@ class VocabularyRepository {
     if (_vocabulary.isNotEmpty) {
       return _vocabulary;
     }
-    print("pouet");
     var vocabulary = await _vocabularyService.getAll();
     _vocabulary.addAll(vocabulary);
 

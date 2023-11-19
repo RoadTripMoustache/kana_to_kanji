@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list_tile.dart';

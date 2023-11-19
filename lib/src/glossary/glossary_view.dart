@@ -77,11 +77,11 @@ class _GlossaryViewState extends State<GlossaryView>
                     ),
                     Tab(
                         text: l10n.glossary_tab_vocabulary,
-                        icon: Row(
+                        icon: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(IconData(0x8a9e)),
-                            Icon(IconData(0x5f59)),
+                            const Icon(IconData(0x8a9e)),
+                            const Icon(IconData(0x5f59)),
                           ],
                         )),
                   ],
