@@ -76,8 +76,8 @@ class _GlossaryViewState extends State<GlossaryView>
                       icon: const Text("語"),
                     ),
                     Tab(
-                        text: l10n.glossary_tab_vocabulary,
-                        icon: const Text("語彙"),
+                      text: l10n.glossary_tab_vocabulary,
+                      icon: const Text("語彙"),
                     ),
                   ],
                 ),
