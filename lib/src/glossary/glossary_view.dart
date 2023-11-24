@@ -65,24 +65,20 @@ class _GlossaryViewState extends State<GlossaryView>
                   tabs: <Widget>[
                     Tab(
                       text: l10n.glossary_tab_hiragana,
-                      icon: const Icon(Icons.close),
+                      icon: const Text("あ"),
                     ),
                     Tab(
                       text: l10n.glossary_tab_katakana,
-                      icon: const Icon(Icons.close),
+                      icon: const Text("ア"),
                     ),
                     Tab(
                       text: l10n.glossary_tab_kanji,
-                      icon: const Icon(Icons.close),
+                      icon: const Text("語"),
                     ),
                     Tab(
                         text: l10n.glossary_tab_vocabulary,
-                        icon: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.close),
-                          ],
-                        )),
+                        icon: const Text("語彙"),
+                    ),
                   ],
                 ),
               ),
