@@ -9,7 +9,7 @@ void main() {
   group("VocabularyList", () {
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const VocabularyList(
-        dataList: [],
+        items: [],
       ));
       await tester.pumpAndSettle();
 
@@ -21,7 +21,7 @@ void main() {
       List<Vocabulary> vocabularyList = [];
       vocabularyList.add(Vocabulary(1, "a", "a", 1, [], "a", [], "a"));
       await tester.pumpLocalizedWidget(VocabularyList(
-        dataList: vocabularyList,
+        items: vocabularyList,
       ));
       await tester.pumpAndSettle();
 
@@ -41,7 +41,7 @@ void main() {
       vocabularyList.add(Vocabulary(1, "a", "a", 1, [], "a", [], "a"));
       vocabularyList.add(Vocabulary(2, "b", "b", 2, [], "b", [], "b"));
       await tester.pumpLocalizedWidget(VocabularyList(
-        dataList: vocabularyList,
+        items: vocabularyList,
       ));
       await tester.pumpAndSettle();
 

@@ -87,10 +87,10 @@ class _GlossaryViewState extends State<GlossaryView>
               body: TabBarView(
                 controller: _tabController,
                 children: <Widget>[
-                  KanaList(dataList: viewModel.hiraganaList),
-                  KanaList(dataList: viewModel.katakanaList),
-                  KanjiList(dataList: viewModel.kanjiList),
-                  VocabularyList(dataList: viewModel.vocabularyList),
+                  KanaList(items: viewModel.hiraganaList),
+                  KanaList(items: viewModel.katakanaList),
+                  KanjiList(items: viewModel.kanjiList),
+                  VocabularyList(items: viewModel.vocabularyList),
                 ],
               ));
         });

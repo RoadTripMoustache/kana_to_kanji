@@ -10,7 +10,7 @@ void main() {
   group("KanaList", () {
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const KanaList(
-        dataList: [],
+        items: [],
       ));
       await tester.pumpAndSettle();
 
@@ -19,39 +19,39 @@ void main() {
     });
 
     testWidgets("Contains 1 kana", (WidgetTester tester) async {
-      List<Kana> kanaList = [];
-      kanaList.add(Kana(1, Alphabets.katakana, 1, "a", "a", "a"));
+      List<Kana> items = [];
+      items.add(Kana(1, Alphabets.katakana, 1, "a", "a", "a"));
       await tester.pumpLocalizedWidget(KanaList(
-        dataList: kanaList,
+        items: items,
       ));
       await tester.pumpAndSettle();
 
       final foundAllTiles = find.byType(KanaListTile);
       expect(foundAllTiles, findsOneWidget);
 
-      var kanaListTile = tester.widgetList(foundAllTiles).iterator;
-      for (var i = 0; i < kanaList.length; i++) {
-        kanaListTile.moveNext();
-        expect((kanaListTile.current as KanaListTile).data, kanaList[i].kana);
+      var itemsTile = tester.widgetList(foundAllTiles).iterator;
+      for (var i = 0; i < items.length; i++) {
+        itemsTile.moveNext();
+        expect((itemsTile.current as KanaListTile).data, items[i].kana);
       }
     });
 
     testWidgets("Contains 2 kana", (WidgetTester tester) async {
-      List<Kana> kanaList = [];
-      kanaList.add(Kana(1, Alphabets.katakana, 1, "a", "a", "a"));
-      kanaList.add(Kana(2, Alphabets.katakana, 2, "b", "b", "b"));
+      List<Kana> items = [];
+      items.add(Kana(1, Alphabets.katakana, 1, "a", "a", "a"));
+      items.add(Kana(2, Alphabets.katakana, 2, "b", "b", "b"));
       await tester.pumpLocalizedWidget(KanaList(
-        dataList: kanaList,
+        items: items,
       ));
       await tester.pumpAndSettle();
 
       final foundAllTiles = find.byType(KanaListTile);
-      expect(foundAllTiles, findsNWidgets(kanaList.length));
+      expect(foundAllTiles, findsNWidgets(items.length));
 
-      var kanaListTile = tester.widgetList(foundAllTiles).iterator;
-      for (var i = 0; i < kanaList.length; i++) {
-        kanaListTile.moveNext();
-        expect((kanaListTile.current as KanaListTile).data, kanaList[i].kana);
+      var itemsTile = tester.widgetList(foundAllTiles).iterator;
+      for (var i = 0; i < items.length; i++) {
+        itemsTile.moveNext();
+        expect((itemsTile.current as KanaListTile).data, items[i].kana);
       }
     });
   });

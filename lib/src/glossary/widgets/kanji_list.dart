@@ -6,15 +6,14 @@ import 'package:kana_to_kanji/src/glossary/widgets/kanji_list_tile.dart';
 class KanjiList extends StatelessWidget {
   final List<Kanji> items;
 
-  const KanjiList({super.key, required this.dataList});
+  const KanjiList({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-        body: SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
-          children: List.generate(dataList.length,
-              (index) => KanjiListTile(data: dataList[index].kanji))),
-    ));
+          children: List.generate(items.length,
+              (index) => KanjiListTile(data: items[index].kanji))),
+    );
   }
 }

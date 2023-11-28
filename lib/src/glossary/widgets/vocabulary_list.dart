@@ -6,15 +6,14 @@ import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list_tile.dart';
 class VocabularyList extends StatelessWidget {
   final List<Vocabulary> items;
 
-  const VocabularyList({super.key, required this.dataList});
+  const VocabularyList({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-        body: SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
-          children: List.generate(dataList.length,
-              (index) => VocabularyListTile(data: dataList[index].romaji))),
-    ));
+          children: List.generate(items.length,
+              (index) => VocabularyListTile(data: items[index].romaji))),
+    );
   }
 }

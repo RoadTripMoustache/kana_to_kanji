@@ -9,7 +9,7 @@ void main() {
   group("KanjiList", () {
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const KanjiList(
-        dataList: [],
+        items: [],
       ));
       await tester.pumpAndSettle();
 
@@ -21,7 +21,7 @@ void main() {
       List<Kanji> kanjiList = [];
       kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", []));
       await tester.pumpLocalizedWidget(KanjiList(
-        dataList: kanjiList,
+        items: kanjiList,
       ));
       await tester.pumpAndSettle();
 
@@ -40,7 +40,7 @@ void main() {
       kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", []));
       kanjiList.add(Kanji(2, "b", 2, 2, 2, [], [], [], "b", []));
       await tester.pumpLocalizedWidget(KanjiList(
-        dataList: kanjiList,
+        items: kanjiList,
       ));
       await tester.pumpAndSettle();
 

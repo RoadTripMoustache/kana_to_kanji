@@ -30,20 +30,11 @@ class GlossaryViewModel extends FutureViewModel {
 
   @override
   Future futureToRun() async {
-    // Hiragana
-    final hiraganaDbList = await _kanaRepository.getHiragana();
-    _hiraganaList.addAll(hiraganaDbList);
+    final result = await Future.wait([_kanaRepository.getHiragana(), _kanaRepository.getKatakana(), _kanjiRepository.getAll(), _vocabularyRepository.getAll()]);
 
-    // Katakana
-    final katatanaDbList = await _kanaRepository.getKatakana();
-    katakanaList.addAll(katatanaDbList);
-
-    // Kanji
-    final kanjiDbList = await _kanjiRepository.getAll();
-    kanjiList.addAll(kanjiDbList);
-
-    // Vocabulary
-    final vocabularyDbList = await _vocabularyRepository.getAll();
-    vocabularyList.addAll(vocabularyDbList);
+    _hiraganaList.addAll(result[0] as List<Kana>);
+    _katakanaList.addAll(result[1] as List<Kana>);
+    _kanjiList.addAll(result[2] as List<Kanji>);
+    _vocabularyList.addAll(result[3] as List<Vocabulary>);
   }
 }
