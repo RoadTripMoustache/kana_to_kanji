@@ -12,8 +12,8 @@ class KanaList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-          children: List.generate(items.length,
-              (index) => KanaListTile(data: items[index].kana))),
+          children: List.generate(
+              items.length, (index) => KanaListTile(data: items[index].kana))),
     );
   }
 }
