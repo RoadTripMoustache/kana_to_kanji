@@ -4,7 +4,7 @@ import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kanji_list_tile.dart';
 
 class KanjiList extends StatelessWidget {
-  final List<Kanji> dataList;
+  final List<Kanji> items;
 
   const KanjiList({super.key, required this.dataList});
 
