@@ -36,6 +36,8 @@ class _GlossaryViewState extends State<GlossaryView>
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
 
+    const textIconStyle = TextStyle(fontSize: 26);
+
     return ViewModelBuilder<GlossaryViewModel>.reactive(
         viewModelBuilder: () => GlossaryViewModel(),
         builder: (context, viewModel, child) {
@@ -65,19 +67,19 @@ class _GlossaryViewState extends State<GlossaryView>
                   tabs: <Widget>[
                     Tab(
                       text: l10n.glossary_tab_hiragana,
-                      icon: const Text("あ", style: TextStyle(fontSize: 26)),
+                      icon: const Text("あ", style: textIconStyle),
                     ),
                     Tab(
                       text: l10n.glossary_tab_katakana,
-                      icon: const Text("ア", style: TextStyle(fontSize: 26)),
+                      icon: const Text("ア", style: textIconStyle),
                     ),
                     Tab(
                       text: l10n.glossary_tab_kanji,
-                      icon: const Text("語", style: TextStyle(fontSize: 26)),
+                      icon: const Text("語", style: textIconStyle),
                     ),
                     Tab(
                       text: l10n.glossary_tab_vocabulary,
-                      icon: const Text("語彙", style: TextStyle(fontSize: 26)),
+                      icon: const Text("語彙", style: textIconStyle),
                     ),
                   ],
                 ),
