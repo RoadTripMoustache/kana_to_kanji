@@ -227,5 +227,10 @@
   "show_more": "Show more",
   "show_less": "Show less",
   "select_all": "Select all",
-  "unselect_all": "Unselect all"
+  "unselect_all": "Unselect all",
+  "glossary_view_title": "Glossary",
+  "glossary_tab_vocabulary": "Vocabulary",
+  "glossary_tab_hiragana": "Hiragana",
+  "glossary_tab_katakana": "Katakana",
+  "glossary_tab_kanji": "Kanji"
 }

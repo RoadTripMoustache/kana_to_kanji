@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_not_found_view.dart';
+import 'package:kana_to_kanji/src/glossary/glossary_view.dart';
 import 'package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart';
@@ -52,5 +53,8 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
               ]),
           GoRoute(
               path: SettingsView.routeName,
-              builder: (_, __) => const SettingsView())
+              builder: (_, __) => const SettingsView()),
+          GoRoute(
+              path: GlossaryView.routeName,
+              builder: (_, __) => const GlossaryView())
         ]);
