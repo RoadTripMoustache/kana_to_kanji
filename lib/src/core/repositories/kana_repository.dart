@@ -29,7 +29,6 @@ class KanaRepository {
     return _kana.where((element) => groupId == element.groupId).toList();
   }
 
-
   // -------------------- //
   // ----- HIRAGANA ----- //
   // -------------------- //
@@ -43,17 +42,20 @@ class KanaRepository {
   Future<List<Kana>> searchHiraganaRomaji(String searchTxt) async {
     await loadKana();
     return _kana
-        .where((element) => Alphabets.hiragana == element.alphabet && element.romaji.contains(searchTxt))
+        .where((element) =>
+            Alphabets.hiragana == element.alphabet &&
+            element.romaji.contains(searchTxt))
         .toList();
   }
 
   Future<List<Kana>> searchHiraganaKana(String searchTxt) async {
     await loadKana();
     return _kana
-        .where((element) => Alphabets.hiragana == element.alphabet && element.kana.contains(searchTxt))
+        .where((element) =>
+            Alphabets.hiragana == element.alphabet &&
+            element.kana.contains(searchTxt))
         .toList();
   }
-
 
   // -------------------- //
   // ----- KATAKANA ----- //
@@ -68,14 +70,18 @@ class KanaRepository {
   Future<List<Kana>> searchKatakanaRomaji(String searchTxt) async {
     await loadKana();
     return _kana
-        .where((element) => Alphabets.katakana == element.alphabet && element.romaji.contains(searchTxt))
+        .where((element) =>
+            Alphabets.katakana == element.alphabet &&
+            element.romaji.contains(searchTxt))
         .toList();
   }
 
   Future<List<Kana>> searchKatakanaKana(String searchTxt) async {
     await loadKana();
     return _kana
-        .where((element) => Alphabets.katakana == element.alphabet && element.kana.contains(searchTxt))
+        .where((element) =>
+            Alphabets.katakana == element.alphabet &&
+            element.kana.contains(searchTxt))
         .toList();
   }
 }

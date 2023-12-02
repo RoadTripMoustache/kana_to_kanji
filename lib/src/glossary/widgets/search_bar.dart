@@ -8,19 +8,14 @@ const _duration = Duration(milliseconds: 400);
 class GlossarySearchBar extends StatelessWidget {
   final void Function(String searchText) searchGlossary;
 
-  const GlossarySearchBar({
-    super.key,
-    required this.searchGlossary
-  });
+  const GlossarySearchBar({super.key, required this.searchGlossary});
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return GlossarySearchBarContent(
-            maxWidth: constraints.maxWidth,
-            searchGlossary: searchGlossary
-        );
+            maxWidth: constraints.maxWidth, searchGlossary: searchGlossary);
       },
     );
   }
@@ -30,11 +25,8 @@ class GlossarySearchBarContent extends StatefulWidget {
   final double maxWidth;
   final void Function(String searchText) searchGlossary;
 
-  const GlossarySearchBarContent({
-    super.key,
-    required this.maxWidth,
-    required this.searchGlossary
-  });
+  const GlossarySearchBarContent(
+      {super.key, required this.maxWidth, required this.searchGlossary});
 
   @override
   State<GlossarySearchBarContent> createState() => _GlossarySearchBarState();
@@ -247,9 +239,11 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                       enabledBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       hintText: isOpen ? l10n.glossary_search_bar_hint : "",
-                      hintStyle: const TextStyle(decoration: TextDecoration.none),
+                      hintStyle:
+                          const TextStyle(decoration: TextDecoration.none),
                       fillColor: Colors.transparent,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
                       prefixIcon: !isSearchMade
                           ? InkWell(
                               key: const Key("glossary_bar_search_icon"),

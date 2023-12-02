@@ -46,7 +46,8 @@ class _GlossaryViewState extends State<GlossaryView>
               resizeToAvoidBottomInset: false,
               showBottomBar: true,
               appBar: AppBar(
-                title: GlossarySearchBar(searchGlossary: viewModel.searchGlossary),
+                title:
+                    GlossarySearchBar(searchGlossary: viewModel.searchGlossary),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
                 toolbarHeight: 64,
