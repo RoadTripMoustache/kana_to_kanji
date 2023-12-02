@@ -203,6 +203,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
         ),
         if (isOpen && isSearchMade)
           InkWell(
+            key: const Key("glossary_bar_cancel_search_icon"),
             hoverColor: Colors.transparent,
             splashColor: Colors.transparent,
             focusColor: Colors.transparent,
@@ -229,6 +230,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
               duration: _duration,
               clipBehavior: Clip.hardEdge,
               child: TextField(
+                  key: const Key("glossary_bar_search_text_field"),
                   controller: _controller,
                   focusNode: _focusNode,
                   autocorrect: false,
@@ -250,6 +252,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                       prefixIcon: !isSearchMade
                           ? InkWell(
+                              key: const Key("glossary_bar_search_icon"),
                               hoverColor: Colors.transparent,
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,
@@ -264,6 +267,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                           : null,
                       suffixIcon: isInputFilled
                           ? InkWell(
+                              key: const Key("glossary_bar_clear_search_icon"),
                               hoverColor: Colors.transparent,
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,
