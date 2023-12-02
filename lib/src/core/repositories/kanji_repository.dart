@@ -15,4 +15,28 @@ class KanjiRepository {
 
     return kanjis;
   }
+
+  Future<List<Kanji>> searchKanjiRomaji(String searchTxt) async {
+    return _kanjis
+        .where((kanji) => kanji.meanings
+            .where((meaning) => meaning.contains(searchTxt))
+            .toList()
+            .isNotEmpty)
+        .toList();
+  }
+
+  Future<List<Kanji>> searchKanjiJapanese(String searchTxt) async {
+    return _kanjis
+        .where((kanji) =>
+            kanji.kanji == searchTxt ||
+            kanji.kunReadings
+                .where((reading) => reading.contains(searchTxt))
+                .toList()
+                .isNotEmpty ||
+            kanji.onReadings
+                .where((reading) => reading.contains(searchTxt))
+                .toList()
+                .isNotEmpty)
+        .toList();
+  }
 }

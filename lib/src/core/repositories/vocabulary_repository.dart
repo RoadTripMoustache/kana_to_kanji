@@ -14,4 +14,16 @@ class VocabularyRepository {
 
     return vocabulary;
   }
+
+  Future<List<Vocabulary>> searchVocabularyRomaji(String searchTxt) async {
+    return _vocabulary
+        .where((vocabulary) => vocabulary.romaji.contains(searchTxt) || vocabulary.meanings.where((meaning) => meaning.contains(searchTxt)).toList().isNotEmpty )
+        .toList();
+  }
+
+  Future<List<Vocabulary>> searchVocabularyJapanese(String searchTxt) async {
+    return _vocabulary
+        .where((vocabulary) => vocabulary.kanji.contains(searchTxt) || vocabulary.kana.contains(searchTxt) )
+        .toList();
+  }
 }
