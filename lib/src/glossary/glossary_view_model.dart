@@ -1,3 +1,5 @@
+import 'package:kana_to_kanji/src/core/constants/jlpt_level.dart';
+import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
@@ -17,6 +19,8 @@ class GlossaryViewModel extends FutureViewModel {
   final List<Kana> _katakanaList = [];
   final List<Kanji> _kanjiList = [];
   final List<Vocabulary> _vocabularyList = [];
+  final List<JLPTLevel> _selectedJlptLevel = [];
+  final List<KnowledgeLevel> _selectedKnowledgeLevel = [];
 
   List<Kana> get hiraganaList => _hiraganaList;
 
@@ -25,6 +29,8 @@ class GlossaryViewModel extends FutureViewModel {
   List<Kanji> get kanjiList => _kanjiList;
 
   List<Vocabulary> get vocabularyList => _vocabularyList;
+  List<JLPTLevel> get selectedJlptLevel => _selectedJlptLevel;
+  List<KnowledgeLevel> get selectedKnowledgeLevel => _selectedKnowledgeLevel;
 
   GlossaryViewModel();
 
@@ -51,6 +57,10 @@ class GlossaryViewModel extends FutureViewModel {
     } else {
       _searchJapanese(searchText);
     }
+    notifyListeners();
+  }
+
+  void filterGlossary() async {
     notifyListeners();
   }
 
