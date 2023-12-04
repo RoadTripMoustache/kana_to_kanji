@@ -59,8 +59,10 @@ class _FilterBy extends State<FilterBy> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
 
-    const titlePadding = EdgeInsets.symmetric(horizontal: 20);
+    const titlePadding = EdgeInsets.only(left: 20, top: 8, right: 20);
     const checkboxPadding = EdgeInsets.symmetric(horizontal: 40);
+
+    const styleTitle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +83,7 @@ class _FilterBy extends State<FilterBy> {
               child: Text(
                 "JLPT Level",
                 textAlign: TextAlign.left,
+                style: styleTitle,
               ),
             ),
           ]),
@@ -175,6 +178,7 @@ class _FilterBy extends State<FilterBy> {
               child: Text(
                 "Knowledge Level",
                 textAlign: TextAlign.left,
+                style: styleTitle,
               ),
             ),
           ]),
