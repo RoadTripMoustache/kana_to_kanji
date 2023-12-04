@@ -68,6 +68,7 @@ class _FilterBy extends State<FilterBy> {
           icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.of(context).pop();
+            widget.filterGlossary();
           },
         ),
         title: Text(l10n.glossary_filter_by_title),

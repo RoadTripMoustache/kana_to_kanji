@@ -1,10 +1,12 @@
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 
 class KanaRepository {
   final KanaService _kanaService = KanaService();
   final List<Kana> _kana = [];
+  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
 
   Future loadKana() async {
     if (_kana.isEmpty) {
@@ -39,21 +41,24 @@ class KanaRepository {
         .toList();
   }
 
-  Future<List<Kana>> searchHiraganaRomaji(String searchTxt) async {
+  Future<List<Kana>> searchHiragana(String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel) async {
     await loadKana();
-    return _kana
-        .where((element) =>
-            Alphabets.hiragana == element.alphabet &&
-            element.romaji.contains(searchTxt))
-        .toList();
-  }
+    var txtFilter = (element) => true;
+    if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
+      txtFilter = (element) => element.romaji.contains(searchTxt);
+    } else if (searchTxt != "") {
+      txtFilter = (element) => element.kana.contains(searchTxt);
+    }
 
-  Future<List<Kana>> searchHiraganaKana(String searchTxt) async {
-    await loadKana();
+    var knowledgeLevelFilter = (element) => true;
+    if (selectedKnowledgeLevel.isNotEmpty) {
+      // TODO : To implement once level is added
+      knowledgeLevelFilter = (element) => false;
+    }
     return _kana
-        .where((element) =>
-            Alphabets.hiragana == element.alphabet &&
-            element.kana.contains(searchTxt))
+        .where((element) => Alphabets.hiragana == element.alphabet)
+        .where(txtFilter)
+        .where(knowledgeLevelFilter)
         .toList();
   }
 
@@ -67,21 +72,25 @@ class KanaRepository {
         .toList();
   }
 
-  Future<List<Kana>> searchKatakanaRomaji(String searchTxt) async {
+  Future<List<Kana>> searchKatakana(String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel) async {
     await loadKana();
+    var txtFilter = (element) => true;
+    if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
+      txtFilter = (element) => element.romaji.contains(searchTxt);
+    } else if (searchTxt != "") {
+      txtFilter = (element) => element.kana.contains(searchTxt);
+    }
+
+    var knowledgeLevelFilter = (element) => true;
+    if (selectedKnowledgeLevel.isNotEmpty) {
+      // TODO : To implement once level is added
+      knowledgeLevelFilter = (element) => false;
+    }
     return _kana
-        .where((element) =>
-            Alphabets.katakana == element.alphabet &&
-            element.romaji.contains(searchTxt))
+        .where((element) => Alphabets.katakana == element.alphabet)
+        .where(txtFilter)
+        .where(knowledgeLevelFilter)
         .toList();
   }
 
-  Future<List<Kana>> searchKatakanaKana(String searchTxt) async {
-    await loadKana();
-    return _kana
-        .where((element) =>
-            Alphabets.katakana == element.alphabet &&
-            element.kana.contains(searchTxt))
-        .toList();
-  }
 }
