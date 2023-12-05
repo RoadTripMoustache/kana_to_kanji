@@ -64,8 +64,10 @@ class GlossaryViewModel extends FutureViewModel {
     final result = await Future.wait([
       _kanaRepository.searchHiragana(_currentSearch, _selectedKnowledgeLevel),
       _kanaRepository.searchKatakana(_currentSearch, _selectedKnowledgeLevel),
-      _kanjiRepository.searchKanji(_currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel),
-      _vocabularyRepository.searchVocabulary(_currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel)
+      _kanjiRepository.searchKanji(
+          _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel),
+      _vocabularyRepository.searchVocabulary(
+          _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel)
     ]);
 
     _hiraganaList.clear();
@@ -77,5 +79,4 @@ class GlossaryViewModel extends FutureViewModel {
     _vocabularyList.clear();
     _vocabularyList.addAll(result[3] as List<Vocabulary>);
   }
-
 }

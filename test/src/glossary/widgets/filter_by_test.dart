@@ -142,7 +142,8 @@ void main() {
       expect((tester.widget(checkboxes.at(8)) as Checkbox).value, isFalse);
     });
 
-    testWidgets("Knowledge level 'Learned' selected", (WidgetTester tester) async {
+    testWidgets("Knowledge level 'Learned' selected",
+        (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(FilterBy(
         filterGlossary: () => {},
         selectedJlptLevel: const [],
@@ -164,7 +165,8 @@ void main() {
       expect((tester.widget(checkboxes.at(8)) as Checkbox).value, isFalse);
     });
 
-    testWidgets("Knowledge level 'Practicing' selected", (WidgetTester tester) async {
+    testWidgets("Knowledge level 'Practicing' selected",
+        (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(FilterBy(
         filterGlossary: () => {},
         selectedJlptLevel: const [],
@@ -208,7 +210,8 @@ void main() {
       expect((tester.widget(checkboxes.at(8)) as Checkbox).value, isFalse);
     });
 
-    testWidgets("Knowledge level 'Never seen' selected", (WidgetTester tester) async {
+    testWidgets("Knowledge level 'Never seen' selected",
+        (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(FilterBy(
         filterGlossary: () => {},
         selectedJlptLevel: const [],
@@ -234,7 +237,10 @@ void main() {
       await tester.pumpLocalizedWidget(FilterBy(
         filterGlossary: () => {},
         selectedJlptLevel: const [JLPTLevel.level1, JLPTLevel.level4],
-        selectedKnowledgeLevel: const [KnowledgeLevel.neverSeen, KnowledgeLevel.practicing],
+        selectedKnowledgeLevel: const [
+          KnowledgeLevel.neverSeen,
+          KnowledgeLevel.practicing
+        ],
       ));
       await tester.pumpAndSettle();
 
@@ -257,7 +263,10 @@ void main() {
       await tester.pumpLocalizedWidget(FilterBy(
         filterGlossary: () => {isClicked = true},
         selectedJlptLevel: const [JLPTLevel.level1, JLPTLevel.level4],
-        selectedKnowledgeLevel: const [KnowledgeLevel.neverSeen, KnowledgeLevel.practicing],
+        selectedKnowledgeLevel: const [
+          KnowledgeLevel.neverSeen,
+          KnowledgeLevel.practicing
+        ],
       ));
       await tester.pumpAndSettle();
 
@@ -270,4 +279,3 @@ void main() {
     });
   });
 }
-

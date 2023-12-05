@@ -18,16 +18,21 @@ class VocabularyRepository {
     return vocabulary;
   }
 
-  Future<List<Vocabulary>> searchVocabulary(String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel, List<JLPTLevel> selectedJLPTLevel) async {
+  Future<List<Vocabulary>> searchVocabulary(
+      String searchTxt,
+      List<KnowledgeLevel> selectedKnowledgeLevel,
+      List<JLPTLevel> selectedJLPTLevel) async {
     var txtFilter = (Vocabulary element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
-      txtFilter = (Vocabulary vocabulary) => vocabulary.romaji.contains(searchTxt) ||
+      txtFilter = (Vocabulary vocabulary) =>
+          vocabulary.romaji.contains(searchTxt) ||
           vocabulary.meanings
               .where((String meaning) => meaning.contains(searchTxt))
               .toList()
               .isNotEmpty;
     } else if (searchTxt != "") {
-      txtFilter = (Vocabulary vocabulary) => vocabulary.kanji.contains(searchTxt) ||
+      txtFilter = (Vocabulary vocabulary) =>
+          vocabulary.kanji.contains(searchTxt) ||
           vocabulary.kana.contains(searchTxt);
     }
 
@@ -39,7 +44,8 @@ class VocabularyRepository {
 
     var jlptLevelFilter = (element) => true;
     if (selectedJLPTLevel.isNotEmpty) {
-      jlptLevelFilter = (vocabulary) => selectedJLPTLevel.contains(JLPTLevel.getValue(vocabulary.jlptLevel));
+      jlptLevelFilter = (vocabulary) =>
+          selectedJLPTLevel.contains(JLPTLevel.getValue(vocabulary.jlptLevel));
     }
 
     return _vocabulary
@@ -48,5 +54,4 @@ class VocabularyRepository {
         .where(jlptLevelFilter)
         .toList();
   }
-
 }

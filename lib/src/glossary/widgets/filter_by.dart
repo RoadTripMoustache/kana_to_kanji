@@ -17,11 +17,9 @@ class FilterBy extends StatefulWidget {
 
   @override
   State<FilterBy> createState() => _FilterBy();
-
 }
 
 class _FilterBy extends State<FilterBy> {
-
   late List<JLPTLevel> _selectedJlptLevel;
   late List<KnowledgeLevel> _selectedKnowledgeLevel;
 
@@ -53,7 +51,6 @@ class _FilterBy extends State<FilterBy> {
       _selectedKnowledgeLevel = _selectedKnowledgeLevel;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -194,10 +191,10 @@ class _FilterBy extends State<FilterBy> {
               Expanded(
                 flex: 1,
                 child: Checkbox(
-                    value:
-                    _selectedKnowledgeLevel.contains(KnowledgeLevel.learned),
+                    value: _selectedKnowledgeLevel
+                        .contains(KnowledgeLevel.learned),
                     onChanged: (_) =>
-                    {_toggleKnowledgeLevel(KnowledgeLevel.learned)}),
+                        {_toggleKnowledgeLevel(KnowledgeLevel.learned)}),
               ),
             ],
           ),
@@ -207,7 +204,8 @@ class _FilterBy extends State<FilterBy> {
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text(l10n.glossary_filter_by_knowledge_level_practicing),
+                  child:
+                      Text(l10n.glossary_filter_by_knowledge_level_practicing),
                 ),
               ),
               Expanded(
@@ -216,7 +214,7 @@ class _FilterBy extends State<FilterBy> {
                     value: _selectedKnowledgeLevel
                         .contains(KnowledgeLevel.practicing),
                     onChanged: (_) =>
-                    {_toggleKnowledgeLevel(KnowledgeLevel.practicing)}),
+                        {_toggleKnowledgeLevel(KnowledgeLevel.practicing)}),
               ),
             ],
           ),
@@ -232,9 +230,10 @@ class _FilterBy extends State<FilterBy> {
               Expanded(
                 flex: 1,
                 child: Checkbox(
-                    value: _selectedKnowledgeLevel.contains(KnowledgeLevel.seen),
+                    value:
+                        _selectedKnowledgeLevel.contains(KnowledgeLevel.seen),
                     onChanged: (_) =>
-                    {_toggleKnowledgeLevel(KnowledgeLevel.seen)}),
+                        {_toggleKnowledgeLevel(KnowledgeLevel.seen)}),
               ),
             ],
           ),
@@ -244,7 +243,8 @@ class _FilterBy extends State<FilterBy> {
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text(l10n.glossary_filter_by_knowledge_level_never_seen),
+                  child:
+                      Text(l10n.glossary_filter_by_knowledge_level_never_seen),
                 ),
               ),
               Expanded(
@@ -253,7 +253,7 @@ class _FilterBy extends State<FilterBy> {
                     value: _selectedKnowledgeLevel
                         .contains(KnowledgeLevel.neverSeen),
                     onChanged: (_) =>
-                    {_toggleKnowledgeLevel(KnowledgeLevel.neverSeen)}),
+                        {_toggleKnowledgeLevel(KnowledgeLevel.neverSeen)}),
               ),
             ],
           ),

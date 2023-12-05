@@ -18,7 +18,10 @@ class KanjiRepository {
     return kanjis;
   }
 
-  Future<List<Kanji>> searchKanji(String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel, List<JLPTLevel> selectedJLPTLevel) async {
+  Future<List<Kanji>> searchKanji(
+      String searchTxt,
+      List<KnowledgeLevel> selectedKnowledgeLevel,
+      List<JLPTLevel> selectedJLPTLevel) async {
     var txtFilter = (Kanji element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (kanji) => kanji.meanings
@@ -26,7 +29,8 @@ class KanjiRepository {
           .toList()
           .isNotEmpty;
     } else if (searchTxt != "") {
-      txtFilter = (kanji) => kanji.kanji == searchTxt ||
+      txtFilter = (kanji) =>
+          kanji.kanji == searchTxt ||
           kanji.kunReadings
               .where((String reading) => reading.contains(searchTxt))
               .toList()
@@ -45,7 +49,8 @@ class KanjiRepository {
 
     var jlptLevelFilter = (Kanji element) => true;
     if (selectedJLPTLevel.isNotEmpty) {
-      jlptLevelFilter = (Kanji kanji) => selectedJLPTLevel.contains(JLPTLevel.getValue(kanji.jlptLevel));
+      jlptLevelFilter = (Kanji kanji) =>
+          selectedJLPTLevel.contains(JLPTLevel.getValue(kanji.jlptLevel));
     }
     return _kanjis
         .where(txtFilter)
@@ -53,5 +58,4 @@ class KanjiRepository {
         .where(jlptLevelFilter)
         .toList();
   }
-
 }

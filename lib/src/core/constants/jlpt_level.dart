@@ -10,7 +10,7 @@ enum JLPTLevel {
   const JLPTLevel(this.value);
 
   static JLPTLevel getValue(int level) {
-    switch(level) {
+    switch (level) {
       case 1:
         return JLPTLevel.level1;
       case 2:
