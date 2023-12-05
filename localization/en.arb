@@ -234,5 +234,16 @@
   "glossary_tab_katakana": "Katakana",
   "glossary_tab_kanji": "Kanji",
   "glossary_search_bar_hint": "日本, にほん, Japan",
-  "glossary_filter_by_title": "Filter by"
+  "glossary_filter_by_title": "Filter by",
+  "glossary_filter_by_jlpt_level_title": "JLPT Level",
+  "glossary_filter_by_jlpt_level_1": "Level 1",
+  "glossary_filter_by_jlpt_level_2": "Level 2",
+  "glossary_filter_by_jlpt_level_3": "Level 3",
+  "glossary_filter_by_jlpt_level_4": "Level 4",
+  "glossary_filter_by_jlpt_level_5": "Level 5",
+  "glossary_filter_by_knowledge_level_title": "Knowledge Level",
+  "glossary_filter_by_knowledge_level_learned": "Learned",
+  "glossary_filter_by_knowledge_level_practicing": "Practicing",
+  "glossary_filter_by_knowledge_level_seen": "Seen",
+  "glossary_filter_by_knowledge_level_never_seen": "Never seen"
 }

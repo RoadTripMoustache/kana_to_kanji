@@ -77,11 +77,11 @@ class _FilterBy extends State<FilterBy> {
       ),
       body: Column(
         children: [
-          const Row(children: [
+          Row(children: [
             Padding(
               padding: titlePadding,
               child: Text(
-                "JLPT Level",
+                l10n.glossary_filter_by_jlpt_level_title,
                 textAlign: TextAlign.left,
                 style: styleTitle,
               ),
@@ -89,11 +89,11 @@ class _FilterBy extends State<FilterBy> {
           ]),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Level 1"),
+                  child: Text(l10n.glossary_filter_by_jlpt_level_1),
                 ),
               ),
               Expanded(
@@ -106,11 +106,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Level 2"),
+                  child: Text(l10n.glossary_filter_by_jlpt_level_2),
                 ),
               ),
               Expanded(
@@ -123,11 +123,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Level 3"),
+                  child: Text(l10n.glossary_filter_by_jlpt_level_3),
                 ),
               ),
               Expanded(
@@ -140,11 +140,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Level 4"),
+                  child: Text(l10n.glossary_filter_by_jlpt_level_4),
                 ),
               ),
               Expanded(
@@ -157,11 +157,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Level 5"),
+                  child: Text(l10n.glossary_filter_by_jlpt_level_5),
                 ),
               ),
               Expanded(
@@ -172,11 +172,11 @@ class _FilterBy extends State<FilterBy> {
               ),
             ],
           ),
-          const Row(children: [
+          Row(children: [
             Padding(
               padding: titlePadding,
               child: Text(
-                "Knowledge Level",
+                l10n.glossary_filter_by_knowledge_level_title,
                 textAlign: TextAlign.left,
                 style: styleTitle,
               ),
@@ -184,11 +184,11 @@ class _FilterBy extends State<FilterBy> {
           ]),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Learned"),
+                  child: Text(l10n.glossary_filter_by_knowledge_level_learned),
                 ),
               ),
               Expanded(
@@ -203,11 +203,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Practicing"),
+                  child: Text(l10n.glossary_filter_by_knowledge_level_practicing),
                 ),
               ),
               Expanded(
@@ -222,11 +222,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Seen"),
+                  child: Text(l10n.glossary_filter_by_knowledge_level_seen),
                 ),
               ),
               Expanded(
@@ -240,11 +240,11 @@ class _FilterBy extends State<FilterBy> {
           ),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 9,
                 child: Padding(
                   padding: checkboxPadding,
-                  child: Text("Never seen"),
+                  child: Text(l10n.glossary_filter_by_knowledge_level_never_seen),
                 ),
               ),
               Expanded(
