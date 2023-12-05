@@ -3,8 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_level.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/filter_by.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/search_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../helpers.dart';
 

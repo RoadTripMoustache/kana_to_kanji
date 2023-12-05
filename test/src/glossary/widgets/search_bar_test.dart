@@ -16,8 +16,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
       await tester.pumpAndSettle();
 
@@ -42,8 +42,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
@@ -76,8 +76,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
@@ -109,8 +109,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
@@ -145,8 +145,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
@@ -189,8 +189,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
@@ -244,8 +244,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
@@ -304,8 +304,8 @@ void main() {
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) => {},
         filterGlossary: () => {},
-        selectedJlptLevel: [],
-        selectedKnowledgeLevel: [],
+        selectedJlptLevel: const [],
+        selectedKnowledgeLevel: const [],
       ));
 
       // Simulate click to open the search bar
