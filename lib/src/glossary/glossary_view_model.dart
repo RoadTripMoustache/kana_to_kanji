@@ -1,5 +1,6 @@
 import 'package:kana_to_kanji/src/core/constants/jlpt_level.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
@@ -32,21 +33,15 @@ class GlossaryViewModel extends FutureViewModel {
   List<Vocabulary> get vocabularyList => _vocabularyList;
   List<JLPTLevel> get selectedJlptLevel => _selectedJlptLevel;
   List<KnowledgeLevel> get selectedKnowledgeLevel => _selectedKnowledgeLevel;
+  SortOrder selectedOrder = SortOrder.japanese;
 
   GlossaryViewModel();
 
   @override
   Future futureToRun() async {
-    final result = await Future.wait([
-      _kanjiRepository.getAll(),
-      _vocabularyRepository.getAll(),
-      _kanaRepository.loadKana()
-    ]);
-
-    _hiraganaList.addAll(await _kanaRepository.getHiragana());
-    _katakanaList.addAll(await _kanaRepository.getKatakana());
-    _kanjiList.addAll(result[0] as List<Kanji>);
-    _vocabularyList.addAll(result[1] as List<Vocabulary>);
+    await _kanaRepository.loadKana();
+    await _updateGlossaryList();
+    notifyListeners();
   }
 
   void searchGlossary(String searchText) async {
@@ -60,9 +55,15 @@ class GlossaryViewModel extends FutureViewModel {
     notifyListeners();
   }
 
+  void sortGlossary(SortOrder newSelectedOrder) async {
+    selectedOrder = newSelectedOrder;
+    await _updateGlossaryList();
+    notifyListeners();
+  }
+
   Future _updateGlossaryList() async {
     final result = await Future.wait([
-      _kanaRepository.searchHiragana(_currentSearch, _selectedKnowledgeLevel),
+      _kanaRepository.searchHiragana(_currentSearch, _selectedKnowledgeLevel, selectedOrder),
       _kanaRepository.searchKatakana(_currentSearch, _selectedKnowledgeLevel),
       _kanjiRepository.searchKanji(
           _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel),

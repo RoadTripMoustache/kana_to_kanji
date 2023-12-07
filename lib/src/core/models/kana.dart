@@ -22,8 +22,13 @@ class Kana {
 
   final String version;
 
+  @JsonKey(name: "sort_key")
+  final String sortKey; // TODO : Faire que cette information soit la clé pour faire le tri en japonais.
+  // TODO : renommer jp_sort_key
+  // TODO : Remplacer par un chiffre pour indiquer l'ordre du kana
+
   Kana(this.id, this.alphabet, this.groupId, this.kana, this.romaji,
-      this.version);
+      this.version, this.sortKey);
 
   factory Kana.fromJson(Map<String, dynamic> json) => _$KanaFromJson(json);
 }

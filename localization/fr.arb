@@ -240,5 +240,8 @@
   "glossary_filter_by_knowledge_level_learned": "Appris",
   "glossary_filter_by_knowledge_level_practicing": "En apprentissage",
   "glossary_filter_by_knowledge_level_seen": "Vu",
-  "glossary_filter_by_knowledge_level_never_seen": "Jamais vu"
+  "glossary_filter_by_knowledge_level_never_seen": "Jamais vu",
+  "glossary_sort_by_title": "Filtrer par",
+  "glossary_sort_by_alphabetical": "Alphabétique (A-Z)",
+  "glossary_sort_by_japanese": "Syllabe japonaise (あ-お)"
 }

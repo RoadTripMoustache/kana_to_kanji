@@ -49,8 +49,10 @@ class _GlossaryViewState extends State<GlossaryView>
                 title: GlossarySearchBar(
                   searchGlossary: viewModel.searchGlossary,
                   filterGlossary: viewModel.filterGlossary,
+                  sortGlossary: viewModel.sortGlossary,
                   selectedJlptLevel: viewModel.selectedJlptLevel,
                   selectedKnowledgeLevel: viewModel.selectedKnowledgeLevel,
+                  selectedOrder: viewModel.selectedOrder,
                 ),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,

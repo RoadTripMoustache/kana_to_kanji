@@ -245,5 +245,8 @@
   "glossary_filter_by_knowledge_level_learned": "Learned",
   "glossary_filter_by_knowledge_level_practicing": "Practicing",
   "glossary_filter_by_knowledge_level_seen": "Seen",
-  "glossary_filter_by_knowledge_level_never_seen": "Never seen"
+  "glossary_filter_by_knowledge_level_never_seen": "Never seen",
+  "glossary_sort_by_title": "Filter by",
+  "glossary_sort_by_alphabetical": "Alphabetical (A-Z)",
+  "glossary_sort_by_japanese": "Japanese syllable (あ-お)"
 }

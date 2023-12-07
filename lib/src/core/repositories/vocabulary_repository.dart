@@ -22,6 +22,10 @@ class VocabularyRepository {
       String searchTxt,
       List<KnowledgeLevel> selectedKnowledgeLevel,
       List<JLPTLevel> selectedJLPTLevel) async {
+    if (_vocabulary.isEmpty) {
+      var vocabulary = await _vocabularyService.getAll();
+      _vocabulary.addAll(vocabulary);
+    }
     var txtFilter = (Vocabulary element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (Vocabulary vocabulary) =>

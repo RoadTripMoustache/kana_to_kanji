@@ -30,6 +30,7 @@ class KanaDataLoader {
       List<Kana> kanas = [];
       var listKana = jsonDecode(response.body);
       for (final k in listKana) {
+        k["sort_key"] = (k["kana"] as String).substring(0,1);
         kanas.add(Kana.fromJson(k));
       }
       return kanas;

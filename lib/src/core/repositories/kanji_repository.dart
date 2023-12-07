@@ -22,6 +22,11 @@ class KanjiRepository {
       String searchTxt,
       List<KnowledgeLevel> selectedKnowledgeLevel,
       List<JLPTLevel> selectedJLPTLevel) async {
+    if (_kanjis.isEmpty) {
+      var kanjis = await _kanjiService.getAll();
+      _kanjis.addAll(kanjis);
+    }
+
     var txtFilter = (Kanji element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (kanji) => kanji.meanings
