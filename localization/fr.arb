@@ -227,5 +227,19 @@
   "glossary_tab_vocabulary": "Vocabulaire",
   "glossary_tab_hiragana": "Hiragana",
   "glossary_tab_katakana": "Katakana",
-  "glossary_tab_kanji": "Kanji"
+  "glossary_tab_kanji": "Kanji",
+  "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} autres}}}",
+  "@glossary_tile_meanings": {
+    "description": "Present the main meaning of the kanji or vocabulary and the number of other meanings",
+    "placeholders": {
+      "meaning": {
+        "type": "String",
+        "description": "Sens principale du Kanji ou du mot de vocabulaire"
+      },
+      "count": {
+        "default": 0,
+        "description": "Nombre de traduction excluant le premier"
+      }
+    }
+  }
 }

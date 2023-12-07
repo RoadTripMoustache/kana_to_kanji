@@ -9,10 +9,8 @@ class KanjiList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-          children: List.generate(items.length,
-              (index) => KanjiListTile(data: items[index].kanji))),
-    );
+    return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) => KanjiListTile(kanji: items[index]));
   }
 }
