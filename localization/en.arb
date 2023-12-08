@@ -133,14 +133,14 @@
   "settings_language": "Language",
   "language": "{languageCode, select, fr{Français} en{English} other{}}",
   "@language": {
-     "description": "Display a language name based on the language code",
-     "placeholders": {
-       "languageCode": {
-         "type": "String",
-         "example": "fr",
-         "description": "Language code"
-       }
-     }
+    "description": "Display a language name based on the language code",
+    "placeholders": {
+      "languageCode": {
+        "type": "String",
+        "example": "fr",
+        "description": "Language code"
+      }
+    }
   },
   "settings_give_feedback": "Give us feedback",
   "@settings_give_feedback": {
@@ -244,6 +244,16 @@
       "count": {
         "default": 0,
         "description": "Number of other meanings"
+      }
+    }
+  },
+  "jlpt_level_short": "JLPT-{level}",
+  "@jlpt_level_short": {
+    "description": "Display the JLPT level",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "description": "Level, should be between 1 and 5"
       }
     }
   }

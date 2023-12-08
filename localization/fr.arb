@@ -230,7 +230,7 @@
   "glossary_tab_kanji": "Kanji",
   "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} autres}}}",
   "@glossary_tile_meanings": {
-    "description": "Present the main meaning of the kanji or vocabulary and the number of other meanings",
+    "description": "Principal traduction du kanji ou mot de vocabulaire",
     "placeholders": {
       "meaning": {
         "type": "String",
@@ -239,6 +239,16 @@
       "count": {
         "default": 0,
         "description": "Nombre de traduction excluant le premier"
+      }
+    }
+  },
+  "jlpt_level_short": "JLPT-{level}",
+  "@jlpt_level_short": {
+    "description": "Affiche le niveau JLPT",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "description": "Niveau, devrait être entre 1 et 5"
       }
     }
   }
