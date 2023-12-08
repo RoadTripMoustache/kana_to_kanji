@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
+import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,7 +31,8 @@ class KanaDataLoader {
       List<Kana> kanas = [];
       var listKana = jsonDecode(response.body);
       for (final k in listKana) {
-        k["sort_key"] = (k["kana"] as String).substring(0,1);
+        k["syllables"] = splitBySyllable(k["kana"]);
+        print(k["syllables"]);
         kanas.add(Kana.fromJson(k));
       }
       return kanas;

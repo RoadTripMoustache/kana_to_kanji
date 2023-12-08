@@ -3,6 +3,7 @@ import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
+import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
 
 class KanaRepository {
   final KanaService _kanaService = KanaService();
@@ -64,9 +65,7 @@ class KanaRepository {
         .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      kanaList.sort((Kana a, Kana b) {
-        return a.sortKey.compareTo(b.sortKey);
-      });
+      kanaList.sort((Kana a, Kana b) => sortBySyllables(a.syllables, b.syllables));
     } else {
       kanaList.sort((Kana a, Kana b) {
         return a.romaji.compareTo(b.romaji);
@@ -87,7 +86,7 @@ class KanaRepository {
   }
 
   Future<List<Kana>> searchKatakana(
-      String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel) async {
+      String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel, SortOrder selectedOrder) async {
     await loadKana();
     var txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
@@ -101,10 +100,20 @@ class KanaRepository {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
     }
-    return _kana
+    var kanaList = _kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .where(txtFilter)
         .where(knowledgeLevelFilter)
         .toList();
+
+    if (selectedOrder == SortOrder.japanese) {
+      kanaList.sort((Kana a, Kana b) => sortBySyllables(a.syllables, b.syllables));
+    } else {
+      kanaList.sort((Kana a, Kana b) {
+        return a.romaji.compareTo(b.romaji);
+      });
+    }
+
+    return kanaList;
   }
 }
