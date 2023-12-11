@@ -65,7 +65,7 @@ class KanaRepository {
         .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      kanaList.sort((Kana a, Kana b) => sortBySyllables(a.syllables, b.syllables));
+      kanaList.sort((Kana a, Kana b) => sortBySyllables([a.kana], [b.kana]));
     } else {
       kanaList.sort((Kana a, Kana b) {
         return a.romaji.compareTo(b.romaji);
@@ -107,7 +107,7 @@ class KanaRepository {
         .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      kanaList.sort((Kana a, Kana b) => sortBySyllables(a.syllables, b.syllables));
+      kanaList.sort((Kana a, Kana b) => sortBySyllables([a.kana], [b.kana]));
     } else {
       kanaList.sort((Kana a, Kana b) {
         return a.romaji.compareTo(b.romaji);

@@ -1,7 +1,9 @@
 import 'package:kana_to_kanji/src/core/constants/jlpt_level.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/services/vocabulary_service.dart';
+import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
 
 class VocabularyRepository {
   final VocabularyService _vocabularyService = VocabularyService();
@@ -21,7 +23,8 @@ class VocabularyRepository {
   Future<List<Vocabulary>> searchVocabulary(
       String searchTxt,
       List<KnowledgeLevel> selectedKnowledgeLevel,
-      List<JLPTLevel> selectedJLPTLevel) async {
+      List<JLPTLevel> selectedJLPTLevel,
+      SortOrder selectedOrder) async {
     if (_vocabulary.isEmpty) {
       var vocabulary = await _vocabularyService.getAll();
       _vocabulary.addAll(vocabulary);
@@ -52,10 +55,20 @@ class VocabularyRepository {
           selectedJLPTLevel.contains(JLPTLevel.getValue(vocabulary.jlptLevel));
     }
 
-    return _vocabulary
+    var vocabularyList = _vocabulary
         .where(txtFilter)
         .where(knowledgeLevelFilter)
         .where(jlptLevelFilter)
         .toList();
+
+    if (selectedOrder == SortOrder.japanese) {
+      vocabularyList.sort((Vocabulary a, Vocabulary b) => sortBySyllables(a.kanaSyllables, b.kanaSyllables));
+    } else {
+      vocabularyList.sort((Vocabulary a, Vocabulary b) {
+        return a.romaji.compareTo(b.romaji);
+      });
+    }
+
+    return vocabularyList;
   }
 }

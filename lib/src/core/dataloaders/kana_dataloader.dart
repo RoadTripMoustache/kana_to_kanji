@@ -31,8 +31,6 @@ class KanaDataLoader {
       List<Kana> kanas = [];
       var listKana = jsonDecode(response.body);
       for (final k in listKana) {
-        k["syllables"] = splitBySyllable(k["kana"]);
-        print(k["syllables"]);
         kanas.add(Kana.fromJson(k));
       }
       return kanas;

@@ -25,9 +25,12 @@ class Vocabulary {
   @JsonKey(name: "related_kanjis")
   final List<int>? relatedKanjis;
   final String version;
+  /// List of syllables forming the word in kana. Use to facilitate vocabulary sorting.
+  @JsonKey(name: "kana_syllables")
+  final List<String> kanaSyllables;
 
   Vocabulary(this.id, this.kanji, this.kana, this.jlptLevel, this.meanings,
-      this.romaji, this.relatedKanjis, this.version);
+      this.romaji, this.relatedKanjis, this.version, this.kanaSyllables);
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);
