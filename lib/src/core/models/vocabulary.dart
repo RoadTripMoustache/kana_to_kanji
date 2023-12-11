@@ -25,6 +25,7 @@ class Vocabulary {
   @JsonKey(name: "related_kanjis")
   final List<int>? relatedKanjis;
   final String version;
+
   /// List of syllables forming the word in kana. Use to facilitate vocabulary sorting.
   @JsonKey(name: "kana_syllables")
   final List<String> kanaSyllables;

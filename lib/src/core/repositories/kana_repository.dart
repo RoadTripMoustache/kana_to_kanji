@@ -44,7 +44,9 @@ class KanaRepository {
   }
 
   Future<List<Kana>> searchHiragana(
-      String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel, SortOrder selectedOrder) async {
+      String searchTxt,
+      List<KnowledgeLevel> selectedKnowledgeLevel,
+      SortOrder selectedOrder) async {
     await loadKana();
     var txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
@@ -86,7 +88,9 @@ class KanaRepository {
   }
 
   Future<List<Kana>> searchKatakana(
-      String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel, SortOrder selectedOrder) async {
+      String searchTxt,
+      List<KnowledgeLevel> selectedKnowledgeLevel,
+      SortOrder selectedOrder) async {
     await loadKana();
     var txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {

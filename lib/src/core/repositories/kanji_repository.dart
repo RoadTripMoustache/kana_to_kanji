@@ -67,7 +67,8 @@ class KanjiRepository {
         .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      kanjiList.sort((Kanji a, Kanji b) => sortBySyllables(a.jpSortSyllables, b.jpSortSyllables));
+      kanjiList.sort((Kanji a, Kanji b) =>
+          sortBySyllables(a.jpSortSyllables, b.jpSortSyllables));
     } else {
       kanjiList.sort((Kanji a, Kanji b) {
         return a.meanings[0].compareTo(b.meanings[0]);

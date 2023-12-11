@@ -62,7 +62,8 @@ class VocabularyRepository {
         .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      vocabularyList.sort((Vocabulary a, Vocabulary b) => sortBySyllables(a.kanaSyllables, b.kanaSyllables));
+      vocabularyList.sort((Vocabulary a, Vocabulary b) =>
+          sortBySyllables(a.kanaSyllables, b.kanaSyllables));
     } else {
       vocabularyList.sort((Vocabulary a, Vocabulary b) {
         return a.romaji.compareTo(b.romaji);
