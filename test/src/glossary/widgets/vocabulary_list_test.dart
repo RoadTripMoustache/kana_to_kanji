@@ -19,7 +19,7 @@ void main() {
 
     testWidgets("Contains 1 kanji", (WidgetTester tester) async {
       List<Vocabulary> vocabularyList = [];
-      vocabularyList.add(Vocabulary(1, "a", "a", 1, [], "a", [], "a"));
+      vocabularyList.add(Vocabulary(1, "a", "a", 1, [], "a", [], "a", []));
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,
       ));
@@ -38,8 +38,8 @@ void main() {
 
     testWidgets("Contains 2 kanji", (WidgetTester tester) async {
       List<Vocabulary> vocabularyList = [];
-      vocabularyList.add(Vocabulary(1, "a", "a", 1, [], "a", [], "a"));
-      vocabularyList.add(Vocabulary(2, "b", "b", 2, [], "b", [], "b"));
+      vocabularyList.add(Vocabulary(1, "a", "a", 1, [], "a", [], "a", []));
+      vocabularyList.add(Vocabulary(2, "b", "b", 2, [], "b", [], "b", []));
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,
       ));

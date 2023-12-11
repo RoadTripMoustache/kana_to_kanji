@@ -19,7 +19,7 @@ void main() {
 
     testWidgets("Contains 1 kanji", (WidgetTester tester) async {
       List<Kanji> kanjiList = [];
-      kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", []));
+      kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", [], []));
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
       ));
@@ -37,8 +37,8 @@ void main() {
 
     testWidgets("Contains 2 kanji", (WidgetTester tester) async {
       List<Kanji> kanjiList = [];
-      kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", []));
-      kanjiList.add(Kanji(2, "b", 2, 2, 2, [], [], [], "b", []));
+      kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", [], []));
+      kanjiList.add(Kanji(2, "b", 2, 2, 2, [], [], [], "b", [], []));
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
       ));
