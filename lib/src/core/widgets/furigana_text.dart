@@ -10,6 +10,9 @@ class FuriganaText extends StatelessWidget {
 
   final TextStyle? style;
 
+  /// Widget used to display [furigana] in top of [text] when
+  /// [showFurigana] is true. Please note that no logic of verification
+  /// are done, meaning that you can display any text on top of [text].
   const FuriganaText(
       {super.key,
       required this.text,
