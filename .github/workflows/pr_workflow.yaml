@@ -168,7 +168,7 @@ jobs:
         working-directory: ${{ matrix.build_path }}
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
           path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ env.FLAVOR }}_${{ matrix.target }}*.${{ matrix.asset_extension }}
