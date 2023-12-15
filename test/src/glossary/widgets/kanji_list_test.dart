@@ -7,6 +7,8 @@ import '../../../helpers.dart';
 
 void main() {
   group("KanjiList", () {
+    const kanji = Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", []);
+
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const KanjiList(
         items: [],
@@ -18,8 +20,7 @@ void main() {
     });
 
     testWidgets("Contains 1 kanji", (WidgetTester tester) async {
-      List<Kanji> kanjiList = [];
-      kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", []));
+      List<Kanji> kanjiList = [kanji];
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
       ));
@@ -31,14 +32,13 @@ void main() {
       var tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < kanjiList.length; i++) {
         tileList.moveNext();
-        expect((tileList.current as GlossaryListTile).kanji, kanjiList[i].kanji);
+        expect((tileList.current as GlossaryListTile).kanji, kanjiList[i]);
       }
     });
 
     testWidgets("Contains 2 kanji", (WidgetTester tester) async {
-      List<Kanji> kanjiList = [];
-      kanjiList.add(Kanji(1, "a", 1, 1, 1, [], [], [], "a", []));
-      kanjiList.add(Kanji(2, "b", 2, 2, 2, [], [], [], "b", []));
+      List<Kanji> kanjiList = [kanji, kanji];
+
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
       ));
@@ -50,7 +50,7 @@ void main() {
       var tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < kanjiList.length; i++) {
         tileList.moveNext();
-        expect((tileList.current as GlossaryListTile).kanji, kanjiList[i].kanji);
+        expect((tileList.current as GlossaryListTile).kanji, kanjiList[i]);
       }
     });
   });
