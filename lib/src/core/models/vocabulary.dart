@@ -29,8 +29,8 @@ class Vocabulary {
   final List<int>? relatedKanjis;
   final String version;
 
-  const Vocabulary(this.id, this.kanji, this.kana, this.jlptLevel, this.meanings,
-      this.romaji, this.relatedKanjis, this.version);
+  const Vocabulary(this.id, this.kanji, this.kana, this.jlptLevel,
+      this.meanings, this.romaji, this.relatedKanjis, this.version);
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);

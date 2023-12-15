@@ -29,17 +29,16 @@ extension WidgetTesterExtension on WidgetTester {
           path: initialLocation,
           builder: (context, state) => widget,
         ),
-        ...allowedRoutes
-            .map(
-              (e) => GoRoute(
-                path: e,
-                builder: (context, state) => Container(
-                  key: Key(
-                    getRouterKey(e),
-                  ),
-                ),
+        ...allowedRoutes.map(
+          (e) => GoRoute(
+            path: e,
+            builder: (context, state) => Container(
+              key: Key(
+                getRouterKey(e),
               ),
-            )
+            ),
+          ),
+        )
       ],
     );
 
@@ -68,18 +67,17 @@ extension WidgetTesterExtension on WidgetTester {
           path: initialLocation,
           builder: (context, state) => Scaffold(body: widget),
         ),
-        ...allowedRoutes
-            .map(
-              (e) => GoRoute(
-                path: e,
-                builder: (context, state) => Container(
-                  key: Key(
-                    getRouterKey(e),
-                  ),
-                  child: allowedRoutesChild,
-                ),
+        ...allowedRoutes.map(
+          (e) => GoRoute(
+            path: e,
+            builder: (context, state) => Container(
+              key: Key(
+                getRouterKey(e),
               ),
-            )
+              child: allowedRoutesChild,
+            ),
+          ),
+        )
       ],
     );
 

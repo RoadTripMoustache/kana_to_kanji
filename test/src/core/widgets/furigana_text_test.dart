@@ -179,8 +179,7 @@ void main() {
               findsOneWidget,
               reason: "Should only have one text meaning no furigana");
           expect(
-              find.descendant(
-                  of: widget, matching: find.text(vocabulary.kana)),
+              find.descendant(of: widget, matching: find.text(vocabulary.kana)),
               findsOneWidget,
               reason: "Kana should be use as main text when kanji is empty");
         });
