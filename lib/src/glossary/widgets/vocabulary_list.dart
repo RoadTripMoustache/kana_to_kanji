@@ -13,6 +13,6 @@ class VocabularyList extends StatelessWidget {
         key: const PageStorageKey("glossary_vocabulary_list"),
         itemCount: items.length,
         itemBuilder: (context, index) =>
-            GlossaryListTile.vocabulary(vocabulary: items[index]));
+            GlossaryListTile.vocabulary(items[index]));
   }
 }

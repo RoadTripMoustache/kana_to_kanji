@@ -13,6 +13,6 @@ class KanjiList extends StatelessWidget {
         key: const PageStorageKey("glossary_kanji_list"),
         itemCount: items.length,
         itemBuilder: (context, index) =>
-            GlossaryListTile.kanji(kanji: items[index]));
+            GlossaryListTile.kanji(items[index]));
   }
 }

@@ -38,11 +38,8 @@ class GlossaryListTile extends StatelessWidget {
             (kanji != null || vocabulary != null));
 
   /// Build a tile for a [Kanji]
-  factory GlossaryListTile.kanji(
-          {Key? key,
-          required Kanji kanji,
-          bool showFurigana = true,
-          VoidCallback? onPressed}) =>
+  factory GlossaryListTile.kanji(Kanji kanji,
+          {Key? key, bool showFurigana = true, VoidCallback? onPressed}) =>
       GlossaryListTile(
           key: key,
           kanji: kanji,
@@ -52,11 +49,8 @@ class GlossaryListTile extends StatelessWidget {
           onPressed: onPressed);
 
   /// Build a tile for a [Vocabulary]
-  factory GlossaryListTile.vocabulary(
-          {Key? key,
-          required Vocabulary vocabulary,
-          bool showFurigana = true,
-          VoidCallback? onPressed}) =>
+  factory GlossaryListTile.vocabulary(Vocabulary vocabulary,
+          {Key? key, bool showFurigana = true, VoidCallback? onPressed}) =>
       GlossaryListTile(
           key: key,
           vocabulary: vocabulary,
@@ -90,8 +84,8 @@ class GlossaryListTile extends StatelessWidget {
               child: Text(
                 l10n.glossary_tile_meanings(meanings[0], meanings.length - 1),
                 overflow: TextOverflow.ellipsis,
-                style:
-                    textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal),
+                style: textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.normal),
               ),
             )
           ],
