@@ -38,7 +38,7 @@ class Kanji {
   @JsonKey(name: "vocabulary_ids")
   final List<int>? vocabularyIds;
 
-  Kanji(
+  const Kanji(
       this.id,
       this.kanji,
       this.numberOfStrokes,

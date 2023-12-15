@@ -6,13 +6,10 @@ class AppConfig extends InheritedWidget {
   final Environment environment;
 
   const AppConfig({
-    Key? key,
-    required Widget child,
+    super.key,
+    required super.child,
     required this.environment,
-  }) : super(
-          key: key,
-          child: child,
-        );
+  });
 
   static AppConfig of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<AppConfig>()!;

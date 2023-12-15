@@ -63,7 +63,7 @@ void main() {
           router: goRouterMock,
           l10n: l10n,
           githubService: githubServiceMock)
-        ..addListener(notifyListenersCallback);
+        ..addListener(notifyListenersCallback.call);
     });
 
     tearDown(() {

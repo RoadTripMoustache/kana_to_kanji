@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list_tile.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
 
 class VocabularyList extends StatelessWidget {
   final List<Vocabulary> items;
@@ -9,10 +9,10 @@ class VocabularyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-          children: List.generate(items.length,
-              (index) => VocabularyListTile(data: items[index].romaji))),
-    );
+    return ListView.builder(
+        key: const PageStorageKey("glossary_vocabulary_list"),
+        itemCount: items.length,
+        itemBuilder: (context, index) =>
+            GlossaryListTile.vocabulary(items[index]));
   }
 }
