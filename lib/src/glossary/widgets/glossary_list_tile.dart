@@ -86,10 +86,13 @@ class GlossaryListTile extends StatelessWidget {
           children: [
             furiganaText,
             const SizedBox(width: 10),
-            Text(
-              l10n.glossary_tile_meanings(meanings[0], meanings.length - 1),
-              style:
-                  textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal),
+            Flexible(
+              child: Text(
+                l10n.glossary_tile_meanings(meanings[0], meanings.length - 1),
+                overflow: TextOverflow.ellipsis,
+                style:
+                    textTheme.titleSmall?.copyWith(fontWeight: FontWeight.normal),
+              ),
             )
           ],
         ),
