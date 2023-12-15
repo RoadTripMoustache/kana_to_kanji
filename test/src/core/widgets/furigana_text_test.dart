@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/widgets/furigana_text.dart';
 
 import '../../../helpers.dart';
@@ -80,6 +82,108 @@ void main() {
 
         expect(furiganaTextFound, findsOneWidget);
         expect(furiganaTextWidget.style!.fontSize, 12);
+      });
+    });
+
+    group("Factories constructor", () {
+      group("Kanji", () {
+        testWidgets("Kun reading should be used if available",
+            (WidgetTester tester) async {
+          const kanji =
+              Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", []);
+
+          final widget =
+              await pump(tester, FuriganaText.kanji(kanji, showFurigana: true));
+
+          expect(
+              find.descendant(
+                  of: widget, matching: find.text(kanji.kunReadings[0])),
+              findsOneWidget,
+              reason:
+                  "When furigana isn't precised and kun reading are available, the first kun reading should be used as furigana");
+          expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
+              findsOneWidget,
+              reason: "Kanji should be used as main text");
+        });
+
+        testWidgets("On reading should be used if there is no kun reading",
+            (WidgetTester tester) async {
+          const kanji = Kanji(
+              1, "人", 5, 1, 5, ["person"], ["ジン", "ニン"], [], "2023-12-1", []);
+
+          final widget =
+              await pump(tester, FuriganaText.kanji(kanji, showFurigana: true));
+
+          expect(
+              find.descendant(
+                  of: widget, matching: find.text(kanji.onReadings[0])),
+              findsOneWidget,
+              reason:
+                  "When furigana isn't precised and kun reading unavailable, the first on reading should be used as furigana");
+          expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
+              findsOneWidget,
+              reason: "Kanji should be used as main text");
+        });
+
+        testWidgets("Furigana should be override", (WidgetTester tester) async {
+          const kanji =
+              Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", []);
+          const furiganaOverride = "あ";
+
+          final widget = await pump(
+              tester,
+              FuriganaText.kanji(kanji,
+                  furigana: furiganaOverride, showFurigana: true));
+
+          expect(
+              find.descendant(
+                  of: widget, matching: find.text(furiganaOverride)),
+              findsOneWidget,
+              reason:
+                  "When furigana is precised, it should override kun and on reading");
+          expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
+              findsOneWidget,
+              reason: "Kanji should be used as main text");
+        });
+      });
+
+      group("Vocabulary", () {
+        testWidgets("Should have main text and furigana",
+            (WidgetTester tester) async {
+          const vocabulary =
+              Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1");
+
+          final widget = await pump(
+              tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));
+
+          expect(
+              find.descendant(of: widget, matching: find.text(vocabulary.kana)),
+              findsOneWidget,
+              reason:
+                  "Kana should always be used as furigana if kanji isn't empty");
+          expect(
+              find.descendant(
+                  of: widget, matching: find.text(vocabulary.kanji)),
+              findsOneWidget,
+              reason: "Kanji should be use as main text when available");
+        });
+
+        testWidgets("Should only have main text", (WidgetTester tester) async {
+          const vocabulary =
+              Vocabulary(1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1");
+
+          final widget = await pump(
+              tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));
+
+          expect(find.descendant(of: widget, matching: find.byType(Text)),
+              findsOneWidget,
+              reason: "Should only have one text meaning no furigana");
+          expect(
+              find.descendant(
+                  of: widget, matching: find.text(vocabulary.kana)),
+              findsOneWidget,
+              reason: "Kana should be use as main text when kanji is empty");
+        });
       });
     });
   });

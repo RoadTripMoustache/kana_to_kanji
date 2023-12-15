@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 
 class FuriganaText extends StatelessWidget {
   final String text;
@@ -20,11 +21,8 @@ class FuriganaText extends StatelessWidget {
       this.showFurigana = false,
       this.style});
 
-  factory FuriganaText.kanji(
-          {required Kanji kanji,
-          String? furigana,
-          TextStyle? style,
-          bool showFurigana = false}) =>
+  factory FuriganaText.kanji(Kanji kanji,
+          {String? furigana, TextStyle? style, bool showFurigana = false}) =>
       FuriganaText(
           text: kanji.kanji,
           furigana: furigana ??
@@ -34,7 +32,19 @@ class FuriganaText extends StatelessWidget {
           showFurigana: showFurigana,
           style: style);
 
-  // TODO Add Vocabulary factory constructor
+  factory FuriganaText.vocabulary(Vocabulary vocabulary,
+      {TextStyle? style, bool showFurigana = false}) {
+    if (vocabulary.kanji.isEmpty) {
+      return FuriganaText(
+          text: vocabulary.kana, showFurigana: false, style: style);
+    }
+
+    return FuriganaText(
+        text: vocabulary.kanji,
+        furigana: vocabulary.kana,
+        showFurigana: true,
+        style: style);
+  }
 
   @override
   Widget build(BuildContext context) {
