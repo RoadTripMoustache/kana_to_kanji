@@ -11,7 +11,9 @@ import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
+import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
+import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
@@ -56,6 +58,12 @@ void setupLocator() {
       dependsOn: [Isar]);
   locator.registerSingletonWithDependencies<KanaRepository>(
       () => KanaRepository(),
+      dependsOn: [Isar]);
+  locator.registerSingletonWithDependencies<KanjiRepository>(
+      () => KanjiRepository(),
+      dependsOn: [Isar]);
+  locator.registerSingletonWithDependencies<VocabularyRepository>(
+      () => VocabularyRepository(),
       dependsOn: [Isar]);
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
 
