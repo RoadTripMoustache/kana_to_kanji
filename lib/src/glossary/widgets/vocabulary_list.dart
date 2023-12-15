@@ -9,12 +9,10 @@ class VocabularyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-          children: List.generate(
-              items.length,
-              (index) =>
-                  GlossaryListTile.vocabulary(vocabulary: items[index]))),
-    );
+    return ListView.builder(
+        key: const PageStorageKey("glossary_vocabulary_list"),
+        itemCount: items.length,
+        itemBuilder: (context, index) =>
+            GlossaryListTile.vocabulary(vocabulary: items[index]));
   }
 }

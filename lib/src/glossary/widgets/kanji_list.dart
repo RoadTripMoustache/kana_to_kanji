@@ -10,6 +10,7 @@ class KanjiList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        key: const PageStorageKey("glossary_kanji_list"),
         itemCount: items.length,
         itemBuilder: (context, index) =>
             GlossaryListTile.kanji(kanji: items[index]));
