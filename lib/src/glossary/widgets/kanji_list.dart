@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/widgets/furigana_text.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
 
 class KanjiList extends StatelessWidget {
