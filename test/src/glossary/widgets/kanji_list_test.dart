@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kanji_list.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/kanji_list_tile.dart';
 
 import '../../../helpers.dart';
 
@@ -13,7 +13,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      final found = find.byType(KanjiListTile);
+      final found = find.byType(GlossaryListTile);
       expect(found, findsNothing);
     });
 
@@ -25,13 +25,13 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      final foundAllTiles = find.byType(KanjiListTile);
+      final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsOneWidget);
 
       var tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < kanjiList.length; i++) {
         tileList.moveNext();
-        expect((tileList.current as KanjiListTile).data, kanjiList[i].kanji);
+        expect((tileList.current as GlossaryListTile).kanji, kanjiList[i].kanji);
       }
     });
 
@@ -44,13 +44,13 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      final foundAllTiles = find.byType(KanjiListTile);
+      final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsNWidgets(kanjiList.length));
 
       var tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < kanjiList.length; i++) {
         tileList.moveNext();
-        expect((tileList.current as KanjiListTile).data, kanjiList[i].kanji);
+        expect((tileList.current as GlossaryListTile).kanji, kanjiList[i].kanji);
       }
     });
   });
