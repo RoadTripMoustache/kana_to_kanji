@@ -15,4 +15,26 @@ class KanjiRepository {
 
     return kanjis;
   }
+
+  List<Kanji> searchKanjiRomaji(String searchTxt) {
+    return _kanjis
+        .where((kanji) =>
+            kanji.meanings
+                .lastIndexWhere((meaning) => meaning.contains(searchTxt)) >=
+            0)
+        .toList();
+  }
+
+  List<Kanji> searchKanjiJapanese(String searchTxt) {
+    return _kanjis
+        .where((kanji) =>
+            kanji.kanji == searchTxt ||
+            kanji.kunReadings
+                    .lastIndexWhere((reading) => reading.contains(searchTxt)) >=
+                0 ||
+            kanji.onReadings
+                    .lastIndexWhere((reading) => reading.contains(searchTxt)) >=
+                0)
+        .toList();
+  }
 }

@@ -33,10 +33,60 @@ class KanaRepository {
         .toList();
   }
 
+  Future<List<Kana>> searchHiraganaRomaji(String searchTxt) async {
+    await loadKana();
+    if (searchTxt.length > 2 ||
+        searchTxt.codeUnits
+            .map((characterCode) =>
+                characterCode < 12352 || characterCode > 12543)
+            .isNotEmpty) {
+      return Future(() => List.empty());
+    }
+    return _kana
+        .where((element) =>
+            Alphabets.hiragana == element.alphabet &&
+            element.romaji.contains(searchTxt))
+        .toList();
+  }
+
+  Future<List<Kana>> searchHiraganaKana(String searchTxt) async {
+    await loadKana();
+    return _kana
+        .where((element) =>
+            Alphabets.hiragana == element.alphabet &&
+            element.kana.contains(searchTxt))
+        .toList();
+  }
+
   Future<List<Kana>> getKatakana() async {
     await loadKana();
     return _kana
         .where((element) => Alphabets.katakana == element.alphabet)
+        .toList();
+  }
+
+  Future<List<Kana>> searchKatakanaRomaji(String searchTxt) async {
+    await loadKana();
+    if (searchTxt.length > 2 ||
+        searchTxt.codeUnits
+            .map((characterCode) =>
+                characterCode < 12352 || characterCode > 12543)
+            .isNotEmpty) {
+      return Future(() => List.empty());
+    }
+    return _kana
+        .where((element) =>
+            Alphabets.katakana == element.alphabet &&
+            element.romaji.contains(searchTxt))
+        .toList();
+  }
+
+  Future<List<Kana>> searchKatakanaKana(String searchTxt) async {
+    await loadKana();
+    return _kana
+        .where((element) =>
+            Alphabets.katakana == element.alphabet &&
+            element.kana.contains(searchTxt))
         .toList();
   }
 }

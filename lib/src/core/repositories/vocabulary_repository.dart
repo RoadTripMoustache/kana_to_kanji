@@ -14,4 +14,22 @@ class VocabularyRepository {
 
     return vocabulary;
   }
+
+  List<Vocabulary> searchVocabularyRomaji(String searchTxt) {
+    return _vocabulary
+        .where((vocabulary) =>
+            vocabulary.romaji.contains(searchTxt) ||
+            vocabulary.meanings
+                    .lastIndexWhere((meaning) => meaning.contains(searchTxt)) >=
+                0)
+        .toList();
+  }
+
+  List<Vocabulary> searchVocabularyJapanese(String searchTxt) {
+    return _vocabulary
+        .where((vocabulary) =>
+            vocabulary.kanji.contains(searchTxt) ||
+            vocabulary.kana.contains(searchTxt))
+        .toList();
+  }
 }
