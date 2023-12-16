@@ -228,7 +228,7 @@ List<String> splitBySyllable(String kanaWord) {
     if (syllables[i] == "ー" && i > 0) {
       syllables[i] = syllables[i - 1];
     }
-    if (syllables[i] == "っ" && i < syllables.length -1) {
+    if (syllables[i] == "っ" && i < syllables.length - 1) {
       syllables[i] = syllables[i + 1];
     }
   }
