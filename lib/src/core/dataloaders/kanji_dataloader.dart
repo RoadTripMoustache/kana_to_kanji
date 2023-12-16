@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
+import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,6 +32,11 @@ class KanjiDataLoader {
       List<Kanji> kanjis = [];
       var listKanji = jsonDecode(response.body);
       for (final k in listKanji) {
+        if (k["kun_readings"][0] != "") {
+          k["jp_sort_syllables"] = splitBySyllable(k["kun_readings"][0]);
+        } else {
+          k["jp_sort_syllables"] = splitBySyllable(k["on_readings"][0]);
+        }
         kanjis.add(Kanji.fromJson(k));
       }
       return kanjis;
