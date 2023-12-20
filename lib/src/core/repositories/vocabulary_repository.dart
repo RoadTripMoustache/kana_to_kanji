@@ -5,11 +5,11 @@ class VocabularyRepository {
   final VocabularyService _vocabularyService = VocabularyService();
   final List<Vocabulary> _vocabulary = [];
 
-  Future<List<Vocabulary>> getAll() async {
+  List<Vocabulary> getAll() {
     if (_vocabulary.isNotEmpty) {
       return _vocabulary;
     }
-    var vocabulary = await _vocabularyService.getAll();
+    var vocabulary = _vocabularyService.getAll();
     _vocabulary.addAll(vocabulary);
 
     return vocabulary;
