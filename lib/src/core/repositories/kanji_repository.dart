@@ -6,11 +6,11 @@ class KanjiRepository {
 
   final List<Kanji> _kanjis = [];
 
-  Future<List<Kanji>> getAll() async {
+  List<Kanji> getAll() {
     if (_kanjis.isNotEmpty) {
       return _kanjis;
     }
-    var kanjis = await _kanjiService.getAll();
+    var kanjis = _kanjiService.getAll();
     _kanjis.addAll(kanjis);
 
     return kanjis;
