@@ -6,35 +6,35 @@ class KanaRepository {
   final KanaService _kanaService = KanaService();
   final List<Kana> _kana = [];
 
-  Future loadKana() async {
+  void loadKana() {
     if (_kana.isEmpty) {
-      _kana.addAll(await _kanaService.getHiragana());
-      _kana.addAll(await _kanaService.getKatakana());
+      _kana.addAll(
+          [..._kanaService.getHiragana(), ..._kanaService.getKatakana()]);
     }
   }
 
-  Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
-    await loadKana();
+  List<Kana> getByGroupIds(List<int> groupIds) {
+    loadKana();
     final kana =
         _kana.where((element) => groupIds.contains(element.groupId)).toList();
 
     return kana;
   }
 
-  Future<List<Kana>> getByGroupId(int groupId) async {
-    await loadKana();
+  List<Kana> getByGroupId(int groupId) {
+    loadKana();
     return _kana.where((element) => groupId == element.groupId).toList();
   }
 
-  Future<List<Kana>> getHiragana() async {
-    await loadKana();
+  List<Kana> getHiragana() {
+    loadKana();
     return _kana
         .where((element) => Alphabets.hiragana == element.alphabet)
         .toList();
   }
 
-  Future<List<Kana>> getKatakana() async {
-    await loadKana();
+  List<Kana> getKatakana() {
+    loadKana();
     return _kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .toList();

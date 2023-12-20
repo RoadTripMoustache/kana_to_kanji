@@ -7,9 +7,9 @@ class KanaService {
   final Isar _isar = locator<Isar>();
 
   /// Get all the kana related to the group ids given in parameter.
-  Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
+  List<Kana> getByGroupIds(List<int> groupIds) {
     if (groupIds.isEmpty) {
-      return Future.value(_isar.kanas.where().findAll());
+      return _isar.kanas.where().findAll();
     }
 
     var kanaQuery = _isar.kanas.where().groupIdEqualTo(groupIds[0]);
@@ -18,25 +18,25 @@ class KanaService {
       kanaQuery = kanaQuery.or().groupIdEqualTo(groupIds[i]);
     }
 
-    return Future.value(kanaQuery.findAll());
+    return kanaQuery.findAll();
   }
 
   /// Get all the kana related to the group id given in parameter.
-  Future<List<Kana>> getByGroupId(int groupId) async {
+  List<Kana> getByGroupId(int groupId) {
     return getByGroupIds([groupId]);
   }
 
-  Future<List<Kana>> getKana(Alphabets alphabet) async {
+  List<Kana> getKana(Alphabets alphabet) {
     var kanaQuery = _isar.kanas.where().alphabetEqualTo(alphabet);
 
-    return Future.value(kanaQuery.findAll());
+    return kanaQuery.findAll();
   }
 
-  Future<List<Kana>> getHiragana() async {
+  List<Kana> getHiragana() {
     return getKana(Alphabets.hiragana);
   }
 
-  Future<List<Kana>> getKatakana() async {
+  List<Kana> getKatakana() {
     return getKana(Alphabets.katakana);
   }
 }

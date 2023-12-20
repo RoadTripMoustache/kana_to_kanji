@@ -34,7 +34,7 @@ class QuizViewModel extends FutureViewModel {
 
   @override
   Future futureToRun() async {
-    final kana = await _kanaRepository
+    final kana = _kanaRepository
         .getByGroupIds(groups.map((e) => e.id).toList(growable: false));
     _questions.addAll(kana.map((element) => Question(
         alphabet: element.alphabet,
