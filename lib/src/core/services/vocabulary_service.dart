@@ -6,7 +6,7 @@ class VocabularyService {
   final Isar _isar = locator<Isar>();
 
   /// Get all the vocabulary
-  Future<List<Vocabulary>> getAll() async {
-    return Future.value(_isar.vocabularys.where().findAll());
+  List<Vocabulary> getAll() {
+    return _isar.vocabularys.where().findAll();
   }
 }
