@@ -41,7 +41,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  analyzer: ^6.2.0
   flutter_lints: ^3.0.1
   freezed: ^2.3.5
   build_runner: ^2.4.6
