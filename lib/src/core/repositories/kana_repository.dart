@@ -1,41 +1,47 @@
+import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 
 class KanaRepository {
-  final KanaService _kanaService = KanaService();
-  final List<Kana> _kana = [];
+  late final KanaService _kanaService;
+  @visibleForTesting
+  final List<Kana> kana = [];
+
+  /// [kanaService] should only be used for testing
+  KanaRepository({KanaService? kanaService}) {
+    _kanaService = kanaService ?? KanaService();
+  }
 
   void loadKana() {
-    if (_kana.isEmpty) {
-      _kana.addAll(
+    if (kana.isEmpty) {
+      kana.addAll(
           [..._kanaService.getHiragana(), ..._kanaService.getKatakana()]);
     }
   }
 
   List<Kana> getByGroupIds(List<int> groupIds) {
     loadKana();
-    final kana =
-        _kana.where((element) => groupIds.contains(element.groupId)).toList();
+    final kanaFiltered =
+        kana.where((element) => groupIds.contains(element.groupId)).toList();
 
-    return kana;
+    return kanaFiltered;
   }
 
   List<Kana> getByGroupId(int groupId) {
-    loadKana();
-    return _kana.where((element) => groupId == element.groupId).toList();
+    return getByGroupIds([groupId]);
   }
 
   List<Kana> getHiragana() {
     loadKana();
-    return _kana
+    return kana
         .where((element) => Alphabets.hiragana == element.alphabet)
         .toList();
   }
 
   List<Kana> getKatakana() {
     loadKana();
-    return _kana
+    return kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .toList();
   }
