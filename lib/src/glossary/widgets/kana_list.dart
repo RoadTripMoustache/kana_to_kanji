@@ -12,17 +12,19 @@ class KanaList extends StatelessWidget {
   const KanaList({super.key, required this.items});
 
   void _onPressed(Kana kana, BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text("Kana: ${kana.kana} tapped")));
   }
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+
     if (items.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(child: Text(l10n.nothing_to_show));
     }
 
-    final AppLocalizations l10n = AppLocalizations.of(context);
     final sectionTextStyle = Theme.of(context).textTheme.titleLarge;
     const cleanTile = Card(elevation: 0);
 
@@ -85,7 +87,8 @@ class KanaList extends StatelessWidget {
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 5,
+            crossAxisCount: 3,
+            childAspectRatio: 1.8,
             children: combination,
           ),
         ]));
