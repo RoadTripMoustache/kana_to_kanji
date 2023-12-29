@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
+import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,6 +32,7 @@ class VocabularyDataLoader {
       List<Vocabulary> vocabulary = [];
       var listVocabulary = jsonDecode(response.body);
       for (final k in listVocabulary) {
+        k["kana_syllables"] = splitBySyllable(k["kana"]);
         vocabulary.add(Vocabulary.fromJson(k));
       }
       return vocabulary;
