@@ -11,18 +11,16 @@ class KanaListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final kanaStyle = textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold);
+    final kanaStyle =
+        textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold);
 
     return Card(
         child: InkWell(
-          onTap: onPressed,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(kana.kana,
-                    style: kanaStyle),
-                Text(kana.romaji, style: textTheme.bodyMedium)
-              ]),
-        ));
+      onTap: onPressed,
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(kana.kana, style: kanaStyle),
+        Text(kana.romaji, style: textTheme.bodyMedium)
+      ]),
+    ));
   }
 }
