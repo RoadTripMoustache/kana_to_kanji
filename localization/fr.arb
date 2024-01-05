@@ -24,6 +24,10 @@
     "description": "Texte du bouton pour retourner a l'écran principal"
   },
   "button_continue": "Continuer",
+  "nothing_to_show": "Rien à afficher...",
+  "@nothing_to_show": {
+    "description": "Indique qu'il n'y a rien à afficher ici..."
+  },
   "percent": "{percent}",
   "@percent": {
     "placeholders": {
