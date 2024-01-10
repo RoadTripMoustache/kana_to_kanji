@@ -9,12 +9,15 @@ class KanaList extends StatelessWidget {
   /// will be shown.
   final List<Kana> items;
 
-  const KanaList({super.key, required this.items});
+  /// Function to execute when a [KanaListTile] is pressed
+  final Function(Kana kana)? onPressed;
+
+  const KanaList({super.key, required this.items, this.onPressed});
 
   void _onPressed(Kana kana, BuildContext context) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Kana: ${kana.kana} tapped")));
+    if (onPressed != null) {
+      onPressed!(kana);
+    }
   }
 
   @override

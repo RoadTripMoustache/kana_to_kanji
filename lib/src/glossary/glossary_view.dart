@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view_model.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list.dart';
@@ -39,7 +40,7 @@ class _GlossaryViewState extends State<GlossaryView>
     const textIconStyle = TextStyle(fontSize: 26);
 
     return ViewModelBuilder<GlossaryViewModel>.reactive(
-        viewModelBuilder: () => GlossaryViewModel(),
+        viewModelBuilder: () => GlossaryViewModel(GoRouter.of(context)),
         builder: (context, viewModel, child) {
           return AppScaffold(
               resizeToAvoidBottomInset: true,
@@ -89,8 +90,12 @@ class _GlossaryViewState extends State<GlossaryView>
                 child: TabBarView(
                   controller: _tabController,
                   children: <Widget>[
-                    KanaList(items: viewModel.hiraganaList),
-                    KanaList(items: viewModel.katakanaList),
+                    KanaList(
+                        items: viewModel.hiraganaList,
+                        onPressed: viewModel.onKanaTilePressed),
+                    KanaList(
+                        items: viewModel.katakanaList,
+                        onPressed: viewModel.onKanaTilePressed),
                     KanjiList(items: viewModel.kanjiList),
                     VocabularyList(items: viewModel.vocabularyList),
                   ],
