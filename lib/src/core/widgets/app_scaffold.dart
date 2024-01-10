@@ -13,6 +13,8 @@ class AppScaffold extends StatelessWidget {
 
   final bool resizeToAvoidBottomInset;
 
+  final double minimumHorizontalPadding;
+
   final bool showBottomBar;
 
   const AppScaffold(
@@ -22,14 +24,17 @@ class AppScaffold extends StatelessWidget {
       this.fab,
       this.fabPosition,
       this.resizeToAvoidBottomInset = false,
-      this.showBottomBar = false});
+      this.showBottomBar = false,
+      this.minimumHorizontalPadding = 4.0});
 
   @override
   Widget build(BuildContext context) => Scaffold(
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: appBar,
       body: SafeArea(
-        minimum: const EdgeInsets.symmetric(horizontal: 4.0),
+        left: false,
+        right: false,
+        minimum: EdgeInsets.symmetric(horizontal: minimumHorizontalPadding),
         child: Stack(children: [
           body,
         ]),
