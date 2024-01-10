@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_not_found_view.dart';
+import 'package:kana_to_kanji/src/glossary/details/kana_details_view.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view.dart';
 import 'package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
@@ -56,5 +58,18 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
               builder: (_, __) => const SettingsView()),
           GoRoute(
               path: GlossaryView.routeName,
-              builder: (_, __) => const GlossaryView())
+              builder: (_, __) => const GlossaryView(),
+              routes: [
+                GoRoute(
+                    path: KanaDetailsView.routeName
+                        .substring(GlossaryView.routeName.length + 1),
+                    redirect: (_, state) {
+                      if (state.extra is! Kana) {
+                        return "/error";
+                      }
+                      return null;
+                    },
+                    builder: (_, state) =>
+                        KanaDetailsView(kana: state.extra as Kana))
+              ])
         ]);
