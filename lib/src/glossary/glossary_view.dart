@@ -96,8 +96,12 @@ class _GlossaryViewState extends State<GlossaryView>
                     KanaList(
                         items: viewModel.katakanaList,
                         onPressed: viewModel.onKanaTilePressed),
-                    KanjiList(items: viewModel.kanjiList),
-                    VocabularyList(items: viewModel.vocabularyList),
+                    KanjiList(
+                        items: viewModel.kanjiList,
+                        onPressed: viewModel.onKanjiTilePressed),
+                    VocabularyList(
+                        items: viewModel.vocabularyList,
+                        onPressed: viewModel.onVocabularyTilePressed),
                   ],
                 ),
               ));

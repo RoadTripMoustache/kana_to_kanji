@@ -5,7 +5,7 @@ import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
-import 'package:kana_to_kanji/src/glossary/details/kana_details_view.dart';
+import 'package:kana_to_kanji/src/glossary/details/details_view.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 
@@ -41,6 +41,14 @@ class GlossaryViewModel extends FutureViewModel {
   }
 
   void onKanaTilePressed(Kana kana) {
-    router.go(KanaDetailsView.routeName, extra: kana);
+    router.go(DetailsView.routeKanaName(kana.id), extra: kana);
+  }
+
+  void onKanjiTilePressed(Kanji kanji) {
+    router.go(DetailsView.routeKanjiName(kanji.id), extra: kanji);
+  }
+
+  void onVocabularyTilePressed(Vocabulary vocabulary) {
+    router.go(DetailsView.routeVocabularyName(vocabulary.id), extra: vocabulary);
   }
 }
