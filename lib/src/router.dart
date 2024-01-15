@@ -60,20 +60,5 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
               builder: (_, __) => const SettingsView()),
           GoRoute(
               path: GlossaryView.routeName,
-              builder: (_, __) => const GlossaryView(),
-              routes: [
-                GoRoute(
-                    path: DetailsView.routeName
-                        .substring(GlossaryView.routeName.length + 1),
-                    redirect: (_, state) {
-                      if (state.extra == null ||
-                          !(state.extra is Kana ||
-                              state.extra is Kanji ||
-                              state.extra is Vocabulary)) {
-                        return "/error";
-                      }
-                      return null;
-                    },
-                    builder: (_, state) => DetailsView(item: state.extra))
-              ])
+              builder: (_, __) => const GlossaryView())
         ]);
