@@ -14,7 +14,7 @@ class KanaList extends StatelessWidget {
 
   const KanaList({super.key, required this.items, this.onPressed});
 
-  void _onPressed(Kana kana, BuildContext context) {
+  void _onPressed(Kana kana) {
     if (onPressed != null) {
       onPressed!(kana);
     }
@@ -35,7 +35,7 @@ class KanaList extends StatelessWidget {
         .sublist(0, 46)
         .map<Widget>((kana) => KanaListTile(
               kana,
-              onPressed: () => _onPressed(kana, context),
+              onPressed: () => _onPressed(kana),
             ))
         .toList();
     main
@@ -44,13 +44,13 @@ class KanaList extends StatelessWidget {
       ..insert(36, cleanTile);
     final List<Widget> dakuten = items
         .sublist(46, 71)
-        .map<Widget>((kana) =>
-            KanaListTile(kana, onPressed: () => _onPressed(kana, context)))
+        .map<Widget>(
+            (kana) => KanaListTile(kana, onPressed: () => _onPressed(kana)))
         .toList();
     final List<Widget> combination = items
         .sublist(71)
-        .map<Widget>((kana) =>
-            KanaListTile(kana, onPressed: () => _onPressed(kana, context)))
+        .map<Widget>(
+            (kana) => KanaListTile(kana, onPressed: () => _onPressed(kana)))
         .toList();
 
     return SingleChildScrollView(
