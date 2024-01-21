@@ -47,7 +47,6 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
     super.initState();
   }
 
-
   void changeSearchBarAnimationState() {
     setState(() {
       if (isOpen && !_focusNode.hasFocus) {
@@ -233,7 +232,8 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                               key: const Key("glossary_bar_search_icon"),
                               hoverColor: Colors.transparent,
                               splashColor: Colors.transparent,
-                              focusColor: Theme.of(context).colorScheme.secondary,
+                              focusColor:
+                                  Theme.of(context).colorScheme.secondary,
                               highlightColor: Colors.transparent,
                               onTap: onTapGlass,
                               child: const SizedBox(
@@ -248,7 +248,8 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                               key: const Key("glossary_bar_clear_search_icon"),
                               hoverColor: Colors.transparent,
                               splashColor: Colors.transparent,
-                              focusColor: Theme.of(context).colorScheme.secondary,
+                              focusColor:
+                                  Theme.of(context).colorScheme.secondary,
                               highlightColor: Colors.transparent,
                               onTap: clearSearch,
                               child: const SizedBox(
