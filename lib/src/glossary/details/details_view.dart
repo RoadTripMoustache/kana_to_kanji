@@ -9,15 +9,6 @@ import 'package:kana_to_kanji/src/glossary/glossary_view.dart';
 import 'package:stacked/stacked.dart';
 
 class DetailsView extends StatelessWidget {
-  static const routeName = "${GlossaryView.routeName}/details/:type/:id";
-  static const _baseRouteName = "${GlossaryView.routeName}/details";
-
-  static routeKanaName(int id) => "$_baseRouteName/kana/$id";
-
-  static routeKanjiName(int id) => "$_baseRouteName/kanji/$id";
-
-  static routeVocabularyName(int id) => "$_baseRouteName/vocabulary/$id";
-
   final dynamic item;
 
   const DetailsView({super.key, required this.item})

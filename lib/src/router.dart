@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/widgets/app_not_found_view.dart';
-import 'package:kana_to_kanji/src/glossary/details/details_view.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view.dart';
 import 'package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
