@@ -74,7 +74,7 @@ class Details extends StatelessWidget {
               AppSpacer.p16(),
             ],
           ),
-        if(examples.isEmpty)
+        if(examples.isNotEmpty)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

@@ -3,9 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/details/details_view_model.dart';
-import 'package:kana_to_kanji/src/glossary/glossary_view.dart';
+import 'package:kana_to_kanji/src/glossary/details/widgets/details.dart';
 import 'package:stacked/stacked.dart';
 
 class DetailsView extends StatelessWidget {
@@ -20,18 +19,49 @@ class DetailsView extends StatelessWidget {
         viewModelBuilder: () => DetailsViewModel(item),
         builder: (BuildContext context, DetailsViewModel viewModel, _) {
           final AppLocalizations l10n = AppLocalizations.of(context);
+          late final Widget cardBody;
 
-          return AppScaffold(
-            appBar: AppBar(backgroundColor: Colors.transparent),
-            minimumHorizontalPadding: 0.0,
-            body: Column(
+          switch (item) {
+            case Kana _:
+              cardBody = Details.kana(kana: item);
+              break;
+            case Kanji _:
+              cardBody = Details.kanji(kanji: item);
+              break;
+            case Vocabulary _:
+              cardBody = Details.vocabulary(vocabulary: item);
+              break;
+          }
+
+          return Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Center(
-                  child: Text(
-                    viewModel.title,
-                    style: Theme.of(context).textTheme.headlineLarge,
+                Container(
+                  decoration: BoxDecoration(
+                    color:  Theme.of(context).colorScheme.surface,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                    child: Center(
+                      child: Text(
+                        viewModel.title,
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ),
                   ),
                 ),
+                Expanded(
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SingleChildScrollView(child: cardBody))))
               ],
             ),
           );
