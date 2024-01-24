@@ -23,10 +23,12 @@ void main() {
           (WidgetTester tester) async {
         final widget = await pump(tester, KanaListTile(kanaSample));
 
-        Finder text = find.descendant(of: widget, matching: find.text(kanaSample.kana));
+        Finder text =
+            find.descendant(of: widget, matching: find.text(kanaSample.kana));
         expect(text, findsOneWidget);
 
-        text = find.descendant(of: widget, matching: find.text(kanaSample.romaji));
+        text =
+            find.descendant(of: widget, matching: find.text(kanaSample.romaji));
         expect(text, findsOneWidget);
       });
     });
