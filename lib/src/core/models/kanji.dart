@@ -51,4 +51,6 @@ class Kanji {
       this.vocabularyIds);
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
+
+  List<String> get readings => [...kunReadings, ...onReadings];
 }
