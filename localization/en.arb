@@ -247,7 +247,38 @@
       },
       "count": {
         "default": 0,
+        "type": "int",
         "description": "Number of other meanings"
+      }
+    }
+  },
+  "glossary_details_pronunciation": "{count, plural, one{Pronunciation} other{Pronunciations}}",
+  "@glossary_details_pronunciation": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Number of pronunciations"
+      }
+    }
+  },
+  "glossary_details_meaning": "{count, plural, one{Meaning} other{Meanings}}",
+  "@glossary_details_meaning": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Number of meanings"
+      }
+    }
+  },
+  "glossary_details_example": "{count, plural, one{Example} other{Examples}}",
+  "@glossary_details_example": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Number of examples"
       }
     }
   },

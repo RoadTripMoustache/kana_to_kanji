@@ -242,7 +242,38 @@
       },
       "count": {
         "default": 0,
+        "type": "int",
         "description": "Nombre de traduction excluant le premier"
+      }
+    }
+  },
+  "glossary_details_pronunciation": "{count, plural, one{Prononciation} other{Prononciations}}",
+  "@glossary_details_pronunciation": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Nombre de prononciations"
+      }
+    }
+  },
+  "glossary_details_meaning": "{count, plural, one{Signification} other{Significations}}",
+  "@glossary_details_meaning": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Nombre de significations"
+      }
+    }
+  },
+  "glossary_details_example": "{count, plural, one{Exemple} other{Exemples}}",
+  "@glossary_details_example": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Nombre d'exemples"
       }
     }
   },
