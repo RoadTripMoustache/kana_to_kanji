@@ -1,4 +1,3 @@
-import 'package:flutter/src/widgets/basic.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
@@ -47,6 +46,7 @@ class GlossaryViewModel extends FutureViewModel {
     _dialogService.showModalBottomSheet(
         useSafeArea: true,
         showDragHandle: true,
+        isScrollControlled: true,
         builder: (_) => DetailsView(item: item));
   }
 }

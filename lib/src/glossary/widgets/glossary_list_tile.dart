@@ -100,13 +100,14 @@ class GlossaryListTile extends StatelessWidget {
             ),
           ],
         ),
+        onTap: onPressed,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        trailing: onPressed != null
-            ? IconButton(
-                icon: const Icon(Icons.chevron_right_rounded),
-                onPressed: onPressed,
-              )
-            : null,
+        // trailing: onPressed != null
+        //     ? IconButton(
+        //         icon: const Icon(Icons.chevron_right_rounded),
+        //         onPressed: onPressed,
+        //       )
+        //     : null,
       ),
     );
   }
