@@ -107,7 +107,6 @@ void main() {
                   log.add(kanji.id);
                 }));
 
-
         await tester.tap(widget);
         await tester.pumpAndSettle();
 
