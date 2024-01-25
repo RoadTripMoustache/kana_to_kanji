@@ -49,7 +49,7 @@ class _GlossaryViewState extends State<GlossaryView>
                     GlossarySearchBar(searchGlossary: viewModel.searchGlossary),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
-                toolbarHeight: 64,
+                toolbarHeight: kToolbarHeight,
                 bottom: TabBar.secondary(
                   controller: _tabController,
                   tabs: <Widget>[

@@ -40,7 +40,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
   bool isOpen = false;
   bool get isInputFilled => _controller.text.isNotEmpty;
   bool isSearchMade = false;
-  double searchBarWidth = 64;
+  double searchBarWidth = kToolbarHeight;
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
 
   double calculateSearchBarWidth() {
     if (!isOpen) {
-      return 64.0;
+      return kToolbarHeight;
     }
     var newWidth = widget.maxWidth;
     if (_focusNode.hasFocus) {
@@ -145,7 +145,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
     return Stack(
       children: [
         SizedBox(
-          height: 64,
+          height: kToolbarHeight,
           child: Row(
             children: [
               Expanded(
@@ -186,7 +186,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
             onTap: cancelSearch,
             child: const SizedBox(
               width: 36,
-              height: 64,
+              height: kToolbarHeight,
               child: Icon(Icons.arrow_back),
             ),
           ),
@@ -200,7 +200,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                   color: color,
                   borderRadius: BorderRadius.circular(borderRadius)),
               width: searchBarWidth,
-              height: 64.0,
+              height: kToolbarHeight,
               alignment: Alignment.center,
               duration: _duration,
               clipBehavior: Clip.hardEdge,
@@ -237,8 +237,8 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                               highlightColor: Colors.transparent,
                               onTap: onTapGlass,
                               child: const SizedBox(
-                                width: 64,
-                                height: 64,
+                                width: kToolbarHeight,
+                                height: kToolbarHeight,
                                 child: Icon(Icons.search),
                               ),
                             )
@@ -253,8 +253,8 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                               highlightColor: Colors.transparent,
                               onTap: clearSearch,
                               child: const SizedBox(
-                                width: 64,
-                                height: 64,
+                                width: kToolbarHeight,
+                                height: kToolbarHeight,
                                 child: Icon(Icons.clear_rounded),
                               ),
                             )
