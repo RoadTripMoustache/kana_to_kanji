@@ -201,7 +201,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                   color: color,
                   borderRadius: BorderRadius.circular(borderRadius)),
               width: searchBarWidth,
-              height: kToolbarHeight-2,
+              height: kToolbarHeight - 2,
               alignment: Alignment.center,
               duration: _duration,
               clipBehavior: Clip.hardEdge,
@@ -232,8 +232,10 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                           ? InkWell(
                               key: const Key("glossary_bar_search_icon"),
                               borderRadius: BorderRadius.circular(25),
-                              hoverColor: Theme.of(context).colorScheme.secondary,
-                              splashColor: Theme.of(context).colorScheme.secondary,
+                              hoverColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              splashColor:
+                                  Theme.of(context).colorScheme.secondary,
                               focusColor:
                                   Theme.of(context).colorScheme.secondary,
                               highlightColor: Colors.transparent,
@@ -249,8 +251,10 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                           ? InkWell(
                               key: const Key("glossary_bar_clear_search_icon"),
                               borderRadius: BorderRadius.circular(25),
-                              hoverColor: Theme.of(context).colorScheme.secondary,
-                              splashColor: Theme.of(context).colorScheme.secondary,
+                              hoverColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              splashColor:
+                                  Theme.of(context).colorScheme.secondary,
                               focusColor:
                                   Theme.of(context).colorScheme.secondary,
                               highlightColor: Colors.transparent,
