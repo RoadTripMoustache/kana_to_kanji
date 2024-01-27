@@ -79,7 +79,7 @@ class KanaRepository {
         .toList();
   }
 
-  List<Kana> searchKatakanaKana(String searchTxt)  {
+  List<Kana> searchKatakanaKana(String searchTxt) {
     loadKana();
     return kana
         .where((element) =>
