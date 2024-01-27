@@ -1,6 +1,6 @@
 ---
-name: "Task"
-about: Create  
+name: "Task 📋"
+about: Write a task  
 title: ''
 labels: []
 assignees: ''
