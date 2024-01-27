@@ -179,8 +179,9 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
         if (isOpen && isSearchMade)
           InkWell(
             key: const Key("glossary_bar_cancel_search_icon"),
-            hoverColor: Colors.transparent,
-            splashColor: Colors.transparent,
+            borderRadius: BorderRadius.circular(25),
+            hoverColor: Theme.of(context).colorScheme.secondary,
+            splashColor: Theme.of(context).colorScheme.secondary,
             focusColor: Theme.of(context).colorScheme.secondary,
             highlightColor: Colors.transparent,
             onTap: cancelSearch,
@@ -200,7 +201,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                   color: color,
                   borderRadius: BorderRadius.circular(borderRadius)),
               width: searchBarWidth,
-              height: kToolbarHeight,
+              height: kToolbarHeight-2,
               alignment: Alignment.center,
               duration: _duration,
               clipBehavior: Clip.hardEdge,
@@ -230,8 +231,9 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                       prefixIcon: !isSearchMade
                           ? InkWell(
                               key: const Key("glossary_bar_search_icon"),
-                              hoverColor: Colors.transparent,
-                              splashColor: Colors.transparent,
+                              borderRadius: BorderRadius.circular(25),
+                              hoverColor: Theme.of(context).colorScheme.secondary,
+                              splashColor: Theme.of(context).colorScheme.secondary,
                               focusColor:
                                   Theme.of(context).colorScheme.secondary,
                               highlightColor: Colors.transparent,
@@ -246,8 +248,9 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                       suffixIcon: isInputFilled
                           ? InkWell(
                               key: const Key("glossary_bar_clear_search_icon"),
-                              hoverColor: Colors.transparent,
-                              splashColor: Colors.transparent,
+                              borderRadius: BorderRadius.circular(25),
+                              hoverColor: Theme.of(context).colorScheme.secondary,
+                              splashColor: Theme.of(context).colorScheme.secondary,
                               focusColor:
                                   Theme.of(context).colorScheme.secondary,
                               highlightColor: Colors.transparent,
