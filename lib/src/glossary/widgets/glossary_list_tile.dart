@@ -21,7 +21,7 @@ class GlossaryListTile extends StatelessWidget {
   final List<String> meanings;
 
   /// Function called when the tile is tapped
-  final VoidCallback? onPressed;
+  final VoidCallback? onTap;
 
   /// Display or not the furigana.
   final bool showFurigana;
@@ -33,7 +33,7 @@ class GlossaryListTile extends StatelessWidget {
       this.kanji,
       this.vocabulary,
       this.showFurigana = true,
-      this.onPressed})
+      this.onTap})
       : assert((kanji == null || vocabulary == null) &&
             (kanji != null || vocabulary != null));
 
@@ -46,7 +46,7 @@ class GlossaryListTile extends StatelessWidget {
           meanings: kanji.meanings,
           jlptLevel: kanji.jlptLevel,
           showFurigana: showFurigana,
-          onPressed: onPressed);
+          onTap: onPressed);
 
   /// Build a tile for a [Vocabulary]
   factory GlossaryListTile.vocabulary(Vocabulary vocabulary,
@@ -57,7 +57,7 @@ class GlossaryListTile extends StatelessWidget {
           meanings: vocabulary.meanings,
           jlptLevel: vocabulary.jlptLevel,
           showFurigana: showFurigana,
-          onPressed: onPressed);
+          onTap: onPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -74,40 +74,35 @@ class GlossaryListTile extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            furiganaText,
-            const SizedBox(width: 10),
-            Flexible(
-              child: Text(
-                l10n.glossary_tile_meanings(meanings[0], meanings.length - 1),
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.titleSmall
-                    ?.copyWith(fontWeight: FontWeight.normal),
-              ),
-            )
-          ],
-        ),
-        subtitle: Row(
-          children: [
-            Badge(
-              backgroundColor: JLPTLevelColors.level(jlptLevel),
-              label: Text(
-                l10n.jlpt_level_short(jlptLevel),
-              ),
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        trailing: onPressed != null
-            ? IconButton(
-                icon: const Icon(Icons.chevron_right_rounded),
-                onPressed: onPressed,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              furiganaText,
+              const SizedBox(width: 10),
+              Flexible(
+                child: Text(
+                  l10n.glossary_tile_meanings(meanings[0], meanings.length - 1),
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.titleSmall
+                      ?.copyWith(fontWeight: FontWeight.normal),
+                ),
               )
-            : null,
-      ),
+            ],
+          ),
+          subtitle: Row(
+            children: [
+              Badge(
+                backgroundColor: JLPTLevelColors.level(jlptLevel),
+                label: Text(
+                  l10n.jlpt_level_short(jlptLevel),
+                ),
+              ),
+            ],
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          onTap: onTap),
     );
   }
 }

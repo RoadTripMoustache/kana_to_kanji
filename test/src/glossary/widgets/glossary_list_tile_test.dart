@@ -96,28 +96,21 @@ void main() {
         log.clear();
       });
 
-      testWidgets("onPressed", (WidgetTester tester) async {
+      testWidgets("onTap", (WidgetTester tester) async {
         final widget = await pump(
             tester,
             GlossaryListTile(
                 meanings: const ["book"],
                 jlptLevel: 1,
                 kanji: kanji,
-                onPressed: () {
+                onTap: () {
                   log.add(kanji.id);
                 }));
 
-        final iconButton = find.descendant(
-            of: widget, matching: find.byIcon(Icons.chevron_right_rounded));
-
-        expect(iconButton, findsOneWidget,
-            reason:
-                "As onPressed is provided, the icon button should be present");
-
-        await tester.tap(iconButton);
+        await tester.tap(widget);
         await tester.pumpAndSettle();
 
-        expect(log.length, 1, reason: "onPressed should have been called");
+        expect(log.length, 1, reason: "onTap should have been called");
       });
     });
   });

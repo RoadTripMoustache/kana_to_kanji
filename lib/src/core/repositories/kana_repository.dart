@@ -39,10 +39,52 @@ class KanaRepository {
         .toList();
   }
 
+  List<Kana> searchHiraganaRomaji(String searchTxt) {
+    loadKana();
+    if (searchTxt.length > 3) {
+      return Future(() => List.empty());
+    }
+    return kana
+        .where((element) =>
+            Alphabets.hiragana == element.alphabet &&
+            element.romaji.contains(searchTxt))
+        .toList();
+  }
+
+  List<Kana> searchHiraganaKana(String searchTxt) {
+    loadKana();
+    return kana
+        .where((element) =>
+            Alphabets.hiragana == element.alphabet &&
+            element.kana.contains(searchTxt))
+        .toList();
+  }
+
   List<Kana> getKatakana() {
     loadKana();
     return kana
         .where((element) => Alphabets.katakana == element.alphabet)
+        .toList();
+  }
+
+  List<Kana> searchKatakanaRomaji(String searchTxt) {
+    loadKana();
+    if (searchTxt.length > 3) {
+      return Future(() => List.empty());
+    }
+    return kana
+        .where((element) =>
+            Alphabets.katakana == element.alphabet &&
+            element.romaji.contains(searchTxt))
+        .toList();
+  }
+
+  List<Kana> searchKatakanaKana(String searchTxt)  {
+    loadKana();
+    return kana
+        .where((element) =>
+            Alphabets.katakana == element.alphabet &&
+            element.kana.contains(searchTxt))
         .toList();
   }
 }
