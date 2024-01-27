@@ -24,7 +24,7 @@ class VocabularyRepository {
   }
 
   List<Vocabulary> searchVocabularyRomaji(String searchTxt) {
-    return _vocabulary
+    return vocabularies
         .where((vocabulary) =>
             vocabulary.romaji.contains(searchTxt) ||
             vocabulary.meanings
@@ -34,7 +34,7 @@ class VocabularyRepository {
   }
 
   List<Vocabulary> searchVocabularyJapanese(String searchTxt) {
-    return _vocabulary
+    return vocabularies
         .where((vocabulary) =>
             vocabulary.kanji.contains(searchTxt) ||
             vocabulary.kana.contains(searchTxt))

@@ -42,7 +42,7 @@ class KanaRepository {
   List<Kana> searchHiraganaRomaji(String searchTxt) {
     loadKana();
     if (searchTxt.length > 3) {
-      return Future(() => List.empty());
+      return List.empty(growable: false);
     }
     return kana
         .where((element) =>
@@ -70,7 +70,7 @@ class KanaRepository {
   List<Kana> searchKatakanaRomaji(String searchTxt) {
     loadKana();
     if (searchTxt.length > 3) {
-      return Future(() => List.empty());
+      return List.empty(growable: false);
     }
     return kana
         .where((element) =>

@@ -24,7 +24,7 @@ class KanjiRepository {
   }
 
   List<Kanji> searchKanjiRomaji(String searchTxt) {
-    return _kanjis
+    return kanjis
         .where((kanji) =>
             kanji.meanings
                 .lastIndexWhere((meaning) => meaning.contains(searchTxt)) >=
@@ -33,7 +33,7 @@ class KanjiRepository {
   }
 
   List<Kanji> searchKanjiJapanese(String searchTxt) {
-    return _kanjis
+    return kanjis
         .where((kanji) =>
             kanji.kanji == searchTxt ||
             kanji.kunReadings

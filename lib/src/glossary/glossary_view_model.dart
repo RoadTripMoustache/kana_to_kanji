@@ -36,7 +36,7 @@ class GlossaryViewModel extends FutureViewModel {
     _vocabularyList.addAll(_vocabularyRepository.getAll());
   }
 
-  void searchGlossary(String searchText) async {
+  void searchGlossary(String searchText) {
     RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
     if (searchText == "") {
       _displayAll();
@@ -48,55 +48,48 @@ class GlossaryViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  void _searchLatin(String searchText) async {
-    final result = await Future.wait([
-      _kanaRepository.searchHiraganaRomaji(searchText),
-      _kanaRepository.searchKatakanaRomaji(searchText)
-    ]);
-
-    _hiraganaList.clear();
-    _hiraganaList.addAll(result[0]);
-    _katakanaList.clear();
-    _katakanaList.addAll(result[1]);
-    _kanjiList.clear();
-    _kanjiList.addAll(_kanjiRepository.searchKanjiRomaji(searchText));
-    _vocabularyList.clear();
+  void _searchLatin(String searchText) {
+    _hiraganaList
+      ..clear()
+      ..addAll(_kanaRepository.searchHiraganaRomaji(searchText));
+    _katakanaList
+      ..clear()
+      ..addAll(_kanaRepository.searchKatakanaRomaji(searchText));
+    _kanjiList
+      ..clear()
+      ..addAll(_kanjiRepository.searchKanjiRomaji(searchText));
     _vocabularyList
-        .addAll(_vocabularyRepository.searchVocabularyRomaji(searchText));
+      ..clear()
+      ..addAll(_vocabularyRepository.searchVocabularyRomaji(searchText));
   }
 
-  void _searchJapanese(String searchText) async {
-    final result = await Future.wait([
-      _kanaRepository.searchHiraganaKana(searchText),
-      _kanaRepository.searchKatakanaKana(searchText)
-    ]);
-
-    _hiraganaList.clear();
-    _hiraganaList.addAll(result[0]);
-    _katakanaList.clear();
-    _katakanaList.addAll(result[1]);
-    _kanjiList.clear();
-    _kanjiList.addAll(_kanjiRepository.searchKanjiJapanese(searchText));
-    _vocabularyList.clear();
+  void _searchJapanese(String searchText) {
+    _hiraganaList
+      ..clear()
+      ..addAll(_kanaRepository.searchHiraganaKana(searchText));
+    _katakanaList
+      ..clear()
+      ..addAll(_kanaRepository.searchKatakanaKana(searchText));
+    _kanjiList
+      ..clear()
+      ..addAll(_kanjiRepository.searchKanjiJapanese(searchText));
     _vocabularyList
-        .addAll(_vocabularyRepository.searchVocabularyJapanese(searchText));
+      ..clear()
+      ..addAll(_vocabularyRepository.searchVocabularyJapanese(searchText));
   }
 
-  void _displayAll() async {
-    final result = await Future.wait([
-      _kanaRepository.getHiragana(),
-      _kanaRepository.getKatakana(),
-      _kanjiRepository.getAll(),
-      _vocabularyRepository.getAll()
-    ]);
-
-    _hiraganaList.clear();
-    _hiraganaList.addAll(result[0] as List<Kana>);
-    _katakanaList.clear();
-    _katakanaList.addAll(result[1] as List<Kana>);
-    _kanjiList.clear();
-    _kanjiList.addAll(result[2] as List<Kanji>);
-    _vocabularyList.clear();
-    _vocabularyList.addAll(result[3] as List<Vocabulary>);
+  void _displayAll() {
+    _hiraganaList
+      ..clear()
+      ..addAll(_kanaRepository.getHiragana());
+    _katakanaList
+      ..clear()
+      ..addAll(_kanaRepository.getKatakana());
+    _kanjiList
+      ..clear()
+      ..addAll(_kanjiRepository.getAll());
+    _vocabularyList
+      ..clear()
+      ..addAll(_vocabularyRepository.getAll());
   }
 }
