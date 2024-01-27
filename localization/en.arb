@@ -232,5 +232,6 @@
   "glossary_tab_vocabulary": "Vocabulary",
   "glossary_tab_hiragana": "Hiragana",
   "glossary_tab_katakana": "Katakana",
-  "glossary_tab_kanji": "Kanji"
+  "glossary_tab_kanji": "Kanji",
+  "glossary_search_bar_hint": "日本, にほん, Japan"
 }
