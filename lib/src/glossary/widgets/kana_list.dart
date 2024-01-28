@@ -3,13 +3,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart';
 
-class KanaList extends StatelessWidget {
+class KanaList extends StatefulWidget {
   /// List of Kana.
   /// Required the entire kana list of the alphabet (107 kanas) otherwise a loading screen
   /// will be shown.
-  final List<Kana> items;
+  final List<({Kana kana, bool disabled})> items;
 
   const KanaList({super.key, required this.items});
+
+  @override
+  State<KanaList> createState() => _KanaListState();
+}
+
+class _KanaListState extends State<KanaList> {
+  final _scrollToWidgetKey = GlobalKey(debugLabel: "Test");
 
   void _onPressed(Kana kana, BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -18,36 +25,58 @@ class KanaList extends StatelessWidget {
   }
 
   @override
+  void didUpdateWidget(KanaList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_scrollToWidgetKey.currentContext != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Scrollable.ensureVisible(
+          _scrollToWidgetKey.currentContext!,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        );
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    final scrollToIndex =
+        widget.items.indexWhere((element) => !element.disabled);
 
-    if (items.isEmpty) {
+    if (widget.items.isEmpty) {
       return Center(child: Text(l10n.nothing_to_show));
     }
 
     final sectionTextStyle = Theme.of(context).textTheme.titleLarge;
     const cleanTile = Card(elevation: 0);
 
-    final List<Widget> main = items
+    final List<Widget> main = widget.items
         .sublist(0, 46)
-        .map<Widget>((kana) => KanaListTile(
-              kana,
-              onPressed: () => _onPressed(kana, context),
+        .map<Widget>((item) => KanaListTile(
+              item.kana,
+              key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
+              disabled: item.disabled,
+              onPressed: () => _onPressed(item.kana, context),
             ))
         .toList();
     main
       ..insertAll(44, const [cleanTile, cleanTile, cleanTile])
       ..insert(37, cleanTile)
       ..insert(36, cleanTile);
-    final List<Widget> dakuten = items
+    final List<Widget> dakuten = widget.items
         .sublist(46, 71)
-        .map<Widget>((kana) =>
-            KanaListTile(kana, onPressed: () => _onPressed(kana, context)))
+        .map<Widget>((item) => KanaListTile(item.kana,
+            key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
+            disabled: item.disabled,
+            onPressed: () => _onPressed(item.kana, context)))
         .toList();
-    final List<Widget> combination = items
+    final List<Widget> combination = widget.items
         .sublist(71)
-        .map<Widget>((kana) =>
-            KanaListTile(kana, onPressed: () => _onPressed(kana, context)))
+        .map<Widget>((item) => KanaListTile(item.kana,
+            key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
+            disabled: item.disabled,
+            onPressed: () => _onPressed(item.kana, context)))
         .toList();
 
     return SingleChildScrollView(

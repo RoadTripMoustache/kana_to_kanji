@@ -13,14 +13,14 @@ class GlossaryViewModel extends FutureViewModel {
   final VocabularyRepository _vocabularyRepository =
       locator<VocabularyRepository>();
 
-  final List<Kana> _hiraganaList = [];
-  final List<Kana> _katakanaList = [];
+  final List<({Kana kana, bool disabled})> _hiraganaList = [];
+  final List<({Kana kana, bool disabled})> _katakanaList = [];
   final List<Kanji> _kanjiList = [];
   final List<Vocabulary> _vocabularyList = [];
 
-  List<Kana> get hiraganaList => _hiraganaList;
+  List<({Kana kana, bool disabled})> get hiraganaList => _hiraganaList;
 
-  List<Kana> get katakanaList => _katakanaList;
+  List<({Kana kana, bool disabled})> get katakanaList => _katakanaList;
 
   List<Kanji> get kanjiList => _kanjiList;
 
@@ -30,8 +30,12 @@ class GlossaryViewModel extends FutureViewModel {
 
   @override
   Future futureToRun() async {
-    _hiraganaList.addAll(_kanaRepository.getHiragana());
-    _katakanaList.addAll(_kanaRepository.getKatakana());
+    _hiraganaList.addAll(_kanaRepository
+        .getHiragana()
+        .map((kana) => (kana: kana, disabled: false)));
+    _katakanaList.addAll(_kanaRepository
+        .getKatakana()
+        .map((kana) => (kana: kana, disabled: false)));
     _kanjiList.addAll(_kanjiRepository.getAll());
     _vocabularyList.addAll(_vocabularyRepository.getAll());
   }
@@ -49,47 +53,49 @@ class GlossaryViewModel extends FutureViewModel {
   }
 
   void _searchLatin(String searchText) {
-    _hiraganaList
-      ..clear()
-      ..addAll(_kanaRepository.searchHiraganaRomaji(searchText));
-    _katakanaList
-      ..clear()
-      ..addAll(_kanaRepository.searchKatakanaRomaji(searchText));
-    _kanjiList
-      ..clear()
-      ..addAll(_kanjiRepository.searchKanjiRomaji(searchText));
-    _vocabularyList
-      ..clear()
-      ..addAll(_vocabularyRepository.searchVocabularyRomaji(searchText));
+    _setToDisplay(
+        _kanaRepository.searchHiraganaRomaji(searchText),
+        _kanaRepository.searchKatakanaRomaji(searchText),
+        _kanjiRepository.searchKanjiRomaji(searchText),
+        _vocabularyRepository.searchVocabularyRomaji(searchText));
   }
 
   void _searchJapanese(String searchText) {
-    _hiraganaList
-      ..clear()
-      ..addAll(_kanaRepository.searchHiraganaKana(searchText));
-    _katakanaList
-      ..clear()
-      ..addAll(_kanaRepository.searchKatakanaKana(searchText));
-    _kanjiList
-      ..clear()
-      ..addAll(_kanjiRepository.searchKanjiJapanese(searchText));
-    _vocabularyList
-      ..clear()
-      ..addAll(_vocabularyRepository.searchVocabularyJapanese(searchText));
+    _setToDisplay(
+        _kanaRepository.searchHiraganaKana(searchText),
+        _kanaRepository.searchKatakanaKana(searchText),
+        _kanjiRepository.searchKanjiJapanese(searchText),
+        _vocabularyRepository.searchVocabularyJapanese(searchText));
   }
 
   void _displayAll() {
-    _hiraganaList
-      ..clear()
-      ..addAll(_kanaRepository.getHiragana());
-    _katakanaList
-      ..clear()
-      ..addAll(_kanaRepository.getKatakana());
+    _setToDisplay(_kanaRepository.getHiragana(), _kanaRepository.getKatakana(),
+        _kanjiRepository.getAll(), _vocabularyRepository.getAll());
+  }
+
+  void _setToDisplay(List<Kana> hiragana, List<Kana> katakana,
+      List<Kanji> kanji, List<Vocabulary> vocabulary) {
+    final hiraganaIdsFiltered = hiragana.map((e) => e.id);
+    for (({Kana kana, bool disabled}) pair in _hiraganaList) {
+      _hiraganaList[pair.kana.id] = (
+        kana: pair.kana,
+        disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
+      );
+    }
+
+    final katakanaIdsFiltered = katakana.map((e) => e.id);
+    for (({Kana kana, bool disabled}) pair in _katakanaList) {
+      _katakanaList[pair.kana.id - 107] = (
+        kana: pair.kana,
+        disabled: !katakanaIdsFiltered.contains(pair.kana.id)
+      );
+    }
+
     _kanjiList
       ..clear()
-      ..addAll(_kanjiRepository.getAll());
+      ..addAll(kanji);
     _vocabularyList
       ..clear()
-      ..addAll(_vocabularyRepository.getAll());
+      ..addAll(vocabulary);
   }
 }
