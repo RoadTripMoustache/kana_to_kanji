@@ -24,13 +24,28 @@ void main() {
           (WidgetTester tester) async {
         final widget = await pump(tester, KanaListTile(kanaSample));
 
+        // Validate that the Card's elevation property is equal to 0
+        final Finder card =
+            find.descendant(of: widget, matching: find.byType(Card));
+        expect((tester.widget(card) as Card).elevation, equals(1.0));
+
         Finder text =
             find.descendant(of: widget, matching: find.text(kanaSample.kana));
         expect(text, findsOneWidget);
+        TextStyle? style = (tester.widget(text) as Text).style;
+        TextStyle? expectedStyle = AppTheme.light().textTheme.titleMedium;
+        expect(style?.fontWeight, FontWeight.bold,
+            reason: "Font used should be bold");
+        expect(style?.color, expectedStyle?.color);
 
         text =
             find.descendant(of: widget, matching: find.text(kanaSample.romaji));
         expect(text, findsOneWidget);
+        style = (tester.widget(text) as Text).style;
+        expectedStyle = AppTheme.light().textTheme.bodyMedium;
+        expect(style?.fontWeight, FontWeight.normal,
+            reason: "Font used should be bold");
+        expect(style?.color, expectedStyle?.color);
       });
 
       // Added test
@@ -76,6 +91,23 @@ void main() {
 
         expect(log, containsOnce(kanaSample.id),
             reason: "proof that onPressed was called one time");
+      });
+
+      testWidgets("It should not call onPressed when disabled",
+          (WidgetTester tester) async {
+        final widget = await pump(
+            tester,
+            KanaListTile(kanaSample, onPressed: () {
+              log.add(kanaSample.id);
+            }, disabled: true));
+
+        expect(widget, findsOneWidget);
+
+        await tester.tap(widget);
+        await tester.pumpAndSettle();
+
+        expect(log, isNot(contains(kanaSample.id)),
+            reason: "proof that onPressed wasn't called");
       });
     });
   });
