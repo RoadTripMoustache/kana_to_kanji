@@ -20,7 +20,8 @@ class KanaList extends StatefulWidget {
 }
 
 class _KanaListState extends State<KanaList> {
-  final _scrollToWidgetKey = GlobalKey(debugLabel: "kana_list_scroll_to_widget_key");
+  final _scrollToWidgetKey =
+      GlobalKey(debugLabel: "kana_list_scroll_to_widget_key");
 
   void _onPressed(Kana kana, BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
