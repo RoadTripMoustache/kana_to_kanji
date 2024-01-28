@@ -95,6 +95,9 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
+      final Finder tiles = find.byWidgetPredicate(
+          (widget) => widget is KanaListTile && widget.disabled);
+      expect(tiles, findsNWidgets(disabledItems.length - 1));
       // Check that 105th tile is visible
       expect(find.byType(KanaListTile).at(105).hitTestable(), findsOneWidget);
     });
