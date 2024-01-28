@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart';
 
@@ -30,6 +31,26 @@ void main() {
         text =
             find.descendant(of: widget, matching: find.text(kanaSample.romaji));
         expect(text, findsOneWidget);
+      });
+
+      // Added test
+      testWidgets("When disabled, elevation and text color should change",
+          (WidgetTester tester) async {
+        final widget =
+            await pump(tester, KanaListTile(kanaSample, disabled: true));
+
+        // Validate that the Card's elevation property is equal to 0
+        final Finder card =
+            find.descendant(of: widget, matching: find.byType(Card));
+        expect((tester.widget(card) as Card).elevation, equals(0.0));
+
+        // Validate that all text style color is equal to the theme disabledColor
+        final Finder texts =
+            find.descendant(of: widget, matching: find.byType(Text));
+        for (Widget text in tester.widgetList(texts)) {
+          expect((text as Text).style?.color,
+              equals(AppTheme.light().disabledColor));
+        }
       });
     });
 
