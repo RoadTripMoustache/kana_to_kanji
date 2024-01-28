@@ -6,7 +6,7 @@ class KanjiService {
   final Isar _isar = locator<Isar>();
 
   /// Get all the kanji
-  Future<List<Kanji>> getAll() async {
-    return Future.value(_isar.kanjis.where().findAll());
+  List<Kanji> getAll() {
+    return _isar.kanjis.where().findAll();
   }
 }

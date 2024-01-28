@@ -1,23 +1,30 @@
+import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/services/kanji_service.dart';
 
 class KanjiRepository {
-  final KanjiService _kanjiService = KanjiService();
+  late final KanjiService _kanjiService;
 
-  final List<Kanji> _kanjis = [];
+  @visibleForTesting
+  final List<Kanji> kanjis = [];
 
-  Future<List<Kanji>> getAll() async {
-    if (_kanjis.isNotEmpty) {
-      return _kanjis;
+  /// [kanjiService] should only be used for testing
+  KanjiRepository({KanjiService? kanjiService}) {
+    _kanjiService = kanjiService ?? KanjiService();
+  }
+
+  /// Retrieve all the kanji from the database
+  List<Kanji> getAll() {
+    if (kanjis.isNotEmpty) {
+      return kanjis;
     }
-    var kanjis = await _kanjiService.getAll();
-    _kanjis.addAll(kanjis);
+    kanjis.addAll(_kanjiService.getAll());
 
     return kanjis;
   }
 
   List<Kanji> searchKanjiRomaji(String searchTxt) {
-    return _kanjis
+    return kanjis
         .where((kanji) =>
             kanji.meanings
                 .lastIndexWhere((meaning) => meaning.contains(searchTxt)) >=
@@ -26,7 +33,7 @@ class KanjiRepository {
   }
 
   List<Kanji> searchKanjiJapanese(String searchTxt) {
-    return _kanjis
+    return kanjis
         .where((kanji) =>
             kanji.kanji == searchTxt ||
             kanji.kunReadings

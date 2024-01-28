@@ -1,22 +1,30 @@
+import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/services/vocabulary_service.dart';
 
 class VocabularyRepository {
-  final VocabularyService _vocabularyService = VocabularyService();
-  final List<Vocabulary> _vocabulary = [];
+  late final VocabularyService _vocabularyService;
+  @visibleForTesting
+  final List<Vocabulary> vocabularies = [];
 
-  Future<List<Vocabulary>> getAll() async {
-    if (_vocabulary.isNotEmpty) {
-      return _vocabulary;
+  /// [vocabularyService] should only be specified for testing purpose
+  VocabularyRepository({VocabularyService? vocabularyService}) {
+    _vocabularyService = vocabularyService ?? VocabularyService();
+  }
+
+  /// Retrieve all the vocabulary
+  List<Vocabulary> getAll() {
+    if (vocabularies.isNotEmpty) {
+      return vocabularies;
     }
-    var vocabulary = await _vocabularyService.getAll();
-    _vocabulary.addAll(vocabulary);
 
-    return vocabulary;
+    vocabularies.addAll(_vocabularyService.getAll());
+
+    return vocabularies;
   }
 
   List<Vocabulary> searchVocabularyRomaji(String searchTxt) {
-    return _vocabulary
+    return vocabularies
         .where((vocabulary) =>
             vocabulary.romaji.contains(searchTxt) ||
             vocabulary.meanings
@@ -26,7 +34,7 @@ class VocabularyRepository {
   }
 
   List<Vocabulary> searchVocabularyJapanese(String searchTxt) {
-    return _vocabulary
+    return vocabularies
         .where((vocabulary) =>
             vocabulary.kanji.contains(searchTxt) ||
             vocabulary.kana.contains(searchTxt))

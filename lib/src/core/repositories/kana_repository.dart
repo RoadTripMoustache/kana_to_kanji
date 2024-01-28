@@ -1,81 +1,87 @@
+import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 
 class KanaRepository {
-  final KanaService _kanaService = KanaService();
-  final List<Kana> _kana = [];
+  late final KanaService _kanaService;
+  @visibleForTesting
+  final List<Kana> kana = [];
 
-  Future loadKana() async {
-    if (_kana.isEmpty) {
-      _kana.addAll(await _kanaService.getHiragana());
-      _kana.addAll(await _kanaService.getKatakana());
+  /// [kanaService] should only be used for testing
+  KanaRepository({KanaService? kanaService}) {
+    _kanaService = kanaService ?? KanaService();
+  }
+
+  void loadKana() {
+    if (kana.isEmpty) {
+      kana.addAll(
+          [..._kanaService.getHiragana(), ..._kanaService.getKatakana()]);
     }
   }
 
-  Future<List<Kana>> getByGroupIds(List<int> groupIds) async {
-    await loadKana();
-    final kana =
-        _kana.where((element) => groupIds.contains(element.groupId)).toList();
+  List<Kana> getByGroupIds(List<int> groupIds) {
+    loadKana();
+    final kanaFiltered =
+        kana.where((element) => groupIds.contains(element.groupId)).toList();
 
-    return kana;
+    return kanaFiltered;
   }
 
-  Future<List<Kana>> getByGroupId(int groupId) async {
-    await loadKana();
-    return _kana.where((element) => groupId == element.groupId).toList();
+  List<Kana> getByGroupId(int groupId) {
+    return getByGroupIds([groupId]);
   }
 
-  Future<List<Kana>> getHiragana() async {
-    await loadKana();
-    return _kana
+  List<Kana> getHiragana() {
+    loadKana();
+    return kana
         .where((element) => Alphabets.hiragana == element.alphabet)
         .toList();
   }
 
-  Future<List<Kana>> searchHiraganaRomaji(String searchTxt) async {
-    await loadKana();
+  List<Kana> searchHiraganaRomaji(String searchTxt) {
+    loadKana();
     if (searchTxt.length > 3) {
-      return Future(() => List.empty());
+      return List.empty(growable: false);
     }
-    return _kana
+    return kana
         .where((element) =>
             Alphabets.hiragana == element.alphabet &&
             element.romaji.contains(searchTxt))
         .toList();
   }
 
-  Future<List<Kana>> searchHiraganaKana(String searchTxt) async {
-    await loadKana();
-    return _kana
+  List<Kana> searchHiraganaKana(String searchTxt) {
+    loadKana();
+    return kana
         .where((element) =>
             Alphabets.hiragana == element.alphabet &&
             element.kana.contains(searchTxt))
         .toList();
   }
 
-  Future<List<Kana>> getKatakana() async {
-    await loadKana();
-    return _kana
+  List<Kana> getKatakana() {
+    loadKana();
+    return kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .toList();
   }
 
-  Future<List<Kana>> searchKatakanaRomaji(String searchTxt) async {
-    await loadKana();
+  List<Kana> searchKatakanaRomaji(String searchTxt) {
+    loadKana();
     if (searchTxt.length > 3) {
-      return Future(() => List.empty());
+      return List.empty(growable: false);
     }
-    return _kana
+    return kana
         .where((element) =>
             Alphabets.katakana == element.alphabet &&
             element.romaji.contains(searchTxt))
         .toList();
   }
 
-  Future<List<Kana>> searchKatakanaKana(String searchTxt) async {
-    await loadKana();
-    return _kana
+  List<Kana> searchKatakanaKana(String searchTxt) {
+    loadKana();
+    return kana
         .where((element) =>
             Alphabets.katakana == element.alphabet &&
             element.kana.contains(searchTxt))

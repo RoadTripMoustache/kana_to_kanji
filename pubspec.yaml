@@ -4,7 +4,7 @@ description: A new Flutter project.
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.14.0+1
+version: 0.14.1+1
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -41,7 +41,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  analyzer: ^6.2.0
   flutter_lints: ^3.0.1
   freezed: ^2.3.5
   build_runner: ^2.4.6
