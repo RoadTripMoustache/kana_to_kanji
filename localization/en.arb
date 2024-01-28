@@ -24,6 +24,10 @@
     "description": "Button text to return to home page"
   },
   "button_continue": "Continue",
+  "nothing_to_show": "Nothing to show...",
+  "@nothing_to_show": {
+    "description": "Indicate that there is nothing to show here"
+  },
   "percent": "{percent}",
   "@percent": {
     "placeholders": {
