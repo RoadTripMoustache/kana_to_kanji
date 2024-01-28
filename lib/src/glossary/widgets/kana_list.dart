@@ -3,6 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart';
 
+const _mainKanaLastId = 46;
+const _dakutenLastId = 71;
+const _emptyTiles = [44, 45, 46, 37, 36];
+
 class KanaList extends StatefulWidget {
   /// List of Kana.
   /// Required the entire kana list of the alphabet (107 kanas) otherwise a loading screen
@@ -16,7 +20,7 @@ class KanaList extends StatefulWidget {
 }
 
 class _KanaListState extends State<KanaList> {
-  final _scrollToWidgetKey = GlobalKey(debugLabel: "Test");
+  final _scrollToWidgetKey = GlobalKey(debugLabel: "kana_list_scroll_to_widget_key");
 
   void _onPressed(Kana kana, BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -52,7 +56,7 @@ class _KanaListState extends State<KanaList> {
     const cleanTile = Card(elevation: 0);
 
     final List<Widget> main = widget.items
-        .sublist(0, 46)
+        .sublist(0, _mainKanaLastId)
         .map<Widget>((item) => KanaListTile(
               item.kana,
               key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
@@ -60,19 +64,19 @@ class _KanaListState extends State<KanaList> {
               onPressed: () => _onPressed(item.kana, context),
             ))
         .toList();
-    main
-      ..insertAll(44, const [cleanTile, cleanTile, cleanTile])
-      ..insert(37, cleanTile)
-      ..insert(36, cleanTile);
+    for (int id in _emptyTiles) {
+      main.insert(id, cleanTile);
+    }
+
     final List<Widget> dakuten = widget.items
-        .sublist(46, 71)
+        .sublist(_mainKanaLastId, _dakutenLastId)
         .map<Widget>((item) => KanaListTile(item.kana,
             key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
             disabled: item.disabled,
             onPressed: () => _onPressed(item.kana, context)))
         .toList();
     final List<Widget> combination = widget.items
-        .sublist(71)
+        .sublist(_dakutenLastId)
         .map<Widget>((item) => KanaListTile(item.kana,
             key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
             disabled: item.disabled,

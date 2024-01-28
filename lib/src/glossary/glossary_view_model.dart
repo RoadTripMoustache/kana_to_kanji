@@ -85,7 +85,7 @@ class GlossaryViewModel extends FutureViewModel {
 
     final katakanaIdsFiltered = katakana.map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _katakanaList) {
-      _katakanaList[pair.kana.id - 107] = (
+      _katakanaList[pair.kana.id - _hiraganaList.length] = (
         kana: pair.kana,
         disabled: !katakanaIdsFiltered.contains(pair.kana.id)
       );
