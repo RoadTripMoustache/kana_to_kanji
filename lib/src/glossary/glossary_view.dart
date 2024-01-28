@@ -4,6 +4,7 @@ import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view_model.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kanji_list.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/search_bar.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart';
 import 'package:stacked/stacked.dart';
 
@@ -42,26 +43,13 @@ class _GlossaryViewState extends State<GlossaryView>
         viewModelBuilder: () => GlossaryViewModel(),
         builder: (context, viewModel, child) {
           return AppScaffold(
-              resizeToAvoidBottomInset: true,
               showBottomBar: true,
               appBar: AppBar(
-                leading: IconButton(
-                  onPressed: () => {},
-                  icon: const Icon(Icons.search),
-                ),
-                title: Text(l10n.glossary_view_title),
-                actions: [
-                  IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.filter_list_rounded),
-                  ),
-                  IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.tune),
-                  ),
-                ],
+                title:
+                    GlossarySearchBar(searchGlossary: viewModel.searchGlossary),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
+                toolbarHeight: kToolbarHeight,
                 bottom: TabBar.secondary(
                   controller: _tabController,
                   tabs: <Widget>[

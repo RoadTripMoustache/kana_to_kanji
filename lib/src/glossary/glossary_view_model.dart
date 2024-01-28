@@ -35,4 +35,61 @@ class GlossaryViewModel extends FutureViewModel {
     _kanjiList.addAll(_kanjiRepository.getAll());
     _vocabularyList.addAll(_vocabularyRepository.getAll());
   }
+
+  void searchGlossary(String searchText) {
+    RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
+    if (searchText == "") {
+      _displayAll();
+    } else if (alphabeticalRegex.hasMatch(searchText)) {
+      _searchLatin(searchText);
+    } else {
+      _searchJapanese(searchText);
+    }
+    notifyListeners();
+  }
+
+  void _searchLatin(String searchText) {
+    _hiraganaList
+      ..clear()
+      ..addAll(_kanaRepository.searchHiraganaRomaji(searchText));
+    _katakanaList
+      ..clear()
+      ..addAll(_kanaRepository.searchKatakanaRomaji(searchText));
+    _kanjiList
+      ..clear()
+      ..addAll(_kanjiRepository.searchKanjiRomaji(searchText));
+    _vocabularyList
+      ..clear()
+      ..addAll(_vocabularyRepository.searchVocabularyRomaji(searchText));
+  }
+
+  void _searchJapanese(String searchText) {
+    _hiraganaList
+      ..clear()
+      ..addAll(_kanaRepository.searchHiraganaKana(searchText));
+    _katakanaList
+      ..clear()
+      ..addAll(_kanaRepository.searchKatakanaKana(searchText));
+    _kanjiList
+      ..clear()
+      ..addAll(_kanjiRepository.searchKanjiJapanese(searchText));
+    _vocabularyList
+      ..clear()
+      ..addAll(_vocabularyRepository.searchVocabularyJapanese(searchText));
+  }
+
+  void _displayAll() {
+    _hiraganaList
+      ..clear()
+      ..addAll(_kanaRepository.getHiragana());
+    _katakanaList
+      ..clear()
+      ..addAll(_kanaRepository.getKatakana());
+    _kanjiList
+      ..clear()
+      ..addAll(_kanjiRepository.getAll());
+    _vocabularyList
+      ..clear()
+      ..addAll(_vocabularyRepository.getAll());
+  }
 }
