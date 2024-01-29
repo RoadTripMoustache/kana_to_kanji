@@ -100,7 +100,7 @@ class _FilterBy extends State<FilterBy> {
               ),
             ),
           ]),
-          for (var jlpt in JLPTLevel.values)
+          for (final jlpt in JLPTLevel.values)
             CheckboxListTile(
                 visualDensity: VisualDensity.compact,
                 title: Text(l10n.jlpt_level_short(jlpt.value)),
@@ -116,7 +116,7 @@ class _FilterBy extends State<FilterBy> {
               ),
             ),
           ]),
-          for (var knowledgeLevel in KnowledgeLevel.values)
+          for (final knowledgeLevel in KnowledgeLevel.values)
             CheckboxListTile(
                 visualDensity: VisualDensity.compact,
                 title: Text(l10n.knowledge_level(knowledgeLevel.name)),
