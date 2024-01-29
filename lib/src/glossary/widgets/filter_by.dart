@@ -105,8 +105,7 @@ class _FilterBy extends State<FilterBy> {
                 visualDensity: VisualDensity.compact,
                 title: Text(l10n.jlpt_level_short(jlpt.value)),
                 value: _selectedJlptLevel.contains(jlpt),
-                onChanged: (_) => {_toggleJLPTLevel(jlpt)}
-            ),
+                onChanged: (_) => {_toggleJLPTLevel(jlpt)}),
           Row(children: [
             Padding(
               padding: titlePadding,
@@ -122,8 +121,7 @@ class _FilterBy extends State<FilterBy> {
                 visualDensity: VisualDensity.compact,
                 title: Text(l10n.knowledge_level(knowledgeLevel.name)),
                 value: _selectedKnowledgeLevel.contains(knowledgeLevel),
-                onChanged: (_) => {_toggleKnowledgeLevel(knowledgeLevel)}
-            ),
+                onChanged: (_) => {_toggleKnowledgeLevel(knowledgeLevel)}),
         ],
       ),
     );

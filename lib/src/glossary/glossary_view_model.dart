@@ -59,27 +59,33 @@ class GlossaryViewModel extends FutureViewModel {
   }
 
   void _setToDisplay() {
-    final hiraganaIdsFiltered = _kanaRepository.searchHiragana(_currentSearch, _selectedKnowledgeLevel).map((e) => e.id);
+    final hiraganaIdsFiltered = _kanaRepository
+        .searchHiragana(_currentSearch, _selectedKnowledgeLevel)
+        .map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _hiraganaList) {
       _hiraganaList[pair.kana.id] = (
-      kana: pair.kana,
-      disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
+        kana: pair.kana,
+        disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
       );
     }
 
-    final katakanaIdsFiltered = _kanaRepository.searchKatakana(_currentSearch, _selectedKnowledgeLevel).map((e) => e.id);
+    final katakanaIdsFiltered = _kanaRepository
+        .searchKatakana(_currentSearch, _selectedKnowledgeLevel)
+        .map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _katakanaList) {
       _katakanaList[pair.kana.id - _hiraganaList.length] = (
-      kana: pair.kana,
-      disabled: !katakanaIdsFiltered.contains(pair.kana.id)
+        kana: pair.kana,
+        disabled: !katakanaIdsFiltered.contains(pair.kana.id)
       );
     }
 
     _kanjiList
       ..clear()
-      ..addAll(_kanjiRepository.searchKanji(_currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel));
+      ..addAll(_kanjiRepository.searchKanji(
+          _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel));
     _vocabularyList
       ..clear()
-      ..addAll(_vocabularyRepository.searchVocabulary(_currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel));
+      ..addAll(_vocabularyRepository.searchVocabulary(
+          _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel));
   }
 }
