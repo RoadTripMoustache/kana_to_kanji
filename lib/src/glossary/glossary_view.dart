@@ -44,60 +44,60 @@ class _GlossaryViewState extends State<GlossaryView>
         viewModelBuilder: () => GlossaryViewModel(GoRouter.of(context)),
         builder: (context, viewModel, child) {
           return AppScaffold(
-              showBottomBar: true,
-              appBar: AppBar(
-                title: GlossarySearchBar(
-                  searchGlossary: viewModel.searchGlossary,
-                  filterGlossary: viewModel.filterGlossary,
-                  selectedJlptLevel: viewModel.selectedJlptLevel,
-                  selectedKnowledgeLevel: viewModel.selectedKnowledgeLevel,
-                ),
-                centerTitle: true,
-                backgroundColor: Colors.transparent,
-                toolbarHeight: kToolbarHeight,
-                bottom: TabBar.secondary(
-                  controller: _tabController,
-                  tabs: <Widget>[
-                    Tab(
-                      text: l10n.glossary_tab_hiragana,
-                      icon: const Text("あ", style: textIconStyle),
-                    ),
-                    Tab(
-                      text: l10n.glossary_tab_katakana,
-                      icon: const Text("ア", style: textIconStyle),
-                    ),
-                    Tab(
-                      text: l10n.glossary_tab_kanji,
-                      icon: const Text("語", style: textIconStyle),
-                    ),
-                    Tab(
-                      text: l10n.glossary_tab_vocabulary,
-                      icon: const Text("語彙", style: textIconStyle),
-                    ),
-                  ],
-                ),
+            showBottomBar: true,
+            appBar: AppBar(
+              title: GlossarySearchBar(
+                searchGlossary: viewModel.searchGlossary,
+                filterGlossary: viewModel.filterGlossary,
+                selectedJlptLevel: viewModel.selectedJlptLevel,
+                selectedKnowledgeLevel: viewModel.selectedKnowledgeLevel,
               ),
-              body: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                    KanaList(
-                        items: viewModel.hiraganaList,
-                        onPressed: viewModel.onTilePressed),
-                    KanaList(
-                        items: viewModel.katakanaList,
-                        onPressed: viewModel.onTilePressed),
-                    KanjiList(
-                        items: viewModel.kanjiList,
-                        onPressed: viewModel.onTilePressed),
-                    VocabularyList(
-                        items: viewModel.vocabularyList,
-                        onPressed: viewModel.onTilePressed),
-                  ],
-                ),
-                ),
-              ));
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              toolbarHeight: kToolbarHeight,
+              bottom: TabBar.secondary(
+                controller: _tabController,
+                tabs: <Widget>[
+                  Tab(
+                    text: l10n.glossary_tab_hiragana,
+                    icon: const Text("あ", style: textIconStyle),
+                  ),
+                  Tab(
+                    text: l10n.glossary_tab_katakana,
+                    icon: const Text("ア", style: textIconStyle),
+                  ),
+                  Tab(
+                    text: l10n.glossary_tab_kanji,
+                    icon: const Text("語", style: textIconStyle),
+                  ),
+                  Tab(
+                    text: l10n.glossary_tab_vocabulary,
+                    icon: const Text("語彙", style: textIconStyle),
+                  ),
+                ],
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  KanaList(
+                      items: viewModel.hiraganaList,
+                      onPressed: viewModel.onTilePressed),
+                  KanaList(
+                      items: viewModel.katakanaList,
+                      onPressed: viewModel.onTilePressed),
+                  KanjiList(
+                      items: viewModel.kanjiList,
+                      onPressed: viewModel.onTilePressed),
+                  VocabularyList(
+                      items: viewModel.vocabularyList,
+                      onPressed: viewModel.onTilePressed),
+                ],
+              ),
+            ),
+          );
         });
   }
 }

@@ -70,8 +70,8 @@ class GlossaryViewModel extends FutureViewModel {
         .map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _hiraganaList) {
       _hiraganaList[pair.kana.id] = (
-        kana: pair.kana,
-        disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
+      kana: pair.kana,
+      disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
       );
     }
 
@@ -80,8 +80,8 @@ class GlossaryViewModel extends FutureViewModel {
         .map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _katakanaList) {
       _katakanaList[pair.kana.id - _hiraganaList.length] = (
-        kana: pair.kana,
-        disabled: !katakanaIdsFiltered.contains(pair.kana.id)
+      kana: pair.kana,
+      disabled: !katakanaIdsFiltered.contains(pair.kana.id)
       );
     }
 

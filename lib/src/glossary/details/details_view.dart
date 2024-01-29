@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
@@ -18,7 +17,6 @@ class DetailsView extends StatelessWidget {
     return ViewModelBuilder<DetailsViewModel>.nonReactive(
         viewModelBuilder: () => DetailsViewModel(item),
         builder: (BuildContext context, DetailsViewModel viewModel, _) {
-          final AppLocalizations l10n = AppLocalizations.of(context);
           late final Widget cardBody;
 
           switch (item) {
