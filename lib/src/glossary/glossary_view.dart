@@ -45,8 +45,12 @@ class _GlossaryViewState extends State<GlossaryView>
           return AppScaffold(
               showBottomBar: true,
               appBar: AppBar(
-                title:
-                    GlossarySearchBar(searchGlossary: viewModel.searchGlossary),
+                title: GlossarySearchBar(
+                  searchGlossary: viewModel.searchGlossary,
+                  filterGlossary: viewModel.filterGlossary,
+                  selectedJlptLevel: viewModel.selectedJlptLevel,
+                  selectedKnowledgeLevel: viewModel.selectedKnowledgeLevel,
+                ),
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
                 toolbarHeight: kToolbarHeight,

@@ -252,6 +252,7 @@
       }
     }
   },
+  "jlpt_level_title": "JLPT Level",
   "jlpt_level_short": "JLPT-{level}",
   "@jlpt_level_short": {
     "description": "Display the JLPT level",
@@ -259,6 +260,18 @@
       "level": {
         "type": "int",
         "description": "Level, should be between 1 and 5"
+      }
+    }
+  },
+  "glossary_search_bar_hint": "日本, にほん, Japan",
+  "glossary_filter_by_title": "Filter by",
+  "knowledge_level_title": "Knowledge level",
+  "knowledge_level": "{knowledgeLevel, select, learned{Learned} practicing{Practicing} seen{Seen} other{Never seen}}",
+  "@knowledge_level": {
+    "placeholders": {
+      "knowledgeLevel": {
+        "type": "String",
+        "description": "Knowledge level"
       }
     }
   }
