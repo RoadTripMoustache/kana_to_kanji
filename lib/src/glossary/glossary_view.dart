@@ -5,6 +5,7 @@ import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
 import 'package:kana_to_kanji/src/glossary/glossary_view_model.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kanji_list.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/search_bar.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart';
 import 'package:stacked/stacked.dart';
 
@@ -43,26 +44,17 @@ class _GlossaryViewState extends State<GlossaryView>
         viewModelBuilder: () => GlossaryViewModel(GoRouter.of(context)),
         builder: (context, viewModel, child) {
           return AppScaffold(
-              resizeToAvoidBottomInset: true,
               showBottomBar: true,
               appBar: AppBar(
-                leading: IconButton(
-                  onPressed: () => {},
-                  icon: const Icon(Icons.search),
+                title: GlossarySearchBar(
+                  searchGlossary: viewModel.searchGlossary,
+                  filterGlossary: viewModel.filterGlossary,
+                  selectedJlptLevel: viewModel.selectedJlptLevel,
+                  selectedKnowledgeLevel: viewModel.selectedKnowledgeLevel,
                 ),
-                title: Text(l10n.glossary_view_title),
-                actions: [
-                  IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.filter_list_rounded),
-                  ),
-                  IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.tune),
-                  ),
-                ],
                 centerTitle: true,
                 backgroundColor: Colors.transparent,
+                toolbarHeight: kToolbarHeight,
                 bottom: TabBar.secondary(
                   controller: _tabController,
                   tabs: <Widget>[
@@ -103,6 +95,7 @@ class _GlossaryViewState extends State<GlossaryView>
                         items: viewModel.vocabularyList,
                         onPressed: viewModel.onTilePressed),
                   ],
+                ),
                 ),
               ));
         });

@@ -11,8 +11,8 @@ import '../../../helpers.dart';
 void main() {
   group("KanaList", () {
     late final AppLocalizations l10n;
-    final Kana kanaSample =
-        Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
+    final List<Kana> kanaListSample = List.generate(107,
+        (index) => Kana(index, Alphabets.hiragana, 0, "あ", "a", "2023-12-01"));
 
     setUpAll(() async {
       l10n = await setupLocalizations();
@@ -29,7 +29,8 @@ void main() {
     });
 
     testWidgets("Full list", (WidgetTester tester) async {
-      final items = List.generate(107, (index) => kanaSample);
+      final items = List.generate(kanaListSample.length,
+          (index) => (kana: kanaListSample[index], disabled: false));
       await tester.pumpLocalizedWidget(KanaList(
         items: items,
       ));
@@ -67,6 +68,38 @@ void main() {
           find.descendant(of: grids.last, matching: find.byType(KanaListTile)),
           findsNWidgets(36),
           reason: "Should show 36 elements (combinaison)");
+    });
+
+    testWidgets("The first not disabled tile should be visible",
+        (WidgetTester tester) async {
+      final items = List.generate(kanaListSample.length,
+          (index) => (kana: kanaListSample[index], disabled: false));
+      final disabledItems = List.generate(kanaListSample.length,
+          (index) => (kana: kanaListSample[index], disabled: index != 105));
+
+      await tester.pumpLocalizedWidget(KanaList(
+        items: items,
+      ));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(KanaListTile), findsNWidgets(107),
+          reason: "All the tiles passed should be displayed");
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is KanaListTile && widget.disabled),
+          findsNothing);
+
+      // Update the kana to have only the 105th not disabled
+      await tester.pumpLocalizedWidget(KanaList(
+        items: disabledItems,
+      ));
+      await tester.pumpAndSettle();
+
+      final Finder tiles = find.byWidgetPredicate(
+          (widget) => widget is KanaListTile && widget.disabled);
+      expect(tiles, findsNWidgets(disabledItems.length - 1));
+      // Check that 105th tile is visible
+      expect(find.byType(KanaListTile).at(105).hitTestable(), findsOneWidget);
     });
   });
 }
