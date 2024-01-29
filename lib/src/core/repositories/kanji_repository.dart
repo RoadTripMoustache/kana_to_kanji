@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
+import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/services/kanji_service.dart';
 
@@ -7,6 +9,7 @@ class KanjiRepository {
 
   @visibleForTesting
   final List<Kanji> kanjis = [];
+  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
 
   /// [kanjiService] should only be used for testing
   KanjiRepository({KanjiService? kanjiService}) {
@@ -23,25 +26,44 @@ class KanjiRepository {
     return kanjis;
   }
 
-  List<Kanji> searchKanjiRomaji(String searchTxt) {
-    return kanjis
-        .where((kanji) =>
-            kanji.meanings
-                .lastIndexWhere((meaning) => meaning.contains(searchTxt)) >=
-            0)
-        .toList();
-  }
+  List<Kanji> searchKanji(
+      String searchTxt,
+      List<KnowledgeLevel> selectedKnowledgeLevel,
+      List<JLPTLevel> selectedJLPTLevel) {
+    var txtFilter = (Kanji element) => true;
+    if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
+      txtFilter = (kanji) => kanji.meanings
+          .where((meaning) => meaning.contains(searchTxt))
+          .toList()
+          .isNotEmpty;
+    } else if (searchTxt != "") {
+      txtFilter = (kanji) =>
+          kanji.kanji == searchTxt ||
+          kanji.kunReadings
+              .where((String reading) => reading.contains(searchTxt))
+              .toList()
+              .isNotEmpty ||
+          kanji.onReadings
+              .where((String reading) => reading.contains(searchTxt))
+              .toList()
+              .isNotEmpty;
+    }
 
-  List<Kanji> searchKanjiJapanese(String searchTxt) {
+    var knowledgeLevelFilter = (Kanji element) => true;
+    if (selectedKnowledgeLevel.isNotEmpty) {
+      // TODO : To implement once level is added
+      knowledgeLevelFilter = (Kanji element) => false;
+    }
+
+    var jlptLevelFilter = (Kanji element) => true;
+    if (selectedJLPTLevel.isNotEmpty) {
+      jlptLevelFilter = (Kanji kanji) =>
+          selectedJLPTLevel.contains(JLPTLevel.getValue(kanji.jlptLevel));
+    }
     return kanjis
-        .where((kanji) =>
-            kanji.kanji == searchTxt ||
-            kanji.kunReadings
-                    .lastIndexWhere((reading) => reading.contains(searchTxt)) >=
-                0 ||
-            kanji.onReadings
-                    .lastIndexWhere((reading) => reading.contains(searchTxt)) >=
-                0)
+        .where(txtFilter)
+        .where(knowledgeLevelFilter)
+        .where(jlptLevelFilter)
         .toList();
   }
 }
