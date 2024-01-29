@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
@@ -36,7 +37,9 @@ class GlossaryViewModel extends FutureViewModel {
   List<Kanji> get kanjiList => _kanjiList;
 
   List<Vocabulary> get vocabularyList => _vocabularyList;
+
   List<JLPTLevel> get selectedJlptLevel => _selectedJlptLevel;
+
   List<KnowledgeLevel> get selectedKnowledgeLevel => _selectedKnowledgeLevel;
 
   GlossaryViewModel(this.router);
@@ -70,8 +73,8 @@ class GlossaryViewModel extends FutureViewModel {
         .map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _hiraganaList) {
       _hiraganaList[pair.kana.id] = (
-      kana: pair.kana,
-      disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
+        kana: pair.kana,
+        disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
       );
     }
 
@@ -80,8 +83,8 @@ class GlossaryViewModel extends FutureViewModel {
         .map((e) => e.id);
     for (({Kana kana, bool disabled}) pair in _katakanaList) {
       _katakanaList[pair.kana.id - _hiraganaList.length] = (
-      kana: pair.kana,
-      disabled: !katakanaIdsFiltered.contains(pair.kana.id)
+        kana: pair.kana,
+        disabled: !katakanaIdsFiltered.contains(pair.kana.id)
       );
     }
 
@@ -100,6 +103,6 @@ class GlossaryViewModel extends FutureViewModel {
         useSafeArea: true,
         showDragHandle: true,
         isScrollControlled: true,
-        builder: (_) => DetailsView(item: item));
+        builder: (context) => DetailsView(item: item));
   }
 }

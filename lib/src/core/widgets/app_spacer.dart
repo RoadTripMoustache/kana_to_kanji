@@ -16,6 +16,8 @@ class AppSpacer extends StatelessWidget {
 
   factory AppSpacer.p32() => const AppSpacer._(height: 32, width: 32);
 
+  factory AppSpacer.p40() => const AppSpacer._(height: 40, width: 40);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(height: height, width: width);

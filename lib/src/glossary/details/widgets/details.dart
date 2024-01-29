@@ -8,7 +8,6 @@ import 'package:kana_to_kanji/src/glossary/details/widgets/wrapped_list.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/section_title.dart';
 
-
 class Details extends StatelessWidget {
   /// All the pronunciations of the word.
   final List<String> pronunciations;
@@ -59,19 +58,18 @@ class Details extends StatelessWidget {
                     .toList(growable: false)),
           ],
         ),
-        AppSpacer.p16(),
         if (meanings.isNotEmpty)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              AppSpacer.p16(),
               SectionTitle(
                   title: l10n.glossary_details_meaning(meanings.length)),
               WrappedList(
                   children: meanings
                       .map((e) => Chip(label: Text(e)))
                       .toList(growable: false)),
-              AppSpacer.p16(),
             ],
           ),
         if(examples.isNotEmpty)
@@ -79,10 +77,13 @@ class Details extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SectionTitle(title: l10n.glossary_details_example(examples.length)),
-              const Placeholder(fallbackHeight: 200,)
+              AppSpacer.p16(),
+              SectionTitle(
+                  title: l10n.glossary_details_example(examples.length)),
+              const Placeholder(fallbackHeight: 200),
             ],
-          )
+          ),
+        AppSpacer.p40(),
       ],
     );
   }

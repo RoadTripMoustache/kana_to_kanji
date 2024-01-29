@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/glossary/details/details_view_model.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/details.dart';
 import 'package:stacked/stacked.dart';
+
+/// Minimum percentage of the height of the screen allowed for Kana.
+const _minHeightKana = 0.30;
+/// Minimum percentage of the height of the screen allowed by default.
+const _minHeightDefault = 0.40;
 
 class DetailsView extends StatelessWidget {
   final dynamic item;
@@ -18,10 +24,12 @@ class DetailsView extends StatelessWidget {
         viewModelBuilder: () => DetailsViewModel(item),
         builder: (BuildContext context, DetailsViewModel viewModel, _) {
           late final Widget cardBody;
+          double minHeight = MediaQuery.of(context).size.height * _minHeightDefault;
 
           switch (item) {
             case Kana _:
               cardBody = Details.kana(kana: item);
+              minHeight = MediaQuery.of(context).size.height * _minHeightKana;
               break;
             case Kanji _:
               cardBody = Details.kanji(kanji: item);
@@ -32,6 +40,8 @@ class DetailsView extends StatelessWidget {
           }
 
           return Container(
+            constraints: BoxConstraints(
+                minHeight: minHeight),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
             ),
@@ -40,7 +50,8 @@ class DetailsView extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color:  Theme.of(context).colorScheme.surface,
+                    color: AppTheme.getModalBottomSheetBackgroundColor(
+                        Theme.of(context)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
@@ -52,14 +63,9 @@ class DetailsView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
-                        ),
-                        child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(child: cardBody))))
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(child: cardBody))
               ],
             ),
           );
