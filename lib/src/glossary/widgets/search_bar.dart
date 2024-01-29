@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
+import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/filter_by.dart';
 
 const _duration = Duration(milliseconds: 400);
 
 class GlossarySearchBar extends StatelessWidget {
   final void Function(String searchText) searchGlossary;
+  final void Function() filterGlossary;
+  final List<JLPTLevel> selectedJlptLevel;
+  final List<KnowledgeLevel> selectedKnowledgeLevel;
 
-  const GlossarySearchBar({super.key, required this.searchGlossary});
+  const GlossarySearchBar({
+    super.key,
+    required this.searchGlossary,
+    required this.filterGlossary,
+    required this.selectedJlptLevel,
+    required this.selectedKnowledgeLevel,
+  });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return GlossarySearchBarContent(
-            maxWidth: constraints.maxWidth, searchGlossary: searchGlossary);
+          maxWidth: constraints.maxWidth,
+          searchGlossary: searchGlossary,
+          filterGlossary: filterGlossary,
+          selectedJlptLevel: selectedJlptLevel,
+          selectedKnowledgeLevel: selectedKnowledgeLevel,
+        );
       },
     );
   }
@@ -22,9 +39,18 @@ class GlossarySearchBar extends StatelessWidget {
 class GlossarySearchBarContent extends StatefulWidget {
   final double maxWidth;
   final void Function(String searchText) searchGlossary;
+  final void Function() filterGlossary;
+  final List<JLPTLevel> selectedJlptLevel;
+  final List<KnowledgeLevel> selectedKnowledgeLevel;
 
-  const GlossarySearchBarContent(
-      {super.key, required this.maxWidth, required this.searchGlossary});
+  const GlossarySearchBarContent({
+    super.key,
+    required this.maxWidth,
+    required this.searchGlossary,
+    required this.filterGlossary,
+    required this.selectedJlptLevel,
+    required this.selectedKnowledgeLevel,
+  });
 
   @override
   State<GlossarySearchBarContent> createState() => _GlossarySearchBarState();
@@ -131,6 +157,29 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
     }
   }
 
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => FilterBy(
+        filterGlossary: widget.filterGlossary,
+        selectedJlptLevel: widget.selectedJlptLevel,
+        selectedKnowledgeLevel: widget.selectedKnowledgeLevel,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -168,7 +217,9 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                         icon: const Icon(Icons.filter_list_rounded),
                       ),
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () {
+                          Navigator.of(context).push(_createRoute());
+                        },
                         icon: const Icon(Icons.tune),
                       ),
                     ],

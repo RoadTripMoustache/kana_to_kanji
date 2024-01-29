@@ -247,6 +247,7 @@
       }
     }
   },
+  "jlpt_level_title": "Niveau JLPT",
   "jlpt_level_short": "JLPT-{level}",
   "@jlpt_level_short": {
     "description": "Affiche le niveau JLPT",
@@ -254,6 +255,16 @@
       "level": {
         "type": "int",
         "description": "Niveau, devrait être entre 1 et 5"
+      }
+    }
+  },
+  "knowledge_level_title": "Niveau de connaissance",
+  "knowledge_level": "{knowledgeLevel, select, learned{Appris} practicing{En apprentissage} seen{Vu} other{Jamais vu}}",
+  "@knowledge_level": {
+    "placeholders": {
+      "knowledgeLevel": {
+        "type": "String",
+        "description": "Niveau de connaissance"
       }
     }
   }
