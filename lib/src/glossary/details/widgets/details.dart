@@ -15,13 +15,8 @@ class Details extends StatelessWidget {
   /// All the meanings for the word. If empty, the meanings section will be hidden
   final List<String> meanings;
 
-  final List<String> examples;
-
   const Details._(
-      {super.key,
-      required this.pronunciations,
-      this.meanings = const [],
-      this.examples = const []});
+      {super.key, required this.pronunciations, this.meanings = const []});
 
   /// Build the details card for a [Kana].
   factory Details.kana({Key? key, required Kana kana}) =>
@@ -70,17 +65,6 @@ class Details extends StatelessWidget {
                   children: meanings
                       .map((e) => Chip(label: Text(e)))
                       .toList(growable: false)),
-            ],
-          ),
-        if(examples.isNotEmpty)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppSpacer.p16(),
-              SectionTitle(
-                  title: l10n.glossary_details_example(examples.length)),
-              const Placeholder(fallbackHeight: 200),
             ],
           ),
         AppSpacer.p40(),

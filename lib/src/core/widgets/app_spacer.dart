@@ -6,7 +6,7 @@ class AppSpacer extends StatelessWidget {
   final double height;
   final double width;
 
-  const AppSpacer._({super.key, required this.height, required this.width});
+  const AppSpacer._({required this.height, required this.width});
 
   factory AppSpacer.p8() => const AppSpacer._(height: 8, width: 8);
 
