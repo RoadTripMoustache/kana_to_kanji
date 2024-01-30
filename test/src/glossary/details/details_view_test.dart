@@ -21,6 +21,16 @@ void main() {
       return find.byType(DetailsView);
     }
 
+    testWidgets("Should only accept Kana, Kanji, and Vocabulary",
+        (WidgetTester tester) async {
+      expect(() async {
+        await pump(tester, DetailsView(item: 0));
+      }, throwsAssertionError);
+      expect(() async {
+        await pump(tester, DetailsView(item: ""));
+      }, throwsAssertionError);
+    });
+
     testWidgets("Kana", (WidgetTester tester) async {
       await pump(tester, const DetailsView(item: kanaSample));
       final theme = AppTheme.light();
@@ -48,12 +58,12 @@ void main() {
     testWidgets("Kanji", (WidgetTester tester) async {
       final theme = AppTheme.light();
       const kanjiSample =
-      Kanji(1, "本", 5, 5, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
+          Kanji(1, "本", 5, 5, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
       await pump(tester, const DetailsView(item: kanjiSample));
 
       // Check title section
       final titleContainer = find.byWidgetPredicate((widget) =>
-      widget is Container &&
+          widget is Container &&
           widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
       expect(titleContainer, findsOneWidget);
       expect(
@@ -79,12 +89,13 @@ void main() {
 
         // Check title section
         final titleContainer = find.byWidgetPredicate((widget) =>
-        widget is Container &&
+            widget is Container &&
             widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
         expect(titleContainer, findsOneWidget);
         expect(
             find.descendant(
-                of: titleContainer, matching: find.text(vocabularySample.kanji)),
+                of: titleContainer,
+                matching: find.text(vocabularySample.kanji)),
             findsOneWidget);
 
         // Check details
