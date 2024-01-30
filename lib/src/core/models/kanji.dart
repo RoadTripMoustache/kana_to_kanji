@@ -38,6 +38,10 @@ class Kanji {
   @JsonKey(name: "vocabulary_ids")
   final List<int>? vocabularyIds;
 
+  /// List of syllables of the first kanji Kun reading to facilitate the kanji sorting
+  @JsonKey(name: "jp_sort_syllables")
+  final List<String> jpSortSyllables;
+
   const Kanji(
       this.id,
       this.kanji,
@@ -48,7 +52,8 @@ class Kanji {
       this.onReadings,
       this.kunReadings,
       this.version,
-      this.vocabularyIds);
+      this.vocabularyIds,
+      this.jpSortSyllables);
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 
