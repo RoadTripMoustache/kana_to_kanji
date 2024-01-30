@@ -243,7 +243,9 @@ void main() {
       var lastSearchTxt = "";
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {lastSearchTxt = searchText;},
+        searchGlossary: (String searchText) {
+          lastSearchTxt = searchText;
+        },
         filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
