@@ -240,10 +240,11 @@ void main() {
        */
       // Init widget
       final l10n = await setupLocalizations();
+      var lastSearchTxt = "";
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {lastSearchTxt = searchText},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -264,6 +265,7 @@ void main() {
       await tester.pumpAndSettle();
 
       checkOpenWithTextState(tester, "toto", false);
+      expect(lastSearchTxt, "");
 
       // Simulate click to trigger the search
       await tester.tap(searchIcon);
@@ -271,6 +273,7 @@ void main() {
       await tester.pumpAndSettle();
 
       checkSearchState(tester, "toto");
+      expect(lastSearchTxt, "toto");
 
       // Simulate click to clear the input
       final clearSearchIcon =
@@ -280,6 +283,7 @@ void main() {
       await tester.pumpAndSettle();
 
       checkOpenWithoutTextState(tester, l10n);
+      expect(lastSearchTxt, "");
 
       // Simulate click to close the search bar
       await tester.tap(searchIcon);
