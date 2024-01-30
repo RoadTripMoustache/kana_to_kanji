@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 class PronunciationCard extends StatelessWidget {
   final String pronunciation;
 
-  const PronunciationCard({super.key, required this.pronunciation});
+  final VoidCallback? onPressed;
 
-  void _onPressed() {
-    // TODO if selected == true -> read pronunciation
-  }
+  const PronunciationCard({super.key, required this.pronunciation, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return ActionChip(
         avatar: const Icon(Icons.volume_up_rounded),
         label: Text(pronunciation),
-        onPressed: _onPressed);
+        onPressed: onPressed);
   }
 }

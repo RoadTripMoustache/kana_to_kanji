@@ -30,14 +30,20 @@ class DetailsView extends StatelessWidget {
 
           switch (item) {
             case Kana _:
-              cardBody = Details.kana(kana: item);
+              cardBody = Details.kana(
+                  kana: item,
+                  onPronunciationsPressed: viewModel.onPronunciationPressed);
               minHeight = MediaQuery.of(context).size.height * _minHeightKana;
               break;
             case Kanji _:
-              cardBody = Details.kanji(kanji: item);
+              cardBody = Details.kanji(
+                  kanji: item,
+                  onPronunciationsPressed: viewModel.onPronunciationPressed);
               break;
             case Vocabulary _:
-              cardBody = Details.vocabulary(vocabulary: item);
+              cardBody = Details.vocabulary(
+                  vocabulary: item,
+                  onPronunciationsPressed: viewModel.onPronunciationPressed);
               break;
           }
 
