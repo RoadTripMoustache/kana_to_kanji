@@ -18,6 +18,7 @@ import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
+import 'package:kana_to_kanji/src/core/services/text_to_speech_service.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -54,16 +55,16 @@ void setupLocator() {
 
   // Repositories
   locator.registerSingletonWithDependencies<GroupsRepository>(
-      () => GroupsRepository(),
+          () => GroupsRepository(),
       dependsOn: [Isar]);
   locator.registerSingletonWithDependencies<KanaRepository>(
-      () => KanaRepository(),
+          () => KanaRepository(),
       dependsOn: [Isar]);
   locator.registerSingletonWithDependencies<KanjiRepository>(
-      () => KanjiRepository(),
+          () => KanjiRepository(),
       dependsOn: [Isar]);
   locator.registerSingletonWithDependencies<VocabularyRepository>(
-      () => VocabularyRepository(),
+          () => VocabularyRepository(),
       dependsOn: [Isar]);
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
 
@@ -88,4 +89,11 @@ void setupLocator() {
     instance.loadCollection();
     return instance;
   }, dependsOn: [Isar]);
+  locator.registerSingletonAsync<TextToSpeechService>(() async {
+    final service = TextToSpeechService();
+
+    await service.initialize();
+
+    return service;
+  });
 }

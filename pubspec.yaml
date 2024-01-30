@@ -37,6 +37,7 @@ dependencies:
   github: ^9.19.0
   device_info_plus: ^9.0.3
   image: ^4.0.17
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:
