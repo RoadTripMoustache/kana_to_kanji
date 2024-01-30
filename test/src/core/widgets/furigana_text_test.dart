@@ -90,7 +90,7 @@ void main() {
         testWidgets("Kun reading should be used if available",
             (WidgetTester tester) async {
           const kanji =
-              Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", []);
+              Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
 
           final widget =
               await pump(tester, FuriganaText.kanji(kanji, showFurigana: true));
@@ -108,8 +108,8 @@ void main() {
 
         testWidgets("On reading should be used if there is no kun reading",
             (WidgetTester tester) async {
-          const kanji = Kanji(
-              1, "人", 5, 1, 5, ["person"], ["ジン", "ニン"], [], "2023-12-1", []);
+          const kanji = Kanji(1, "人", 5, 1, 5, ["person"], ["ジン", "ニン"], [],
+              "2023-12-1", [], []);
 
           final widget =
               await pump(tester, FuriganaText.kanji(kanji, showFurigana: true));
@@ -126,8 +126,8 @@ void main() {
         });
 
         testWidgets("Furigana should be override", (WidgetTester tester) async {
-          const kanji =
-              Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", []);
+          const kanji = Kanji(
+              1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", [], ["hon"]);
           const furiganaOverride = "あ";
 
           final widget = await pump(
@@ -150,8 +150,8 @@ void main() {
       group("Vocabulary", () {
         testWidgets("Should have main text and furigana",
             (WidgetTester tester) async {
-          const vocabulary =
-              Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1");
+          const vocabulary = Vocabulary(
+              1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"]);
 
           final widget = await pump(
               tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));
@@ -169,8 +169,8 @@ void main() {
         });
 
         testWidgets("Should only have main text", (WidgetTester tester) async {
-          const vocabulary =
-              Vocabulary(1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1");
+          const vocabulary = Vocabulary(
+              1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"]);
 
           final widget = await pump(
               tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));

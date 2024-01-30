@@ -2,22 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/filter_by.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/sort_by.dart';
 
 const _duration = Duration(milliseconds: 400);
 
 class GlossarySearchBar extends StatelessWidget {
   final void Function(String searchText) searchGlossary;
   final void Function() filterGlossary;
+  final void Function(SortOrder newSelectedOrder) sortGlossary;
   final List<JLPTLevel> selectedJlptLevel;
   final List<KnowledgeLevel> selectedKnowledgeLevel;
+  final SortOrder selectedOrder;
 
   const GlossarySearchBar({
     super.key,
     required this.searchGlossary,
     required this.filterGlossary,
+    required this.sortGlossary,
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
+    required this.selectedOrder,
   });
 
   @override
@@ -28,8 +34,10 @@ class GlossarySearchBar extends StatelessWidget {
           maxWidth: constraints.maxWidth,
           searchGlossary: searchGlossary,
           filterGlossary: filterGlossary,
+          sortGlossary: sortGlossary,
           selectedJlptLevel: selectedJlptLevel,
           selectedKnowledgeLevel: selectedKnowledgeLevel,
+          selectedOrder: selectedOrder,
         );
       },
     );
@@ -40,16 +48,20 @@ class GlossarySearchBarContent extends StatefulWidget {
   final double maxWidth;
   final void Function(String searchText) searchGlossary;
   final void Function() filterGlossary;
+  final void Function(SortOrder newSelectedOrder) sortGlossary;
   final List<JLPTLevel> selectedJlptLevel;
   final List<KnowledgeLevel> selectedKnowledgeLevel;
+  final SortOrder selectedOrder;
 
   const GlossarySearchBarContent({
     super.key,
     required this.maxWidth,
     required this.searchGlossary,
     required this.filterGlossary,
+    required this.sortGlossary,
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
+    required this.selectedOrder,
   });
 
   @override
@@ -157,12 +169,34 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
     }
   }
 
-  Route _createRoute() {
+  Route _createRouteFilterBy() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => FilterBy(
         filterGlossary: widget.filterGlossary,
         selectedJlptLevel: widget.selectedJlptLevel,
         selectedKnowledgeLevel: widget.selectedKnowledgeLevel,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  Route _createRouteSortBy() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => SortBy(
+        sortGlossary: widget.sortGlossary,
+        selectedOrder: widget.selectedOrder,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
@@ -213,12 +247,14 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () {
+                          Navigator.of(context).push(_createRouteSortBy());
+                        },
                         icon: const Icon(Icons.filter_list_rounded),
                       ),
                       IconButton(
                         onPressed: () {
-                          Navigator.of(context).push(_createRoute());
+                          Navigator.of(context).push(_createRouteFilterBy());
                         },
                         icon: const Icon(Icons.tune),
                       ),
