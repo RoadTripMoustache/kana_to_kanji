@@ -22,7 +22,7 @@ class Kana {
 
   final String version;
 
-  Kana(this.id, this.alphabet, this.groupId, this.kana, this.romaji,
+  const Kana(this.id, this.alphabet, this.groupId, this.kana, this.romaji,
       this.version);
 
   factory Kana.fromJson(Map<String, dynamic> json) => _$KanaFromJson(json);

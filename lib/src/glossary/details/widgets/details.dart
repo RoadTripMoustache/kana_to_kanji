@@ -46,7 +46,9 @@ class Details extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            SectionTitle(title: l10n.glossary_details_pronunciation(1)),
+            SectionTitle(
+                title:
+                    l10n.glossary_details_pronunciation(pronunciations.length)),
             WrappedList(
                 children: pronunciations
                     .map((e) => PronunciationCard(pronunciation: e))
