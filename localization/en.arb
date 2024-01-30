@@ -274,5 +274,8 @@
         "description": "Knowledge level"
       }
     }
-  }
+  },
+  "glossary_sort_by_title": "Filter by",
+  "glossary_sort_by_alphabetical": "Alphabetical (A-Z)",
+  "glossary_sort_by_japanese": "Japanese syllable (あ-お)"
 }

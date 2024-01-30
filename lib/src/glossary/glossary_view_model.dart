@@ -1,5 +1,6 @@
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
@@ -32,6 +33,7 @@ class GlossaryViewModel extends FutureViewModel {
   List<Vocabulary> get vocabularyList => _vocabularyList;
   List<JLPTLevel> get selectedJlptLevel => _selectedJlptLevel;
   List<KnowledgeLevel> get selectedKnowledgeLevel => _selectedKnowledgeLevel;
+  SortOrder selectedOrder = SortOrder.japanese;
 
   GlossaryViewModel();
 
@@ -54,6 +56,12 @@ class GlossaryViewModel extends FutureViewModel {
   }
 
   void filterGlossary() {
+    _setToDisplay();
+    notifyListeners();
+  }
+
+  void sortGlossary(SortOrder newSelectedOrder) {
+    selectedOrder = newSelectedOrder;
     _setToDisplay();
     notifyListeners();
   }
@@ -81,11 +89,11 @@ class GlossaryViewModel extends FutureViewModel {
 
     _kanjiList
       ..clear()
-      ..addAll(_kanjiRepository.searchKanji(
-          _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel));
+      ..addAll(_kanjiRepository.searchKanji(_currentSearch,
+          _selectedKnowledgeLevel, _selectedJlptLevel, selectedOrder));
     _vocabularyList
       ..clear()
-      ..addAll(_vocabularyRepository.searchVocabulary(
-          _currentSearch, _selectedKnowledgeLevel, _selectedJlptLevel));
+      ..addAll(_vocabularyRepository.searchVocabulary(_currentSearch,
+          _selectedKnowledgeLevel, _selectedJlptLevel, selectedOrder));
   }
 }
