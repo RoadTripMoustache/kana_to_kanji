@@ -10,8 +10,8 @@ import 'vocabulary_repository_test.mocks.dart';
 
 void main() {
   group("VocabularyRepository", () {
-    const vocabularySample =
-        Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1");
+    const Vocabulary vocabularySample =
+        Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", []);
     late VocabularyRepository repository;
 
     final vocabularyServiceMock = MockVocabularyService();
