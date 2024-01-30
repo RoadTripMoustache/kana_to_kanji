@@ -138,6 +138,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
     _focusNode.unfocus();
     _focusNode.requestFocus();
     focusInSearch();
+    widget.searchGlossary("");
   }
 
   void focusOutSearch(event) {
