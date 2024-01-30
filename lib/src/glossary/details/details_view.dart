@@ -3,12 +3,14 @@ import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
+import 'package:kana_to_kanji/src/core/widgets/app_spacer.dart';
 import 'package:kana_to_kanji/src/glossary/details/details_view_model.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/details.dart';
 import 'package:stacked/stacked.dart';
 
 /// Minimum percentage of the height of the screen allowed for Kana.
 const _minHeightKana = 0.30;
+
 /// Minimum percentage of the height of the screen allowed by default.
 const _minHeightDefault = 0.40;
 
@@ -24,7 +26,8 @@ class DetailsView extends StatelessWidget {
         viewModelBuilder: () => DetailsViewModel(item),
         builder: (BuildContext context, DetailsViewModel viewModel, _) {
           late final Widget cardBody;
-          double minHeight = MediaQuery.of(context).size.height * _minHeightDefault;
+          double minHeight =
+              MediaQuery.of(context).size.height * _minHeightDefault;
 
           switch (item) {
             case Kana _:
@@ -40,19 +43,14 @@ class DetailsView extends StatelessWidget {
           }
 
           return Container(
-            constraints: BoxConstraints(
-                minHeight: minHeight),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-            ),
+            constraints: BoxConstraints(minHeight: minHeight),
+            color: Theme.of(context).colorScheme.surface,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.getModalBottomSheetBackgroundColor(
-                        Theme.of(context)),
-                  ),
+                  color: AppTheme.getModalBottomSheetBackgroundColor(
+                      Theme.of(context)),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
                     child: Center(
