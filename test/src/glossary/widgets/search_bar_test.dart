@@ -15,8 +15,8 @@ void main() {
        */
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -43,8 +43,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -79,8 +79,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -114,8 +114,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -152,8 +152,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -198,8 +198,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -243,20 +243,21 @@ void main() {
     testWidgets("Search text, then clear and close",
         (WidgetTester tester) async {
       /**
-       * Steps:
-       * 1. Load the GlossarySearchBar
-       * 2. Open the search bar
-       * 3. Tap text in the search bar
-       * 4. Trigger search
-       * 5. Clear text input
-       * 6. Close search bar with the search icon
-       */
+           * Steps:
+           * 1. Load the GlossarySearchBar
+           * 2. Open the search bar
+           * 3. Tap text in the search bar
+           * 4. Trigger search
+           * 5. Clear text input
+           * 6. Close search bar with the search icon
+           */
       // Init widget
       final l10n = await setupLocalizations();
+      var lastSearchTxt = "";
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) => lastSearchTxt = searchText,
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
@@ -279,6 +280,7 @@ void main() {
       await tester.pumpAndSettle();
 
       checkOpenWithTextState(tester, "toto", false);
+      expect(lastSearchTxt, "");
 
       // Simulate click to trigger the search
       await tester.tap(searchIcon);
@@ -286,6 +288,7 @@ void main() {
       await tester.pumpAndSettle();
 
       checkSearchState(tester, "toto");
+      expect(lastSearchTxt, "toto");
 
       // Simulate click to clear the input
       final clearSearchIcon =
@@ -295,6 +298,7 @@ void main() {
       await tester.pumpAndSettle();
 
       checkOpenWithoutTextState(tester, l10n);
+      expect(lastSearchTxt, "");
 
       // Simulate click to close the search bar
       await tester.tap(searchIcon);
@@ -317,8 +321,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
         selectedOrder: SortOrder.japanese,
