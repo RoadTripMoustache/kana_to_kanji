@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/services/kanji_service.dart';
@@ -11,7 +12,6 @@ class KanjiRepository {
 
   @visibleForTesting
   final List<Kanji> kanjis = [];
-  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
 
   /// [kanjiService] should only be used for testing
   KanjiRepository({KanjiService? kanjiService}) {

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/services/vocabulary_service.dart';
@@ -10,7 +11,6 @@ class VocabularyRepository {
   late final VocabularyService _vocabularyService;
   @visibleForTesting
   final List<Vocabulary> vocabularies = [];
-  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
 
   /// [vocabularyService] should only be specified for testing purpose
   VocabularyRepository({VocabularyService? vocabularyService}) {

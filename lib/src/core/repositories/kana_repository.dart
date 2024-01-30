@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import 'package:kana_to_kanji/src/core/constants/regexp.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 
@@ -8,7 +9,6 @@ class KanaRepository {
   late final KanaService _kanaService;
   @visibleForTesting
   final List<Kana> kana = [];
-  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
 
   /// [kanaService] should only be used for testing
   KanaRepository({KanaService? kanaService}) {
