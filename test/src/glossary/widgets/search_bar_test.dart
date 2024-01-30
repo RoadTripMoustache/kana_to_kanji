@@ -15,7 +15,7 @@ void main() {
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
         searchGlossary: (String searchText) {},
-        filterGlossary: () => {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -40,8 +40,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -74,8 +74,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -107,8 +107,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -143,8 +143,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -187,8 +187,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
@@ -306,8 +306,8 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
-        filterGlossary: () => {},
+        searchGlossary: (String searchText) {},
+        filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
       ));
