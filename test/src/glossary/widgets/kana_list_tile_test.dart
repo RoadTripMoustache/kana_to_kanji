@@ -9,7 +9,7 @@ import '../../../helpers.dart';
 
 void main() {
   group("KanaListTile", () {
-    final Kana kanaSample =
+    const Kana kanaSample =
         Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
 
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
@@ -22,7 +22,7 @@ void main() {
     group("UI", () {
       testWidgets("It should display the kana and its pronunciation",
           (WidgetTester tester) async {
-        final widget = await pump(tester, KanaListTile(kanaSample));
+        final widget = await pump(tester, const KanaListTile(kanaSample));
 
         // Validate that the Card's elevation property is equal to 0
         final Finder card =
@@ -52,7 +52,7 @@ void main() {
       testWidgets("When disabled, elevation and text color should change",
           (WidgetTester tester) async {
         final widget =
-            await pump(tester, KanaListTile(kanaSample, disabled: true));
+            await pump(tester, const KanaListTile(kanaSample, disabled: true));
 
         // Validate that the Card's elevation property is equal to 0
         final Finder card =

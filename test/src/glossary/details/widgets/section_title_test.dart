@@ -8,9 +8,9 @@ void main() {
   group("SectionTitle", () {
     const titleSample = 'Test Title';
 
-    testWidgets("it should display the pass titled", (WidgetTester tester) async {
-      await tester
-          .pumpLocalizedWidget(const SectionTitle(title: titleSample));
+    testWidgets("it should display the pass titled",
+        (WidgetTester tester) async {
+      await tester.pumpLocalizedWidget(const SectionTitle(title: titleSample));
 
       final widget = find.byType(SectionTitle);
 
@@ -31,7 +31,6 @@ void main() {
       final widget = find.byType(SectionTitle);
       final title =
           find.descendant(of: widget, matching: find.text(titleSample));
-
 
       expect(title, findsOneWidget);
       Text titleWidget = tester.firstWidget(title);

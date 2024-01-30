@@ -19,9 +19,16 @@ void main() {
         final widget = find.byType(PronunciationCard);
 
         expect(widget, findsOneWidget);
-        expect(find.descendant(of: widget, matching: find.byType(ActionChip)), findsOneWidget);
-        expect(find.descendant(of: widget, matching: find.byIcon(Icons.volume_up_rounded)), findsOneWidget);
-        expect(find.descendant(of: widget, matching: find.text(sampleHiraganaPronunciation)), findsOneWidget);
+        expect(find.descendant(of: widget, matching: find.byType(ActionChip)),
+            findsOneWidget);
+        expect(
+            find.descendant(
+                of: widget, matching: find.byIcon(Icons.volume_up_rounded)),
+            findsOneWidget);
+        expect(
+            find.descendant(
+                of: widget, matching: find.text(sampleHiraganaPronunciation)),
+            findsOneWidget);
       });
     });
   });
