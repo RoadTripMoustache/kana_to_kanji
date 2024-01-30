@@ -14,7 +14,7 @@ void main() {
        */
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => {},
+        searchGlossary: (String searchText) {},
         filterGlossary: () => {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
@@ -230,20 +230,20 @@ void main() {
     testWidgets("Search text, then clear and close",
         (WidgetTester tester) async {
       /**
-       * Steps:
-       * 1. Load the GlossarySearchBar
-       * 2. Open the search bar
-       * 3. Tap text in the search bar
-       * 4. Trigger search
-       * 5. Clear text input
-       * 6. Close search bar with the search icon
-       */
+           * Steps:
+           * 1. Load the GlossarySearchBar
+           * 2. Open the search bar
+           * 3. Tap text in the search bar
+           * 4. Trigger search
+           * 5. Clear text input
+           * 6. Close search bar with the search icon
+           */
       // Init widget
       final l10n = await setupLocalizations();
       var lastSearchTxt = "";
 
       await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {lastSearchTxt = searchText},
+        searchGlossary: (String searchText) => lastSearchTxt = searchText,
         filterGlossary: () {},
         selectedJlptLevel: const [],
         selectedKnowledgeLevel: const [],
