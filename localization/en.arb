@@ -238,6 +238,7 @@
   "glossary_tab_katakana": "Katakana",
   "glossary_tab_kanji": "Kanji",
   "glossary_search_bar_hint": "日本, にほん, Japan",
+  "glossary_filter_by_title": "Filter by",
   "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} other}}}",
   "@glossary_tile_meanings": {
     "description": "Present the main meaning of the kanji or vocabulary and the number of other meanings",
@@ -248,7 +249,38 @@
       },
       "count": {
         "default": 0,
+        "type": "int",
         "description": "Number of other meanings"
+      }
+    }
+  },
+  "glossary_details_pronunciation": "{count, plural, one{Pronunciation} other{Pronunciations}}",
+  "@glossary_details_pronunciation": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Number of pronunciations"
+      }
+    }
+  },
+  "glossary_details_meaning": "{count, plural, one{Meaning} other{Meanings}}",
+  "@glossary_details_meaning": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Number of meanings"
+      }
+    }
+  },
+  "glossary_details_example": "{count, plural, one{Example} other{Examples}}",
+  "@glossary_details_example": {
+    "placeholders": {
+      "count": {
+        "default": 1,
+        "type": "int",
+        "description": "Number of examples"
       }
     }
   },
@@ -263,8 +295,6 @@
       }
     }
   },
-  "glossary_search_bar_hint": "日本, にほん, Japan",
-  "glossary_filter_by_title": "Filter by",
   "knowledge_level_title": "Knowledge level",
   "knowledge_level": "{knowledgeLevel, select, learned{Learned} practicing{Practicing} seen{Seen} other{Never seen}}",
   "@knowledge_level": {

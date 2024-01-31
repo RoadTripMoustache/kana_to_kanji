@@ -11,7 +11,7 @@ import '../../../../helpers.dart';
 void main() {
   group("QuestionReviewTile", () {
     group("Question is about kana", () {
-      final Kana kana = Kana(0, Alphabets.hiragana, 0, "あ", "a", "v1");
+      const Kana kana = Kana(0, Alphabets.hiragana, 0, "あ", "a", "v1");
 
       final Question question = Question(
           alphabet: kana.alphabet,

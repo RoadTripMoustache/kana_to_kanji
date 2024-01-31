@@ -11,9 +11,9 @@ import 'kana_repository_test.mocks.dart';
 
 void main() {
   group("KanaRepository", () {
-    final hiraganaSample =
+    const hiraganaSample =
         Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
-    final katakanaSample =
+    const katakanaSample =
         Kana(1, Alphabets.katakana, 1, "ア", "a", "2023-12-01");
     late KanaRepository repository;
 

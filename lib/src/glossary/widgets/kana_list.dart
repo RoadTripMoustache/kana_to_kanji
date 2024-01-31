@@ -13,7 +13,10 @@ class KanaList extends StatefulWidget {
   /// will be shown.
   final List<({Kana kana, bool disabled})> items;
 
-  const KanaList({super.key, required this.items});
+  /// Function to execute when a [KanaListTile] is pressed
+  final Function(Kana kana)? onPressed;
+
+  const KanaList({super.key, required this.items, this.onPressed});
 
   @override
   State<KanaList> createState() => _KanaListState();
@@ -23,10 +26,10 @@ class _KanaListState extends State<KanaList> {
   final _scrollToWidgetKey =
       GlobalKey(debugLabel: "kana_list_scroll_to_widget_key");
 
-  void _onPressed(Kana kana, BuildContext context) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Kana: ${kana.kana} tapped")));
+  void _onPressed(Kana kana) {
+    if (widget.onPressed != null) {
+      widget.onPressed!(kana);
+    }
   }
 
   @override
@@ -62,7 +65,7 @@ class _KanaListState extends State<KanaList> {
               item.kana,
               key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
               disabled: item.disabled,
-              onPressed: () => _onPressed(item.kana, context),
+              onPressed: () => _onPressed(item.kana),
             ))
         .toList();
     for (int id in _emptyTiles) {
@@ -74,14 +77,14 @@ class _KanaListState extends State<KanaList> {
         .map<Widget>((item) => KanaListTile(item.kana,
             key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
             disabled: item.disabled,
-            onPressed: () => _onPressed(item.kana, context)))
+            onPressed: () => _onPressed(item.kana)))
         .toList();
     final List<Widget> combination = widget.items
         .sublist(_dakutenLastId)
         .map<Widget>((item) => KanaListTile(item.kana,
             key: item.kana.id == scrollToIndex ? _scrollToWidgetKey : null,
             disabled: item.disabled,
-            onPressed: () => _onPressed(item.kana, context)))
+            onPressed: () => _onPressed(item.kana)))
         .toList();
 
     return SingleChildScrollView(

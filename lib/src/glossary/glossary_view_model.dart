@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
@@ -7,10 +8,15 @@ import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
+import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
+import 'package:kana_to_kanji/src/glossary/details/details_view.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class GlossaryViewModel extends FutureViewModel {
+  final GoRouter router;
+
+  final DialogService _dialogService = locator<DialogService>();
   final KanaRepository _kanaRepository = locator<KanaRepository>();
   final KanjiRepository _kanjiRepository = locator<KanjiRepository>();
   final VocabularyRepository _vocabularyRepository =
@@ -31,11 +37,13 @@ class GlossaryViewModel extends FutureViewModel {
   List<Kanji> get kanjiList => _kanjiList;
 
   List<Vocabulary> get vocabularyList => _vocabularyList;
+
   List<JLPTLevel> get selectedJlptLevel => _selectedJlptLevel;
+
   List<KnowledgeLevel> get selectedKnowledgeLevel => _selectedKnowledgeLevel;
   SortOrder selectedOrder = SortOrder.japanese;
 
-  GlossaryViewModel();
+  GlossaryViewModel(this.router);
 
   @override
   Future futureToRun() async {
@@ -95,5 +103,13 @@ class GlossaryViewModel extends FutureViewModel {
       ..clear()
       ..addAll(_vocabularyRepository.searchVocabulary(_currentSearch,
           _selectedKnowledgeLevel, _selectedJlptLevel, selectedOrder));
+  }
+
+  void onTilePressed(dynamic item) {
+    _dialogService.showModalBottomSheet(
+        useSafeArea: true,
+        showDragHandle: true,
+        isScrollControlled: true,
+        builder: (context) => DetailsView(item: item));
   }
 }

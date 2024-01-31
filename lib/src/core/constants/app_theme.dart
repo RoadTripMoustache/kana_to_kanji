@@ -43,4 +43,9 @@ class AppTheme {
         useMaterial3: _useMaterial3,
         swapLegacyOnMaterial3: _swapLegacyOnMaterial3,
       );
+
+  static Color getModalBottomSheetBackgroundColor(ThemeData theme) {
+    return ElevationOverlay.applySurfaceTint(
+        theme.colorScheme.surface, theme.colorScheme.surfaceTint, 2.0);
+  }
 }
