@@ -32,7 +32,8 @@ class VocabularyDataLoader {
       List<Vocabulary> vocabulary = [];
       var listVocabulary = jsonDecode(response.body);
       for (final k in listVocabulary["data"]) {
-        if (k["meanings"] == null) { // TODO : Delete once "meanings" is not used anymore
+        if (k["meanings"] == null) {
+          // TODO : Delete once "meanings" is not used anymore
           k["meanings"] = ["toto"];
         }
 

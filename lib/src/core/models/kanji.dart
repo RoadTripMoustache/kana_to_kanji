@@ -26,12 +26,14 @@ class Kanji {
   /// Pronunciations in sino-Japanese
   @Default([])
   @JsonKey(name: "on_readings")
-  final List<String> onReadings; // TODO : To delete once migrated to "pronunciations"
+  final List<String>
+      onReadings; // TODO : To delete once migrated to "pronunciations"
 
   /// Pronunciations in Japanese
   @Default([])
   @JsonKey(name: "kun_readings")
-  final List<String> kunReadings; // TODO : To delete once migrated to "pronunciations"
+  final List<String>
+      kunReadings; // TODO : To delete once migrated to "pronunciations"
 
   /// Pronunciations of the kanji
   @Default([])
@@ -42,7 +44,8 @@ class Kanji {
   /// List of vocabulary word ids that use the kanji
   @Default([])
   @JsonKey(name: "vocabulary_ids")
-  final List<int>? vocabularyIds; // TODO : To delete once migrated to "relatedVocabulary"
+  final List<int>?
+      vocabularyIds; // TODO : To delete once migrated to "relatedVocabulary"
 
   /// List of vocabulary words that use the kanji
   @Default([])

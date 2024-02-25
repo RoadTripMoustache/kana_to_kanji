@@ -8,8 +8,8 @@ import '../../../helpers.dart';
 
 void main() {
   group("VocabularyList", () {
-    const vocabulary =
-        Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"], []);
+    const vocabulary = Vocabulary(
+        1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"], []);
 
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const VocabularyList(
@@ -44,7 +44,8 @@ void main() {
     testWidgets("Contains 2 items", (WidgetTester tester) async {
       List<Vocabulary> vocabularyList = [
         vocabulary,
-        const Vocabulary(2, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], [])
+        const Vocabulary(
+            2, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], [])
       ];
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,

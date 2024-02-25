@@ -32,13 +32,13 @@ class Vocabulary {
 
   /// List of syllables forming the word in kana. Use to facilitate vocabulary sorting.
   @JsonKey(name: "kana_syllables")
-  final List<String> kanaSyllables; // TODO: To remove once migrated to "kanjiReadings"
+  final List<String>
+      kanaSyllables; // TODO: To remove once migrated to "kanjiReadings"
 
   /// List of kanji which are in the vocabulary with their respective reading
   @Default([])
   @JsonKey(name: "kanji_readings")
   final List<KanjiReading> kanjiReadings;
-
 
   const Vocabulary(
       this.id,
