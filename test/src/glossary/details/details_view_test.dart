@@ -58,7 +58,7 @@ void main() {
     testWidgets("Kanji", (WidgetTester tester) async {
       final theme = AppTheme.light();
       const kanjiSample =
-          Kanji(1, "本", 5, 5, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
+          Kanji(1, "本", 5, 5, 5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], []);
       await pump(tester, const DetailsView(item: kanjiSample));
 
       // Check title section
@@ -84,7 +84,7 @@ void main() {
       testWidgets("With kanji", (WidgetTester tester) async {
         final theme = AppTheme.light();
         const vocabularySample =
-            Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", []);
+            Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
         await pump(tester, const DetailsView(item: vocabularySample));
 
         // Check title section
@@ -110,7 +110,7 @@ void main() {
       testWidgets("Without kanji", (WidgetTester tester) async {
         final theme = AppTheme.light();
         const vocabularySample =
-            Vocabulary(1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1", []);
+            Vocabulary(1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
         await pump(tester, const DetailsView(item: vocabularySample));
 
         // Check title section

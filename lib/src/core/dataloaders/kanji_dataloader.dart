@@ -31,11 +31,23 @@ class KanjiDataLoader {
     if (response.statusCode == 200) {
       List<Kanji> kanjis = [];
       var listKanji = jsonDecode(response.body);
-      for (final k in listKanji) {
-        if (k["kun_readings"][0] != "") {
+      for (final k in listKanji["data"]) {
+        if (k["meanings"] == null) { // TODO : To delete once "meanings" is not used anymore
+          k["meanings"] = ["toto"];
+        }
+        if (k["on_readings"] == null) { // TODO : To delete once "on_readings" is not used anymore
+          k["on_readings"] = ["ア"];
+        }
+        if (k["kun_readings"] == null) { // TODO : To delete once "on_readings" is not used anymore
+          k["kun_readings"] = ["あ"];
+        }
+        k["jp_sort_syllables"] = [];
+        if (k["kun_readings"] != null && !k["kun_readings"].isEmpty && k["kun_readings"][0] != "") {
           k["jp_sort_syllables"] = splitBySyllable(k["kun_readings"][0]);
-        } else {
+        } else if (k["on_readings"] != null && !k["on_readings"].isEmpty){
           k["jp_sort_syllables"] = splitBySyllable(k["on_readings"][0]);
+        } else if (k["pronunciations"] != null && !k["pronunciations"].isEmpty){
+          k["jp_sort_syllables"] = splitBySyllable(k["pronunciations"][0]["readings"][0]);
         }
         kanjis.add(Kanji.fromJson(k));
       }

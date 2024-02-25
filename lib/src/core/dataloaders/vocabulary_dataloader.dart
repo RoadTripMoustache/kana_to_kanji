@@ -31,7 +31,11 @@ class VocabularyDataLoader {
     if (response.statusCode == 200) {
       List<Vocabulary> vocabulary = [];
       var listVocabulary = jsonDecode(response.body);
-      for (final k in listVocabulary) {
+      for (final k in listVocabulary["data"]) {
+        if (k["meanings"] == null) { // TODO : Delete once "meanings" is not used anymore
+          k["meanings"] = ["toto"];
+        }
+
         k["kana_syllables"] = splitBySyllable(k["kana"]);
         vocabulary.add(Vocabulary.fromJson(k));
       }

@@ -8,7 +8,7 @@ import '../../../helpers.dart';
 void main() {
   group("KanjiList", () {
     const kanji =
-        Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
+        Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], []);
 
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const KanjiList(

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
+import 'package:kana_to_kanji/src/core/models/kanji_reading.dart';
 
 part 'vocabulary.g.dart';
 
@@ -31,7 +32,13 @@ class Vocabulary {
 
   /// List of syllables forming the word in kana. Use to facilitate vocabulary sorting.
   @JsonKey(name: "kana_syllables")
-  final List<String> kanaSyllables;
+  final List<String> kanaSyllables; // TODO: To remove once migrated to "kanjiReadings"
+
+  /// List of kanji which are in the vocabulary with their respective reading
+  @Default([])
+  @JsonKey(name: "kanji_readings")
+  final List<KanjiReading> kanjiReadings;
+
 
   const Vocabulary(
       this.id,
@@ -42,7 +49,8 @@ class Vocabulary {
       this.romaji,
       this.relatedKanjis,
       this.version,
-      this.kanaSyllables);
+      this.kanaSyllables,
+      this.kanjiReadings);
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);
