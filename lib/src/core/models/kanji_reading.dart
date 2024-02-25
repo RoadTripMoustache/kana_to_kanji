@@ -8,6 +8,7 @@ part 'kanji_reading.g.dart';
 
 /// Reading of a kanji in a word.
 class KanjiReading {
+  /// ID of the kanji
   final int id;
   final String kanji;
   final String reading;
