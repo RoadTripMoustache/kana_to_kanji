@@ -49,8 +49,8 @@ void main() {
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
-      const kanjiSample =
-          Kanji(1, "本", 5, 5, 5, ["book"], ["ほん"], ["ほん"], "2023-12-1", [], []);
+      const kanjiSample = Kanji(1, "本", 5, 5, 5, ["book"], ["ほん"], ["ほん"], [],
+          "2023-12-1", [], [], []);
 
       final widget = await pump(tester, Details.kanji(kanji: kanjiSample));
 
@@ -82,8 +82,8 @@ void main() {
     });
 
     testWidgets("Vocabulary", (WidgetTester tester) async {
-      const vocabularySample =
-          Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", []);
+      const vocabularySample = Vocabulary(
+          1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
 
       final widget =
           await pump(tester, Details.vocabulary(vocabulary: vocabularySample));

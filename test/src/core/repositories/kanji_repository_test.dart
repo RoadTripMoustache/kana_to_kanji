@@ -10,8 +10,8 @@ import 'kanji_repository_test.mocks.dart';
 
 void main() {
   group("KanjiRepository", () {
-    const kanjiSample =
-        Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
+    const kanjiSample = Kanji(
+        1, "本", 5, 1, 5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], []);
     late KanjiRepository repository;
 
     final kanjiServiceMock = MockKanjiService();

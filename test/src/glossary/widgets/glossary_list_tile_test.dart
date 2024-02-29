@@ -9,8 +9,8 @@ import '../../../helpers.dart';
 
 void main() {
   group("GlossaryListTile", () {
-    const kanji =
-        Kanji(1, "本", 5, 5, 5, ["book"], [], ["ほん"], "2023-12-1", [], []);
+    const kanji = Kanji(
+        1, "本", 5, 5, 5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], []);
 
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
@@ -52,8 +52,8 @@ void main() {
       });
 
       testWidgets("Vocabulary", (WidgetTester tester) async {
-        const vocabulary =
-            Vocabulary(1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", []);
+        const vocabulary = Vocabulary(
+            1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
         final AppLocalizations l10n = await setupLocalizations();
 
         final widget =
