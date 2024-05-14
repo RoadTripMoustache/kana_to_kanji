@@ -55,12 +55,6 @@ jobs:
         run: cp .env.template .env
       - name: Generate files
         run: flutter pub run build_runner build
-      - name: toto
-        run: ls ./.dart_tool/flutter_gen/gen_l10n
-      - name: toto3
-        run: ls
-      - name: toto34
-        run: pwd
 
       ### CHECKS ###
       # Check the format of the code and commit the formatted files.
@@ -74,6 +68,8 @@ jobs:
           commit_user_email: github-actions[bot]@users.noreply.github.com
           commit_message: "[BOT] Applying format."
           add_options: '-u'
+      - name: toto
+        run: ls ./.dart_tool/flutter_gen/gen_l10n
 
       # Check if the code has any errors/warnings
       - name: Analyze code
