@@ -63,7 +63,9 @@ class _KanaListState extends State<KanaList> {
         .sublist(0, _mainKanaLastId)
         .map<Widget>((item) => KanaListTile(
               item.kana,
-              key: item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
+              key: item.kana.position == scrollToIndex
+                  ? _scrollToWidgetKey
+                  : null,
               disabled: item.disabled,
               onPressed: () => _onPressed(item.kana),
             ))
@@ -75,14 +77,16 @@ class _KanaListState extends State<KanaList> {
     final List<Widget> dakuten = widget.items
         .sublist(_mainKanaLastId, _dakutenLastId)
         .map<Widget>((item) => KanaListTile(item.kana,
-            key: item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
+            key:
+                item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
             disabled: item.disabled,
             onPressed: () => _onPressed(item.kana)))
         .toList();
     final List<Widget> combination = widget.items
         .sublist(_dakutenLastId)
         .map<Widget>((item) => KanaListTile(item.kana,
-            key: item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
+            key:
+                item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
             disabled: item.disabled,
             onPressed: () => _onPressed(item.kana)))
         .toList();

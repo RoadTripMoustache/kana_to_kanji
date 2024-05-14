@@ -11,8 +11,13 @@ import '../../../../helpers.dart';
 
 void main() {
   group("GroupCard", () {
-    final Group groupSample = Group(const ResourceUid("group-1", ResourceType.group),
-        Alphabets.katakana, "Group name", KanaTypes.main, "Group name", "v1");
+    final Group groupSample = Group(
+        const ResourceUid("group-1", ResourceType.group),
+        Alphabets.katakana,
+        "Group name",
+        KanaTypes.main,
+        "Group name",
+        "v1");
     final Group localizedGroupSample = Group(
         const ResourceUid("group-1", ResourceType.group),
         Alphabets.katakana,

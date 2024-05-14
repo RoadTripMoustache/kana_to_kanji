@@ -14,8 +14,7 @@ class ResourceUid {
 
   const ResourceUid(this.uid, this.resourceType);
 
-  factory ResourceUid.fromJson(String uid) =>
-      ResourceUid.fromString(uid);
+  factory ResourceUid.fromJson(String uid) => ResourceUid.fromString(uid);
 
   factory ResourceUid.fromString(String uid) {
     return ResourceUid(

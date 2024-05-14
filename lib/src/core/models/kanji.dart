@@ -75,7 +75,6 @@ class Kanji {
   @JsonKey(name: "main_meaning")
   final String? mainMeaning;
 
-
   const Kanji(
       this.uid,
       this.kanji,
@@ -96,5 +95,6 @@ class Kanji {
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 
-  List<String> get readings => [...kunReadings, ...onReadings]; // TODO : To delete
+  List<String> get readings =>
+      [...kunReadings, ...onReadings]; // TODO : To delete
 }

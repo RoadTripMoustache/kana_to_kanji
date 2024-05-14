@@ -83,7 +83,7 @@ class KanaRepository {
 
   List<Kana> getKatakana() {
     loadKana();
-    var listKana =  kana
+    var listKana = kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .toList();
 
