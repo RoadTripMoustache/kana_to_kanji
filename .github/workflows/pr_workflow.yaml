@@ -49,11 +49,11 @@ jobs:
           channel: 'stable'
           cache: true
       - run: flutter doctor
+      - run: dart pub global activate flutter_gen
       - name: Get dependencies
         run: flutter pub get
       - name: Setup .env
         run: cp .env.template .env
-      - run: dart pub global activate flutter_gen
       - name: Generate files
         run: flutter pub run build_runner build
 
