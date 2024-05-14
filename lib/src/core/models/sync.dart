@@ -15,8 +15,8 @@ class Sync {
   final LearningSync learning;
   final bool vocabulary;
 
-  const Sync(this.achievements, this.cleanup, this.groupsFlag, this.kana, this.kanji,
-      this.learning, this.vocabulary);
+  const Sync(this.achievements, this.cleanup, this.groupsFlag, this.kana,
+      this.kanji, this.learning, this.vocabulary);
 
   factory Sync.fromJson(Map<String, dynamic> json) => _$SyncFromJson(json);
 }

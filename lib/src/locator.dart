@@ -80,7 +80,8 @@ void setupLocator() {
     // - Group
     locator.registerSingletonAsync<GroupDataLoader>(() async {
       final instance = GroupDataLoader();
-      if (sync.groupsFlag) { // Load the collection only if required
+      if (sync.groupsFlag) {
+        // Load the collection only if required
         instance.loadCollection();
       }
       return instance;
@@ -89,7 +90,8 @@ void setupLocator() {
     // - Kana
     locator.registerSingletonAsync<KanaDataLoader>(() async {
       final instance = KanaDataLoader();
-      if (sync.kana) { // Load the collection only if required
+      if (sync.kana) {
+        // Load the collection only if required
         instance.loadCollection();
       }
       return instance;
@@ -98,7 +100,8 @@ void setupLocator() {
     // - Kanji
     locator.registerSingletonAsync<KanjiDataLoader>(() async {
       final instance = KanjiDataLoader();
-      if (sync.kanji) { // Load the collection only if required
+      if (sync.kanji) {
+        // Load the collection only if required
         instance.loadCollection();
       }
       return instance;
@@ -107,7 +110,8 @@ void setupLocator() {
     // - Vocabulary
     locator.registerSingletonAsync<VocabularyDataLoader>(() async {
       final instance = VocabularyDataLoader();
-      if (sync.vocabulary) { // Load the collection only if required
+      if (sync.vocabulary) {
+        // Load the collection only if required
         instance.loadCollection();
       }
       return instance;
@@ -115,5 +119,4 @@ void setupLocator() {
 
     return instance;
   }, dependsOn: [ApiService, Isar]);
-
 }
