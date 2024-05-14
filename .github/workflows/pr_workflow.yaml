@@ -48,12 +48,12 @@ jobs:
         with:
           channel: 'stable'
           cache: true
-      - run: flutter pub cache clean
       - run: flutter doctor
       - name: Get dependencies
         run: flutter pub get
       - name: Setup .env
         run: cp .env.template .env
+      - run: dart pub global activate flutter_gen
       - name: Generate files
         run: flutter pub run build_runner build
 
@@ -69,8 +69,6 @@ jobs:
           commit_user_email: github-actions[bot]@users.noreply.github.com
           commit_message: "[BOT] Applying format."
           add_options: '-u'
-      - name: toto
-        run: ls ./.dart_tool/flutter_gen/gen_l10n
 
       # Check if the code has any errors/warnings
       - name: Analyze code
