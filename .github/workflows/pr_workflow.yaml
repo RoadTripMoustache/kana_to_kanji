@@ -51,14 +51,16 @@ jobs:
       - run: flutter doctor
       - name: Get dependencies
         run: flutter pub get
-      - name: toto
-        run: ls ./.dart_tool/flutter_gen/gen_l10n
       - name: Setup .env
         run: cp .env.template .env
       - name: Generate files
         run: flutter pub run build_runner build
       - name: toto
         run: ls ./.dart_tool/flutter_gen/gen_l10n
+      - name: toto3
+        run: ls
+      - name: toto34
+        run: pwd
 
       ### CHECKS ###
       # Check the format of the code and commit the formatted files.
