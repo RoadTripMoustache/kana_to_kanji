@@ -26,8 +26,12 @@ dependencies:
   rive: ^0.12.3
   package_info_plus: ^4.1.0
   shared_preferences: ^2.2.1
-  isar: ^4.0.0-dev.10
-  isar_flutter_libs: ^4.0.0-dev.10
+  isar:
+    version: ^4.0.3
+    hosted: https://pub.isar-community.dev/
+  isar_flutter_libs: # contains Isar Core
+    version: ^4.0.3
+    hosted: https://pub.isar-community.dev/
   path_provider: ^2.1.1
   http: ^1.1.0
   firebase_core: ^2.15.1
