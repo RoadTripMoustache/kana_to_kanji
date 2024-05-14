@@ -53,12 +53,12 @@ jobs:
         run: flutter pub get
       - name: toto
         run: ls ./.dart_tool/flutter_gen/gen_l10n
-      - name: l10n
-        run: flutter gen-l10n
       - name: Setup .env
         run: cp .env.template .env
       - name: Generate files
         run: flutter pub run build_runner build
+      - name: toto
+        run: ls ./.dart_tool/flutter_gen/gen_l10n
 
       ### CHECKS ###
       # Check the format of the code and commit the formatted files.
