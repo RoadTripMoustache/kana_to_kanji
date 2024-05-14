@@ -18,6 +18,7 @@ import 'package:kana_to_kanji/src/core/services/api_service.dart';
 import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
+import 'package:kana_to_kanji/src/core/services/sync_service.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -29,7 +30,9 @@ void setupLocator() {
   // Services
   locator.registerSingleton<DialogService>(DialogService());
   locator.registerLazySingleton<PreferencesService>(() => PreferencesService());
-  locator.registerLazySingleton<ApiService>(() => ApiService());
+  locator.registerSingletonAsync<ApiService>(() async {
+    return ApiService();
+  });
   locator.registerSingletonAsync<InfoService>(() async {
     final instance = InfoService();
     await instance.initialize();
@@ -68,24 +71,49 @@ void setupLocator() {
   locator.registerSingleton<SettingsRepository>(SettingsRepository());
 
   // Data Loaders
-  locator.registerSingletonAsync<GroupDataLoader>(() async {
-    final instance = GroupDataLoader();
-    instance.loadCollection();
+  locator.registerSingletonAsync<SyncService>(() async {
+    final instance = SyncService();
+
+    // Get the sync data to know which calls need to be done.
+    var sync = await instance.getSyncData();
+
+    // - Group
+    locator.registerSingletonAsync<GroupDataLoader>(() async {
+      final instance = GroupDataLoader();
+      if (sync.groupsFlag) { // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Kana
+    locator.registerSingletonAsync<KanaDataLoader>(() async {
+      final instance = KanaDataLoader();
+      if (sync.kana) { // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Kanji
+    locator.registerSingletonAsync<KanjiDataLoader>(() async {
+      final instance = KanjiDataLoader();
+      if (sync.kanji) { // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Vocabulary
+    locator.registerSingletonAsync<VocabularyDataLoader>(() async {
+      final instance = VocabularyDataLoader();
+      if (sync.vocabulary) { // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
     return instance;
-  }, dependsOn: [Isar]);
-  locator.registerSingletonAsync<KanaDataLoader>(() async {
-    final instance = KanaDataLoader();
-    instance.loadCollection();
-    return instance;
-  }, dependsOn: [Isar]);
-  locator.registerSingletonAsync<KanjiDataLoader>(() async {
-    final instance = KanjiDataLoader();
-    instance.loadCollection();
-    return instance;
-  }, dependsOn: [Isar]);
-  locator.registerSingletonAsync<VocabularyDataLoader>(() async {
-    final instance = VocabularyDataLoader();
-    instance.loadCollection();
-    return instance;
-  }, dependsOn: [Isar]);
+  }, dependsOn: [ApiService, Isar]);
+
 }
