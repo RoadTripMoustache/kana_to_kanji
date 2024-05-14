@@ -48,6 +48,7 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+      - run: flutter pub cache clean
       - run: flutter doctor
       - name: Get dependencies
         run: flutter pub get
