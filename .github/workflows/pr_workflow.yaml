@@ -52,7 +52,7 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
       - name: toto
-        run: ls ${FLUTTER_PROJECT}/.dart_tool/flutter_gen/gen_l10n
+        run: ls ./.dart_tool/flutter_gen/gen_l10n
       - name: l10n
         run: flutter gen-l10n
       - name: Setup .env
