@@ -1,6 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
+import 'package:kana_to_kanji/src/core/models/example.dart';
 import 'package:kana_to_kanji/src/core/models/pronunciations.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
+
+import '../utils/isar_utils.dart';
 
 part 'kanji.g.dart';
 
@@ -8,7 +13,9 @@ part 'kanji.g.dart';
 @Name("Kanjis")
 @JsonSerializable()
 class Kanji {
-  final int id;
+  @Default(ResourceUid("", ResourceType.kanji))
+  final ResourceUid uid;
+  int get id => fastHash(uid.uid);
 
   final String kanji;
 
@@ -21,7 +28,7 @@ class Kanji {
   @JsonKey(name: "jlpt_level")
   final int jlptLevel;
   @Default([])
-  final List<String> meanings;
+  final List<String> meanings; // TODO : To delete
 
   /// Pronunciations in sino-Japanese
   @Default([])
@@ -56,8 +63,21 @@ class Kanji {
   @JsonKey(name: "jp_sort_syllables")
   final List<String> jpSortSyllables;
 
+  /// Usage examples of the kanji
+  @Default([])
+  final List<Example>? examples;
+
+  /// Groups related to the kanji
+  @Default([])
+  @JsonKey(name: "groups")
+  final List<ResourceUid> groupList;
+
+  @JsonKey(name: "main_meaning")
+  final String? mainMeaning;
+
+
   const Kanji(
-      this.id,
+      this.uid,
       this.kanji,
       this.numberOfStrokes,
       this.grade,
@@ -69,9 +89,12 @@ class Kanji {
       this.version,
       this.vocabularyIds,
       this.relatedVocabulary,
-      this.jpSortSyllables);
+      this.jpSortSyllables,
+      this.examples,
+      this.groupList,
+      this.mainMeaning);
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 
-  List<String> get readings => [...kunReadings, ...onReadings];
+  List<String> get readings => [...kunReadings, ...onReadings]; // TODO : To delete
 }

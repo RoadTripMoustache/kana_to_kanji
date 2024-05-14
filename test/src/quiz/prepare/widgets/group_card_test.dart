@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/kana_type.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
@@ -9,10 +11,15 @@ import '../../../../helpers.dart';
 
 void main() {
   group("GroupCard", () {
-    final Group groupSample = Group(0, Alphabets.katakana, "Group name",
-        KanaTypes.main, "Group name", "v1");
-    final Group localizedGroupSample = Group(0, Alphabets.katakana,
-        "Group name", KanaTypes.main, "Localized group name", "v1");
+    final Group groupSample = Group(const ResourceUid("group-1", ResourceType.group),
+        Alphabets.katakana, "Group name", KanaTypes.main, "Group name", "v1");
+    final Group localizedGroupSample = Group(
+        const ResourceUid("group-1", ResourceType.group),
+        Alphabets.katakana,
+        "Group name",
+        KanaTypes.main,
+        "Localized group name",
+        "v1");
 
     group("UI", () {
       testWidgets("Default", (WidgetTester tester) async {

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/details.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart';
@@ -27,7 +29,14 @@ void main() {
     });
 
     testWidgets("Kana", (WidgetTester tester) async {
-      const kanaSample = Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
+      const kanaSample = Kana(
+          ResourceUid("kanji-1", ResourceType.kana),
+          Alphabets.hiragana,
+          ResourceUid("group-1", ResourceType.group),
+          "あ",
+          "a",
+          "2023-12-01",
+          1);
 
       final widget = await pump(tester, Details.kana(kana: kanaSample));
 
@@ -49,8 +58,23 @@ void main() {
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
-      const kanjiSample = Kanji(1, "本", 5, 5, 5, ["book"], ["ほん"], ["ほん"], [],
-          "2023-12-1", [], [], []);
+      const kanjiSample = Kanji(
+          ResourceUid("kanji-1", ResourceType.kanji),
+          "本",
+          5,
+          5,
+          5,
+          ["book"],
+          ["ほん"],
+          ["ほん"],
+          [],
+          "2023-12-1",
+          [],
+          [],
+          [],
+          [],
+          [],
+          "");
 
       final widget = await pump(tester, Details.kanji(kanji: kanjiSample));
 
@@ -83,7 +107,18 @@ void main() {
 
     testWidgets("Vocabulary", (WidgetTester tester) async {
       const vocabularySample = Vocabulary(
-          1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
+          ResourceUid("vocabulary-1", ResourceType.vocabulary),
+          "亜",
+          "あ",
+          1,
+          ["inferior"],
+          "a",
+          [],
+          "2023-12-1",
+          [],
+          [],
+          [],
+          []);
 
       final widget =
           await pump(tester, Details.vocabulary(vocabulary: vocabularySample));

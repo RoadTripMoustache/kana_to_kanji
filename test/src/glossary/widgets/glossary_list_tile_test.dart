@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
 
@@ -9,8 +11,8 @@ import '../../../helpers.dart';
 
 void main() {
   group("GlossaryListTile", () {
-    const kanji = Kanji(
-        1, "本", 5, 5, 5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], []);
+    const kanji = Kanji(ResourceUid("kanji-1", ResourceType.kanji), "本", 5, 5,
+        5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], [], [], [], "");
 
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
@@ -53,7 +55,18 @@ void main() {
 
       testWidgets("Vocabulary", (WidgetTester tester) async {
         const vocabulary = Vocabulary(
-            1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
+            ResourceUid("vocabulary-1", ResourceType.vocabulary),
+            "亜",
+            "あ",
+            1,
+            ["inferior"],
+            "a",
+            [],
+            "2023-12-1",
+            [],
+            [],
+            [],
+            []);
         final AppLocalizations l10n = await setupLocalizations();
 
         final widget =
