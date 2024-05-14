@@ -49,7 +49,6 @@ jobs:
           channel: 'stable'
           cache: true
       - run: flutter doctor
-      - run: dart pub global activate flutter_gen
       - name: Get dependencies
         run: flutter pub get
       - name: Setup .env
