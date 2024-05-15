@@ -139,7 +139,7 @@ jobs:
               --token=${{ secrets.FIREBASE_TOKEN }} \
               --platforms=${{ matrix.target }} \
               ${{ format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) }} \
-              ${{ format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) }}
+              ${{ format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) }} \
               --macos-bundle-id=${{ vars.IOS_BUNDLE_ID }} \
               --web-app-id=${{ vars.IOS_BUNDLE_ID }} \
               --windows-app-id=${{ vars.IOS_BUNDLE_ID }}
