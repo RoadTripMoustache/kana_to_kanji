@@ -141,6 +141,7 @@ jobs:
               --platforms=${{ matrix.target }} \
               --android-package-name=${{ vars.ANDROID_PACKAGE_NAME }} \
               --ios-bundle-id=${{ vars.IOS_BUNDLE_ID }}
+              --macos-bundle-id=${{ vars.IOS_BUNDLE_ID }}
       - name: Setup .env
         run: |
           echo -e "${{ vars.CONFIGURATION }}" >> .env
