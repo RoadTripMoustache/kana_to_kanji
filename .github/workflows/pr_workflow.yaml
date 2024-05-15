@@ -135,7 +135,7 @@ jobs:
           dart pub global activate flutterfire_cli
       - name: Generate Firebase files
         run: |
-          flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} \
+          flutterfire configure --verbose --project=${{ vars.FIREBASE_PROJECT_ID }} \
               --token=${{ secrets.FIREBASE_TOKEN }} \
               --platforms="${{ matrix.target }}" \
               ${{ matrix.target == 'Android' && format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) || '' }} \
