@@ -140,9 +140,9 @@ jobs:
               --platforms=${{ matrix.target }} \
               ${{ format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) }} \
               ${{ format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) }}
-              --macos-bundle-id=""  \
-              --web-app-id=""  \
-              --windows-app-id=""
+              --macos-bundle-id="x"  \
+              --web-app-id="x"  \
+              --windows-app-id="x"
       - name: Setup .env
         run: |
           echo -e "${{ vars.CONFIGURATION }}" >> .env
