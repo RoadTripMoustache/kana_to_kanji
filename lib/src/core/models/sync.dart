@@ -14,9 +14,11 @@ class Sync {
   final bool kanji;
   final LearningSync learning;
   final bool vocabulary;
+  @JsonKey(defaultValue: false)
+  final bool forceReload;
 
   const Sync(this.achievements, this.cleanup, this.groupsFlag, this.kana,
-      this.kanji, this.learning, this.vocabulary);
+      this.kanji, this.learning, this.vocabulary, this.forceReload);
 
   factory Sync.fromJson(Map<String, dynamic> json) => _$SyncFromJson(json);
 }

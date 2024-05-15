@@ -52,13 +52,31 @@ class SyncService {
       return data;
     } else if (response.statusCode == 404) {
       // If the server did return a 404 response,
-      // returns an sync object with all flags to true.
-      return const Sync(true, true, true, true, true, LearningSync(true), true);
+      // returns an sync object with all flags to true, especially the last one
+      // to force a cleanup of the database dans the download of all data.
+      return const Sync(
+        true,
+        true,
+        true,
+        true,
+        true,
+        LearningSync(true),
+        true,
+        true,
+      );
     } else {
       // If the server did return something else,
       // returns an sync object with all flags to false.
       return const Sync(
-          false, false, false, false, false, LearningSync(false), false);
+        false,
+        false,
+        false,
+        false,
+        false,
+        LearningSync(false),
+        false,
+        false,
+      );
     }
   }
 }
