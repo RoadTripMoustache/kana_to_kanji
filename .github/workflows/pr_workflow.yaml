@@ -135,15 +135,11 @@ jobs:
           dart pub global activate flutterfire_cli
       - name: Generate Firebase files
         run: |
-          flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} --yes \
+          flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} \
               --token=${{ secrets.FIREBASE_TOKEN }} \
-              --out=lib/firebase_options.dart \
-              --platforms=${{ matrix.target }} \
-              --android-package-name=${{ vars.ANDROID_PACKAGE_NAME }} \
-              --ios-bundle-id=${{ vars.IOS_BUNDLE_ID }}  \
-              --macos-bundle-id=${{ vars.IOS_BUNDLE_ID }}  \
-              --web-app-id=${{ vars.IOS_BUNDLE_ID }}  \
-              --windows-app-id=${{ vars.IOS_BUNDLE_ID }}
+              --platforms="${{ matrix.target }}" \
+              ${{ matrix.target == 'Android' && format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) || '' }} \
+              ${{ matrix.target == 'iOS' && format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) || '' }}
       - name: Setup .env
         run: |
           echo -e "${{ vars.CONFIGURATION }}" >> .env
