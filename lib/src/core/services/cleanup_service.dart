@@ -23,7 +23,8 @@ class CleanUpService {
   final GroupsRepository _groupsRepository = locator<GroupsRepository>();
   final KanaRepository _kanaRepository = locator<KanaRepository>();
   final KanjiRepository _kanjiRepository = locator<KanjiRepository>();
-  final VocabularyRepository _vocabularyRepository = locator<VocabularyRepository>();
+  final VocabularyRepository _vocabularyRepository =
+      locator<VocabularyRepository>();
 
   Future<List<ResourceUid>> getSyncData() {
     var lastLoadedVersionGroups = _isar.groups.where().versionProperty().max();

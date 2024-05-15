@@ -27,5 +27,4 @@ class GroupsRepository {
     _groups.removeWhere((element) => element.uid == uid);
     _groupsService.delete(uid);
   }
-
 }

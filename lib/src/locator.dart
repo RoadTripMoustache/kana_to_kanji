@@ -126,7 +126,10 @@ void setupLocator() {
         instance.executeCleanUp();
       }
       return instance;
-    }, dependsOn: [Isar, ApiService, ]);
+    }, dependsOn: [
+      Isar,
+      ApiService,
+    ]);
 
     return instance;
   }, dependsOn: [ApiService, Isar]);

@@ -14,5 +14,6 @@ class CleanUpData {
 
   const CleanUpData(this.deletedResources);
 
-  factory CleanUpData.fromJson(Map<String, dynamic> json) => _$CleanUpDataFromJson(json);
+  factory CleanUpData.fromJson(Map<String, dynamic> json) =>
+      _$CleanUpDataFromJson(json);
 }
