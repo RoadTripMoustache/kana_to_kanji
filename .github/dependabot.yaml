@@ -7,3 +7,11 @@ updates:
       day: friday
     labels:
       - "dependabot"
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: weekly
+      day: friday
+    labels:
+      - "dependabot"
+      - "version: Patch"
