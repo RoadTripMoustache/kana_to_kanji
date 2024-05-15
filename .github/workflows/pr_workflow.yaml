@@ -59,9 +59,7 @@ jobs:
       ### CHECKS ###
       # Check the format of the code and commit the formatted files.
       - name: Format files in lib and test directories
-        run: dart format lib test
-      - name: Commit formatted files
-        uses: stefanzweifel/git-auto-commit-action@v5
+        run: dart format lib test --set-exit-if-changed
         with:
           file_pattern: "*.dart"
           commit_user_name: github-actions[bot]

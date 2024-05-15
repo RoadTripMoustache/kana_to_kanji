@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo -e "\033[0;34m-- Format dart files --\033[0m"
+dart format ./lib
+git add .
+
