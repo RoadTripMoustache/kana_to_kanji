@@ -142,7 +142,8 @@ jobs:
               --android-package-name=${{ vars.ANDROID_PACKAGE_NAME }} \
               --ios-bundle-id=${{ vars.IOS_BUNDLE_ID }}  \
               --macos-bundle-id=${{ vars.IOS_BUNDLE_ID }}  \
-              --web-app-id=${{ vars.IOS_BUNDLE_ID }}
+              --web-app-id=${{ vars.IOS_BUNDLE_ID }}  \
+              --windows-app-id=${{ vars.IOS_BUNDLE_ID }}
       - name: Setup .env
         run: |
           echo -e "${{ vars.CONFIGURATION }}" >> .env
