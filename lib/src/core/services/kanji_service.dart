@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/locator.dart';
 
 class KanjiService {
@@ -8,5 +9,14 @@ class KanjiService {
   /// Get all the kanji
   List<Kanji> getAll() {
     return _isar.kanjis.where().findAll();
+  }
+
+  Future delete(ResourceUid resourceUid) async {
+    await _isar.writeAsync((isar) {
+      return isar.kanjis
+          .where()
+          .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+          .deleteFirst();
+    });
   }
 }

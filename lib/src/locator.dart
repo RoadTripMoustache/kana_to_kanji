@@ -15,6 +15,7 @@ import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
+import 'package:kana_to_kanji/src/core/services/cleanup_service.dart';
 import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
@@ -116,6 +117,16 @@ void setupLocator() {
       }
       return instance;
     }, dependsOn: [Isar]);
+
+    // - Clean up
+    locator.registerSingletonAsync<CleanUpService>(() async {
+      final instance = CleanUpService();
+      if (sync.cleanup) {
+        // Execute the clean up, only if required
+        instance.executeCleanUp();
+      }
+      return instance;
+    }, dependsOn: [Isar, ApiService, ]);
 
     return instance;
   }, dependsOn: [ApiService, Isar]);

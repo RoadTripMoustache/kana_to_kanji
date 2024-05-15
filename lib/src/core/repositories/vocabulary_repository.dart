@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/services/vocabulary_service.dart';
 import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
@@ -76,5 +77,10 @@ class VocabularyRepository {
     }
 
     return vocabularyList;
+  }
+
+  Future delete(ResourceUid uid) async {
+    vocabularies.removeWhere((element) => element.uid == uid);
+    _vocabularyService.delete(uid);
   }
 }
