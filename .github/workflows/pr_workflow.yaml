@@ -140,7 +140,7 @@ jobs:
               --out=lib/firebase_options.dart \
               --platforms=${{ matrix.target }} \
               --android-package-name=${{ vars.ANDROID_PACKAGE_NAME }} \
-              --ios-bundle-id=${{ vars.IOS_BUNDLE_ID }}
+              --ios-bundle-id=${{ vars.IOS_BUNDLE_ID }}  \
               --macos-bundle-id=${{ vars.IOS_BUNDLE_ID }}
       - name: Setup .env
         run: |
