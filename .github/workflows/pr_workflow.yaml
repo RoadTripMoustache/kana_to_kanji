@@ -140,9 +140,9 @@ jobs:
               --platforms=${{ matrix.target }} \
               ${{ format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) }} \
               ${{ format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) }}
-              --macos-bundle-id="com.roadtripmoustache.kana-to-kanji" \
-              --web-app-id="com.roadtripmoustache.kana-to-kanji" \
-              --windows-app-id="com.roadtripmoustache.kana-to-kanji"
+              --macos-bundle-id=com.roadtripmoustache.kana-to-kanji \
+              --web-app-id=com.roadtripmoustache.kana-to-kanji \
+              --windows-app-id=com.roadtripmoustache.kana-to-kanji"
       - name: Setup .env
         run: |
           echo -e "${{ vars.CONFIGURATION }}" >> .env
