@@ -8,7 +8,6 @@ import 'package:kana_to_kanji/src/core/models/group.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
 import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/sync.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
@@ -72,7 +71,7 @@ class CleanUpService {
   Future executeCleanUp() async {
     var resourcesToDelete = await getSyncData();
 
-    resourcesToDelete.forEach((element) {
+    for (var element in resourcesToDelete) {
       switch (element.resourceType) {
         case ResourceType.group:
           _groupsRepository.delete(element);
@@ -83,6 +82,6 @@ class CleanUpService {
         case ResourceType.vocabulary:
           _vocabularyRepository.delete(element);
       }
-    });
+    }
   }
 }
