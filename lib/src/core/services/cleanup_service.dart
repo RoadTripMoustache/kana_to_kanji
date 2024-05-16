@@ -25,7 +25,7 @@ class CleanUpService {
   final VocabularyRepository _vocabularyRepository =
       locator<VocabularyRepository>();
 
-  Future<List<ResourceUid>> getSyncData() {
+  Future<List<ResourceUid>> getSyncData(bool needForceReload) {
     final lastLoadedVersionGroups =
         _isar.groups.where().versionProperty().max();
     final lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
@@ -35,21 +35,23 @@ class CleanUpService {
         _isar.vocabularys.where().versionProperty().max();
 
     var versionQueryParam = "";
-    if (lastLoadedVersionGroups != null &&
-        lastLoadedVersionGroups.compareTo(versionQueryParam) > 0) {
-      versionQueryParam = "?version[current]=$lastLoadedVersionGroups";
-    }
-    if (lastLoadedVersionKanas != null &&
-        lastLoadedVersionKanas.compareTo(versionQueryParam) > 0) {
-      versionQueryParam = "?version[current]=$lastLoadedVersionKanas";
-    }
-    if (lastLoadedVersionKanjis != null &&
-        lastLoadedVersionKanjis.compareTo(versionQueryParam) > 0) {
-      versionQueryParam = "?version[current]=$lastLoadedVersionKanjis";
-    }
-    if (lastLoadedVersionVocabulary != null &&
-        lastLoadedVersionVocabulary.compareTo(versionQueryParam) > 0) {
-      versionQueryParam = "?version[current]=$lastLoadedVersionVocabulary";
+    if (!needForceReload) {
+      if (lastLoadedVersionGroups != null &&
+          lastLoadedVersionGroups.compareTo(versionQueryParam) > 0) {
+        versionQueryParam = "?version[current]=$lastLoadedVersionGroups";
+      }
+      if (lastLoadedVersionKanas != null &&
+          lastLoadedVersionKanas.compareTo(versionQueryParam) > 0) {
+        versionQueryParam = "?version[current]=$lastLoadedVersionKanas";
+      }
+      if (lastLoadedVersionKanjis != null &&
+          lastLoadedVersionKanjis.compareTo(versionQueryParam) > 0) {
+        versionQueryParam = "?version[current]=$lastLoadedVersionKanjis";
+      }
+      if (lastLoadedVersionVocabulary != null &&
+          lastLoadedVersionVocabulary.compareTo(versionQueryParam) > 0) {
+        versionQueryParam = "?version[current]=$lastLoadedVersionVocabulary";
+      }
     }
 
     return _apiService
@@ -70,8 +72,8 @@ class CleanUpService {
     }
   }
 
-  Future executeCleanUp() async {
-    final resourcesToDelete = await getSyncData();
+  Future executeCleanUp(bool needForceReload) async {
+    final resourcesToDelete = await getSyncData(needForceReload);
 
     for (final element in resourcesToDelete) {
       switch (element.resourceType) {

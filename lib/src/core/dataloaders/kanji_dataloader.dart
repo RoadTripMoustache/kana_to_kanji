@@ -12,13 +12,22 @@ class KanjiDataLoader {
   final Isar _isar = locator<Isar>();
 
   /// Load all the kanji from the API.
-  Future loadCollection() async {
-    var lastLoadedVersion = _isar.kanjis.where().versionProperty().max();
-
+  Future loadCollection(bool needForceReload) async {
     var versionQueryParam = "";
-    if (lastLoadedVersion != null) {
-      versionQueryParam = "&version[current]=$lastLoadedVersion";
+
+    if (needForceReload) {
+      // If force reload is needed, don't set the version and clear the collection.
+      await _isar.writeAsync((isar) {
+        return isar.kanjis.clear();
+      });
+    } else {
+      var lastLoadedVersion = _isar.kanjis.where().versionProperty().max();
+
+      if (lastLoadedVersion != null) {
+        versionQueryParam = "?version[current]=$lastLoadedVersion";
+      }
     }
+
     return _apiService
         .get('/v1/kanjis?details=light$versionQueryParam')
         .then((response) => _extractKanjis(response))

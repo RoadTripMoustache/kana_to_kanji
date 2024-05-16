@@ -14,6 +14,7 @@ class Sync {
   final bool kanji;
   final LearningSync learning;
   final bool vocabulary;
+  final bool forceReload;
 
   const Sync(
       {required this.achievements,
@@ -22,7 +23,8 @@ class Sync {
       required this.kana,
       required this.kanji,
       required this.learning,
-      required this.vocabulary});
+      required this.vocabulary,
+      this.forceReload = false});
 
   factory Sync.fromJson(Map<String, dynamic> json) => _$SyncFromJson(json);
 }
