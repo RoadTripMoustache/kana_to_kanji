@@ -65,8 +65,6 @@ class _VocabularyListState extends State<VocabularyList> {
   }
 
   void _onPressed(Vocabulary vocabulary) {
-    if (widget.onPressed != null) {
-      widget.onPressed!(vocabulary);
-    }
+    widget.onPressed?.call(vocabulary);
   }
 }

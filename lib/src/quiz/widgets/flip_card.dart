@@ -104,6 +104,7 @@ class _FlipCardState extends State<FlipCard> {
         width: size,
         height: size,
         decoration: BoxDecoration(
+
           borderRadius: BorderRadius.circular(20.0),
           color: backgroundColor,
         ),

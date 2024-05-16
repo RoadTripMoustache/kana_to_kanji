@@ -80,7 +80,7 @@ void setupLocator() {
           final instance = GroupDataLoader();
           if (sync.groupsFlag) {
             // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
+            await instance.loadCollection(forceReload:sync.forceReload);
           }
           return instance;
         }, dependsOn: [Isar])
@@ -90,7 +90,7 @@ void setupLocator() {
           final instance = KanaDataLoader();
           if (sync.kana) {
             // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
+            await instance.loadCollection(forceReload:sync.forceReload);
           }
           return instance;
         }, dependsOn: [Isar])
@@ -100,7 +100,7 @@ void setupLocator() {
           final instance = KanjiDataLoader();
           if (sync.kanji) {
             // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
+            await instance.loadCollection(forceReload:sync.forceReload);
           }
           return instance;
         }, dependsOn: [Isar])
@@ -110,7 +110,7 @@ void setupLocator() {
           final instance = VocabularyDataLoader();
           if (sync.vocabulary) {
             // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
+            await instance.loadCollection(forceReload:sync.forceReload);
           }
           return instance;
         }, dependsOn: [Isar])
