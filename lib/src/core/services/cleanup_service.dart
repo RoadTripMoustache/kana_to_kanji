@@ -26,9 +26,11 @@ class CleanUpService {
       locator<VocabularyRepository>();
 
   Future<List<ResourceUid>> getSyncData() {
-    final lastLoadedVersionGroups = _isar.groups.where().versionProperty().max();
+    final lastLoadedVersionGroups =
+        _isar.groups.where().versionProperty().max();
     final lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
-    final lastLoadedVersionKanjis = _isar.kanjis.where().versionProperty().max();
+    final lastLoadedVersionKanjis =
+        _isar.kanjis.where().versionProperty().max();
     final lastLoadedVersionVocabulary =
         _isar.vocabularys.where().versionProperty().max();
 
