@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/widgets/question_review_tile.dart';
 import 'package:kana_to_kanji/src/quiz/conclusion/widgets/to_review_section.dart';
 import 'package:kana_to_kanji/src/quiz/constants/question_types.dart';
@@ -10,7 +12,14 @@ import '../../../../helpers.dart';
 
 void main() {
   group("ToReviewSection", () {
-    const Kana kana = Kana(0, Alphabets.hiragana, 0, "あ", "a", "v1");
+    const Kana kana = Kana(
+        ResourceUid("kana-1", ResourceType.kana),
+        Alphabets.hiragana,
+        ResourceUid("group-1", ResourceType.group),
+        "あ",
+        "a",
+        "v1",
+        1);
 
     final Question kanaQuestionSample = Question(
         alphabet: kana.alphabet, kana: kana, type: QuestionTypes.toJapanese);

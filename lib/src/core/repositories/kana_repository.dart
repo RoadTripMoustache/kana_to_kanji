@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 
 class KanaRepository {
@@ -22,23 +23,29 @@ class KanaRepository {
     }
   }
 
-  List<Kana> getByGroupIds(List<int> groupIds) {
+  List<Kana> getByGroupIds(List<ResourceUid> groupIds) {
     loadKana();
     final kanaFiltered =
-        kana.where((element) => groupIds.contains(element.groupId)).toList();
+        kana.where((element) => groupIds.contains(element.groupUid)).toList();
 
     return kanaFiltered;
   }
 
-  List<Kana> getByGroupId(int groupId) {
+  List<Kana> getByGroupId(ResourceUid groupId) {
     return getByGroupIds([groupId]);
   }
 
   List<Kana> getHiragana() {
     loadKana();
-    return kana
+    var listKana = kana
         .where((element) => Alphabets.hiragana == element.alphabet)
         .toList();
+
+    listKana.sort((Kana a, Kana b) {
+      return a.position.compareTo(b.position);
+    });
+
+    return listKana;
   }
 
   List<Kana> searchHiragana(
@@ -61,18 +68,30 @@ class KanaRepository {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
     }
-    return kana
+    var listKana = kana
         .where((element) => Alphabets.hiragana == element.alphabet)
         .where(txtFilter)
         .where(knowledgeLevelFilter)
         .toList();
+
+    listKana.sort((Kana a, Kana b) {
+      return a.position.compareTo(b.position);
+    });
+
+    return listKana;
   }
 
   List<Kana> getKatakana() {
     loadKana();
-    return kana
+    var listKana = kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .toList();
+
+    listKana.sort((Kana a, Kana b) {
+      return a.position.compareTo(b.position);
+    });
+
+    return listKana;
   }
 
   List<Kana> searchKatakana(
@@ -95,10 +114,17 @@ class KanaRepository {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
     }
-    return kana
+
+    var listKana = kana
         .where((element) => Alphabets.katakana == element.alphabet)
         .where(txtFilter)
         .where(knowledgeLevelFilter)
         .toList();
+
+    listKana.sort((Kana a, Kana b) {
+      return a.position.compareTo(b.position);
+    });
+
+    return listKana;
   }
 }

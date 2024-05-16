@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/glossary/details/details_view.dart';
 import 'package:kana_to_kanji/src/glossary/details/widgets/details.dart';
@@ -12,7 +14,14 @@ import '../../../helpers.dart';
 
 void main() {
   group("DetailsView", () {
-    const kanaSample = Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
+    const kanaSample = Kana(
+        ResourceUid("kana-1", ResourceType.kana),
+        Alphabets.hiragana,
+        ResourceUid("group-1", ResourceType.group),
+        "あ",
+        "a",
+        "2023-12-01",
+        1);
 
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
@@ -58,7 +67,22 @@ void main() {
     testWidgets("Kanji", (WidgetTester tester) async {
       final theme = AppTheme.light();
       const kanjiSample = Kanji(
-          1, "本", 5, 5, 5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], []);
+          ResourceUid("kanji-1", ResourceType.kanji),
+          "本",
+          5,
+          5,
+          5,
+          ["book"],
+          [],
+          ["ほん"],
+          [],
+          "2023-12-1",
+          [],
+          [],
+          [],
+          [],
+          [],
+          "");
       await pump(tester, const DetailsView(item: kanjiSample));
 
       // Check title section
@@ -84,7 +108,18 @@ void main() {
       testWidgets("With kanji", (WidgetTester tester) async {
         final theme = AppTheme.light();
         const vocabularySample = Vocabulary(
-            1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
+            ResourceUid("vocabulary-1", ResourceType.vocabulary),
+            "亜",
+            "あ",
+            1,
+            ["inferior"],
+            "a",
+            [],
+            "2023-12-1",
+            [],
+            [],
+            [],
+            []);
         await pump(tester, const DetailsView(item: vocabularySample));
 
         // Check title section
@@ -110,7 +145,18 @@ void main() {
       testWidgets("Without kanji", (WidgetTester tester) async {
         final theme = AppTheme.light();
         const vocabularySample = Vocabulary(
-            1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], []);
+            ResourceUid("vocabulary-1", ResourceType.vocabulary),
+            "",
+            "あ",
+            1,
+            ["inferior"],
+            "a",
+            [],
+            "2023-12-1",
+            [],
+            [],
+            [],
+            []);
         await pump(tester, const DetailsView(item: vocabularySample));
 
         // Check title section

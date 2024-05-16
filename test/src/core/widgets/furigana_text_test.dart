@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/core/widgets/furigana_text.dart';
 
@@ -89,8 +91,23 @@ void main() {
       group("Kanji", () {
         testWidgets("Kun reading should be used if available",
             (WidgetTester tester) async {
-          const kanji = Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], [],
-              "2023-12-1", [], [], []);
+          const kanji = Kanji(
+              ResourceUid("kanji-1", ResourceType.kanji),
+              "本",
+              5,
+              1,
+              5,
+              ["book"],
+              [],
+              ["ほん"],
+              [],
+              "2023-12-1",
+              [],
+              [],
+              [],
+              [],
+              [],
+              "book");
 
           final widget =
               await pump(tester, FuriganaText.kanji(kanji, showFurigana: true));
@@ -108,8 +125,23 @@ void main() {
 
         testWidgets("On reading should be used if there is no kun reading",
             (WidgetTester tester) async {
-          const kanji = Kanji(1, "人", 5, 1, 5, ["person"], ["ジン", "ニン"], [], [],
-              "2023-12-1", [], [], []);
+          const kanji = Kanji(
+              ResourceUid("kanji-1", ResourceType.kanji),
+              "人",
+              5,
+              1,
+              5,
+              ["person"],
+              ["ジン", "ニン"],
+              [],
+              [],
+              "2023-12-1",
+              [],
+              [],
+              [],
+              [],
+              [],
+              "person");
 
           final widget =
               await pump(tester, FuriganaText.kanji(kanji, showFurigana: true));
@@ -126,8 +158,23 @@ void main() {
         });
 
         testWidgets("Furigana should be override", (WidgetTester tester) async {
-          const kanji = Kanji(1, "本", 5, 1, 5, ["book"], [], ["ほん"], [],
-              "2023-12-1", [], [], ["hon"]);
+          const kanji = Kanji(
+              ResourceUid("kanji-1", ResourceType.kanji),
+              "本",
+              5,
+              1,
+              5,
+              ["book"],
+              [],
+              ["ほん"],
+              [],
+              "2023-12-1",
+              [],
+              [],
+              ["hon"],
+              [],
+              [],
+              "");
           const furiganaOverride = "あ";
 
           final widget = await pump(
@@ -151,7 +198,18 @@ void main() {
         testWidgets("Should have main text and furigana",
             (WidgetTester tester) async {
           const vocabulary = Vocabulary(
-              1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"], []);
+              ResourceUid("kanji-1", ResourceType.kanji),
+              "亜",
+              "あ",
+              1,
+              ["inferior"],
+              "a",
+              [],
+              "2023-12-1",
+              ["a"],
+              [],
+              [],
+              []);
 
           final widget = await pump(
               tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));
@@ -170,7 +228,18 @@ void main() {
 
         testWidgets("Should only have main text", (WidgetTester tester) async {
           const vocabulary = Vocabulary(
-              1, "", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"], []);
+              ResourceUid("vocabulary-1", ResourceType.vocabulary),
+              "",
+              "あ",
+              1,
+              ["inferior"],
+              "a",
+              [],
+              "2023-12-1",
+              ["a"],
+              [],
+              [],
+              []);
 
           final widget = await pump(
               tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));

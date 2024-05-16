@@ -150,7 +150,7 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
         ProgressIndicatorTheme.of(context);
     final Color backColor = widget.backgroundColor ??
         indicatorTheme.circularTrackColor ??
-        Theme.of(context).colorScheme.surfaceContainerHighest;
+        Theme.of(context).colorScheme.onSurfaceVariant;
     final double size = widget.radius ?? _kMinRadius;
 
     return AnimatedBuilder(
