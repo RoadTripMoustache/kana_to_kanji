@@ -152,7 +152,7 @@ class _RoundedLinearProgressIndicatorState
         ProgressIndicatorTheme.of(context);
     final Color backColor = widget.backgroundColor ??
         indicatorTheme.circularTrackColor ??
-        Theme.of(context).colorScheme.onSurfaceVariant;
+        Theme.of(context).colorScheme.surfaceContainerHighest;
     final double height = widget.height ?? _kMinHeight;
 
     return AnimatedBuilder(
