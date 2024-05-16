@@ -41,4 +41,13 @@ class KanaService {
   List<Kana> getKatakana() {
     return getKana(Alphabets.katakana);
   }
+
+  Future delete(ResourceUid resourceUid) async {
+    await _isar.writeAsync((isar) {
+      return isar.kanas
+          .where()
+          .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+          .deleteFirst();
+    });
+  }
 }

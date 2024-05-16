@@ -1,3 +1,4 @@
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/services/groups_service.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/models/group.dart';
@@ -20,5 +21,10 @@ class GroupsRepository {
     }
 
     return groups;
+  }
+
+  Future delete(ResourceUid uid) async {
+    _groups.removeWhere((element) => element.uid == uid);
+    _groupsService.delete(uid);
   }
 }
