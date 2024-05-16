@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/filter_by.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/glossary/widgets/filter_by.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 class FilterByTestCase {
   final String name;
@@ -18,7 +18,7 @@ class FilterByTestCase {
 
 void main() {
   group("FilterBy", () {
-    List<FilterByTestCase> cases = [
+    final List<FilterByTestCase> cases = [
       FilterByTestCase("default view", [], [], []),
       FilterByTestCase("JLPT 1 selected", [JLPTLevel.level1], [], [0]),
       FilterByTestCase("JLPT 2 selected", [JLPTLevel.level2], [], [1]),
@@ -81,8 +81,8 @@ void main() {
 
     testWidgets("Click on clear all", (WidgetTester tester) async {
       var isClicked = false;
-      var selectedJlptLevelList = [JLPTLevel.level1, JLPTLevel.level4];
-      var selectedKnowledgeLevelList = [
+      final selectedJlptLevelList = [JLPTLevel.level1, JLPTLevel.level4];
+      final selectedKnowledgeLevelList = [
         KnowledgeLevel.other,
         KnowledgeLevel.practicing
       ];

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class HeadingItem extends StatelessWidget {
   final String title;
@@ -6,9 +6,7 @@ class HeadingItem extends StatelessWidget {
   const HeadingItem({super.key, required this.title});
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
-    );
-  }
+  Widget build(BuildContext context) => ListTile(
+        title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
+      );
 }

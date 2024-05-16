@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_bottom_navigation_bar.dart';
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/widgets/app_bottom_navigation_bar.dart";
 
 /// Basic Scaffold to avoid boilerplate code in the application.
 class AppScaffold extends StatelessWidget {

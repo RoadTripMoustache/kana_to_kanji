@@ -1,20 +1,18 @@
-import 'package:feedback/feedback.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import "package:feedback/feedback.dart";
+import "package:firebase_core/firebase_core.dart";
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 // ignore: uri_does_not_exist
-import 'package:kana_to_kanji/firebase_options.dart';
-import 'package:kana_to_kanji/src/core/constants/app_configuration.dart';
-import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/router.dart';
-import 'package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart';
+import "package:kana_to_kanji/firebase_options.dart";
+import "package:kana_to_kanji/src/core/constants/app_configuration.dart";
+import "package:kana_to_kanji/src/core/constants/app_theme.dart";
+import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:kana_to_kanji/src/router.dart";
 
 class KanaToKanjiApp extends StatelessWidget {
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();
@@ -51,11 +49,9 @@ class KanaToKanjiApp extends StatelessWidget {
   late final _router = buildRouter(locator<DialogService>().navigatorKey);
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _settingsRepository,
-        builder: (BuildContext context, _) {
-          return BetterFeedback(
+  Widget build(BuildContext context) => AnimatedBuilder(
+      animation: _settingsRepository,
+      builder: (BuildContext context, _) => BetterFeedback(
             mode: FeedbackMode.navigate,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             localeOverride: _settingsRepository.locale,
@@ -64,7 +60,7 @@ class KanaToKanjiApp extends StatelessWidget {
             feedbackBuilder: (context, onSubmit, _) =>
                 FeedbackScreenshotForm(onSubmit: onSubmit),
             child: MaterialApp.router(
-                restorationScopeId: 'app',
+                restorationScopeId: "app",
 
                 // Localizations
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -80,7 +76,5 @@ class KanaToKanjiApp extends StatelessWidget {
 
                 // Router
                 routerConfig: _router),
-          );
-        });
-  }
+          ));
 }

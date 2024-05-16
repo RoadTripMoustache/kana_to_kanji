@@ -1,5 +1,5 @@
-import 'package:kana_to_kanji/src/core/constants/preference_flags.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class PreferencesService {
   Future<bool> setBool(PreferenceFlags flag, bool value) async {

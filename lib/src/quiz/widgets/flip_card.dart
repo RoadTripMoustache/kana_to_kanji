@@ -1,6 +1,6 @@
-import 'dart:math';
+import "dart:math";
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class FlipCard extends StatefulWidget {
   final Widget front;
@@ -99,24 +99,22 @@ class _FlipCardState extends State<FlipCard> {
     );
   }
 
-  Widget _build(Widget child, double size, Color? backgroundColor) {
-    return Container(
-      key: ValueKey(_flipped),
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(20.0),
-        color: backgroundColor,
-      ),
-      child: Card(
-        child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-            child: Center(child: child)),
-      ),
-    );
-  }
+  Widget _build(Widget child, double size, Color? backgroundColor) => Container(
+        key: ValueKey(_flipped),
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(20.0),
+          color: backgroundColor,
+        ),
+        child: Card(
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+              child: Center(child: child)),
+        ),
+      );
 
   Widget _transitionBuilder(Widget widget, Animation<double> animation) {
     final rotationAnimation = Tween(begin: pi, end: 0.0).animate(animation);

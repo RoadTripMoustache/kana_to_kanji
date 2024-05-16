@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart";
 
-import '../../../../helpers.dart';
+import "../../../../helpers.dart";
 
 void main() {
   group("PronunciationCard", () {

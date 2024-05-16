@@ -1,8 +1,8 @@
-import 'dart:math';
-import 'dart:ui';
+import "dart:math";
+import "dart:ui";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 const int _kAnimationDuration = 1800;
 const double _kMinRadius = 150.0;
@@ -117,20 +117,19 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
     super.dispose();
   }
 
-  Color _getValueColor(BuildContext context, {Color? defaultColor}) {
-    return widget.valueColor?.value ??
-        widget.color ??
-        ProgressIndicatorTheme.of(context).color ??
-        defaultColor ??
-        Theme.of(context).colorScheme.primary;
-  }
+  Color _getValueColor(BuildContext context, {Color? defaultColor}) =>
+      widget.valueColor?.value ??
+      widget.color ??
+      ProgressIndicatorTheme.of(context).color ??
+      defaultColor ??
+      Theme.of(context).colorScheme.primary;
 
   Widget _buildSemanticsWrapper({
     required BuildContext context,
     required Widget child,
   }) {
-    String expandedSemanticsValue =
-        widget.semanticsValue ?? '${(widget.value * 100).round()}%';
+    final String expandedSemanticsValue =
+        widget.semanticsValue ?? "${(widget.value * 100).round()}%";
 
     return Semantics(
       label: widget.semanticsLabel,
@@ -237,9 +236,8 @@ class _ArcProgressIndicatorPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ArcProgressIndicatorPainter oldPainter) {
-    return oldPainter.backgroundColor != backgroundColor ||
-        oldPainter.valueColor != valueColor ||
-        oldPainter.value != value;
-  }
+  bool shouldRepaint(_ArcProgressIndicatorPainter oldPainter) =>
+      oldPainter.backgroundColor != backgroundColor ||
+      oldPainter.valueColor != valueColor ||
+      oldPainter.value != value;
 }

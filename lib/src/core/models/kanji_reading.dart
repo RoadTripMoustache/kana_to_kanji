@@ -1,11 +1,10 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/utils/isar_utils.dart";
 
-import '../utils/isar_utils.dart';
-
-part 'kanji_reading.g.dart';
+part "kanji_reading.g.dart";
 
 @JsonSerializable()
 @embedded

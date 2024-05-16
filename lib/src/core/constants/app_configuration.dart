@@ -1,6 +1,6 @@
-import 'package:envied/envied.dart';
+import "package:envied/envied.dart";
 
-part 'app_configuration.g.dart';
+part "app_configuration.g.dart";
 
 @Envied()
 abstract class AppConfiguration {

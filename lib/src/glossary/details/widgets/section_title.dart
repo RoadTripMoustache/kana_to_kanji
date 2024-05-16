@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_spacer.dart';
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
 
 class SectionTitle extends StatelessWidget {
   final String title;

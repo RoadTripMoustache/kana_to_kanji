@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 
 class FuriganaText extends StatelessWidget {
   final String text;

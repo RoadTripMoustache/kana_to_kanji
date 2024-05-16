@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_spacer.dart';
-import 'package:kana_to_kanji/src/glossary/details/widgets/wrapped_list.dart';
-import 'package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart';
-import 'package:kana_to_kanji/src/glossary/details/widgets/section_title.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
+import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart";
+import "package:kana_to_kanji/src/glossary/details/widgets/section_title.dart";
+import "package:kana_to_kanji/src/glossary/details/widgets/wrapped_list.dart";
 
 class Details extends StatelessWidget {
   /// All the pronunciations of the word.

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 const int _kAnimationDuration = 300;
 const double _kMinHeight = 12.0;
@@ -113,9 +113,10 @@ class _RoundedLinearProgressIndicatorState
       _animation = Tween<double>(begin: _currentBegin, end: _currentEnd)
           .animate(_controller);
     });
-    _controller.reset();
-    _controller.duration = _animationDuration;
-    _controller.forward();
+    _controller
+      ..reset()
+      ..duration = _animationDuration
+      ..forward();
   }
 
   @override
@@ -124,20 +125,19 @@ class _RoundedLinearProgressIndicatorState
     super.dispose();
   }
 
-  Color _getValueColor(BuildContext context, {Color? defaultColor}) {
-    return widget.valueColor?.value ??
-        widget.color ??
-        ProgressIndicatorTheme.of(context).color ??
-        defaultColor ??
-        Theme.of(context).colorScheme.primary;
-  }
+  Color _getValueColor(BuildContext context, {Color? defaultColor}) =>
+      widget.valueColor?.value ??
+      widget.color ??
+      ProgressIndicatorTheme.of(context).color ??
+      defaultColor ??
+      Theme.of(context).colorScheme.primary;
 
   Widget _buildSemanticsWrapper({
     required BuildContext context,
     required Widget child,
   }) {
-    String expandedSemanticsValue =
-        widget.semanticsValue ?? '${(widget.value * 100).round()}%';
+    final String expandedSemanticsValue =
+        widget.semanticsValue ?? "${(widget.value * 100).round()}%";
 
     return Semantics(
       label: widget.semanticsLabel,
@@ -215,9 +215,8 @@ class _RoundedLinearIndicatorPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_RoundedLinearIndicatorPainter oldPainter) {
-    return oldPainter.backgroundColor != backgroundColor ||
-        oldPainter.valueColor != valueColor ||
-        oldPainter.value != value;
-  }
+  bool shouldRepaint(_RoundedLinearIndicatorPainter oldPainter) =>
+      oldPainter.backgroundColor != backgroundColor ||
+      oldPainter.valueColor != valueColor ||
+      oldPainter.value != value;
 }

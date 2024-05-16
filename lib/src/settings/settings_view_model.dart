@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/core/services/info_service.dart';
-import 'package:kana_to_kanji/src/feedback/feedback_view.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:stacked/stacked.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/core/services/info_service.dart";
+import "package:kana_to_kanji/src/feedback/feedback_view.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:stacked/stacked.dart";
 
 class SettingsViewModel extends BaseViewModel {
   final SettingsRepository _repository = locator<SettingsRepository>();

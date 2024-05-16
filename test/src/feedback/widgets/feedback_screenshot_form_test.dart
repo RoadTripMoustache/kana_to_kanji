@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
-import 'package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
+import "package:kana_to_kanji/src/feedback/widgets/feedback_screenshot_form.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../../helpers.dart';
-import 'feedback_screenshot_form_test.mocks.dart';
+import "../../../helpers.dart";
+import "feedback_screenshot_form_test.mocks.dart";
 
 @GenerateNiceMocks([MockSpec<Functions>(as: #MockFunction)])
 abstract class Functions {
@@ -18,7 +18,7 @@ void main() {
   group("FeedbackForm", () {
     late final AppLocalizations l10n;
 
-    MockFunction mock = MockFunction();
+    final MockFunction mock = MockFunction();
 
     setUpAll(() async {
       l10n = await setupLocalizations();

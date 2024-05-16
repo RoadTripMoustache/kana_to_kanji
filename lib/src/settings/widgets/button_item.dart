@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class ButtonItem extends StatelessWidget {
   final VoidCallback onPressed;
@@ -9,10 +9,8 @@ class ButtonItem extends StatelessWidget {
   const ButtonItem({super.key, required this.onPressed, required this.child});
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-      title: ElevatedButton(onPressed: onPressed, child: child),
-    );
-  }
+  Widget build(BuildContext context) => ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        title: ElevatedButton(onPressed: onPressed, child: child),
+      );
 }

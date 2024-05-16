@@ -1,5 +1,5 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/material.dart';
+import "package:flex_color_scheme/flex_color_scheme.dart";
+import "package:flutter/material.dart";
 
 class AppTheme {
   const AppTheme._();
@@ -44,8 +44,7 @@ class AppTheme {
         swapLegacyOnMaterial3: _swapLegacyOnMaterial3,
       );
 
-  static Color getModalBottomSheetBackgroundColor(ThemeData theme) {
-    return ElevationOverlay.applySurfaceTint(
-        theme.colorScheme.surface, theme.colorScheme.surfaceTint, 2.0);
-  }
+  static Color getModalBottomSheetBackgroundColor(ThemeData theme) =>
+      ElevationOverlay.applySurfaceTint(
+          theme.colorScheme.surface, theme.colorScheme.surfaceTint, 2.0);
 }

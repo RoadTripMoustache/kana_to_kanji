@@ -1,10 +1,10 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform;
-import 'package:github/github.dart';
-import 'package:kana_to_kanji/src/core/constants/app_configuration.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:logger/logger.dart';
+import "package:flutter/foundation.dart" show kIsWeb, defaultTargetPlatform;
+import "package:github/github.dart";
+import "package:kana_to_kanji/src/core/constants/app_configuration.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 
 class GithubService {
   final Logger _logger = locator<Logger>();
@@ -31,7 +31,7 @@ class GithubService {
                 content: base64Encode(fileInBytes),
                 message: DateTime.now().toString(),
                 committer: _commitUser,
-                branch: 'main'))
+                branch: "main"))
         .catchError((error) {
       _logger.e("uploadFileToGithub error: ${error.message}");
       throw error;
@@ -41,19 +41,19 @@ class GithubService {
   }
 
   /// Create a [Issue] on the [AppConfiguration.githubRepoSlug].
-  /// The issue created will have two(2) more labels: 'platform: {platform}' and 'need triage'
+  /// The issue created will have two(2) more labels:
+  /// - 'platform: {platform}'
+  /// - 'need triage'
   Future<Issue?> createIssue(
       {String? title, String? body, List<String> labels = const []}) async {
-    final IssueRequest issueToCreate = IssueRequest();
-    issueToCreate.title = title ?? "Issue reported by a user";
-
-    issueToCreate.body = body;
-
-    issueToCreate.labels = [
-      ...labels,
-      'platform: ${kIsWeb ? "web" : defaultTargetPlatform.name}',
-      'need triage'
-    ];
+    final IssueRequest issueToCreate = IssueRequest()
+      ..title = title ?? "Issue reported by a user"
+      ..body = body
+      ..labels = [
+        ...labels,
+        'platform: ${kIsWeb ? "web" : defaultTargetPlatform.name}',
+        "need triage"
+      ];
 
     try {
       return await _github.issues.create(

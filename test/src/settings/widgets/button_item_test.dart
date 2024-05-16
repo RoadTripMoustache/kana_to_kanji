@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/settings/widgets/button_item.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/settings/widgets/button_item.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("ButtonItem", () {
     testWidgets("UI", (WidgetTester tester) async {
-      const String title = 'TEST';
+      const String title = "TEST";
       int called = 0;
 
       await tester.pumpLocalizedWidget(ButtonItem(

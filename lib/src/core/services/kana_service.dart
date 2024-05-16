@@ -1,8 +1,8 @@
-import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/locator.dart";
 
 class KanaService {
   final Isar _isar = locator<Isar>();
@@ -24,30 +24,22 @@ class KanaService {
   }
 
   /// Get all the kana related to the group id given in parameter.
-  List<Kana> getByGroupId(ResourceUid groupId) {
-    return getByGroupIds([groupId]);
-  }
+  List<Kana> getByGroupId(ResourceUid groupId) => getByGroupIds([groupId]);
 
   List<Kana> getKana(Alphabets alphabet) {
-    var kanaQuery = _isar.kanas.where().alphabetEqualTo(alphabet);
+    final kanaQuery = _isar.kanas.where().alphabetEqualTo(alphabet);
 
     return kanaQuery.findAll();
   }
 
-  List<Kana> getHiragana() {
-    return getKana(Alphabets.hiragana);
-  }
+  List<Kana> getHiragana() => getKana(Alphabets.hiragana);
 
-  List<Kana> getKatakana() {
-    return getKana(Alphabets.katakana);
-  }
+  List<Kana> getKatakana() => getKana(Alphabets.katakana);
 
   Future delete(ResourceUid resourceUid) async {
-    await _isar.writeAsync((isar) {
-      return isar.kanas
-          .where()
-          .uid((uid) => uid.uidEqualTo(resourceUid.uid))
-          .deleteFirst();
-    });
+    await _isar.writeAsync((isar) => isar.kanas
+        .where()
+        .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+        .deleteFirst());
   }
 }

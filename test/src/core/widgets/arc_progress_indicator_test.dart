@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/widgets/arc_progress_indicator.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/widgets/arc_progress_indicator.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("ArcProgressIndicator", () {
@@ -58,7 +58,7 @@ void main() {
             of: widget,
             matching: find.byWidgetPredicate((Widget widget) {
               if (widget is Container) {
-                BoxConstraints? constraints = widget.constraints;
+                final BoxConstraints? constraints = widget.constraints;
 
                 if (constraints != null &&
                     constraints.minWidth == customRadius &&

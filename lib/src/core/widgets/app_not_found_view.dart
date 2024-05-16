@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 
 class AppNotFoundView extends StatelessWidget {
   final Uri uri;

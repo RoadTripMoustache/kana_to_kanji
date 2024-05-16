@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart';
-import 'package:kana_to_kanji/src/quiz/prepare/widgets/kana_groups.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart";
+import "package:kana_to_kanji/src/quiz/prepare/widgets/kana_groups.dart";
 
 class AlphabetGroupsExpansionTile extends StatelessWidget {
   final Alphabets alphabet;
@@ -44,16 +44,13 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
     switch (alphabet) {
       case Alphabets.hiragana:
         title = l10n.hiragana;
-        break;
       case Alphabets.katakana:
         title = l10n.katakana;
-        break;
       case Alphabets.kanji:
         title = l10n.kanji;
         multiselectButtonText = areAllSelected
             ? l10n.quiz_build_unselect_all("kanji")
             : l10n.quiz_build_select_all("kanji");
-        break;
     }
 
     return ExpansionTile(

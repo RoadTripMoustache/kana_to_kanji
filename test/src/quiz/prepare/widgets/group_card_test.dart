@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/kana_type.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/kana_type.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart";
 
-import '../../../../helpers.dart';
+import "../../../../helpers.dart";
 
 void main() {
   group("GroupCard", () {
@@ -94,9 +94,7 @@ void main() {
     group("Interactions", () {
       final List<int> log = [];
 
-      setUp(() {
-        log.clear();
-      });
+      setUp(log.clear);
 
       testWidgets("Tapping on the checkbox should call onTap",
           (WidgetTester tester) async {

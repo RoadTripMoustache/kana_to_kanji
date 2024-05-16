@@ -1,13 +1,13 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
-import 'package:kana_to_kanji/src/quiz/quiz_view_model.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/question_tile.dart';
-import 'package:kana_to_kanji/src/core/widgets/rounded_linear_progress_indicator.dart';
-import 'package:stacked/stacked.dart';
+import "package:auto_size_text/auto_size_text.dart";
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
+import "package:kana_to_kanji/src/core/widgets/rounded_linear_progress_indicator.dart";
+import "package:kana_to_kanji/src/quiz/quiz_view_model.dart";
+import "package:kana_to_kanji/src/quiz/widgets/question_tile.dart";
+import "package:stacked/stacked.dart";
 
 class QuizView extends StatelessWidget {
   static const routeName = "/quiz/questions";

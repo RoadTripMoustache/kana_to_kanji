@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 
 class FilterBy extends StatefulWidget {
   final VoidCallback filterGlossary;
@@ -82,9 +82,7 @@ class _FilterBy extends State<FilterBy> {
         actions: [
           IconButton(
             icon: const Icon(Icons.clear_all),
-            onPressed: () {
-              _clearLists();
-            },
+            onPressed: _clearLists,
           )
         ],
       ),

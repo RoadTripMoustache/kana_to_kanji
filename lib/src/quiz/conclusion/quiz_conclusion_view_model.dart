@@ -1,7 +1,7 @@
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/quiz/models/question.dart';
-import 'package:stacked/stacked.dart';
+import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:kana_to_kanji/src/quiz/models/question.dart";
+import "package:stacked/stacked.dart";
 
 class QuizConclusionViewModel extends BaseViewModel {
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();

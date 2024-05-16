@@ -1,24 +1,26 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:http/http.dart' as http;
-import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/sync.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/services/api_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import "package:http/http.dart" as http;
+import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/sync.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/services/api_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
 
 class SyncService {
   final ApiService _apiService = locator<ApiService>();
   final Isar _isar = locator<Isar>();
 
   Future<Sync> getSyncData() {
-    var lastLoadedVersionGroups = _isar.groups.where().versionProperty().max();
-    var lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
-    var lastLoadedVersionKanjis = _isar.kanjis.where().versionProperty().max();
-    var lastLoadedVersionVocabulary =
+    final lastLoadedVersionGroups =
+        _isar.groups.where().versionProperty().max();
+    final lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
+    final lastLoadedVersionKanjis =
+        _isar.kanjis.where().versionProperty().max();
+    final lastLoadedVersionVocabulary =
         _isar.vocabularys.where().versionProperty().max();
 
     var versionQueryParam = "";
@@ -39,16 +41,14 @@ class SyncService {
       versionQueryParam = "?version[current]=$lastLoadedVersionVocabulary";
     }
 
-    return _apiService
-        .get('/v1/sync$versionQueryParam')
-        .then((response) => _extractData(response));
+    return _apiService.get("/v1/sync$versionQueryParam").then(_extractData);
   }
 
   /// Extract the Sync data from the API Response.
   Sync _extractData(http.Response response) {
     if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      Sync data = Sync.fromJson(jsonData);
+      final jsonData = jsonDecode(response.body);
+      final Sync data = Sync.fromJson(jsonData);
       return data;
     } else if (response.statusCode == 404) {
       // If the server did return a 404 response,
@@ -72,8 +72,7 @@ class SyncService {
           kana: false,
           kanji: false,
           learning: LearningSync(stages: false),
-          vocabulary: false,
-          forceReload: false);
+          vocabulary: false);
     }
   }
 }

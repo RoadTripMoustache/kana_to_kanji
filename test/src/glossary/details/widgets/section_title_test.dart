@@ -1,12 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/glossary/details/widgets/section_title.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/glossary/details/widgets/section_title.dart";
 
-import '../../../../helpers.dart';
+import "../../../../helpers.dart";
 
 void main() {
   group("SectionTitle", () {
-    const titleSample = 'Test Title';
+    const titleSample = "Test Title";
 
     testWidgets("it should display the pass titled",
         (WidgetTester tester) async {
@@ -33,7 +33,7 @@ void main() {
           find.descendant(of: widget, matching: find.text(titleSample));
 
       expect(title, findsOneWidget);
-      Text titleWidget = tester.firstWidget(title);
+      final Text titleWidget = tester.firstWidget(title);
       expect(titleWidget.style?.color, Colors.red);
       expect(titleWidget.style?.fontSize, 20);
     });

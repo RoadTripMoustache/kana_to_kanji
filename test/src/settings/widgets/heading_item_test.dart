@@ -1,12 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/settings/widgets/heading_item.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/settings/widgets/heading_item.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("HeadingItem", () {
     testWidgets("UI", (WidgetTester tester) async {
-      const String title = 'TEST';
+      const String title = "TEST";
       await tester.pumpLocalizedWidget(const HeadingItem(
         title: title,
       ));

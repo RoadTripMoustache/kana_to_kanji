@@ -1,25 +1,24 @@
-import 'package:feedback/feedback.dart';
-import 'package:feedback/src/feedback_data.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/core/services/info_service.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
-import 'package:kana_to_kanji/src/feedback/feedback_view_model.dart';
-import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
-import 'package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:image/image.dart' as image;
+import "package:feedback/feedback.dart";
+import "package:feedback/src/feedback_data.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/services.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:go_router/go_router.dart";
+import "package:image/image.dart" as image;
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/core/services/info_service.dart";
+import "package:kana_to_kanji/src/core/widgets/app_config.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
+import "package:kana_to_kanji/src/feedback/feedback_view_model.dart";
+import "package:kana_to_kanji/src/feedback/service/github_service.dart";
+import "package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../helpers.dart';
-
+import "../../helpers.dart";
 @GenerateNiceMocks([
   MockSpec<GoRouter>(),
   MockSpec<GithubService>(),
@@ -29,7 +28,7 @@ import '../../helpers.dart';
   MockSpec<DialogService>(),
   MockSpec<InfoService>()
 ])
-import 'feedback_view_model_test.mocks.dart';
+import "feedback_view_model_test.mocks.dart";
 
 class MockCallbackFunction extends Mock {
   call();
@@ -286,7 +285,7 @@ void main() {
             () async {
           // Get an image
           final Uint8List bytes = (await rootBundle.load(
-                  'packages/kana_to_kanji/assets/images/flutter_logo.png'))
+                  "packages/kana_to_kanji/assets/images/flutter_logo.png"))
               .buffer
               .asUint8List();
           final Uint8List screenshotData = image.encodePng(image.copyResize(

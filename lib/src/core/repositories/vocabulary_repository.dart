@@ -1,17 +1,17 @@
-import 'package:flutter/foundation.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
-import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/services/vocabulary_service.dart';
-import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
+import "package:flutter/foundation.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class VocabularyRepository {
   late final VocabularyService _vocabularyService;
   @visibleForTesting
   final List<Vocabulary> vocabularies = [];
-  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
+  final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
   /// [vocabularyService] should only be specified for testing purpose
   VocabularyRepository({VocabularyService? vocabularyService}) {
@@ -71,9 +71,8 @@ class VocabularyRepository {
       vocabularyList.sort((Vocabulary a, Vocabulary b) =>
           sortBySyllables(a.kanaSyllables, b.kanaSyllables));
     } else {
-      vocabularyList.sort((Vocabulary a, Vocabulary b) {
-        return a.romaji.compareTo(b.romaji);
-      });
+      vocabularyList
+          .sort((Vocabulary a, Vocabulary b) => a.romaji.compareTo(b.romaji));
     }
 
     return vocabularyList;
@@ -81,6 +80,6 @@ class VocabularyRepository {
 
   Future delete(ResourceUid uid) async {
     vocabularies.removeWhere((element) => element.uid == uid);
-    _vocabularyService.delete(uid);
+    await _vocabularyService.delete(uid);
   }
 }

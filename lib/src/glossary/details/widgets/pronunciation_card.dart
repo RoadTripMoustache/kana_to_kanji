@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class PronunciationCard extends StatelessWidget {
   final String pronunciation;
@@ -10,10 +10,8 @@ class PronunciationCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ActionChip(
-        avatar: const Icon(Icons.volume_up_rounded),
-        label: Text(pronunciation),
-        onPressed: _onPressed);
-  }
+  Widget build(BuildContext context) => ActionChip(
+      avatar: const Icon(Icons.volume_up_rounded),
+      label: Text(pronunciation),
+      onPressed: _onPressed);
 }

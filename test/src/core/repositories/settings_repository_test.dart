@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/preference_flags.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 @GenerateNiceMocks([MockSpec<PreferencesService>()])
-import 'settings_repository_test.mocks.dart';
+import "settings_repository_test.mocks.dart";
 
 void main() {
   group("SettingsRepository", () {

@@ -1,14 +1,13 @@
-import 'package:kana_to_kanji/src/core/services/info_service.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import "package:kana_to_kanji/src/core/services/info_service.dart";
+import "package:kana_to_kanji/src/core/widgets/app_config.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
+import "package:kana_to_kanji/src/locator.dart";
 
 /// Build the title of a Github issue based on the [feedbackType].
 /// The title isn't localized, it's written in english.
-String buildIssueTitle(FeedbackType feedbackType) {
-  return "${feedbackType == FeedbackType.bug ? "Bug" : "Feature request"} from a user";
-}
+String buildIssueTitle(FeedbackType feedbackType) =>
+    "${feedbackType == FeedbackType.bug ? "Bug" : "Feature request"} from a user";
 
 /// Build the body of a Github issue. The text isn't localized, it's written in english.
 /// The text will include the description, email and steps to reproduced based on

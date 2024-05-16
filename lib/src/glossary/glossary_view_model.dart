@@ -1,17 +1,17 @@
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
-import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/glossary/details/details_view.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:stacked/stacked.dart';
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/glossary/details/details_view.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:stacked/stacked.dart";
 
 class GlossaryViewModel extends FutureViewModel {
   final GoRouter router;

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/constants/app_theme.dart";
+import "package:kana_to_kanji/src/locator.dart";
 
 /// Unregister the service [T] from GetIt
 void unregister<T extends Object>() {
@@ -12,9 +12,7 @@ void unregister<T extends Object>() {
   }
 }
 
-String getRouterKey(String route) {
-  return 'key_$route';
-}
+String getRouterKey(String route) => "key_$route";
 
 extension WidgetTesterExtension on WidgetTester {
   /// Pump a router on [widget].
@@ -95,24 +93,22 @@ extension WidgetTesterExtension on WidgetTester {
 
   /// Pump a localized widget
   Future<void> pumpLocalizedWidget(Widget widget,
-      {String locale = "en",
-      double textScaleFactor = 0.9,
-      ThemeMode themeMode = ThemeMode.light,
-      bool useScaffold = true}) {
-    return pumpWidget(
-      MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: themeMode,
-        locale: Locale(locale),
-        home: useScaffold ? Scaffold(body: widget) : widget,
-      ),
-    );
-  }
+          {String locale = "en",
+          double textScaleFactor = 0.9,
+          ThemeMode themeMode = ThemeMode.light,
+          bool useScaffold = true}) =>
+      pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: themeMode,
+          locale: Locale(locale),
+          home: useScaffold ? Scaffold(body: widget) : widget,
+        ),
+      );
 }
 
 /// Load the l10n class
-Future<AppLocalizations> setupLocalizations([String locale = 'en']) async {
-  return AppLocalizations.delegate.load(Locale(locale));
-}
+Future<AppLocalizations> setupLocalizations([String locale = "en"]) async =>
+    AppLocalizations.delegate.load(Locale(locale));

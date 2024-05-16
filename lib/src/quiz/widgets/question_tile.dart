@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/quiz/models/question.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/flip_card.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/animated_dot.dart';
+import "package:auto_size_text/auto_size_text.dart";
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/quiz/models/question.dart";
+import "package:kana_to_kanji/src/quiz/widgets/animated_dot.dart";
+import "package:kana_to_kanji/src/quiz/widgets/flip_card.dart";
 
 class QuestionTile extends StatefulWidget {
   final Question question;

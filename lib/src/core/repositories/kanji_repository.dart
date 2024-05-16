@@ -1,18 +1,18 @@
-import 'package:flutter/foundation.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
-import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/services/kanji_service.dart';
-import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
+import "package:flutter/foundation.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class KanjiRepository {
   late final KanjiService _kanjiService;
 
   @visibleForTesting
   final List<Kanji> kanjis = [];
-  final RegExp alphabeticalRegex = RegExp(r'([a-zA-Z])$');
+  final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
   /// [kanjiService] should only be used for testing
   KanjiRepository({KanjiService? kanjiService}) {
@@ -76,9 +76,8 @@ class KanjiRepository {
       kanjiList.sort((Kanji a, Kanji b) =>
           sortBySyllables(a.jpSortSyllables, b.jpSortSyllables));
     } else {
-      kanjiList.sort((Kanji a, Kanji b) {
-        return a.meanings[0].compareTo(b.meanings[0]);
-      });
+      kanjiList
+          .sort((Kanji a, Kanji b) => a.meanings[0].compareTo(b.meanings[0]));
     }
 
     return kanjiList;
@@ -86,6 +85,6 @@ class KanjiRepository {
 
   Future delete(ResourceUid uid) async {
     kanjis.removeWhere((element) => element.uid == uid);
-    _kanjiService.delete(uid);
+    await _kanjiService.delete(uid);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class TileItem extends StatelessWidget {
   final Widget title;
@@ -16,14 +16,12 @@ class TileItem extends StatelessWidget {
       this.onTap});
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: leading,
-      title: title,
-      subtitle: subtitle,
-      onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-      trailing: trailing,
-    );
-  }
+  Widget build(BuildContext context) => ListTile(
+        leading: leading,
+        title: title,
+        subtitle: subtitle,
+        onTap: onTap,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        trailing: trailing,
+      );
 }

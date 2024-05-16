@@ -1,11 +1,11 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/kanji_list.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
+import "package:kana_to_kanji/src/glossary/widgets/kanji_list.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("KanjiList", () {
@@ -23,7 +23,7 @@ void main() {
     });
 
     testWidgets("Contains 1 kanji", (WidgetTester tester) async {
-      List<Kanji> kanjiList = [kanji];
+      final List<Kanji> kanjiList = [kanji];
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
       ));
@@ -32,7 +32,7 @@ void main() {
       final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsOneWidget);
 
-      var tileList = tester.widgetList(foundAllTiles).iterator;
+      final tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < kanjiList.length; i++) {
         tileList.moveNext();
         expect((tileList.current as GlossaryListTile).kanji, kanjiList[i]);
@@ -40,7 +40,7 @@ void main() {
     });
 
     testWidgets("Contains 2 kanji", (WidgetTester tester) async {
-      List<Kanji> kanjiList = [kanji, kanji];
+      final List<Kanji> kanjiList = [kanji, kanji];
 
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
@@ -50,7 +50,7 @@ void main() {
       final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsNWidgets(kanjiList.length));
 
-      var tileList = tester.widgetList(foundAllTiles).iterator;
+      final tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < kanjiList.length; i++) {
         tileList.moveNext();
         expect((tileList.current as GlossaryListTile).kanji, kanjiList[i]);

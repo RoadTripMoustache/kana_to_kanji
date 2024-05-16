@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' as material;
+import "package:flutter/material.dart" as material;
 
 class DialogService {
   final material.GlobalKey<material.NavigatorState> navigatorKey =

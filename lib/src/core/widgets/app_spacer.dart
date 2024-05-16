@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 /// Utility class to unify the spacing inside the application.
 /// Follows the [rule of 8](https://fronty.com/what-is-8-point-grid-system-in-ux-design).
@@ -19,7 +19,5 @@ class AppSpacer extends StatelessWidget {
   factory AppSpacer.p40() => const AppSpacer._(height: 40, width: 40);
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: height, width: width);
-  }
+  Widget build(BuildContext context) => SizedBox(height: height, width: width);
 }

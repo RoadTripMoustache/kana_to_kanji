@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
+import "package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("VocabularyList", () {
@@ -35,7 +35,7 @@ void main() {
     });
 
     testWidgets("Contains 1 item", (WidgetTester tester) async {
-      List<Vocabulary> vocabularyList = [vocabulary];
+      final List<Vocabulary> vocabularyList = [vocabulary];
 
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,
@@ -46,7 +46,7 @@ void main() {
       final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsNWidgets(vocabularyList.length));
 
-      var tileList = tester.widgetList(foundAllTiles).iterator;
+      final tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < vocabularyList.length; i++) {
         tileList.moveNext();
         expect((tileList.current as GlossaryListTile).vocabulary,
@@ -55,7 +55,7 @@ void main() {
     });
 
     testWidgets("Contains 2 items", (WidgetTester tester) async {
-      List<Vocabulary> vocabularyList = [
+      final List<Vocabulary> vocabularyList = [
         vocabulary,
         const Vocabulary(ResourceUid("vocabulary-1", ResourceType.vocabulary),
             "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], [], [], [])
@@ -68,7 +68,7 @@ void main() {
       final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsNWidgets(vocabularyList.length));
 
-      var tileList = tester.widgetList(foundAllTiles).iterator;
+      final tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < vocabularyList.length; i++) {
         tileList.moveNext();
         expect((tileList.current as GlossaryListTile).vocabulary,
