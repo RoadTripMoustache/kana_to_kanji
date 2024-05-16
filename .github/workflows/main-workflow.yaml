@@ -113,7 +113,7 @@ jobs:
       - name: Install Firebase dependencies
         run: |
           npm install -g firebase-tools
-          dart pub global activate flutterfire_cli
+          dart pub global activate flutterfire_cli 1.0.1-dev.0 --overwrite
       - name: Generate Firebase files
         run: |
           flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} --yes \
