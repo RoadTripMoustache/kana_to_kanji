@@ -238,6 +238,7 @@ xcuserdata/
 **/*.g.dart
 **/*.mocks.dart
 .DS_Store
+untranslated-messages.txt
 ## Firebase generated files
 firebase_options.dart
 

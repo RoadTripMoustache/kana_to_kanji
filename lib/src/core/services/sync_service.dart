@@ -60,7 +60,8 @@ class SyncService {
           kana: true,
           kanji: true,
           learning: LearningSync(stages: true),
-          vocabulary: true);
+          vocabulary: true,
+          forceReload: true);
     } else {
       // If the server did return something else,
       // returns an sync object with all flags to false.
@@ -71,7 +72,8 @@ class SyncService {
           kana: false,
           kanji: false,
           learning: LearningSync(stages: false),
-          vocabulary: false);
+          vocabulary: false,
+          forceReload: false);
     }
   }
 }

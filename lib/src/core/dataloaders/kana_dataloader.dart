@@ -11,13 +11,22 @@ class KanaDataLoader {
   final Isar _isar = locator<Isar>();
 
   /// Load all the kana from the API.
-  Future loadCollection() async {
-    var lastLoadedVersion = _isar.kanas.where().versionProperty().max();
-
+  Future loadCollection(bool needForceReload) async {
     var versionQueryParam = "";
-    if (lastLoadedVersion != null) {
-      versionQueryParam = "?version[current]=$lastLoadedVersion";
+
+    if (needForceReload) {
+      // If force reload is needed, don't set the version and clear the collection.
+      await _isar.writeAsync((isar) {
+        return isar.kanas.clear();
+      });
+    } else {
+      var lastLoadedVersion = _isar.kanas.where().versionProperty().max();
+
+      if (lastLoadedVersion != null) {
+        versionQueryParam = "?version[current]=$lastLoadedVersion";
+      }
     }
+
     return _apiService
         .get('/v1/kanas$versionQueryParam')
         .then((response) => _extractKanas(response))
