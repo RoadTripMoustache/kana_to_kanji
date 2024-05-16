@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 
 class VocabularyList extends StatefulWidget {
   final List<Vocabulary> items;

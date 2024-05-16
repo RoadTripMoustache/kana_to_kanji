@@ -7,9 +7,7 @@ class SortBy extends StatefulWidget {
   final SortOrder selectedOrder;
 
   const SortBy({
-    required this.sortGlossary,
-    required this.selectedOrder,
-    super.key,
+    required this.sortGlossary, required this.selectedOrder, super.key,
   });
 
   @override

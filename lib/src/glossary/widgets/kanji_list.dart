@@ -64,8 +64,6 @@ class _KanjiListState extends State<KanjiList> {
   }
 
   void _onPressed(Kanji kanji) {
-    if (widget.onPressed != null) {
-      widget.onPressed!(kanji);
-    }
+    widget.onPressed?.call(kanji);
   }
 }

@@ -70,8 +70,7 @@ class ArcProgressIndicator extends StatefulWidget {
   final String? alternativeText;
 
   const ArcProgressIndicator(
-      {required this.value,
-      super.key,
+      {required this.value, super.key,
       this.radius,
       this.backgroundColor,
       this.color,
