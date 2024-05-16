@@ -127,4 +127,9 @@ class KanaRepository {
 
     return listKana;
   }
+
+  Future delete(ResourceUid uid) async {
+    kana.removeWhere((element) => element.uid == uid);
+    _kanaService.delete(uid);
+  }
 }

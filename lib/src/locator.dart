@@ -15,6 +15,7 @@ import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
 import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
 import 'package:kana_to_kanji/src/core/services/api_service.dart';
+import 'package:kana_to_kanji/src/core/services/cleanup_service.dart';
 import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
 import 'package:kana_to_kanji/src/core/services/info_service.dart';
 import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
@@ -116,6 +117,67 @@ void setupLocator() {
       }
       return instance;
     }, dependsOn: [Isar]);
+
+    return instance;
+  }, dependsOn: [ApiService, Isar]);
+  locator.registerSingletonAsync<SyncService>(() async {
+    final instance = SyncService();
+
+    // Get the sync data to know which calls need to be done.
+    var sync = await instance.getSyncData();
+
+    // - Group
+    locator.registerSingletonAsync<GroupDataLoader>(() async {
+      final instance = GroupDataLoader();
+      if (sync.groupsFlag) {
+        // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Kana
+    locator.registerSingletonAsync<KanaDataLoader>(() async {
+      final instance = KanaDataLoader();
+      if (sync.kana) {
+        // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Kanji
+    locator.registerSingletonAsync<KanjiDataLoader>(() async {
+      final instance = KanjiDataLoader();
+      if (sync.kanji) {
+        // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Vocabulary
+    locator.registerSingletonAsync<VocabularyDataLoader>(() async {
+      final instance = VocabularyDataLoader();
+      if (sync.vocabulary) {
+        // Load the collection only if required
+        instance.loadCollection();
+      }
+      return instance;
+    }, dependsOn: [Isar]);
+
+    // - Clean up
+    locator.registerSingletonAsync<CleanUpService>(() async {
+      final instance = CleanUpService();
+      if (sync.cleanup) {
+        // Execute the clean up, only if required
+        instance.executeCleanUp();
+      }
+      return instance;
+    }, dependsOn: [
+      Isar,
+      ApiService,
+    ]);
 
     return instance;
   }, dependsOn: [ApiService, Isar]);
