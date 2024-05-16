@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
   cancel-in-progress: true
 
 jobs:
@@ -54,7 +54,9 @@ jobs:
       - name: Setup .env
         run: cp .env.template .env
       - name: Generate files
-        run: flutter pub run build_runner build
+        run: |
+          flutter pub run build_runner build
+          flutter pub get # Temporary until https://github.com/flutter/flutter/issues/148333 is solved
 
       ### CHECKS ###
       # Check the format of the code and commit the formatted files.
@@ -133,12 +135,14 @@ jobs:
           dart pub global activate flutterfire_cli
       - name: Generate Firebase files
         run: |
-          flutterfire configure --project=${{ vars.FIREBASE_PROJECT_ID }} --yes \
+          flutterfire configure --verbose --project=${{ vars.FIREBASE_PROJECT_ID }} \
               --token=${{ secrets.FIREBASE_TOKEN }} \
-              --out=lib/firebase_options.dart \
               --platforms=${{ matrix.target }} \
-              ${{ matrix.target == 'Android' && format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) || '' }} \
-              ${{ matrix.target == 'iOS' && format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) || '' }}
+              ${{ format('--android-package-name={0}', vars.ANDROID_PACKAGE_NAME) }} \
+              ${{ format('--ios-bundle-id={0}', vars.IOS_BUNDLE_ID) }} \
+              --macos-bundle-id=${{ vars.IOS_BUNDLE_ID }} \
+              --web-app-id=${{ vars.IOS_BUNDLE_ID }} \
+              --windows-app-id=${{ vars.IOS_BUNDLE_ID }}
       - name: Setup .env
         run: |
           echo -e "${{ vars.CONFIGURATION }}" >> .env
@@ -146,7 +150,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
       - name: Generate files
-        run: flutter pub run build_runner build
+        run: |
+          flutter pub run build_runner build
+          flutter pub get # Temporary until https://github.com/flutter/flutter/issues/148333 is solved
 
       #### BUILD ####
       - name: Build the application
@@ -171,4 +177,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
-          path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ env.FLAVOR }}_${{ matrix.target }}*.${{ matrix.asset_extension }}
+          path: "${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ env.FLAVOR }}_${{ matrix.target }}*.${{ matrix.asset_extension }}"

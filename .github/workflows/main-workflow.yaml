@@ -53,7 +53,9 @@ jobs:
       - name: Setup .env
         run: cp .env.template .env
       - name: Generate files
-        run: flutter pub run build_runner build
+        run: |
+          flutter pub run build_runner build
+          flutter pub get # Temporary until https://github.com/flutter/flutter/issues/148333 is solved
 
       ### CHECKS ###
       - name: Analyze code
@@ -127,7 +129,9 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
       - name: Generate files
-        run: flutter pub run build_runner build
+        run: |
+          flutter pub run build_runner build
+          flutter pub get # Temporary until https://github.com/flutter/flutter/issues/148333 is solved
 
       #### BUILD ####
       - name: Build the application
@@ -152,7 +156,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
-          path: ${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}*.${{ matrix.asset_extension }}
+          path: "${{ github.workspace }}/${{ vars.APP_NAME }}_${{ env.VERSION }}_${{ matrix.target }}*.${{ matrix.asset_extension }}"
   create_pre_release:
     name: Create GitHub release
     needs:
