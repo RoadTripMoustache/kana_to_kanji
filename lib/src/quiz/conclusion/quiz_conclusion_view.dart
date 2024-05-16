@@ -15,7 +15,7 @@ class QuizConclusionView extends StatelessWidget {
 
   final List<Question> questions;
 
-  const QuizConclusionView({super.key, required this.questions});
+  const QuizConclusionView({required this.questions, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,6 @@ class QuizConclusionView extends StatelessWidget {
                 title: Text(l10n.quiz_conclusion)),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
                   child: Padding(

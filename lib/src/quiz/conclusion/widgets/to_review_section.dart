@@ -8,7 +8,7 @@ class ToReviewSection extends StatelessWidget {
 
   final List<Question> questionsToReview;
 
-  const ToReviewSection({super.key, required this.questionsToReview});
+  const ToReviewSection({required this.questionsToReview, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,8 @@ class ToReviewSection extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  direction: Axis.horizontal,
                   children: List.generate(
                       questionsToReview.length,
                       (index) => SizedBox(

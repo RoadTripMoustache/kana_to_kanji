@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 class HeadingItem extends StatelessWidget {
   final String title;
 
-  const HeadingItem({super.key, required this.title});
+  const HeadingItem({required this.title, super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(

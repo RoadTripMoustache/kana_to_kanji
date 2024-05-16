@@ -15,8 +15,8 @@ class FuriganaText extends StatelessWidget {
   /// [showFurigana] is true. Please note that no logic of verification
   /// are done, meaning that you can display any text on top of [text].
   const FuriganaText(
-      {super.key,
-      required this.text,
+      {required this.text,
+      super.key,
       this.furigana,
       this.showFurigana = false,
       this.style});
@@ -32,11 +32,10 @@ class FuriganaText extends StatelessWidget {
           showFurigana: showFurigana,
           style: style);
 
-  factory FuriganaText.vocabulary(Vocabulary vocabulary,
-      {TextStyle? style, bool showFurigana = false}) {
+  factory FuriganaText.vocabulary(Vocabulary vocabulary, {TextStyle? style}) {
     if (vocabulary.kanji.isEmpty) {
       return FuriganaText(
-          text: vocabulary.kana, showFurigana: false, style: style);
+          text: vocabulary.kana, style: style);
     }
 
     return FuriganaText(
@@ -57,7 +56,6 @@ class FuriganaText extends StatelessWidget {
 
       return Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             furigana!,

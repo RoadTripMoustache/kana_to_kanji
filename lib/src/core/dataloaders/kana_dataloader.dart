@@ -11,11 +11,12 @@ class KanaDataLoader {
   final Isar _isar = locator<Isar>();
 
   /// Load all the kana from the API.
-  Future loadCollection(bool needForceReload) async {
+  /// If [forceReload] is true, the collection is cleared and populated again
+  Future loadCollection({bool forceReload = false}) async {
     var versionQueryParam = "";
 
     // If force reload is needed, don't set the version and clear the collection
-    if (needForceReload) {
+    if (forceReload) {
       await _isar.writeAsync((isar) => isar.kanas.clear());
     } else {
       final lastLoadedVersion = _isar.kanas.where().versionProperty().max();

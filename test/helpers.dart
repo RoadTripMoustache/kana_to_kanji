@@ -6,7 +6,7 @@ import "package:kana_to_kanji/src/core/constants/app_theme.dart";
 import "package:kana_to_kanji/src/locator.dart";
 
 /// Unregister the service [T] from GetIt
-void unregister<T extends Object>() {
+Future<void> unregister<T extends Object>() async {
   if (locator.isRegistered<T>()) {
     locator.unregister<T>();
   }
@@ -16,8 +16,8 @@ String getRouterKey(String route) => "key_$route";
 
 extension WidgetTesterExtension on WidgetTester {
   /// Pump a router on [widget].
-  /// [initialLocation] is the current location of the widget and [allowedRoutes]
-  /// contains all the routes available for the router.
+  /// [initialLocation] is the current location of the widget and
+  /// [allowedRoutes] contains all the routes available for the router.
   Future<void> pumpRouterApp(Widget widget, String initialLocation,
       [List<String> allowedRoutes = const []]) {
     final router = GoRouter(
@@ -48,8 +48,8 @@ extension WidgetTesterExtension on WidgetTester {
   }
 
   /// Pump a router on a localized [widget].
-  /// [initialLocation] is the current location of the widget and [allowedRoutes]
-  /// contains all the routes available for the router.
+  /// [initialLocation] is the current location of the widget and
+  /// [allowedRoutes] contains all the routes available for the router.
   Future<void> pumpLocalizedRouterWidget(Widget widget,
       {String initialLocation = "/",
       String locale = "en",

@@ -17,7 +17,8 @@ import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
 /// Width of the encoded screenshot.
-/// We fix this value as depending on user's device we can have a insane amount of pixels
+/// We fix this value as depending on user's device we can have a
+/// insane amount of pixels
 const kScreenshotPortraitWidth = 720;
 const kScreenshotLandscapeWidth = 1280;
 
@@ -32,7 +33,7 @@ class FeedbackViewModel extends BaseViewModel {
   /// Which type of feedback was selected by the user.
   FeedbackType? get selectedFeedbackType => _selectedFeedbackType;
 
-  /// Contains all the fields and value of the [FeedbackForm]
+  /// Contains all the fields and value from the form
   @visibleForTesting
   final Map<FeedbackFormFields, String> formData = {
     FeedbackFormFields.email: "",
@@ -91,8 +92,9 @@ class FeedbackViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  /// Validate the current content of a [field]
-  /// Depending on [selectedFeedbackType], the [field] will be validated differently
+  /// Validate the current content of a [field].
+  /// Depending on [selectedFeedbackType], the [field] will be
+  /// validated differently
   String? formValidator(FeedbackFormFields field, String? value) {
     String? validation;
 
@@ -134,7 +136,8 @@ class FeedbackViewModel extends BaseViewModel {
 
     setBusy(true);
     if (screenshot != null) {
-      // No need to close the dialog as [onIncludeScreenshotPressed] already closed it
+      // No need to close the dialog as [onIncludeScreenshotPressed]
+      // already closed it
       needToBeClosed = false;
 
       // Encode the image then upload it
@@ -163,7 +166,7 @@ class FeedbackViewModel extends BaseViewModel {
     }
 
     // Show success dialog and thanks the user
-    locator<DialogService>().showModalBottomSheet(
+    await locator<DialogService>().showModalBottomSheet(
         isDismissible: false,
         builder: (BuildContext context) {
           Future.delayed(const Duration(seconds: 2), () => context.pop());

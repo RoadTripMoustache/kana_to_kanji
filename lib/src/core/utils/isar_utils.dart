@@ -1,5 +1,6 @@
 /// FNV-1a 64bit hash algorithm optimized for Dart Strings
 int fastHash(String string) {
+  // ignore: avoid_js_rounded_ints
   var hash = 0xcbf29ce484222325;
 
   var i = 0;

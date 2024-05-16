@@ -33,7 +33,8 @@ class KanaToKanjiApp extends StatelessWidget {
     if (!kIsWeb && AppConfiguration.enableCrashlytics) {
       FlutterError.onError =
           FirebaseCrashlytics.instance.recordFlutterFatalError;
-      // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+      // Pass all uncaught asynchronous errors that aren't handled
+      // by the Flutter framework to Crashlytics
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
@@ -42,7 +43,8 @@ class KanaToKanjiApp extends StatelessWidget {
 
     locator.allReadySync();
 
-    // Load the user settings. Need to be run before the runApp for the theme mode.
+    // Load the user settings.
+    // Need to be run before the runApp for the theme mode.
     await locator<SettingsRepository>().loadSettings();
   }
 

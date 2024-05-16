@@ -8,7 +8,7 @@ void main() {
   group("AnimatedDot", () {
     testWidgets("Dot should be filled with the default color",
         (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(const AnimatedDot(filledOut: true));
+      await tester.pumpLocalizedWidget(const AnimatedDot());
       await tester.pumpAndSettle();
 
       final found = find.byType(Container);
@@ -17,7 +17,7 @@ void main() {
           findsOneWidget);
 
       final boxDecoration =
-          (tester.firstWidget(found) as Container).decoration as BoxDecoration;
+          (tester.firstWidget(found) as Container).decoration! as BoxDecoration;
       expect(boxDecoration.color, Colors.grey);
       expect(boxDecoration.border, Border.all(color: Colors.grey));
     });
@@ -26,7 +26,6 @@ void main() {
         (WidgetTester tester) async {
       const color = Colors.red;
       await tester.pumpLocalizedWidget(const AnimatedDot(
-        filledOut: true,
         color: color,
       ));
       await tester.pumpAndSettle();
@@ -37,7 +36,7 @@ void main() {
           findsOneWidget);
 
       final boxDecoration =
-          (tester.firstWidget(found) as Container).decoration as BoxDecoration;
+          (tester.firstWidget(found) as Container).decoration! as BoxDecoration;
       expect(boxDecoration.color, color);
       expect(boxDecoration.border, Border.all(color: color));
     });
@@ -53,7 +52,7 @@ void main() {
           findsOneWidget);
 
       final boxDecoration =
-          (tester.firstWidget(found) as Container).decoration as BoxDecoration;
+          (tester.firstWidget(found) as Container).decoration! as BoxDecoration;
       expect(boxDecoration.color, Colors.transparent);
       expect(boxDecoration.border, Border.all(color: Colors.grey));
     });

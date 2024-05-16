@@ -1,6 +1,6 @@
 import "dart:convert";
 
-import "package:flutter/foundation.dart" show kIsWeb, defaultTargetPlatform;
+import "package:flutter/foundation.dart" show defaultTargetPlatform, kIsWeb;
 import "package:github/github.dart";
 import "package:kana_to_kanji/src/core/constants/app_configuration.dart";
 import "package:kana_to_kanji/src/locator.dart";

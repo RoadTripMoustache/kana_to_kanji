@@ -27,7 +27,6 @@ class SplashView extends StatelessWidget {
           body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text.rich(
                 TextSpan(text: l10n.app_title_kana, children: [

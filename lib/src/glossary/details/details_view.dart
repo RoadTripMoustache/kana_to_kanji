@@ -16,8 +16,9 @@ const _minHeightDefault = 0.40;
 class DetailsView extends StatelessWidget {
   final dynamic item;
 
-  const DetailsView({super.key, required this.item})
-      : assert(item is Kana || item is Kanji || item is Vocabulary);
+  const DetailsView({required this.item, super.key})
+      : assert(item is Kana || item is Kanji || item is Vocabulary,
+            "must provide a Kana, Kanji, or Vocabulary");
 
   @override
   Widget build(BuildContext context) =>
@@ -44,7 +45,7 @@ class DetailsView extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
+                  ColoredBox(
                     color: AppTheme.getModalBottomSheetBackgroundColor(
                         Theme.of(context)),
                     child: Padding(

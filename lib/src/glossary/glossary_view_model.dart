@@ -78,7 +78,7 @@ class GlossaryViewModel extends FutureViewModel {
     final hiraganaIdsFiltered = _kanaRepository
         .searchHiragana(_currentSearch, _selectedKnowledgeLevel)
         .map((e) => e.id);
-    for (({Kana kana, bool disabled}) pair in _hiraganaList) {
+    for (final ({Kana kana, bool disabled}) pair in _hiraganaList) {
       _hiraganaList[pair.kana.id] = (
         kana: pair.kana,
         disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
@@ -88,7 +88,7 @@ class GlossaryViewModel extends FutureViewModel {
     final katakanaIdsFiltered = _kanaRepository
         .searchKatakana(_currentSearch, _selectedKnowledgeLevel)
         .map((e) => e.id);
-    for (({Kana kana, bool disabled}) pair in _katakanaList) {
+    for (final ({Kana kana, bool disabled}) pair in _katakanaList) {
       _katakanaList[pair.kana.id - _hiraganaList.length] = (
         kana: pair.kana,
         disabled: !katakanaIdsFiltered.contains(pair.kana.id)
@@ -105,8 +105,8 @@ class GlossaryViewModel extends FutureViewModel {
           _selectedKnowledgeLevel, _selectedJlptLevel, selectedOrder));
   }
 
-  void onTilePressed(dynamic item) {
-    _dialogService.showModalBottomSheet(
+  Future<void> onTilePressed(dynamic item) async {
+    await _dialogService.showModalBottomSheet(
         useSafeArea: true,
         showDragHandle: true,
         isScrollControlled: true,

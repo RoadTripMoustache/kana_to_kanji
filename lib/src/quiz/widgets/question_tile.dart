@@ -17,12 +17,12 @@ class QuestionTile extends StatefulWidget {
   final VoidCallback skipQuestion;
 
   const QuestionTile(
-      {super.key,
-      required this.question,
+      {required this.question,
       required this.submitAnswer,
       required this.nextQuestion,
       required this.skipQuestion,
-      required this.maximumAttempts});
+      required this.maximumAttempts,
+      super.key});
 
   @override
   State<QuestionTile> createState() => _QuestionTileState();
@@ -35,7 +35,7 @@ class _QuestionTileState extends State<QuestionTile> {
 
   bool _showSuccess = false;
 
-  onSubmit(String answer) {
+  void onSubmit(String answer) {
     if (answer.isEmpty) {
       _focusNode.requestFocus();
       return;
@@ -105,7 +105,7 @@ class _QuestionTileState extends State<QuestionTile> {
             back: AutoSizeText(
               widget.question.answer,
               key: ValueKey("a${widget.question.kana.id}"),
-              style: textTheme.displayLarge!,
+              style: textTheme.displayLarge,
               maxLines: 1,
             ),
           ),

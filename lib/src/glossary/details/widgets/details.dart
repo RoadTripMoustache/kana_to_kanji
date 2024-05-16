@@ -12,22 +12,23 @@ class Details extends StatelessWidget {
   /// All the pronunciations of the word.
   final List<String> pronunciations;
 
-  /// All the meanings for the word. If empty, the meanings section will be hidden
+  /// All the meanings for the word.
+  /// If empty, the meanings section will be hidden
   final List<String> meanings;
 
   const Details._(
-      {super.key, required this.pronunciations, this.meanings = const []});
+      {required this.pronunciations, super.key, this.meanings = const []});
 
   /// Build the details card for a [Kana].
-  factory Details.kana({Key? key, required Kana kana}) =>
+  factory Details.kana({required Kana kana, Key? key}) =>
       Details._(key: key, pronunciations: [kana.romaji]);
 
   /// Build the details card for a [Kanji].
-  factory Details.kanji({Key? key, required Kanji kanji}) => Details._(
+  factory Details.kanji({required Kanji kanji, Key? key}) => Details._(
       key: key, pronunciations: kanji.readings, meanings: kanji.meanings);
 
   /// Build the details card for a [Vocabulary].
-  factory Details.vocabulary({Key? key, required Vocabulary vocabulary}) =>
+  factory Details.vocabulary({required Vocabulary vocabulary, Key? key}) =>
       Details._(
           key: key,
           pronunciations: [vocabulary.kana],
@@ -38,7 +39,6 @@ class Details extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [

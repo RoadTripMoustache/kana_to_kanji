@@ -8,12 +8,10 @@ class VocabularyList extends StatelessWidget {
   /// Function to execute when a [GlossaryListTile] is pressed
   final Function(Vocabulary vocabulary)? onPressed;
 
-  const VocabularyList({super.key, required this.items, this.onPressed});
+  const VocabularyList({required this.items, super.key, this.onPressed});
 
   void _onPressed(Vocabulary vocabulary) {
-    if (onPressed != null) {
-      onPressed!(vocabulary);
-    }
+    onPressed?.call(vocabulary);
   }
 
   @override

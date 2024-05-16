@@ -57,7 +57,6 @@ linter:
     - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
     - avoid_returning_null_for_void
-    - avoid_returning_this
     - avoid_setters_without_getters
     - avoid_shadowing_type_parameters
     - avoid_single_cascade_in_expression_statements
@@ -75,7 +74,6 @@ linter:
     - close_sinks
     - collection_methods_unrelated_type
     - combinators_ordering
-    - comment_references
     - conditional_uri_does_not_exist
     - constant_identifier_names
     - control_flow_in_finally
@@ -84,7 +82,6 @@ linter:
     - depend_on_referenced_packages
     - deprecated_consistency
     - deprecated_member_use_from_same_package
-    - diagnostic_describe_all_properties
     - directives_ordering
     - discarded_futures
     - do_not_use_environment
@@ -167,7 +164,6 @@ linter:
     - secure_pubspec_urls
     - sized_box_shrink_expand
     - slash_for_doc_comments
-    - sort_pub_dependencies
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals

@@ -29,18 +29,15 @@ class RoundedLinearProgressIndicator extends StatefulWidget {
   ///
   /// If null, the progress indicator is rendered with [color]. If that is null,
   /// then it will use the ambient [ProgressIndicatorThemeData.color]. If that
-  /// is also null then it defaults to the current theme's [ColorScheme.primary].
+  /// is also null then it defaults to the current
+  /// theme's [ColorScheme.primary].
   final Animation<Color?>? valueColor;
 
-  /// The [SemanticsProperties.label] for this progress indicator.
-  ///
   /// This value indicates the purpose of the progress bar, and will be
   /// read out by screen readers to indicate the purpose of this progress
   /// indicator.
   final String? semanticsLabel;
 
-  /// The [SemanticsProperties.value] for this progress indicator.
-  ///
   /// This will be used in conjunction with the [semanticsLabel] by
   /// screen reading software to identify the widget, and is primarily
   /// intended for use with determinate progress indicators to announce
@@ -57,9 +54,9 @@ class RoundedLinearProgressIndicator extends StatefulWidget {
   final double? height;
 
   const RoundedLinearProgressIndicator(
-      {super.key,
+      {required this.value,
+      super.key,
       this.height,
-      required this.value,
       this.backgroundColor,
       this.color,
       this.valueColor,

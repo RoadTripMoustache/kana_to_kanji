@@ -34,8 +34,8 @@ void main() {
             find.descendant(
                 of: widget, matching: find.text(kanji.kunReadings[0])),
             findsOneWidget,
-            reason:
-                "If showFurigana is true, the furigana should be displayed when available");
+            reason: "If showFurigana is true, the furigana should be displayed "
+                "when available");
         expect(
             find.descendant(
                 of: widget,
@@ -80,8 +80,8 @@ void main() {
             find.descendant(
                 of: widget, matching: find.text(vocabulary.kana[0])),
             findsOneWidget,
-            reason:
-                "If showFurigana is true, the furigana should be displayed when available");
+            reason: "If showFurigana is true, the furigana should be displayed "
+                "when available");
         expect(
             find.descendant(
                 of: widget,

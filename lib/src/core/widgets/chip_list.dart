@@ -9,8 +9,7 @@ class ChipList extends StatefulWidget {
   final int maxLines;
 
   const ChipList(
-      {super.key,
-      required this.children,
+      {required this.children, super.key,
       this.maxLines = 2,
       this.emptyListLabel});
 

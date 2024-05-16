@@ -53,11 +53,10 @@ void main() {
       expect(
           find.descendant(
               of: widget,
-              matching: find.byType(QuestionReviewTile),
-              skipOffstage: true),
+              matching: find.byType(QuestionReviewTile)),
           findsNWidgets(questions.length),
           reason:
-              "Should be displaying ${questions.length} question to review tiles");
+              "Should display ${questions.length} question to review tiles");
     });
   });
 }

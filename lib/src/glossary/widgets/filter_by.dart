@@ -9,10 +9,10 @@ class FilterBy extends StatefulWidget {
   final List<KnowledgeLevel> selectedKnowledgeLevel;
 
   const FilterBy({
-    super.key,
     required this.filterGlossary,
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
+    super.key,
   });
 
   @override
@@ -31,33 +31,29 @@ class _FilterBy extends State<FilterBy> {
   }
 
   void _toggleJLPTLevel(JLPTLevel jlptLevel) {
-    if (_selectedJlptLevel.contains(jlptLevel)) {
-      _selectedJlptLevel.remove(jlptLevel);
-    } else {
-      _selectedJlptLevel.add(jlptLevel);
-    }
     setState(() {
-      _selectedJlptLevel = _selectedJlptLevel;
+      if (_selectedJlptLevel.contains(jlptLevel)) {
+        _selectedJlptLevel.remove(jlptLevel);
+      } else {
+        _selectedJlptLevel.add(jlptLevel);
+      }
     });
   }
 
   void _toggleKnowledgeLevel(KnowledgeLevel knowledgeLevel) {
-    if (_selectedKnowledgeLevel.contains(knowledgeLevel)) {
-      _selectedKnowledgeLevel.remove(knowledgeLevel);
-    } else {
-      _selectedKnowledgeLevel.add(knowledgeLevel);
-    }
     setState(() {
-      _selectedKnowledgeLevel = _selectedKnowledgeLevel;
+      if (_selectedKnowledgeLevel.contains(knowledgeLevel)) {
+        _selectedKnowledgeLevel.remove(knowledgeLevel);
+      } else {
+        _selectedKnowledgeLevel.add(knowledgeLevel);
+      }
     });
   }
 
   void _clearLists() {
-    _selectedKnowledgeLevel.clear();
-    _selectedJlptLevel.clear();
     setState(() {
-      _selectedKnowledgeLevel = _selectedKnowledgeLevel;
-      _selectedJlptLevel = _selectedJlptLevel;
+      _selectedKnowledgeLevel.clear();
+      _selectedJlptLevel.clear();
     });
   }
 

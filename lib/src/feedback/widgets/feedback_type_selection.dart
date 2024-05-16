@@ -14,7 +14,7 @@ class FeedbackTypeSelection extends StatelessWidget {
 
   final Function(FeedbackType) onPressed;
 
-  const FeedbackTypeSelection({super.key, required this.onPressed});
+  const FeedbackTypeSelection({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -47,14 +47,13 @@ class SettingsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void setLocale(Locale? locale) async {
-    _repository.updateLocale(locale);
+  Future<void> setLocale(Locale? locale) async {
+    await _repository.updateLocale(locale);
   }
 
   /// Open the feedback dialog
-  void giveFeedback() {
-    locator<DialogService>().showModalBottomSheet(
-        isDismissible: true,
+  Future<void> giveFeedback() async {
+    await locator<DialogService>().showModalBottomSheet(
         enableDrag: false,
         showDragHandle: true,
         isScrollControlled: true,

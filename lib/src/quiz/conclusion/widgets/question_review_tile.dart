@@ -6,7 +6,7 @@ import "package:kana_to_kanji/src/quiz/models/question.dart";
 class QuestionReviewTile extends StatelessWidget {
   final Question question;
 
-  const QuestionReviewTile({super.key, required this.question});
+  const QuestionReviewTile({required this.question, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,9 @@ class QuestionReviewTile extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Container(
+        child: ColoredBox(
           color: Colors.transparent,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 4.0),
@@ -35,7 +33,6 @@ class QuestionReviewTile extends StatelessWidget {
               ),
               Expanded(
                 child: Row(
-                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(text,

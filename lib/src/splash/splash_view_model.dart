@@ -18,6 +18,6 @@ class SplashViewModel extends FutureViewModel {
     ]);
 
     // Move to main screen
-    goRouter.replace(PrepareQuizView.routeName);
+    await goRouter.replace(PrepareQuizView.routeName);
   }
 }

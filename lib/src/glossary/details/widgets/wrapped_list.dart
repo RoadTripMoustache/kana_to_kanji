@@ -6,8 +6,7 @@ class WrappedList extends StatelessWidget {
   final EdgeInsets padding;
 
   const WrappedList(
-      {super.key,
-      required this.children,
+      {required this.children, super.key,
       this.padding = const EdgeInsets.only(right: 8.0)});
 
   @override

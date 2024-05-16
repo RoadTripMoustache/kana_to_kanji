@@ -41,8 +41,7 @@ void main() {
     final Question rightQuestion = Question(
         alphabet: kana.alphabet,
         kana: kana,
-        type: QuestionTypes.toJapanese,
-        remainingAttempt: 3);
+        type: QuestionTypes.toJapanese);
 
     setUpAll(() {
       locator.registerSingleton<SettingsRepository>(settingsRepositoryMock);

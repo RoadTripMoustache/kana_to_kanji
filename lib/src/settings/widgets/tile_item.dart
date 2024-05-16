@@ -8,8 +8,7 @@ class TileItem extends StatelessWidget {
   final VoidCallback? onTap;
 
   const TileItem(
-      {super.key,
-      required this.title,
+      {required this.title, super.key,
       this.subtitle,
       this.leading,
       this.trailing,

@@ -27,15 +27,17 @@ class GlossaryListTile extends StatelessWidget {
   final bool showFurigana;
 
   const GlossaryListTile(
-      {super.key,
-      required this.meanings,
+      {required this.meanings,
       required this.jlptLevel,
+      super.key,
       this.kanji,
       this.vocabulary,
       this.showFurigana = true,
       this.onTap})
-      : assert((kanji == null || vocabulary == null) &&
-            (kanji != null || vocabulary != null));
+      : assert(
+            (kanji == null || vocabulary == null) &&
+                (kanji != null || vocabulary != null),
+            "must provide a kanji or a vocabulary");
 
   /// Build a tile for a [Kanji]
   factory GlossaryListTile.kanji(Kanji kanji,
@@ -69,8 +71,7 @@ class GlossaryListTile extends StatelessWidget {
     final furiganaText = kanji != null
         ? FuriganaText.kanji(kanji!,
             showFurigana: showFurigana, style: titleStyle)
-        : FuriganaText.vocabulary(vocabulary!,
-            showFurigana: showFurigana, style: titleStyle);
+        : FuriganaText.vocabulary(vocabulary!, style: titleStyle);
 
     return Card(
       child: ListTile(

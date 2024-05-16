@@ -28,9 +28,10 @@ void main() async {
     final infoServiceMock = MockInfoService();
 
     setUpAll(() {
-      locator.registerSingleton<SettingsRepository>(settingsRepositoryMock);
-      locator.registerSingleton<InfoService>(infoServiceMock);
-      locator.registerSingleton<DialogService>(dialogServiceMock);
+      locator
+        ..registerSingleton<SettingsRepository>(settingsRepositoryMock)
+        ..registerSingleton<InfoService>(infoServiceMock)
+        ..registerSingleton<DialogService>(dialogServiceMock);
     });
 
     setUp(() {
@@ -47,9 +48,10 @@ void main() async {
     });
 
     tearDownAll(() {
-      locator.unregister<SettingsRepository>(instance: settingsRepositoryMock);
-      locator.unregister<InfoService>(instance: infoServiceMock);
-      locator.unregister<DialogService>(instance: dialogServiceMock);
+      locator
+        ..unregister<SettingsRepository>(instance: settingsRepositoryMock)
+        ..unregister<InfoService>(instance: infoServiceMock)
+        ..unregister<DialogService>(instance: dialogServiceMock);
     });
 
     test("Should retrieve the application version from the InfoService", () {
@@ -60,8 +62,8 @@ void main() async {
 
     group("Theme mode", () {
       test(
-          "Should have selected the theme mode returned by the SettingsRepository",
-          () {
+          "Should have selected the themeMode returned by the "
+          "SettingsRepository", () {
         expect(viewModel.themeModeSelected, [false, true, false],
             reason: "[light: false, system: true, dark: false]");
         verify(settingsRepositoryMock.themeMode);
@@ -120,7 +122,6 @@ void main() async {
         viewModel.giveFeedback();
 
         verify(dialogServiceMock.showModalBottomSheet(
-            isDismissible: true,
             enableDrag: false,
             showDragHandle: true,
             isScrollControlled: true,

@@ -37,8 +37,7 @@ void main() {
           (WidgetTester tester) async {
         const widget = FlipCard(
             front: Text(frontText),
-            back: Text(rearText),
-            allowTapToFlip: false);
+            back: Text(rearText));
 
         await tester.pumpLocalizedWidget(widget);
         await tester.pumpAndSettle();

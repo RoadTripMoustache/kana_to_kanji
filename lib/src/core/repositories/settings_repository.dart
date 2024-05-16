@@ -48,7 +48,9 @@ class SettingsRepository with ChangeNotifier {
 
   /// Update and persist the Locale based on the user's selection.
   Future<void> updateLocale(Locale? newLocale) async {
-    if (newLocale == null || newLocale == _locale) return;
+    if (newLocale == null || newLocale == _locale) {
+      return;
+    }
 
     _locale = newLocale;
 

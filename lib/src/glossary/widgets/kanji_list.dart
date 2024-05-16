@@ -8,11 +8,11 @@ class KanjiList extends StatelessWidget {
   /// Function to execute when a [GlossaryListTile] is pressed
   final Function(Kanji kanji)? onPressed;
 
-  const KanjiList({super.key, required this.items, this.onPressed});
+  const KanjiList({required this.items, super.key, this.onPressed});
 
   void _onPressed(Kanji kanji) {
     if (onPressed != null) {
-      onPressed!(kanji);
+      onPressed?.call(kanji);
     }
   }
 

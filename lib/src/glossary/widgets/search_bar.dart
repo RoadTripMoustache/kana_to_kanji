@@ -17,13 +17,13 @@ class GlossarySearchBar extends StatelessWidget {
   final SortOrder selectedOrder;
 
   const GlossarySearchBar({
-    super.key,
     required this.searchGlossary,
     required this.filterGlossary,
     required this.sortGlossary,
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
     required this.selectedOrder,
+    super.key,
   });
 
   @override
@@ -51,7 +51,6 @@ class GlossarySearchBarContent extends StatefulWidget {
   final SortOrder selectedOrder;
 
   const GlossarySearchBarContent({
-    super.key,
     required this.maxWidth,
     required this.searchGlossary,
     required this.filterGlossary,
@@ -59,6 +58,7 @@ class GlossarySearchBarContent extends StatefulWidget {
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
     required this.selectedOrder,
+    super.key,
   });
 
   @override
@@ -73,6 +73,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
   double borderRadius = 32;
   double margin = 1;
   bool isOpen = false;
+
   bool get isInputFilled => _controller.text.isNotEmpty;
   bool isSearchMade = false;
   double searchBarWidth = kToolbarHeight;
@@ -132,13 +133,14 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
   void clearSearch() {
     _controller.clear();
     isSearchMade = false;
-    _focusNode.unfocus();
-    _focusNode.requestFocus();
+    _focusNode
+      ..unfocus()
+      ..requestFocus();
     focusInSearch();
     widget.searchGlossary("");
   }
 
-  void focusOutSearch(event) {
+  void focusOutSearch(PointerDownEvent? event) {
     _focusNode.unfocus();
     changeSearchBarAnimationState();
   }
@@ -226,7 +228,6 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
           child: Row(
             children: [
               Expanded(
-                flex: 1,
                 child: Container(),
               ),
               Expanded(
@@ -236,19 +237,20 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                 ),
               ),
               Expanded(
-                  flex: 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(_createRouteSortBy());
+                        onPressed: () async {
+                          await Navigator.of(context)
+                              .push(_createRouteSortBy());
                         },
                         icon: const Icon(Icons.filter_list_rounded),
                       ),
                       IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(_createRouteFilterBy());
+                        onPressed: () async {
+                          await Navigator.of(context)
+                              .push(_createRouteFilterBy());
                         },
                         icon: const Icon(Icons.tune),
                       ),
@@ -291,7 +293,6 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                   controller: _controller,
                   focusNode: _focusNode,
                   autocorrect: false,
-                  autofocus: false,
                   textAlign: TextAlign.left,
                   textAlignVertical: TextAlignVertical.center,
                   textInputAction: TextInputAction.send,

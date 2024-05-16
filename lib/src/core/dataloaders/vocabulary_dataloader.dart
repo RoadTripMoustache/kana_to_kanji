@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_dynamic_calls
 import "dart:convert";
 
 import "package:http/http.dart" as http;
@@ -12,11 +13,12 @@ class VocabularyDataLoader {
   final Isar _isar = locator<Isar>();
 
   /// Load all the vocabulary from the API.
-  Future loadCollection(bool needForceReload) async {
+  /// If [forceReload] is true, the collection is cleared and populated again
+  Future loadCollection({bool forceReload = false}) async {
     var versionQueryParam = "";
 
-    if (needForceReload) {
-      // If force reload is needed, don't set the version and clear the collection.
+    // If force reload is needed, don't set the version and clear the collection
+    if (forceReload) {
       await _isar.writeAsync((isar) => isar.vocabularys.clear());
     } else {
       final lastLoadedVersion =

@@ -12,9 +12,7 @@ class FlipCard extends StatefulWidget {
   final bool allowTapToFlip;
 
   const FlipCard(
-      {super.key,
-      required this.front,
-      required this.back,
+      {required this.front, required this.back, super.key,
       this.flipped = false,
       this.allowTapToFlip = false});
 

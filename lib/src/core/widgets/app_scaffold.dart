@@ -18,9 +18,9 @@ class AppScaffold extends StatelessWidget {
   final bool showBottomBar;
 
   const AppScaffold(
-      {super.key,
+      {required this.body,
+      super.key,
       this.appBar,
-      required this.body,
       this.fab,
       this.fabPosition,
       this.resizeToAvoidBottomInset = false,

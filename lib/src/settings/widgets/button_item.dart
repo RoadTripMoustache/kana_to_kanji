@@ -6,7 +6,7 @@ class ButtonItem extends StatelessWidget {
   /// Content of the button.
   final Widget child;
 
-  const ButtonItem({super.key, required this.onPressed, required this.child});
+  const ButtonItem({required this.onPressed, required this.child, super.key});
 
   @override
   Widget build(BuildContext context) => ListTile(

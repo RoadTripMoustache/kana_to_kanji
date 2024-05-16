@@ -25,7 +25,7 @@ class CleanUpService {
   final VocabularyRepository _vocabularyRepository =
       locator<VocabularyRepository>();
 
-  Future<List<ResourceUid>> getSyncData({bool needForceReload = false}) {
+  Future<List<ResourceUid>> getSyncData({bool forceReload = false}) {
     final lastLoadedVersionGroups =
         _isar.groups.where().versionProperty().max();
     final lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
@@ -35,7 +35,7 @@ class CleanUpService {
         _isar.vocabularys.where().versionProperty().max();
 
     var versionQueryParam = "";
-    if (!needForceReload) {
+    if (!forceReload) {
       if (lastLoadedVersionGroups != null &&
           lastLoadedVersionGroups.compareTo(versionQueryParam) > 0) {
         versionQueryParam = "?version[current]=$lastLoadedVersionGroups";
@@ -70,9 +70,9 @@ class CleanUpService {
     }
   }
 
-  Future<void> executeCleanUp({bool needForceReload = false}) async {
+  Future<void> executeCleanUp({bool forceReload = false}) async {
     final resourcesToDelete =
-        await getSyncData(needForceReload: needForceReload);
+        await getSyncData(forceReload: forceReload);
 
     await Future.wait(resourcesToDelete.map((element) {
       switch (element.resourceType) {
