@@ -8,13 +8,14 @@ part 'pronunciations.g.dart';
 
 /// Pronunciation of a kanji with all the meanings matching the readings
 class Pronunciation {
-  final int index;
+  @JsonKey(name: "index")
+  final int pronounciationIndex;
   @Default([])
   final List<String> meanings;
   @Default([])
   final List<String> readings;
 
-  const Pronunciation(this.index, this.meanings, this.readings);
+  const Pronunciation(this.pronounciationIndex, this.meanings, this.readings);
 
   factory Pronunciation.fromJson(Map<String, dynamic> json) =>
       _$PronunciationFromJson(json);

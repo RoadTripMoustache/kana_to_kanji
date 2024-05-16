@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart';
@@ -9,7 +11,18 @@ import '../../../helpers.dart';
 void main() {
   group("VocabularyList", () {
     const vocabulary = Vocabulary(
-        1, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", ["a"], []);
+        ResourceUid("vocabulary-1", ResourceType.vocabulary),
+        "亜",
+        "あ",
+        1,
+        ["inferior"],
+        "a",
+        [],
+        "2023-12-1",
+        ["a"],
+        [],
+        [],
+        []);
 
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const VocabularyList(
@@ -44,8 +57,8 @@ void main() {
     testWidgets("Contains 2 items", (WidgetTester tester) async {
       List<Vocabulary> vocabularyList = [
         vocabulary,
-        const Vocabulary(
-            2, "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], [])
+        const Vocabulary(ResourceUid("vocabulary-1", ResourceType.vocabulary),
+            "亜", "あ", 1, ["inferior"], "a", [], "2023-12-1", [], [], [], [])
       ];
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,

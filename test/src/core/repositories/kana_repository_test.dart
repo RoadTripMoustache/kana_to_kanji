@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
 import 'package:kana_to_kanji/src/core/services/kana_service.dart';
 import 'package:mockito/annotations.dart';
@@ -11,10 +13,22 @@ import 'kana_repository_test.mocks.dart';
 
 void main() {
   group("KanaRepository", () {
-    const hiraganaSample =
-        Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
-    const katakanaSample =
-        Kana(1, Alphabets.katakana, 1, "ア", "a", "2023-12-01");
+    const hiraganaSample = Kana(
+        ResourceUid("0", ResourceType.kana),
+        Alphabets.hiragana,
+        ResourceUid("0", ResourceType.group),
+        "あ",
+        "a",
+        "2023-12-01",
+        1);
+    const katakanaSample = Kana(
+        ResourceUid("1", ResourceType.kana),
+        Alphabets.katakana,
+        ResourceUid("1", ResourceType.group),
+        "ア",
+        "a",
+        "2023-12-01",
+        2);
     late KanaRepository repository;
 
     final kanaServiceMock = MockKanaService();
@@ -77,7 +91,7 @@ void main() {
       test("it should return all the kana related to the group id passed", () {
         repository.kana.addAll([hiraganaSample, katakanaSample]);
 
-        expect(repository.getByGroupIds([hiraganaSample.groupId]),
+        expect(repository.getByGroupIds([hiraganaSample.groupUid]),
             [hiraganaSample],
             reason: "should contains the hiragana sample");
       });
@@ -88,7 +102,7 @@ void main() {
 
         expect(
             repository.getByGroupIds(
-                [hiraganaSample.groupId, katakanaSample.groupId]),
+                [hiraganaSample.groupUid, katakanaSample.groupUid]),
             containsAll([hiraganaSample, katakanaSample]),
             reason: "should contains both hiragana and katakana");
       });
@@ -99,7 +113,7 @@ void main() {
         repository.kana.addAll([hiraganaSample, katakanaSample]);
 
         expect(
-            repository.getByGroupId(hiraganaSample.groupId), [hiraganaSample],
+            repository.getByGroupId(hiraganaSample.groupUid), [hiraganaSample],
             reason: "should contains the hiragana sample");
       });
     });

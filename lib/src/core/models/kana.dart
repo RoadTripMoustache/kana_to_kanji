@@ -1,6 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
+
+import '../utils/isar_utils.dart';
 
 part 'kana.g.dart';
 
@@ -8,13 +12,15 @@ part 'kana.g.dart';
 @Name("Kanas")
 @JsonSerializable()
 class Kana {
-  final int id;
+  @Default(ResourceUid("", ResourceType.kana))
+  final ResourceUid uid;
+  int get id => fastHash(uid.uid);
 
   @enumValue
   final Alphabets alphabet;
 
-  @JsonKey(name: "group_id")
-  final int groupId;
+  @JsonKey(name: "group_uid")
+  final ResourceUid groupUid;
 
   final String kana;
 
@@ -22,8 +28,10 @@ class Kana {
 
   final String version;
 
-  const Kana(this.id, this.alphabet, this.groupId, this.kana, this.romaji,
-      this.version);
+  final int position;
+
+  const Kana(this.uid, this.alphabet, this.groupUid, this.kana, this.romaji,
+      this.version, this.position);
 
   factory Kana.fromJson(Map<String, dynamic> json) => _$KanaFromJson(json);
 }

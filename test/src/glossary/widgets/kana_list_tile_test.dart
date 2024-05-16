@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
 import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
 import 'package:kana_to_kanji/src/core/models/kana.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
 import 'package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart';
 
 import '../../../helpers.dart';
 
 void main() {
   group("KanaListTile", () {
-    const Kana kanaSample =
-        Kana(0, Alphabets.hiragana, 0, "あ", "a", "2023-12-01");
+    const Kana kanaSample = Kana(
+        ResourceUid("kana-1", ResourceType.kana),
+        Alphabets.hiragana,
+        ResourceUid("group-1", ResourceType.group),
+        "あ",
+        "a",
+        "2023-12-01",
+        1);
 
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
