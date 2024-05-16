@@ -4,7 +4,7 @@ description: A new Flutter project.
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.21.0+1
+version: 0.22.0+1
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -26,8 +26,12 @@ dependencies:
   rive: ^0.13.4
   package_info_plus: ^4.2.0
   shared_preferences: ^2.2.3
-  isar: ^4.0.0-dev.10
-  isar_flutter_libs: ^4.0.0-dev.10
+  isar:
+    version: ^4.0.3
+    hosted: https://pub.isar-community.dev/
+  isar_flutter_libs: # contains Isar Core
+    version: ^4.0.3
+    hosted: https://pub.isar-community.dev/
   path_provider: ^2.1.3
   http: ^1.2.1
   firebase_core: ^2.31.0
