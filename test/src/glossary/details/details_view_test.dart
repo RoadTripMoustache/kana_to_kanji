@@ -51,7 +51,7 @@ void main() {
           find.ancestor(
               of: title,
               matching: find.byWidgetPredicate((widget) =>
-                  widget is Container &&
+                  widget is ColoredBox &&
                   widget.color ==
                       AppTheme.getModalBottomSheetBackgroundColor(theme))),
           findsOneWidget);
@@ -87,7 +87,7 @@ void main() {
 
       // Check title section
       final titleContainer = find.byWidgetPredicate((widget) =>
-          widget is Container &&
+          widget is ColoredBox &&
           widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
       expect(titleContainer, findsOneWidget);
       expect(
@@ -124,7 +124,7 @@ void main() {
 
         // Check title section
         final titleContainer = find.byWidgetPredicate((widget) =>
-            widget is Container &&
+            widget is ColoredBox &&
             widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
         expect(titleContainer, findsOneWidget);
         expect(
@@ -161,7 +161,7 @@ void main() {
 
         // Check title section
         final titleContainer = find.byWidgetPredicate((widget) =>
-            widget is Container &&
+            widget is ColoredBox &&
             widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
         expect(titleContainer, findsOneWidget);
         expect(
