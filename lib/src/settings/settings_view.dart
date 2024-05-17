@@ -31,7 +31,6 @@ class SettingsView extends StatelessWidget {
               ),
             ),
             body: Column(
-
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ListView(

@@ -242,20 +242,18 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                 children: [
                   IconButton(
                     onPressed: () async {
-                          await Navigator.of(context)
-                              .push(_createRouteSortBy());
-                        },
-                        icon: const Icon(Icons.filter_list_rounded),
-                      ),
-                      IconButton(
-                        onPressed: () async {
-                          await Navigator.of(context)
-                              .push(_createRouteFilterBy());
-                        },
-                        icon: const Icon(Icons.tune),
-                      ),
-                    ],
-                  )),
+                      await Navigator.of(context).push(_createRouteSortBy());
+                    },
+                    icon: const Icon(Icons.filter_list_rounded),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await Navigator.of(context).push(_createRouteFilterBy());
+                    },
+                    icon: const Icon(Icons.tune),
+                  ),
+                ],
+              )),
             ],
           ),
         ),

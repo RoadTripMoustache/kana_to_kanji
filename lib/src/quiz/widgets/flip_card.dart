@@ -12,7 +12,9 @@ class FlipCard extends StatefulWidget {
   final bool allowTapToFlip;
 
   const FlipCard(
-      {required this.front, required this.back, super.key,
+      {required this.front,
+      required this.back,
+      super.key,
       this.flipped = false,
       this.allowTapToFlip = false});
 
@@ -102,7 +104,6 @@ class _FlipCardState extends State<FlipCard> {
         width: size,
         height: size,
         decoration: BoxDecoration(
-
           borderRadius: BorderRadius.circular(20.0),
           color: backgroundColor,
         ),

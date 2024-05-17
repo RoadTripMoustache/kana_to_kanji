@@ -116,7 +116,7 @@ void main() {
               findsOneWidget,
               reason:
                   "When furigana isn't precised and kun reading are available, "
-                      "the first kun reading should be used as furigana");
+                  "the first kun reading should be used as furigana");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");
@@ -151,7 +151,7 @@ void main() {
               findsOneWidget,
               reason:
                   "When furigana isn't precised and kun reading unavailable, "
-                      "the first on reading should be used as furigana");
+                  "the first on reading should be used as furigana");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");

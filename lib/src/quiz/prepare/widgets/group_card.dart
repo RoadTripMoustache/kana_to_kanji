@@ -21,7 +21,6 @@ class GroupCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
             child: Row(
-
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(group.localizedName ?? group.name,
