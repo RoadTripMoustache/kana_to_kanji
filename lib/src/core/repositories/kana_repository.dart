@@ -39,6 +39,7 @@ class KanaRepository {
         .where((element) => Alphabets.hiragana == element.alphabet)
         .toList();
 
+    // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
 
     return listKana;
@@ -53,14 +54,14 @@ class KanaRepository {
     }
 
     loadKana();
-    var txtFilter = (element) => true;
+    bool Function(Kana) txtFilter = (Kana element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
-      txtFilter = (element) => element.romaji.contains(searchTxt);
+      txtFilter = (Kana element) => element.romaji.contains(searchTxt);
     } else if (searchTxt != "") {
-      txtFilter = (element) => element.kana.contains(searchTxt);
+      txtFilter = (Kana element) => element.kana.contains(searchTxt);
     }
 
-    var knowledgeLevelFilter = (element) => true;
+    bool Function(Kana) knowledgeLevelFilter = (Kana element) => true;
     if (selectedKnowledgeLevel.isNotEmpty) {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
@@ -71,6 +72,7 @@ class KanaRepository {
         .where(knowledgeLevelFilter)
         .toList();
 
+    // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
 
     return listKana;
@@ -82,6 +84,7 @@ class KanaRepository {
         .where((element) => Alphabets.katakana == element.alphabet)
         .toList();
 
+    // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
 
     return listKana;
@@ -92,18 +95,18 @@ class KanaRepository {
     /// If is there more than 3 characters in the searchTxt,
     /// return directly an empty list as anything will match.
     if (searchTxt.length > 3) {
-      return List.empty(growable: false);
+      return List.empty();
     }
 
     loadKana();
-    var txtFilter = (element) => true;
+    bool Function(Kana) txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (element) => element.romaji.contains(searchTxt);
     } else if (searchTxt != "") {
       txtFilter = (element) => element.kana.contains(searchTxt);
     }
 
-    var knowledgeLevelFilter = (element) => true;
+    bool Function(Kana) knowledgeLevelFilter = (element) => true;
     if (selectedKnowledgeLevel.isNotEmpty) {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
@@ -115,6 +118,7 @@ class KanaRepository {
         .where(knowledgeLevelFilter)
         .toList();
 
+    // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
 
     return listKana;

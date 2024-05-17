@@ -10,7 +10,7 @@ class KanaGroups extends StatelessWidget {
 
   final Function(Group) onGroupTapped;
 
-  final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
+  final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
   const KanaGroups(
       {required this.groups,

@@ -35,27 +35,27 @@ class VocabularyRepository {
       List<JLPTLevel> selectedJLPTLevel,
       SortOrder selectedOrder) {
     getAll();
-    var txtFilter = (Vocabulary element) => true;
+    bool Function(Vocabulary) txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
-      txtFilter = (Vocabulary vocabulary) =>
+      txtFilter = (vocabulary) =>
           vocabulary.romaji.contains(searchTxt) ||
           vocabulary.meanings
               .where((String meaning) => meaning.contains(searchTxt))
               .toList()
               .isNotEmpty;
     } else if (searchTxt != "") {
-      txtFilter = (Vocabulary vocabulary) =>
+      txtFilter = (vocabulary) =>
           vocabulary.kanji.contains(searchTxt) ||
           vocabulary.kana.contains(searchTxt);
     }
 
-    var knowledgeLevelFilter = (element) => true;
+    bool Function(Vocabulary) knowledgeLevelFilter = (element) => true;
     if (selectedKnowledgeLevel.isNotEmpty) {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
     }
 
-    var jlptLevelFilter = (element) => true;
+    bool Function(Vocabulary) jlptLevelFilter = (element) => true;
     if (selectedJLPTLevel.isNotEmpty) {
       jlptLevelFilter = (vocabulary) =>
           selectedJLPTLevel.contains(JLPTLevel.getValue(vocabulary.jlptLevel));

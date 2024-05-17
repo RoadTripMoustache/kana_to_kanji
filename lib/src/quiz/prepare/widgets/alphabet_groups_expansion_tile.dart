@@ -16,7 +16,7 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
 
   final Function(Group) onGroupTapped;
 
-  final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
+  final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
   const AlphabetGroupsExpansionTile(
       {required this.alphabet,
@@ -60,7 +60,7 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
       childrenPadding: const EdgeInsets.all(8.0),
       children: [
         ElevatedButton(
-            onPressed: () => onSelectAllTapped(groups, !areAllSelected),
+            onPressed: () => onSelectAllTapped(groups, toAdd: !areAllSelected),
             child: Text(multiselectButtonText)),
         if (alphabet != Alphabets.kanji)
           KanaGroups(

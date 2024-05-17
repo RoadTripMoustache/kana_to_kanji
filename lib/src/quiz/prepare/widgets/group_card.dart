@@ -9,6 +9,7 @@ class GroupCard extends StatelessWidget {
   const GroupCard(
       {required this.group, super.key, this.onTap, this.isChecked = false});
 
+  // ignore: avoid_positional_boolean_parameters
   void onChanged(bool? value) {
     onTap?.call(group);
   }

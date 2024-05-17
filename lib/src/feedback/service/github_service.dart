@@ -33,7 +33,7 @@ class GithubService {
                 committer: _commitUser,
                 branch: "main"))
         .catchError((error) {
-      _logger.e("uploadFileToGithub error: ${error.message}");
+      _logger.e("uploadFileToGithub error: $error");
       throw error;
     });
 

@@ -13,7 +13,7 @@ class KanaGroupsSection extends StatelessWidget {
 
   final Function(Group) onGroupTapped;
 
-  final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
+  final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
   const KanaGroupsSection(
       {required this.type,
@@ -45,7 +45,7 @@ class KanaGroupsSection extends StatelessWidget {
       ListTile(
         title: Text(sectionTitle),
         trailing: TextButton(
-            onPressed: () => onSelectAllTapped(groups, !areAllSelected),
+            onPressed: () => onSelectAllTapped(groups, toAdd: !areAllSelected),
             child: Text(areAllSelected ? l10n.unselect_all : l10n.select_all)),
       ),
       const Padding(

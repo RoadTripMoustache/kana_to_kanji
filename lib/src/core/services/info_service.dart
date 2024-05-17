@@ -37,6 +37,7 @@ class InfoService {
           await _buildAndroidDeviceInfo(deviceInfoPlugin);
         case TargetPlatform.iOS:
           await _buildIOSDeviceInfo(deviceInfoPlugin);
+        // ignore: no_default_cases
         default:
           devicePlatformName = "N/A";
           platformVersion = "N/A";
