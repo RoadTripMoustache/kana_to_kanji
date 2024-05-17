@@ -1,20 +1,20 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:http/http.dart' as http;
-import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/cleanup.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
-import 'package:kana_to_kanji/src/core/services/api_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
+import "package:http/http.dart" as http;
+import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/cleanup.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/repositories/groups_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
+import "package:kana_to_kanji/src/core/services/api_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
 
 class CleanUpService {
   final ApiService _apiService = locator<ApiService>();
@@ -25,7 +25,7 @@ class CleanUpService {
   final VocabularyRepository _vocabularyRepository =
       locator<VocabularyRepository>();
 
-  Future<List<ResourceUid>> getSyncData(bool needForceReload) {
+  Future<List<ResourceUid>> getSyncData({bool forceReload = false}) {
     final lastLoadedVersionGroups =
         _isar.groups.where().versionProperty().max();
     final lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
@@ -35,7 +35,7 @@ class CleanUpService {
         _isar.vocabularys.where().versionProperty().max();
 
     var versionQueryParam = "";
-    if (!needForceReload) {
+    if (!forceReload) {
       if (lastLoadedVersionGroups != null &&
           lastLoadedVersionGroups.compareTo(versionQueryParam) > 0) {
         versionQueryParam = "?version[current]=$lastLoadedVersionGroups";
@@ -54,16 +54,14 @@ class CleanUpService {
       }
     }
 
-    return _apiService
-        .get('/v1/cleanup$versionQueryParam')
-        .then((response) => _extractData(response));
+    return _apiService.get("/v1/cleanup$versionQueryParam").then(_extractData);
   }
 
   /// Extract the Clean up data from the API Response.
   List<ResourceUid> _extractData(http.Response response) {
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      CleanUpData data = CleanUpData.fromJson(jsonData);
+      final CleanUpData data = CleanUpData.fromJson(jsonData);
       return data.deletedResources;
     } else {
       // If the server did return something else,
@@ -72,20 +70,20 @@ class CleanUpService {
     }
   }
 
-  Future executeCleanUp(bool needForceReload) async {
-    final resourcesToDelete = await getSyncData(needForceReload);
+  Future<void> executeCleanUp({bool forceReload = false}) async {
+    final resourcesToDelete = await getSyncData(forceReload: forceReload);
 
-    for (final element in resourcesToDelete) {
+    await Future.wait(resourcesToDelete.map((element) {
       switch (element.resourceType) {
         case ResourceType.group:
-          _groupsRepository.delete(element);
+          return _groupsRepository.delete(element);
         case ResourceType.kana:
-          _kanaRepository.delete(element);
+          return _kanaRepository.delete(element);
         case ResourceType.kanji:
-          _kanjiRepository.delete(element);
+          return _kanjiRepository.delete(element);
         case ResourceType.vocabulary:
-          _vocabularyRepository.delete(element);
+          return _vocabularyRepository.delete(element);
       }
-    }
+    }));
   }
 }

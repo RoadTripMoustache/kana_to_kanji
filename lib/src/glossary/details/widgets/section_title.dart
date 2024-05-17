@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_spacer.dart';
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
 
 class SectionTitle extends StatelessWidget {
   final String title;
 
   final TextStyle? style;
 
-  const SectionTitle({super.key, required this.title, this.style});
+  const SectionTitle({required this.title, super.key, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,6 @@ class SectionTitle extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppSpacer.p8(),

@@ -1,14 +1,14 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
-import 'package:kana_to_kanji/src/core/services/vocabulary_service.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
+import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
 @GenerateNiceMocks([MockSpec<VocabularyService>()])
-import 'vocabulary_repository_test.mocks.dart';
+import "vocabulary_repository_test.mocks.dart";
 
 void main() {
   group("VocabularyRepository", () {

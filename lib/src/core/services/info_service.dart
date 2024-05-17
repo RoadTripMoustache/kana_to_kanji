@@ -1,8 +1,8 @@
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart'
-    show kIsWeb, defaultTargetPlatform, TargetPlatform;
-import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import "package:device_info_plus/device_info_plus.dart";
+import "package:flutter/foundation.dart"
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
+import "package:flutter/services.dart";
+import "package:package_info_plus/package_info_plus.dart";
 
 /// Service that contains all device and package information
 class InfoService {
@@ -22,8 +22,8 @@ class InfoService {
   late final String platformVersion;
 
   Future initialize() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
     appVersion = packageInfo.version;
     appFullVersion = "$appVersion+${packageInfo.buildNumber}";
@@ -35,10 +35,9 @@ class InfoService {
       switch (defaultTargetPlatform) {
         case TargetPlatform.android:
           await _buildAndroidDeviceInfo(deviceInfoPlugin);
-          break;
         case TargetPlatform.iOS:
           await _buildIOSDeviceInfo(deviceInfoPlugin);
-          break;
+        // ignore: no_default_cases
         default:
           devicePlatformName = "N/A";
           platformVersion = "N/A";

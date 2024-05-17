@@ -1,17 +1,17 @@
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
-import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/repositories/kana_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
-import 'package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/glossary/details/details_view.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:stacked/stacked.dart';
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/glossary/details/details_view.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:stacked/stacked.dart";
 
 class GlossaryViewModel extends FutureViewModel {
   final GoRouter router;
@@ -77,21 +77,21 @@ class GlossaryViewModel extends FutureViewModel {
   void _setToDisplay() {
     final hiraganaIdsFiltered = _kanaRepository
         .searchHiragana(_currentSearch, _selectedKnowledgeLevel)
-        .map((e) => e.id);
-    for (({Kana kana, bool disabled}) pair in _hiraganaList) {
-      _hiraganaList[pair.kana.id] = (
+        .map((e) => e.uid);
+    for (final ({Kana kana, bool disabled}) pair in _hiraganaList) {
+      _hiraganaList[pair.kana.position] = (
         kana: pair.kana,
-        disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
+        disabled: !hiraganaIdsFiltered.contains(pair.kana.uid)
       );
     }
 
     final katakanaIdsFiltered = _kanaRepository
         .searchKatakana(_currentSearch, _selectedKnowledgeLevel)
-        .map((e) => e.id);
-    for (({Kana kana, bool disabled}) pair in _katakanaList) {
-      _katakanaList[pair.kana.id - _hiraganaList.length] = (
+        .map((e) => e.uid);
+    for (final ({Kana kana, bool disabled}) pair in _katakanaList) {
+      _katakanaList[pair.kana.position] = (
         kana: pair.kana,
-        disabled: !katakanaIdsFiltered.contains(pair.kana.id)
+        disabled: !katakanaIdsFiltered.contains(pair.kana.uid)
       );
     }
 
@@ -105,8 +105,8 @@ class GlossaryViewModel extends FutureViewModel {
           _selectedKnowledgeLevel, _selectedJlptLevel, selectedOrder));
   }
 
-  void onTilePressed(dynamic item) {
-    _dialogService.showModalBottomSheet(
+  Future<void> onTilePressed(dynamic item) async {
+    await _dialogService.showModalBottomSheet(
         useSafeArea: true,
         showDragHandle: true,
         isScrollControlled: true,

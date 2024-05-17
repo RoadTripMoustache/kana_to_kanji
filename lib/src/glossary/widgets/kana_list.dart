@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart";
 
 const _mainKanaLastId = 46;
 const _dakutenLastId = 71;
@@ -9,14 +9,14 @@ const _emptyTiles = [44, 45, 46, 37, 36];
 
 class KanaList extends StatefulWidget {
   /// List of Kana.
-  /// Required the entire kana list of the alphabet (107 kanas) otherwise a loading screen
-  /// will be shown.
+  /// Required the entire kana list of the alphabet (107 kanas) otherwise
+  /// a loading screen will be shown.
   final List<({Kana kana, bool disabled})> items;
 
   /// Function to execute when a [KanaListTile] is pressed
   final Function(Kana kana)? onPressed;
 
-  const KanaList({super.key, required this.items, this.onPressed});
+  const KanaList({required this.items, super.key, this.onPressed});
 
   @override
   State<KanaList> createState() => _KanaListState();
@@ -27,17 +27,15 @@ class _KanaListState extends State<KanaList> {
       GlobalKey(debugLabel: "kana_list_scroll_to_widget_key");
 
   void _onPressed(Kana kana) {
-    if (widget.onPressed != null) {
-      widget.onPressed!(kana);
-    }
+    widget.onPressed?.call(kana);
   }
 
   @override
   void didUpdateWidget(KanaList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (_scrollToWidgetKey.currentContext != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Scrollable.ensureVisible(
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await Scrollable.ensureVisible(
           _scrollToWidgetKey.currentContext!,
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeInOut,
@@ -70,7 +68,7 @@ class _KanaListState extends State<KanaList> {
               onPressed: () => _onPressed(item.kana),
             ))
         .toList();
-    for (int id in _emptyTiles) {
+    for (final int id in _emptyTiles) {
       main.insert(id, cleanTile);
     }
 
@@ -93,7 +91,6 @@ class _KanaListState extends State<KanaList> {
 
     return SingleChildScrollView(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [

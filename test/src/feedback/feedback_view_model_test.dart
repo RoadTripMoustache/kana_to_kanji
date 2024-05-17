@@ -1,25 +1,24 @@
-import 'package:feedback/feedback.dart';
-import 'package:feedback/src/feedback_data.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/core/services/info_service.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
-import 'package:kana_to_kanji/src/feedback/feedback_view_model.dart';
-import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
-import 'package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:image/image.dart' as image;
+import "package:feedback/feedback.dart";
+import "package:feedback/src/feedback_data.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/services.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:go_router/go_router.dart";
+import "package:image/image.dart" as image;
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/core/services/info_service.dart";
+import "package:kana_to_kanji/src/core/widgets/app_config.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
+import "package:kana_to_kanji/src/feedback/feedback_view_model.dart";
+import "package:kana_to_kanji/src/feedback/service/github_service.dart";
+import "package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../helpers.dart';
-
+import "../../helpers.dart";
 @GenerateNiceMocks([
   MockSpec<GoRouter>(),
   MockSpec<GithubService>(),
@@ -29,10 +28,10 @@ import '../../helpers.dart';
   MockSpec<DialogService>(),
   MockSpec<InfoService>()
 ])
-import 'feedback_view_model_test.mocks.dart';
+import "feedback_view_model_test.mocks.dart";
 
 class MockCallbackFunction extends Mock {
-  call();
+  void call();
 }
 
 void main() {
@@ -53,8 +52,9 @@ void main() {
 
     setUpAll(() async {
       l10n = await setupLocalizations();
-      locator.registerSingleton<DialogService>(dialogServiceMock);
-      locator.registerSingleton<InfoService>(infoServiceMock);
+      locator
+        ..registerSingleton<DialogService>(dialogServiceMock)
+        ..registerSingleton<InfoService>(infoServiceMock);
     });
 
     setUp(() {
@@ -74,9 +74,10 @@ void main() {
       reset(notifyListenersCallback);
     });
 
-    tearDownAll(() {
-      locator.unregister<DialogService>(instance: dialogServiceMock);
-      locator.unregister<InfoService>(instance: infoServiceMock);
+    tearDownAll(() async {
+      locator
+        ..unregister<DialogService>(instance: dialogServiceMock)
+        ..unregister<InfoService>(instance: infoServiceMock);
     });
 
     group("Feedback type", () {
@@ -108,15 +109,15 @@ void main() {
       group("isFormAddScreenshotEnabled", () {});
 
       test(
-          "onFormChange should update the corresponding value and call listeners",
-          () {
+          "onFormChange should update the corresponding value and "
+          "call listeners", () {
         for (final field in FeedbackFormFields.values) {
           expect(viewModel.formData[field], "",
               reason: "Should be empty by default");
           viewModel.onFormChange(field, field.name);
           expect(viewModel.formData[field], field.name,
-              reason:
-                  "Should have been updated with the passed value (in this case the field name)");
+              reason: "Should have been updated with the passed value, "
+                  "here the field name");
         }
 
         verify(notifyListenersCallback())
@@ -146,8 +147,8 @@ void main() {
           for (final entry in emails.entries) {
             expect(viewModel.formValidator(FeedbackFormFields.email, entry.key),
                 entry.value,
-                reason:
-                    "${entry.key} should be ${entry.value == null ? "allowed" : "refused"}");
+                reason: "${entry.key} should be "
+                    "${entry.value == null ? "allowed" : "refused"}");
           }
         });
 
@@ -156,12 +157,12 @@ void main() {
           viewModel.onFeedbackTypePressed(FeedbackType.featureRequest);
           expect(viewModel.formValidator(FeedbackFormFields.description, null),
               l10n.feedback_empty_description,
-              reason:
-                  "Null description isn't allowed when feedback is feature request");
+              reason: "Null description isn't allowed when "
+                  "feedback is feature request");
           expect(viewModel.formValidator(FeedbackFormFields.description, ""),
               l10n.feedback_empty_description,
-              reason:
-                  "Empty description isn't allowed when feedback is feature request");
+              reason: "Empty description isn't allowed when "
+                  "feedback is feature request");
           expect(
               viewModel.formValidator(
                   FeedbackFormFields.description, "Description"),
@@ -286,7 +287,7 @@ void main() {
             () async {
           // Get an image
           final Uint8List bytes = (await rootBundle.load(
-                  'packages/kana_to_kanji/assets/images/flutter_logo.png'))
+                  "packages/kana_to_kanji/assets/images/flutter_logo.png"))
               .buffer
               .asUint8List();
           final Uint8List screenshotData = image.encodePng(image.copyResize(

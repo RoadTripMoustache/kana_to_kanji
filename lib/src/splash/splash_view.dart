@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
-import 'package:kana_to_kanji/src/splash/splash_view_model.dart';
-import 'package:rive/rive.dart';
-import 'package:stacked/stacked.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/widgets/app_config.dart";
+import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
+import "package:kana_to_kanji/src/splash/splash_view_model.dart";
+import "package:rive/rive.dart";
+import "package:stacked/stacked.dart";
 
 class SplashView extends StatelessWidget {
   static const routeName = "/splash";
@@ -13,7 +13,7 @@ class SplashView extends StatelessWidget {
   const SplashView({super.key});
 
   static const TextStyle _style = TextStyle(
-      fontFamily: 'MPlusRounded1c',
+      fontFamily: "MPlusRounded1c",
       fontWeight: FontWeight.w400,
       fontSize: 60.0);
 
@@ -27,7 +27,6 @@ class SplashView extends StatelessWidget {
           body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text.rich(
                 TextSpan(text: l10n.app_title_kana, children: [

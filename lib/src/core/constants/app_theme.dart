@@ -1,5 +1,5 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/material.dart';
+import "package:flex_color_scheme/flex_color_scheme.dart";
+import "package:flutter/material.dart";
 
 class AppTheme {
   const AppTheme._();
@@ -8,7 +8,6 @@ class AppTheme {
   static const FlexSurfaceMode _surfaceMode =
       FlexSurfaceMode.levelSurfacesLowScaffold;
   static const bool _useMaterial3 = true;
-  static const bool _useM2StyleDividerMaterial3 = false;
   static const bool _swapLegacyOnMaterial3 = true;
 
   static ThemeData light() => FlexThemeData.light(
@@ -18,7 +17,6 @@ class AppTheme {
         subThemesData: const FlexSubThemesData(
           blendOnLevel: 10,
           blendOnColors: false,
-          useM2StyleDividerInM3: _useM2StyleDividerMaterial3,
           elevatedButtonRadius: 10.0,
           outlinedButtonRadius: 10.0,
           filledButtonRadius: 10.0,
@@ -34,7 +32,6 @@ class AppTheme {
         blendLevel: 13,
         subThemesData: const FlexSubThemesData(
           blendOnLevel: 20,
-          useM2StyleDividerInM3: _useM2StyleDividerMaterial3,
           elevatedButtonRadius: 10.0,
           outlinedButtonRadius: 10.0,
           filledButtonRadius: 10.0,
@@ -44,8 +41,7 @@ class AppTheme {
         swapLegacyOnMaterial3: _swapLegacyOnMaterial3,
       );
 
-  static Color getModalBottomSheetBackgroundColor(ThemeData theme) {
-    return ElevationOverlay.applySurfaceTint(
-        theme.colorScheme.surface, theme.colorScheme.surfaceTint, 2.0);
-  }
+  static Color getModalBottomSheetBackgroundColor(ThemeData theme) =>
+      ElevationOverlay.applySurfaceTint(
+          theme.colorScheme.surface, theme.colorScheme.surfaceTint, 2.0);
 }

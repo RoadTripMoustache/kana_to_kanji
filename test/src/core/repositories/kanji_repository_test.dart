@@ -1,14 +1,14 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/repositories/kanji_repository.dart';
-import 'package:kana_to_kanji/src/core/services/kanji_service.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
+import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
 @GenerateNiceMocks([MockSpec<KanjiService>()])
-import 'kanji_repository_test.mocks.dart';
+import "kanji_repository_test.mocks.dart";
 
 void main() {
   group("KanjiRepository", () {

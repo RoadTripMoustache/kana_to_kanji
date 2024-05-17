@@ -1,27 +1,27 @@
-import 'dart:convert';
+// ignore_for_file: avoid_dynamic_calls
+import "dart:convert";
 
-import 'package:isar/isar.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/services/api_service.dart';
-import 'package:kana_to_kanji/src/core/utils/kana_utils.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
+import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/services/api_service.dart";
+import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
+import "package:kana_to_kanji/src/locator.dart";
 
 class KanjiDataLoader {
   final ApiService _apiService = locator<ApiService>();
   final Isar _isar = locator<Isar>();
 
   /// Load all the kanji from the API.
-  Future loadCollection(bool needForceReload) async {
+  /// If [forceReload] is true, the collection is cleared and populated again
+  Future loadCollection({bool forceReload = false}) async {
     var versionQueryParam = "";
 
-    if (needForceReload) {
-      // If force reload is needed, don't set the version and clear the collection.
-      await _isar.writeAsync((isar) {
-        return isar.kanjis.clear();
-      });
+    // If force reload is needed, don't set the version and clear the collection
+    if (forceReload) {
+      await _isar.writeAsync((isar) => isar.kanjis.clear());
     } else {
-      var lastLoadedVersion = _isar.kanjis.where().versionProperty().max();
+      final lastLoadedVersion = _isar.kanjis.where().versionProperty().max();
 
       if (lastLoadedVersion != null) {
         versionQueryParam = "?version[current]=$lastLoadedVersion";
@@ -29,8 +29,8 @@ class KanjiDataLoader {
     }
 
     return _apiService
-        .get('/v1/kanjis?details=light$versionQueryParam')
-        .then((response) => _extractKanjis(response))
+        .get("/v1/kanjis?details=light$versionQueryParam")
+        .then(_extractKanjis)
         .then((listKanji) =>
             _isar.write((isar) => isar.kanjis.putAll(listKanji)));
   }
@@ -38,8 +38,8 @@ class KanjiDataLoader {
   /// Extract all the kana from the API Response.
   List<Kanji> _extractKanjis(http.Response response) {
     if (response.statusCode == 200) {
-      List<Kanji> kanjis = [];
-      var listKanji = jsonDecode(response.body);
+      final List<Kanji> kanjis = [];
+      final listKanji = jsonDecode(response.body);
       for (final k in listKanji["data"]) {
         if (k["meanings"] == null) {
           // TODO : To delete once "meanings" is not used anymore

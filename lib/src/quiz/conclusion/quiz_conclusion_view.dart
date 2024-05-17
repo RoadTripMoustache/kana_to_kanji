@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_scaffold.dart';
-import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view_model.dart';
-import 'package:kana_to_kanji/src/core/widgets/arc_progress_indicator.dart';
-import 'package:kana_to_kanji/src/quiz/conclusion/widgets/to_review_section.dart';
-import 'package:kana_to_kanji/src/quiz/models/question.dart';
-import 'package:stacked/stacked.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
+import "package:kana_to_kanji/src/core/widgets/arc_progress_indicator.dart";
+import "package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view_model.dart";
+import "package:kana_to_kanji/src/quiz/conclusion/widgets/to_review_section.dart";
+import "package:kana_to_kanji/src/quiz/models/question.dart";
+import "package:stacked/stacked.dart";
 
 class QuizConclusionView extends StatelessWidget {
   static const routeName = "/quiz/conclusion";
@@ -15,7 +15,7 @@ class QuizConclusionView extends StatelessWidget {
 
   final List<Question> questions;
 
-  const QuizConclusionView({super.key, required this.questions});
+  const QuizConclusionView({required this.questions, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,6 @@ class QuizConclusionView extends StatelessWidget {
                 title: Text(l10n.quiz_conclusion)),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
                   child: Padding(

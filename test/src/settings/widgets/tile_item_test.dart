@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/settings/widgets/tile_item.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/settings/widgets/tile_item.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("TileItem", () {
     testWidgets("UI", (WidgetTester tester) async {
-      const String title = 'title';
-      const String subtitle = 'Subtitle';
+      const String title = "title";
+      const String subtitle = "Subtitle";
       const IconData leading = Icons.abc;
       const IconData trailing = Icons.account_circle_outlined;
 

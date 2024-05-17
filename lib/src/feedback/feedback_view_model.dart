@@ -1,23 +1,24 @@
-import 'dart:typed_data';
+import "dart:typed_data";
 
-import 'package:feedback/feedback.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/core/constants/regexp.dart';
-import 'package:kana_to_kanji/src/core/services/dialog_service.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_config.dart';
-import 'package:kana_to_kanji/src/feedback/service/github_service.dart';
-import 'package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart';
-import 'package:kana_to_kanji/src/feedback/widgets/feedback_success_dialog.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:stacked/stacked.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
-import 'package:image/image.dart' as image;
+import "package:feedback/feedback.dart";
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:go_router/go_router.dart";
+import "package:image/image.dart" as image;
+import "package:kana_to_kanji/src/core/constants/regexp.dart";
+import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/core/widgets/app_config.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
+import "package:kana_to_kanji/src/feedback/service/github_service.dart";
+import "package:kana_to_kanji/src/feedback/utils/build_issue_helper.dart";
+import "package:kana_to_kanji/src/feedback/widgets/feedback_success_dialog.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:stacked/stacked.dart";
 
 /// Width of the encoded screenshot.
-/// We fix this value as depending on user's device we can have a insane amount of pixels
+/// We fix this value as depending on user's device we can have a
+/// insane amount of pixels
 const kScreenshotPortraitWidth = 720;
 const kScreenshotLandscapeWidth = 1280;
 
@@ -32,7 +33,7 @@ class FeedbackViewModel extends BaseViewModel {
   /// Which type of feedback was selected by the user.
   FeedbackType? get selectedFeedbackType => _selectedFeedbackType;
 
-  /// Contains all the fields and value of the [FeedbackForm]
+  /// Contains all the fields and value from the form
   @visibleForTesting
   final Map<FeedbackFormFields, String> formData = {
     FeedbackFormFields.email: "",
@@ -91,8 +92,9 @@ class FeedbackViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  /// Validate the current content of a [field]
-  /// Depending on [selectedFeedbackType], the [field] will be validated differently
+  /// Validate the current content of a [field].
+  /// Depending on [selectedFeedbackType], the [field] will be
+  /// validated differently
   String? formValidator(FeedbackFormFields field, String? value) {
     String? validation;
 
@@ -101,19 +103,16 @@ class FeedbackViewModel extends BaseViewModel {
         if (value != null && value.isNotEmpty && !emailRegexp.hasMatch(value)) {
           validation = l10n.invalid_email;
         }
-        break;
       case FeedbackFormFields.description:
         if (_selectedFeedbackType == FeedbackType.featureRequest &&
             (value == null || value.isEmpty)) {
           validation = l10n.feedback_empty_description;
         }
-        break;
       case FeedbackFormFields.stepsToReproduce:
         if (_selectedFeedbackType == FeedbackType.bug &&
             (value == null || value.isEmpty)) {
           validation = l10n.feedback_empty_steps_to_reproduce;
         }
-        break;
     }
 
     _formOnError = validation != null;
@@ -137,7 +136,8 @@ class FeedbackViewModel extends BaseViewModel {
 
     setBusy(true);
     if (screenshot != null) {
-      // No need to close the dialog as [onIncludeScreenshotPressed] already closed it
+      // No need to close the dialog as [onIncludeScreenshotPressed]
+      // already closed it
       needToBeClosed = false;
 
       // Encode the image then upload it
@@ -166,7 +166,7 @@ class FeedbackViewModel extends BaseViewModel {
     }
 
     // Show success dialog and thanks the user
-    locator<DialogService>().showModalBottomSheet(
+    await locator<DialogService>().showModalBottomSheet(
         isDismissible: false,
         builder: (BuildContext context) {
           Future.delayed(const Duration(seconds: 2), () => context.pop());

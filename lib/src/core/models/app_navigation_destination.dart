@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:flutter/material.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'app_navigation_destination.freezed.dart';
+part "app_navigation_destination.freezed.dart";
 
 @freezed
 class AppNavigationDestination with _$AppNavigationDestination {

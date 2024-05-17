@@ -1,8 +1,8 @@
-import 'dart:math';
-import 'dart:ui';
+import "dart:math";
+import "dart:ui";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 const int _kAnimationDuration = 1800;
 const double _kMinRadius = 150.0;
@@ -33,18 +33,15 @@ class ArcProgressIndicator extends StatefulWidget {
   ///
   /// If null, the progress indicator is rendered with [color]. If that is null,
   /// then it will use the ambient [ProgressIndicatorThemeData.color]. If that
-  /// is also null then it defaults to the current theme's [ColorScheme.primary].
+  /// is also null then it defaults to the current theme's
+  /// [ColorScheme.primary].
   final Animation<Color?>? valueColor;
 
-  /// The [SemanticsProperties.label] for this progress indicator.
-  ///
   /// This value indicates the purpose of the progress bar, and will be
   /// read out by screen readers to indicate the purpose of this progress
   /// indicator.
   final String? semanticsLabel;
 
-  /// The [SemanticsProperties.value] for this progress indicator.
-  ///
   /// This will be used in conjunction with the [semanticsLabel] by
   /// screen reading software to identify the widget, and is primarily
   /// intended for use with determinate progress indicators to announce
@@ -60,22 +57,22 @@ class ArcProgressIndicator extends StatefulWidget {
   /// If not provided 150.0 will be used
   final double? radius;
 
-  /// Indicate if the percentage should be displayed at the center of the progress
-  /// indicator.
+  /// Indicate if the percentage should be displayed at the center of the
+  /// progress indicator.
   ///
   /// By default true.
   final bool showPercentage;
 
   /// Text that will be displayed at the center of the progress indicator.
   ///
-  /// If [showPercentage] is true and this isn't null, the user could switch from
-  /// one text to the other by tapping on it.
+  /// If [showPercentage] is true and this isn't null, the user could switch
+  /// from one text to the other by tapping on it.
   final String? alternativeText;
 
   const ArcProgressIndicator(
-      {super.key,
+      {required this.value,
+      super.key,
       this.radius,
-      required this.value,
       this.backgroundColor,
       this.color,
       this.valueColor,
@@ -117,20 +114,19 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
     super.dispose();
   }
 
-  Color _getValueColor(BuildContext context, {Color? defaultColor}) {
-    return widget.valueColor?.value ??
-        widget.color ??
-        ProgressIndicatorTheme.of(context).color ??
-        defaultColor ??
-        Theme.of(context).colorScheme.primary;
-  }
+  Color _getValueColor(BuildContext context, {Color? defaultColor}) =>
+      widget.valueColor?.value ??
+      widget.color ??
+      ProgressIndicatorTheme.of(context).color ??
+      defaultColor ??
+      Theme.of(context).colorScheme.primary;
 
   Widget _buildSemanticsWrapper({
     required BuildContext context,
     required Widget child,
   }) {
-    String expandedSemanticsValue =
-        widget.semanticsValue ?? '${(widget.value * 100).round()}%';
+    final String expandedSemanticsValue =
+        widget.semanticsValue ?? "${(widget.value * 100).round()}%";
 
     return Semantics(
       label: widget.semanticsLabel,
@@ -237,9 +233,8 @@ class _ArcProgressIndicatorPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ArcProgressIndicatorPainter oldPainter) {
-    return oldPainter.backgroundColor != backgroundColor ||
-        oldPainter.valueColor != valueColor ||
-        oldPainter.value != value;
-  }
+  bool shouldRepaint(_ArcProgressIndicatorPainter oldPainter) =>
+      oldPainter.backgroundColor != backgroundColor ||
+      oldPainter.valueColor != valueColor ||
+      oldPainter.value != value;
 }

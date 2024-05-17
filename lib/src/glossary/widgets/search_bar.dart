@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/constants/jlpt_levels.dart';
-import 'package:kana_to_kanji/src/core/constants/knowledge_level.dart';
-import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/filter_by.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/sort_by.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/glossary/widgets/filter_by.dart";
+import "package:kana_to_kanji/src/glossary/widgets/sort_by.dart";
 
 const _duration = Duration(milliseconds: 400);
 
@@ -17,20 +17,19 @@ class GlossarySearchBar extends StatelessWidget {
   final SortOrder selectedOrder;
 
   const GlossarySearchBar({
-    super.key,
     required this.searchGlossary,
     required this.filterGlossary,
     required this.sortGlossary,
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
     required this.selectedOrder,
+    super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return GlossarySearchBarContent(
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            GlossarySearchBarContent(
           maxWidth: constraints.maxWidth,
           searchGlossary: searchGlossary,
           filterGlossary: filterGlossary,
@@ -38,10 +37,8 @@ class GlossarySearchBar extends StatelessWidget {
           selectedJlptLevel: selectedJlptLevel,
           selectedKnowledgeLevel: selectedKnowledgeLevel,
           selectedOrder: selectedOrder,
-        );
-      },
-    );
-  }
+        ),
+      );
 }
 
 class GlossarySearchBarContent extends StatefulWidget {
@@ -54,7 +51,6 @@ class GlossarySearchBarContent extends StatefulWidget {
   final SortOrder selectedOrder;
 
   const GlossarySearchBarContent({
-    super.key,
     required this.maxWidth,
     required this.searchGlossary,
     required this.filterGlossary,
@@ -62,6 +58,7 @@ class GlossarySearchBarContent extends StatefulWidget {
     required this.selectedJlptLevel,
     required this.selectedKnowledgeLevel,
     required this.selectedOrder,
+    super.key,
   });
 
   @override
@@ -76,6 +73,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
   double borderRadius = 32;
   double margin = 1;
   bool isOpen = false;
+
   bool get isInputFilled => _controller.text.isNotEmpty;
   bool isSearchMade = false;
   double searchBarWidth = kToolbarHeight;
@@ -135,13 +133,14 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
   void clearSearch() {
     _controller.clear();
     isSearchMade = false;
-    _focusNode.unfocus();
-    _focusNode.requestFocus();
+    _focusNode
+      ..unfocus()
+      ..requestFocus();
     focusInSearch();
     widget.searchGlossary("");
   }
 
-  void focusOutSearch(event) {
+  void focusOutSearch(PointerDownEvent? event) {
     _focusNode.unfocus();
     changeSearchBarAnimationState();
   }
@@ -170,50 +169,46 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
     }
   }
 
-  Route _createRouteFilterBy() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => FilterBy(
-        filterGlossary: widget.filterGlossary,
-        selectedJlptLevel: widget.selectedJlptLevel,
-        selectedKnowledgeLevel: widget.selectedKnowledgeLevel,
-      ),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+  Route _createRouteFilterBy() => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => FilterBy(
+          filterGlossary: widget.filterGlossary,
+          selectedJlptLevel: widget.selectedJlptLevel,
+          selectedKnowledgeLevel: widget.selectedKnowledgeLevel,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      );
 
-  Route _createRouteSortBy() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => SortBy(
-        sortGlossary: widget.sortGlossary,
-        selectedOrder: widget.selectedOrder,
-      ),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+  Route _createRouteSortBy() => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => SortBy(
+          sortGlossary: widget.sortGlossary,
+          selectedOrder: widget.selectedOrder,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      );
 
   @override
   void dispose() {
@@ -233,7 +228,6 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
           child: Row(
             children: [
               Expanded(
-                flex: 1,
                 child: Container(),
               ),
               Expanded(
@@ -243,24 +237,23 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                 ),
               ),
               Expanded(
-                  flex: 1,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(_createRouteSortBy());
-                        },
-                        icon: const Icon(Icons.filter_list_rounded),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(_createRouteFilterBy());
-                        },
-                        icon: const Icon(Icons.tune),
-                      ),
-                    ],
-                  )),
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      await Navigator.of(context).push(_createRouteSortBy());
+                    },
+                    icon: const Icon(Icons.filter_list_rounded),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await Navigator.of(context).push(_createRouteFilterBy());
+                    },
+                    icon: const Icon(Icons.tune),
+                  ),
+                ],
+              )),
             ],
           ),
         ),
@@ -298,7 +291,6 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                   controller: _controller,
                   focusNode: _focusNode,
                   autocorrect: false,
-                  autofocus: false,
                   textAlign: TextAlign.left,
                   textAlignVertical: TextAlignVertical.center,
                   textInputAction: TextInputAction.send,

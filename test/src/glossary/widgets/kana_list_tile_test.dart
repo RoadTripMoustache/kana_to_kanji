@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/constants/app_theme.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/app_theme.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("KanaListTile", () {
@@ -67,10 +67,10 @@ void main() {
             find.descendant(of: widget, matching: find.byType(Card));
         expect((tester.widget(card) as Card).elevation, equals(0.0));
 
-        // Validate that all text style color is equal to the theme disabledColor
+        // Validate that all text style color is equal to theme.disabledColor
         final Finder texts =
             find.descendant(of: widget, matching: find.byType(Text));
-        for (Widget text in tester.widgetList(texts)) {
+        for (final Widget text in tester.widgetList(texts)) {
           expect((text as Text).style?.color,
               equals(AppTheme.light().disabledColor));
         }
@@ -80,9 +80,7 @@ void main() {
     group("Interactions", () {
       final List<int> log = [];
 
-      setUp(() {
-        log.clear();
-      });
+      setUp(log.clear);
 
       testWidgets("It should call onPressed when tapped",
           (WidgetTester tester) async {

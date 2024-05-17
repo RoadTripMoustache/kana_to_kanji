@@ -1,9 +1,11 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/quiz/constants/question_types.dart';
+// Ignored because unfreezed requires final for the immuable parameters
+// ignore_for_file: avoid_final_parameters
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/quiz/constants/question_types.dart";
 
-part 'question.freezed.dart';
+part "question.freezed.dart";
 
 @unfreezed
 class Question with _$Question {

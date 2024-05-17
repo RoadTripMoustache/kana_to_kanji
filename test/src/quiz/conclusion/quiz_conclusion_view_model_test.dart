@@ -1,19 +1,19 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/kana.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view_model.dart';
-import 'package:kana_to_kanji/src/quiz/constants/question_types.dart';
-import 'package:kana_to_kanji/src/quiz/models/question.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view_model.dart";
+import "package:kana_to_kanji/src/quiz/constants/question_types.dart";
+import "package:kana_to_kanji/src/quiz/models/question.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 @GenerateNiceMocks([MockSpec<SettingsRepository>()])
-import 'quiz_conclusion_view_model_test.mocks.dart';
+import "quiz_conclusion_view_model_test.mocks.dart";
 
 void main() {
   group("QuizConclusionViewModel", () {
@@ -39,10 +39,7 @@ void main() {
         type: QuestionTypes.toJapanese,
         remainingAttempt: 2);
     final Question rightQuestion = Question(
-        alphabet: kana.alphabet,
-        kana: kana,
-        type: QuestionTypes.toJapanese,
-        remainingAttempt: 3);
+        alphabet: kana.alphabet, kana: kana, type: QuestionTypes.toJapanese);
 
     setUpAll(() {
       locator.registerSingleton<SettingsRepository>(settingsRepositoryMock);
@@ -53,8 +50,8 @@ void main() {
       reset(settingsRepositoryMock);
     });
 
-    tearDownAll(() {
-      unregister<SettingsRepository>();
+    tearDownAll(() async {
+      await unregister<SettingsRepository>();
     });
 
     test("Initialization", () {
@@ -63,7 +60,8 @@ void main() {
         partiallyWrongQuestion,
         rightQuestion
       ];
-      QuizConclusionViewModel viewModel = QuizConclusionViewModel(questions);
+      final QuizConclusionViewModel viewModel =
+          QuizConclusionViewModel(questions);
 
       expect(viewModel.questions, containsAll(questions));
       expect(viewModel.rightAnswers,

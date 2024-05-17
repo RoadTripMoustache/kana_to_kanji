@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
 
 /// Size of the leading icon on the buttons
 const _kButtonLeadingIconSize = 36.0;
@@ -14,7 +14,7 @@ class FeedbackTypeSelection extends StatelessWidget {
 
   final Function(FeedbackType) onPressed;
 
-  const FeedbackTypeSelection({super.key, required this.onPressed});
+  const FeedbackTypeSelection({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

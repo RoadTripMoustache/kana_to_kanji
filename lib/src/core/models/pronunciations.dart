@@ -1,7 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isar/isar.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:isar/isar.dart";
 
-part 'pronunciations.g.dart';
+part "pronunciations.g.dart";
 
 @JsonSerializable()
 @embedded

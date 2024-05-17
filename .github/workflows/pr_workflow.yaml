@@ -32,6 +32,7 @@ jobs:
         with:
           file_path: 'pubspec.yaml'
           reference_branch: 'main'
+          commit_message: "chore(bot): Bump version from {old} to {new}"
   tests:
     name: Run the tests and checks
     runs-on: ubuntu-latest

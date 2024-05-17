@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/preference_flags.dart';
-import 'package:kana_to_kanji/src/core/repositories/settings_repository.dart';
-import 'package:kana_to_kanji/src/core/services/preferences_service.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 @GenerateNiceMocks([MockSpec<PreferencesService>()])
-import 'settings_repository_test.mocks.dart';
+import "settings_repository_test.mocks.dart";
 
 void main() {
   group("SettingsRepository", () {
@@ -29,8 +29,8 @@ void main() {
       reset(preferencesServiceMock);
     });
 
-    tearDownAll(() {
-      unregister<PreferencesService>();
+    tearDownAll(() async {
+      await unregister<PreferencesService>();
     });
 
     group("Theme mode", () {
@@ -40,8 +40,8 @@ void main() {
           await repository.loadSettings();
 
           expect(repository.themeMode, ThemeMode.system,
-              reason:
-                  "No theme mode is saved or the saved one is invalid, instead should return system.");
+              reason: "No theme mode is saved or the saved one is invalid, "
+                  "instead should return system.");
           verify(preferencesServiceMock.getString(PreferenceFlags.themeMode));
         });
 
@@ -75,14 +75,14 @@ void main() {
           const newMode = ThemeMode.dark;
 
           expect(repository.themeMode, ThemeMode.system,
-              reason:
-                  "No theme mode is saved or the saved one is invalid, instead should return system.");
+              reason: "No theme mode is saved or the saved one is invalid, "
+                  "instead should return system.");
           await repository.updateThemeMode(newMode);
           expect(repository.themeMode, newMode,
               reason: "Mode should have been updated");
           expect(fired, 2,
-              reason:
-                  "Listener should have been notified 2 times, during loadSettings and updateThemeMode");
+              reason: "Listener should have been notified 2 times, "
+                  "during loadSettings and updateThemeMode");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
             preferencesServiceMock.getString(PreferenceFlags.locale),
@@ -98,14 +98,14 @@ void main() {
           const newMode = ThemeMode.system;
 
           expect(repository.themeMode, ThemeMode.system,
-              reason:
-                  "No theme mode is saved or the saved one is invalid, instead should return system.");
+              reason: "No theme mode is saved or the saved one is invalid, "
+                  "instead should return system.");
           await repository.updateThemeMode(newMode);
           expect(repository.themeMode, ThemeMode.system,
               reason: "Mode should not have change");
           expect(fired, 1,
-              reason:
-                  "Listener should have been notified 1 time during loadSettings");
+              reason: "Listener should have been notified 1 time "
+                  "during loadSettings");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
             preferencesServiceMock.getString(PreferenceFlags.locale),
@@ -156,14 +156,14 @@ void main() {
           const newLocale = Locale.fromSubtags(languageCode: "en");
 
           expect(repository.themeMode, ThemeMode.system,
-              reason:
-                  "No theme mode is saved or the saved one is invalid, instead should return system.");
+              reason: "No theme mode is saved or the saved one is invalid, "
+                  "instead should return system.");
           await repository.updateLocale(newLocale);
           expect(repository.locale, newLocale,
               reason: "Locale should have been updated");
           expect(fired, 2,
-              reason:
-                  "Listener should have been notified 2 times, during loadSettings and updateLocale");
+              reason: "Listener should have been notified 2 times, "
+                  "during loadSettings and updateLocale");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
             preferencesServiceMock.getString(PreferenceFlags.locale),
@@ -184,8 +184,8 @@ void main() {
           expect(repository.locale, null,
               reason: "Locale should not have change");
           expect(fired, 1,
-              reason:
-                  "Listener should have been notified 1 time during loadSettings");
+              reason: "Listener should have been notified 1 time "
+                  "during loadSettings");
           verifyInOrder([
             preferencesServiceMock.getString(PreferenceFlags.themeMode),
             preferencesServiceMock.getString(PreferenceFlags.locale),

@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("GlossaryListTile", () {
@@ -34,8 +34,8 @@ void main() {
             find.descendant(
                 of: widget, matching: find.text(kanji.kunReadings[0])),
             findsOneWidget,
-            reason:
-                "If showFurigana is true, the furigana should be displayed when available");
+            reason: "If showFurigana is true, the furigana should be displayed "
+                "when available");
         expect(
             find.descendant(
                 of: widget,
@@ -80,8 +80,8 @@ void main() {
             find.descendant(
                 of: widget, matching: find.text(vocabulary.kana[0])),
             findsOneWidget,
-            reason:
-                "If showFurigana is true, the furigana should be displayed when available");
+            reason: "If showFurigana is true, the furigana should be displayed "
+                "when available");
         expect(
             find.descendant(
                 of: widget,
@@ -105,9 +105,7 @@ void main() {
     group("Interactions", () {
       final List<int> log = [];
 
-      setUp(() {
-        log.clear();
-      });
+      setUp(log.clear);
 
       testWidgets("onTap", (WidgetTester tester) async {
         final widget = await pump(

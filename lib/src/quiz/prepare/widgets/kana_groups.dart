@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/core/constants/kana_type.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/quiz/prepare/widgets/kana_groups_section.dart';
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/constants/kana_type.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/quiz/prepare/widgets/kana_groups_section.dart";
 
 class KanaGroups extends StatelessWidget {
   final List<Group> groups;
@@ -10,14 +10,14 @@ class KanaGroups extends StatelessWidget {
 
   final Function(Group) onGroupTapped;
 
-  final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
+  final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
   const KanaGroups(
-      {super.key,
-      required this.groups,
+      {required this.groups,
       required this.selectedGroups,
       required this.onGroupTapped,
-      required this.onSelectAllTapped});
+      required this.onSelectAllTapped,
+      super.key});
 
   @override
   Widget build(BuildContext context) {

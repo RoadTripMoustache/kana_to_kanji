@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 
 class FuriganaText extends StatelessWidget {
   final String text;
@@ -15,8 +15,8 @@ class FuriganaText extends StatelessWidget {
   /// [showFurigana] is true. Please note that no logic of verification
   /// are done, meaning that you can display any text on top of [text].
   const FuriganaText(
-      {super.key,
-      required this.text,
+      {required this.text,
+      super.key,
       this.furigana,
       this.showFurigana = false,
       this.style});
@@ -32,11 +32,9 @@ class FuriganaText extends StatelessWidget {
           showFurigana: showFurigana,
           style: style);
 
-  factory FuriganaText.vocabulary(Vocabulary vocabulary,
-      {TextStyle? style, bool showFurigana = false}) {
+  factory FuriganaText.vocabulary(Vocabulary vocabulary, {TextStyle? style}) {
     if (vocabulary.kanji.isEmpty) {
-      return FuriganaText(
-          text: vocabulary.kana, showFurigana: false, style: style);
+      return FuriganaText(text: vocabulary.kana, style: style);
     }
 
     return FuriganaText(
@@ -57,7 +55,6 @@ class FuriganaText extends StatelessWidget {
 
       return Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             furigana!,

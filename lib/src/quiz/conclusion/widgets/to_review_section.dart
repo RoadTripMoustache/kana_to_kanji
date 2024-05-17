@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/quiz/conclusion/widgets/question_review_tile.dart';
-import 'package:kana_to_kanji/src/quiz/models/question.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/quiz/conclusion/widgets/question_review_tile.dart";
+import "package:kana_to_kanji/src/quiz/models/question.dart";
 
 class ToReviewSection extends StatelessWidget {
   static const double _kTileHeight = 54.1;
 
   final List<Question> questionsToReview;
 
-  const ToReviewSection({super.key, required this.questionsToReview});
+  const ToReviewSection({required this.questionsToReview, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,8 @@ class ToReviewSection extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  direction: Axis.horizontal,
                   children: List.generate(
                       questionsToReview.length,
                       (index) => SizedBox(

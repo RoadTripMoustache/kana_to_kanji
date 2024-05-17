@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
-import 'package:kana_to_kanji/src/core/models/kanji.dart';
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/models/vocabulary.dart';
-import 'package:kana_to_kanji/src/core/widgets/furigana_text.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/widgets/furigana_text.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("FuriganaText", () {
@@ -39,9 +39,7 @@ void main() {
       testWidgets("Should not show furigana if showFurigana false",
           (WidgetTester tester) async {
         final widget = await pump(
-            tester,
-            const FuriganaText(
-                text: text, furigana: furigana, showFurigana: false));
+            tester, const FuriganaText(text: text, furigana: furigana));
 
         expect(widget, findsOneWidget);
         expect(find.descendant(of: widget, matching: find.byType(Column)),
@@ -117,7 +115,8 @@ void main() {
                   of: widget, matching: find.text(kanji.kunReadings[0])),
               findsOneWidget,
               reason:
-                  "When furigana isn't precised and kun reading are available, the first kun reading should be used as furigana");
+                  "When furigana isn't precised and kun reading are available, "
+                  "the first kun reading should be used as furigana");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");
@@ -151,7 +150,8 @@ void main() {
                   of: widget, matching: find.text(kanji.onReadings[0])),
               findsOneWidget,
               reason:
-                  "When furigana isn't precised and kun reading unavailable, the first on reading should be used as furigana");
+                  "When furigana isn't precised and kun reading unavailable, "
+                  "the first on reading should be used as furigana");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");
@@ -186,8 +186,8 @@ void main() {
               find.descendant(
                   of: widget, matching: find.text(furiganaOverride)),
               findsOneWidget,
-              reason:
-                  "When furigana is precised, it should override kun and on reading");
+              reason: "When furigana is precised, it should override "
+                  "kun and on reading");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");
@@ -211,14 +211,14 @@ void main() {
               [],
               []);
 
-          final widget = await pump(
-              tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));
+          final widget =
+              await pump(tester, FuriganaText.vocabulary(vocabulary));
 
           expect(
               find.descendant(of: widget, matching: find.text(vocabulary.kana)),
               findsOneWidget,
-              reason:
-                  "Kana should always be used as furigana if kanji isn't empty");
+              reason: "Kana should always be used as furigana "
+                  "if kanji isn't empty");
           expect(
               find.descendant(
                   of: widget, matching: find.text(vocabulary.kanji)),
@@ -241,8 +241,8 @@ void main() {
               [],
               []);
 
-          final widget = await pump(
-              tester, FuriganaText.vocabulary(vocabulary, showFurigana: true));
+          final widget =
+              await pump(tester, FuriganaText.vocabulary(vocabulary));
 
           expect(find.descendant(of: widget, matching: find.byType(Text)),
               findsOneWidget,

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/widgets/app_bottom_navigation_bar.dart';
-import 'package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/widgets/app_bottom_navigation_bar.dart";
+import "package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("AppBottomNavigationBar", () {
@@ -33,8 +33,8 @@ void main() {
           find.descendant(
               of: tab, matching: find.byIcon(Icons.psychology_rounded)),
           findsOneWidget,
-          reason:
-              "Practice icon should be psychology_rounded, as it's currently selected");
+          reason: "Practice icon should be psychology_rounded, "
+              "as it's currently selected");
 
       // Glossary tab
       tab = find.ancestor(
@@ -60,7 +60,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Glossary tab
-        Finder tab = find.ancestor(
+        final Finder tab = find.ancestor(
             of: find.text(l10n.app_bottom_bar_glossary),
             matching: find.byType(NavigationDestination));
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 const int _kAnimationDuration = 300;
 const double _kMinHeight = 12.0;
@@ -29,18 +29,15 @@ class RoundedLinearProgressIndicator extends StatefulWidget {
   ///
   /// If null, the progress indicator is rendered with [color]. If that is null,
   /// then it will use the ambient [ProgressIndicatorThemeData.color]. If that
-  /// is also null then it defaults to the current theme's [ColorScheme.primary].
+  /// is also null then it defaults to the current
+  /// theme's [ColorScheme.primary].
   final Animation<Color?>? valueColor;
 
-  /// The [SemanticsProperties.label] for this progress indicator.
-  ///
   /// This value indicates the purpose of the progress bar, and will be
   /// read out by screen readers to indicate the purpose of this progress
   /// indicator.
   final String? semanticsLabel;
 
-  /// The [SemanticsProperties.value] for this progress indicator.
-  ///
   /// This will be used in conjunction with the [semanticsLabel] by
   /// screen reading software to identify the widget, and is primarily
   /// intended for use with determinate progress indicators to announce
@@ -57,9 +54,9 @@ class RoundedLinearProgressIndicator extends StatefulWidget {
   final double? height;
 
   const RoundedLinearProgressIndicator(
-      {super.key,
+      {required this.value,
+      super.key,
       this.height,
-      required this.value,
       this.backgroundColor,
       this.color,
       this.valueColor,
@@ -113,9 +110,10 @@ class _RoundedLinearProgressIndicatorState
       _animation = Tween<double>(begin: _currentBegin, end: _currentEnd)
           .animate(_controller);
     });
-    _controller.reset();
-    _controller.duration = _animationDuration;
-    _controller.forward();
+    _controller
+      ..reset()
+      ..duration = _animationDuration
+      ..forward();
   }
 
   @override
@@ -124,20 +122,19 @@ class _RoundedLinearProgressIndicatorState
     super.dispose();
   }
 
-  Color _getValueColor(BuildContext context, {Color? defaultColor}) {
-    return widget.valueColor?.value ??
-        widget.color ??
-        ProgressIndicatorTheme.of(context).color ??
-        defaultColor ??
-        Theme.of(context).colorScheme.primary;
-  }
+  Color _getValueColor(BuildContext context, {Color? defaultColor}) =>
+      widget.valueColor?.value ??
+      widget.color ??
+      ProgressIndicatorTheme.of(context).color ??
+      defaultColor ??
+      Theme.of(context).colorScheme.primary;
 
   Widget _buildSemanticsWrapper({
     required BuildContext context,
     required Widget child,
   }) {
-    String expandedSemanticsValue =
-        widget.semanticsValue ?? '${(widget.value * 100).round()}%';
+    final String expandedSemanticsValue =
+        widget.semanticsValue ?? "${(widget.value * 100).round()}%";
 
     return Semantics(
       label: widget.semanticsLabel,
@@ -215,9 +212,8 @@ class _RoundedLinearIndicatorPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_RoundedLinearIndicatorPainter oldPainter) {
-    return oldPainter.backgroundColor != backgroundColor ||
-        oldPainter.valueColor != valueColor ||
-        oldPainter.value != value;
-  }
+  bool shouldRepaint(_RoundedLinearIndicatorPainter oldPainter) =>
+      oldPainter.backgroundColor != backgroundColor ||
+      oldPainter.valueColor != valueColor ||
+      oldPainter.value != value;
 }

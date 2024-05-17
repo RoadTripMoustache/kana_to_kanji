@@ -1,7 +1,8 @@
-import 'package:kana_to_kanji/src/core/constants/preference_flags.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class PreferencesService {
+  // ignore: avoid_positional_boolean_parameters
   Future<bool> setBool(PreferenceFlags flag, bool value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 

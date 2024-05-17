@@ -1,7 +1,7 @@
-import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
-import 'package:kana_to_kanji/src/core/services/groups_service.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/services/groups_service.dart";
 
 class GroupsRepository {
   final GroupsService _groupsService = GroupsService();
@@ -13,9 +13,9 @@ class GroupsRepository {
         _groups.where((element) => element.alphabet == alphabet).toList();
     if (reload || groups.isEmpty) {
       _groups.removeWhere((element) => element.alphabet == alphabet);
-      groups.clear();
-
-      groups.addAll(await _groupsService.getGroups(alphabet, reload: false));
+      groups
+        ..clear()
+        ..addAll(await _groupsService.getGroups(alphabet));
 
       _groups.addAll(groups);
     }
@@ -25,6 +25,6 @@ class GroupsRepository {
 
   Future delete(ResourceUid uid) async {
     _groups.removeWhere((element) => element.uid == uid);
-    _groupsService.delete(uid);
+    await _groupsService.delete(uid);
   }
 }

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/flip_card.dart';
+import "package:flutter/material.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/quiz/widgets/flip_card.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("FlipCard", () {
@@ -35,10 +35,7 @@ void main() {
     group("Tap interaction", () {
       testWidgets("should do nothing when tapped and interaction are disable",
           (WidgetTester tester) async {
-        const widget = FlipCard(
-            front: Text(frontText),
-            back: Text(rearText),
-            allowTapToFlip: false);
+        const widget = FlipCard(front: Text(frontText), back: Text(rearText));
 
         await tester.pumpLocalizedWidget(widget);
         await tester.pumpAndSettle();

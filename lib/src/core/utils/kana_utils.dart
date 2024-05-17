@@ -222,7 +222,7 @@ const List<String> jpOrder = [
 ];
 
 List<String> splitBySyllable(String kanaWord) {
-  List<String> syllables = kanaWord.split("");
+  final List<String> syllables = kanaWord.split("");
 
   for (var i = 0; i < syllables.length; i++) {
     if (syllables[i] == "ー" && i > 0) {

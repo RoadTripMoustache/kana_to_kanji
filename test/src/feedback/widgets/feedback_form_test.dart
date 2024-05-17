@@ -1,16 +1,17 @@
-import 'dart:typed_data';
+// ignore_for_file: unreachable_from_main
+import "dart:typed_data";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
-import 'package:kana_to_kanji/src/feedback/widgets/feedback_form.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
+import "package:kana_to_kanji/src/feedback/widgets/feedback_form.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
-import '../../../helpers.dart';
-import 'feedback_form_test.mocks.dart';
+import "../../../helpers.dart";
+import "feedback_form_test.mocks.dart";
 
 @GenerateNiceMocks([MockSpec<Functions>(as: #MockFunction)])
 abstract class Functions {
@@ -27,7 +28,7 @@ void main() {
   group("FeedbackForm", () {
     late final AppLocalizations l10n;
 
-    MockFunction mock = MockFunction();
+    final MockFunction mock = MockFunction();
 
     setUpAll(() async {
       l10n = await setupLocalizations();
@@ -81,8 +82,8 @@ void main() {
                 matching: find.widgetWithText(
                     TextFormField, l10n.feedback_description)),
             findsOneWidget,
-            reason:
-                "Description field with mandatory label should be present on feature request form");
+            reason: "Description field with mandatory label should be present "
+                "on feature request form");
 
         // Check submit button
         expect(
@@ -96,7 +97,8 @@ void main() {
       });
 
       testWidgets(
-          "should have 'Steps to reproduce' text field, optional email and description field when feedback type is bug report",
+          "should have 'Steps to reproduce' text field, optional email "
+          "and description field when feedback type is bug report",
           (WidgetTester tester) async {
         final widget = await buildWidget(tester, type: FeedbackType.bug);
 
@@ -117,8 +119,8 @@ void main() {
                 matching: find.widgetWithText(
                     TextFormField, l10n.feedback_description_optional)),
             findsOneWidget,
-            reason:
-                "Description field with optional label should be present on feature request form");
+            reason: "Description field with optional label should be present "
+                "on feature request form");
 
         expect(
             find.descendant(
@@ -126,8 +128,8 @@ void main() {
                 matching: find.widgetWithText(
                     TextFormField, l10n.feedback_bug_steps)),
             findsOneWidget,
-            reason:
-                "On bug report the steps to reproduce field should be provided");
+            reason: "On bug report the steps to reproduce field "
+                "should be provided");
 
         // Check buttons
         expect(
@@ -136,8 +138,8 @@ void main() {
                 matching: find.widgetWithText(
                     OutlinedButton, l10n.feedback_include_screenshot)),
             findsOneWidget,
-            reason:
-                "On bug report, the 'include screenshot button should be present");
+            reason: "On bug report, the include screenshot button "
+                "should be present");
         expect(
             find.descendant(
                 of: widget,
@@ -215,10 +217,9 @@ void main() {
     group("Buttons", () {
       group("Include screenshot", () {
         testWidgets(
-            "Include screenshot button should be disabled when isSubmitEnabled is false",
-            (WidgetTester tester) async {
-          final widget = await buildWidget(tester,
-              type: FeedbackType.bug, allowScreenshot: false);
+            "Include screenshot button should be disabled when "
+            "isSubmitEnabled is false", (WidgetTester tester) async {
+          final widget = await buildWidget(tester, type: FeedbackType.bug);
 
           expect(
               tester
@@ -232,8 +233,8 @@ void main() {
         });
 
         testWidgets(
-            "Include screenshot button should be enabled when isSubmitEnabled is true",
-            (WidgetTester tester) async {
+            "Include screenshot button should be enabled "
+            "when isSubmitEnabled is true", (WidgetTester tester) async {
           final widget = await buildWidget(tester,
               type: FeedbackType.bug,
               allowScreenshot: true,
@@ -255,8 +256,7 @@ void main() {
         testWidgets(
             "submit button should be disabled when isSubmitEnabled is false",
             (WidgetTester tester) async {
-          final widget = await buildWidget(tester,
-              type: FeedbackType.bug, isSubmitEnabled: false);
+          final widget = await buildWidget(tester, type: FeedbackType.bug);
 
           expect(
               tester

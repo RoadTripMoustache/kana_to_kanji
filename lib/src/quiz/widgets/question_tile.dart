@@ -1,28 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/quiz/models/question.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/flip_card.dart';
-import 'package:kana_to_kanji/src/quiz/widgets/animated_dot.dart';
+import "package:auto_size_text/auto_size_text.dart";
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/quiz/models/question.dart";
+import "package:kana_to_kanji/src/quiz/widgets/animated_dot.dart";
+import "package:kana_to_kanji/src/quiz/widgets/flip_card.dart";
 
 class QuestionTile extends StatefulWidget {
   final Question question;
 
   final int maximumAttempts;
 
-  final bool Function(String answer) submitAnswer;
+  final Future<bool> Function(String answer) submitAnswer;
 
   final VoidCallback nextQuestion;
 
   final VoidCallback skipQuestion;
 
   const QuestionTile(
-      {super.key,
-      required this.question,
+      {required this.question,
       required this.submitAnswer,
       required this.nextQuestion,
       required this.skipQuestion,
-      required this.maximumAttempts});
+      required this.maximumAttempts,
+      super.key});
 
   @override
   State<QuestionTile> createState() => _QuestionTileState();
@@ -35,12 +35,12 @@ class _QuestionTileState extends State<QuestionTile> {
 
   bool _showSuccess = false;
 
-  onSubmit(String answer) {
+  Future<void> onSubmit(String answer) async {
     if (answer.isEmpty) {
       _focusNode.requestFocus();
       return;
     }
-    final result = widget.submitAnswer(answer);
+    final result = await widget.submitAnswer(answer);
 
     _controller.clear();
 
@@ -105,7 +105,7 @@ class _QuestionTileState extends State<QuestionTile> {
             back: AutoSizeText(
               widget.question.answer,
               key: ValueKey("a${widget.question.kana.id}"),
-              style: textTheme.displayLarge!,
+              style: textTheme.displayLarge,
               maxLines: 1,
             ),
           ),

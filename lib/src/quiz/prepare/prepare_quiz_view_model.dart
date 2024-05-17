@@ -1,11 +1,11 @@
-import 'package:go_router/go_router.dart';
-import 'package:kana_to_kanji/src/quiz/quiz_view.dart';
-import 'package:kana_to_kanji/src/settings/settings_view.dart';
-import 'package:stacked/stacked.dart';
-import 'package:kana_to_kanji/src/locator.dart';
-import 'package:kana_to_kanji/src/core/constants/alphabets.dart';
-import 'package:kana_to_kanji/src/core/models/group.dart';
-import 'package:kana_to_kanji/src/core/repositories/groups_repository.dart';
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/repositories/groups_repository.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:kana_to_kanji/src/quiz/quiz_view.dart";
+import "package:kana_to_kanji/src/settings/settings_view.dart";
+import "package:stacked/stacked.dart";
 
 class PrepareQuizViewModel extends FutureViewModel {
   final GoRouter router;
@@ -31,9 +31,7 @@ class PrepareQuizViewModel extends FutureViewModel {
     }
   }
 
-  List<Group> getGroup(Alphabets alphabet) {
-    return _categoryTiles[alphabet] ?? [];
-  }
+  List<Group> getGroup(Alphabets alphabet) => _categoryTiles[alphabet] ?? [];
 
   void onGroupCardTapped(Group groupTapped) {
     if (_selectedGroups.contains(groupTapped)) {
@@ -44,7 +42,7 @@ class PrepareQuizViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  void onSelectAllTapped(List<Group> groups, bool toAdd) {
+  void onSelectAllTapped(List<Group> groups, {bool toAdd = false}) {
     if (toAdd) {
       for (final Group group in groups) {
         if (!_selectedGroups.contains(group)) {
@@ -80,11 +78,11 @@ class PrepareQuizViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  void startQuiz() {
-    router.push(QuizView.routeName, extra: _selectedGroups);
+  Future<void> startQuiz() async {
+    await router.push(QuizView.routeName, extra: _selectedGroups);
   }
 
-  void onSettingsTapped() {
-    router.push(SettingsView.routeName);
+  Future<void> onSettingsTapped() async {
+    await router.push(SettingsView.routeName);
   }
 }

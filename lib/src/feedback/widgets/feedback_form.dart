@@ -1,9 +1,9 @@
-import 'dart:typed_data';
+import "dart:typed_data";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart';
-import 'package:kana_to_kanji/src/feedback/constants/feedback_type.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
+import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
 
 /// Form for the feedback, depending on [feedbackType] certains fields/buttons will be added
 class FeedbackForm extends StatefulWidget {
@@ -22,11 +22,11 @@ class FeedbackForm extends StatefulWidget {
   final Future Function([Uint8List? screenshot]) onSubmit;
 
   const FeedbackForm(
-      {super.key,
-      required this.feedbackType,
+      {required this.feedbackType,
       required this.onChange,
       required this.validator,
       required this.onSubmit,
+      super.key,
       this.isSubmitEnabled = false,
       this.allowScreenshot = false,
       this.onScreenshotButtonPressed});
@@ -58,7 +58,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
     final EdgeInsets scrollPadding = EdgeInsets.only(
         bottom: Theme.of(context).textTheme.bodyMedium!.fontSize! * 8);
 
-    List<Widget> extraWidgets = (widget.feedbackType == FeedbackType.bug)
+    final List<Widget> extraWidgets = (widget.feedbackType == FeedbackType.bug)
         ? [
             Padding(
               padding: padding,

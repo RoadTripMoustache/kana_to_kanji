@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:kana_to_kanji/src/core/constants/sort_order.dart';
-import 'package:kana_to_kanji/src/glossary/widgets/search_bar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/glossary/widgets/search_bar.dart";
 
-import '../../../helpers.dart';
+import "../../../helpers.dart";
 
 void main() {
   group("GlossarySearchBar", () {
@@ -137,7 +137,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      checkOpenWithTextState(tester, "toto", false);
+      checkOpenWithTextState(tester, "toto");
     });
 
     testWidgets("Search text", (WidgetTester tester) async {
@@ -175,7 +175,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      checkOpenWithTextState(tester, "toto", false);
+      checkOpenWithTextState(tester, "toto");
 
       // Simulate click to trigger the search
       await tester.tap(searchIcon);
@@ -221,7 +221,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      checkOpenWithTextState(tester, "toto", false);
+      checkOpenWithTextState(tester, "toto");
 
       // Simulate click to trigger the search
       await tester.tap(searchIcon);
@@ -279,7 +279,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      checkOpenWithTextState(tester, "toto", false);
+      checkOpenWithTextState(tester, "toto");
       expect(lastSearchTxt, "");
 
       // Simulate click to trigger the search
@@ -344,7 +344,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      checkOpenWithTextState(tester, "toto", false);
+      checkOpenWithTextState(tester, "toto");
 
       // Simulate click to trigger the search
       await tester.tap(searchIcon);
@@ -386,7 +386,8 @@ void checkClosedState(WidgetTester tester) {
   expect(closeSearchIcon, findsNothing);
 }
 
-// Check components of the search bar when the search bar is opened and no text is typed in the input.
+// Check components of the search bar when the search bar is opened and
+// no text is typed in the input.
 void checkOpenWithoutTextState(WidgetTester tester, AppLocalizations l10n) {
   final searchTextField =
       find.byKey(const Key("glossary_bar_search_text_field"));
@@ -409,9 +410,10 @@ void checkOpenWithoutTextState(WidgetTester tester, AppLocalizations l10n) {
   expect(closeSearchIcon, findsNothing);
 }
 
-// Check components of the search bar when the search bar is opened and text is typed in the input.
-void checkOpenWithTextState(
-    WidgetTester tester, String textSearchInput, bool isClearVisible) {
+// Check components of the search bar when the search bar is opened and
+// text is typed in the input.
+void checkOpenWithTextState(WidgetTester tester, String textSearchInput,
+    {bool isClearVisible = false}) {
   final searchTextField =
       find.byKey(const Key("glossary_bar_search_text_field"));
   expect(
