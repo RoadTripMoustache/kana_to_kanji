@@ -32,7 +32,7 @@ void setupLocator() {
     // Services
     ..registerSingleton<DialogService>(DialogService())
     ..registerLazySingleton<PreferencesService>(PreferencesService.new)
-    ..registerLazySingleton<ApiService>(ApiService.new)
+    ..registerSingletonAsync<ApiService>(() async => ApiService())
     ..registerSingletonAsync<InfoService>(() async {
       final instance = InfoService();
       await instance.initialize();
