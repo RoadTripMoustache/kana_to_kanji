@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
+import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class KanjiList extends StatefulWidget {
   final List<Kanji> items;
@@ -23,16 +23,14 @@ class _KanjiListState extends State<KanjiList> {
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    _pagingController.addPageRequestListener(_fetchPage);
     super.initState();
   }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      List<Kanji> kanjiList = [];
-      for (var i = pageKey * _numberOfPostsPerRequest;
+      final List<Kanji> kanjiList = [];
+      for (int i = pageKey * _numberOfPostsPerRequest;
           i < (pageKey + 1) * _numberOfPostsPerRequest &&
               i < widget.items.length;
           i++) {
@@ -47,7 +45,7 @@ class _KanjiListState extends State<KanjiList> {
         final nextPageKey = pageKey + 1;
         _pagingController.appendPage(kanjiList, nextPageKey);
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _pagingController.error = e;
     }
   }

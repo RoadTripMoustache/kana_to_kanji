@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
+import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
-import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 
 class VocabularyList extends StatefulWidget {
   final List<Vocabulary> items;
@@ -23,15 +23,13 @@ class _VocabularyListState extends State<VocabularyList> {
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    _pagingController.addPageRequestListener(_fetchPage);
     super.initState();
   }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      List<Vocabulary> vocabularyList = [];
+      final List<Vocabulary> vocabularyList = [];
       for (var i = pageKey * _numberOfPostsPerRequest;
           i < (pageKey + 1) * _numberOfPostsPerRequest &&
               i < widget.items.length;
@@ -47,7 +45,7 @@ class _VocabularyListState extends State<VocabularyList> {
         final nextPageKey = pageKey + 1;
         _pagingController.appendPage(vocabularyList, nextPageKey);
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _pagingController.error = e;
     }
   }
