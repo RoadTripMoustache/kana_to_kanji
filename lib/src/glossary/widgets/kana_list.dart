@@ -52,7 +52,6 @@ class _KanaListState extends State<KanaList> {
       ..addAll(widget.items.sublist(_dakutenLastId));
   }
 
-
   @override
   void initState() {
     _splitKanaList();
