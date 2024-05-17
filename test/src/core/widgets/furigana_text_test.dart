@@ -39,9 +39,7 @@ void main() {
       testWidgets("Should not show furigana if showFurigana false",
           (WidgetTester tester) async {
         final widget = await pump(
-            tester,
-            const FuriganaText(
-                text: text, furigana: furigana));
+            tester, const FuriganaText(text: text, furigana: furigana));
 
         expect(widget, findsOneWidget);
         expect(find.descendant(of: widget, matching: find.byType(Column)),
@@ -118,7 +116,7 @@ void main() {
               findsOneWidget,
               reason:
                   "When furigana isn't precised and kun reading are available, "
-                      "the first kun reading should be used as furigana");
+                  "the first kun reading should be used as furigana");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");
@@ -153,7 +151,7 @@ void main() {
               findsOneWidget,
               reason:
                   "When furigana isn't precised and kun reading unavailable, "
-                      "the first on reading should be used as furigana");
+                  "the first on reading should be used as furigana");
           expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
               findsOneWidget,
               reason: "Kanji should be used as main text");
@@ -213,8 +211,8 @@ void main() {
               [],
               []);
 
-          final widget = await pump(
-              tester, FuriganaText.vocabulary(vocabulary));
+          final widget =
+              await pump(tester, FuriganaText.vocabulary(vocabulary));
 
           expect(
               find.descendant(of: widget, matching: find.text(vocabulary.kana)),
@@ -243,8 +241,8 @@ void main() {
               [],
               []);
 
-          final widget = await pump(
-              tester, FuriganaText.vocabulary(vocabulary));
+          final widget =
+              await pump(tester, FuriganaText.vocabulary(vocabulary));
 
           expect(find.descendant(of: widget, matching: find.byType(Text)),
               findsOneWidget,

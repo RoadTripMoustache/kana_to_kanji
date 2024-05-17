@@ -71,8 +71,7 @@ class CleanUpService {
   }
 
   Future<void> executeCleanUp({bool forceReload = false}) async {
-    final resourcesToDelete =
-        await getSyncData(forceReload: forceReload);
+    final resourcesToDelete = await getSyncData(forceReload: forceReload);
 
     await Future.wait(resourcesToDelete.map((element) {
       switch (element.resourceType) {

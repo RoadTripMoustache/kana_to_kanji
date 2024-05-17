@@ -52,8 +52,7 @@ void main() {
       // Don't skip off stage to make sure everything is here.
       expect(
           find.descendant(
-              of: widget,
-              matching: find.byType(QuestionReviewTile)),
+              of: widget, matching: find.byType(QuestionReviewTile)),
           findsNWidgets(questions.length),
           reason:
               "Should display ${questions.length} question to review tiles");

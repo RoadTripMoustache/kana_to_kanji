@@ -34,8 +34,7 @@ class FuriganaText extends StatelessWidget {
 
   factory FuriganaText.vocabulary(Vocabulary vocabulary, {TextStyle? style}) {
     if (vocabulary.kanji.isEmpty) {
-      return FuriganaText(
-          text: vocabulary.kana, style: style);
+      return FuriganaText(text: vocabulary.kana, style: style);
     }
 
     return FuriganaText(

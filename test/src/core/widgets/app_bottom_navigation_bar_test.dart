@@ -33,9 +33,8 @@ void main() {
           find.descendant(
               of: tab, matching: find.byIcon(Icons.psychology_rounded)),
           findsOneWidget,
-          reason:
-              "Practice icon should be psychology_rounded, "
-                  "as it's currently selected");
+          reason: "Practice icon should be psychology_rounded, "
+              "as it's currently selected");
 
       // Glossary tab
       tab = find.ancestor(

@@ -35,9 +35,7 @@ void main() {
     group("Tap interaction", () {
       testWidgets("should do nothing when tapped and interaction are disable",
           (WidgetTester tester) async {
-        const widget = FlipCard(
-            front: Text(frontText),
-            back: Text(rearText));
+        const widget = FlipCard(front: Text(frontText), back: Text(rearText));
 
         await tester.pumpLocalizedWidget(widget);
         await tester.pumpAndSettle();

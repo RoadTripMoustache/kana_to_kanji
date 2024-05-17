@@ -11,8 +11,7 @@ void main() {
     group("UI", () {
       testWidgets(
           "Should contains an ActionChip with volume up icon and "
-              "pronunciation passed",
-          (WidgetTester tester) async {
+          "pronunciation passed", (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(const PronunciationCard(
             pronunciation: sampleHiraganaPronunciation));
         await tester.pumpAndSettle();
