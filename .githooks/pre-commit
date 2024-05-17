@@ -8,6 +8,5 @@ CHANGED_FILES=$(git diff --cached --name-status | awk '/^[^D].+\.dart$/{ print $
 # If there is no files to format, skip
 [ -z "$CHANGED_FILES" ] && exit 0
 
-# Format the files and add them again
+# Format the files
 dart format $CHANGED_FILES
-git add $CHANGED_FILES
