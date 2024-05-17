@@ -16,7 +16,7 @@ class KanjiList extends StatefulWidget {
 }
 
 class _KanjiListState extends State<KanjiList> {
-  final _numberOfPostsPerRequest = 10;
+  final _numberOfPostsPerRequest = 20;
 
   final PagingController<int, Kanji> _pagingController =
       PagingController(firstPageKey: 0);
@@ -31,7 +31,6 @@ class _KanjiListState extends State<KanjiList> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      widget.items.sort((a, b) => a.uid.uid.compareTo(b.uid.uid));
       List<Kanji> kanjiList = [];
       for (var i = pageKey * _numberOfPostsPerRequest;
           i < (pageKey + 1) * _numberOfPostsPerRequest &&

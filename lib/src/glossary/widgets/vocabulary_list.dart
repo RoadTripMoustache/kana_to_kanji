@@ -16,7 +16,7 @@ class VocabularyList extends StatefulWidget {
 }
 
 class _VocabularyListState extends State<VocabularyList> {
-  final _numberOfPostsPerRequest = 10;
+  final _numberOfPostsPerRequest = 20;
 
   final PagingController<int, Vocabulary> _pagingController =
       PagingController(firstPageKey: 0);
@@ -31,7 +31,6 @@ class _VocabularyListState extends State<VocabularyList> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      widget.items.sort((a, b) => a.uid.uid.compareTo(b.uid.uid));
       List<Vocabulary> vocabularyList = [];
       for (var i = pageKey * _numberOfPostsPerRequest;
           i < (pageKey + 1) * _numberOfPostsPerRequest &&
