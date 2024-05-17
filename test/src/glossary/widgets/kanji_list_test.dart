@@ -1,9 +1,10 @@
-import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
-import "package:kana_to_kanji/src/glossary/widgets/kanji_list.dart";
+import 'package:flutter_test/flutter_test.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:kana_to_kanji/src/core/constants/resource_type.dart';
+import 'package:kana_to_kanji/src/core/models/kanji.dart';
+import 'package:kana_to_kanji/src/core/models/resource_uid.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart';
+import 'package:kana_to_kanji/src/glossary/widgets/kanji_list.dart';
 
 import "../../../helpers.dart";
 
@@ -28,6 +29,7 @@ void main() {
         items: kanjiList,
       ));
       await tester.pumpAndSettle();
+      expect(find.byType(PagedListView<int, Kanji>), findsOneWidget);
 
       final foundAllTiles = find.byType(GlossaryListTile);
       expect(foundAllTiles, findsOneWidget);

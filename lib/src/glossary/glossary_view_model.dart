@@ -77,21 +77,21 @@ class GlossaryViewModel extends FutureViewModel {
   void _setToDisplay() {
     final hiraganaIdsFiltered = _kanaRepository
         .searchHiragana(_currentSearch, _selectedKnowledgeLevel)
-        .map((e) => e.id);
+        .map((e) => e.uid);
     for (final ({Kana kana, bool disabled}) pair in _hiraganaList) {
-      _hiraganaList[pair.kana.id] = (
+      _hiraganaList[pair.kana.position] = (
         kana: pair.kana,
-        disabled: !hiraganaIdsFiltered.contains(pair.kana.id)
+        disabled: !hiraganaIdsFiltered.contains(pair.kana.uid)
       );
     }
 
     final katakanaIdsFiltered = _kanaRepository
         .searchKatakana(_currentSearch, _selectedKnowledgeLevel)
-        .map((e) => e.id);
+        .map((e) => e.uid);
     for (final ({Kana kana, bool disabled}) pair in _katakanaList) {
-      _katakanaList[pair.kana.id - _hiraganaList.length] = (
+      _katakanaList[pair.kana.position] = (
         kana: pair.kana,
-        disabled: !katakanaIdsFiltered.contains(pair.kana.id)
+        disabled: !katakanaIdsFiltered.contains(pair.kana.uid)
       );
     }
 
