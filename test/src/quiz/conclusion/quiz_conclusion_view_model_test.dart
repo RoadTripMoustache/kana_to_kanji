@@ -52,8 +52,8 @@ void main() {
       reset(settingsRepositoryMock);
     });
 
-    tearDownAll(() {
-      unregister<SettingsRepository>();
+    tearDownAll(() async {
+      await unregister<SettingsRepository>();
     });
 
     test("Initialization", () {

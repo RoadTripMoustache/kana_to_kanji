@@ -34,7 +34,6 @@ class QuizView extends StatelessWidget {
               ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.60,
@@ -62,7 +61,6 @@ class QuizView extends StatelessWidget {
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             QuestionTile(
                               question: viewModel.current,

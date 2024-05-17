@@ -10,7 +10,7 @@ class QuestionTile extends StatefulWidget {
 
   final int maximumAttempts;
 
-  final bool Function(String answer) submitAnswer;
+  final Future<bool> Function(String answer) submitAnswer;
 
   final VoidCallback nextQuestion;
 
@@ -35,12 +35,12 @@ class _QuestionTileState extends State<QuestionTile> {
 
   bool _showSuccess = false;
 
-  void onSubmit(String answer) {
+  Future<void> onSubmit(String answer) async {
     if (answer.isEmpty) {
       _focusNode.requestFocus();
       return;
     }
-    final result = widget.submitAnswer(answer);
+    final result = await widget.submitAnswer(answer);
 
     _controller.clear();
 

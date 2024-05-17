@@ -35,7 +35,7 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
                       return null;
                     },
                     builder: (_, state) => QuizView(
-                          groups: state.extra as List<Group>,
+                          groups: state.extra! as List<Group>,
                         )),
                 GoRoute(
                     path: QuizConclusionView.routeName
@@ -48,7 +48,7 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
                     },
                     // +1 remove the /
                     builder: (_, state) => QuizConclusionView(
-                          questions: state.extra as List<Question>,
+                          questions: state.extra! as List<Question>,
                         ))
               ]),
           GoRoute(

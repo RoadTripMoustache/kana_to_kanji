@@ -40,7 +40,7 @@ void main() {
           [0, 3, 6, 8]),
     ];
 
-    for (FilterByTestCase testCase in cases) {
+    for (final FilterByTestCase testCase in cases) {
       testWidgets(testCase.name, (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(FilterBy(
           filterGlossary: () => {},

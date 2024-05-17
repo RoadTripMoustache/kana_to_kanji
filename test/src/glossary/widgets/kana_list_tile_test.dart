@@ -67,10 +67,10 @@ void main() {
             find.descendant(of: widget, matching: find.byType(Card));
         expect((tester.widget(card) as Card).elevation, equals(0.0));
 
-        // Validate that all text style color is equal to the theme disabledColor
+        // Validate that all text style color is equal to theme.disabledColor
         final Finder texts =
             find.descendant(of: widget, matching: find.byType(Text));
-        for (Widget text in tester.widgetList(texts)) {
+        for (final Widget text in tester.widgetList(texts)) {
           expect((text as Text).style?.color,
               equals(AppTheme.light().disabledColor));
         }

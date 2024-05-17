@@ -19,7 +19,12 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
   final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
 
   const AlphabetGroupsExpansionTile(
-      {required this.alphabet, required this.groups, required this.selectedGroups, required this.onGroupTapped, required this.onSelectAllTapped, super.key,
+      {required this.alphabet,
+      required this.groups,
+      required this.selectedGroups,
+      required this.onGroupTapped,
+      required this.onSelectAllTapped,
+      super.key,
       this.initiallyExpanded = false});
 
   @override
@@ -57,22 +62,23 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
         ElevatedButton(
             onPressed: () => onSelectAllTapped(groups, !areAllSelected),
             child: Text(multiselectButtonText)),
-        alphabet != Alphabets.kanji
-            ? KanaGroups(
-                groups: groups,
-                selectedGroups: selectedGroups,
-                onGroupTapped: onGroupTapped,
-                onSelectAllTapped: onSelectAllTapped)
-            : GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 3.5, crossAxisCount: 2),
-                itemCount: groups.length,
-                itemBuilder: (context, index) => GroupCard(
-                    isChecked: selectedGroups.contains(groups[index]),
-                    onTap: onGroupTapped,
-                    group: groups[index]),
-              )
+        if (alphabet != Alphabets.kanji)
+          KanaGroups(
+              groups: groups,
+              selectedGroups: selectedGroups,
+              onGroupTapped: onGroupTapped,
+              onSelectAllTapped: onSelectAllTapped)
+        else
+          GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 3.5, crossAxisCount: 2),
+            itemCount: groups.length,
+            itemBuilder: (context, index) => GroupCard(
+                isChecked: selectedGroups.contains(groups[index]),
+                onTap: onGroupTapped,
+                group: groups[index]),
+          )
       ],
     );
   }

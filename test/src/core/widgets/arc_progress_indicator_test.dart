@@ -106,7 +106,8 @@ void main() {
                 of: widget, matching: find.text(l10n.percent(value))),
             findsNothing,
             reason:
-                "The percent text shouldn't be displayed after a tapped when alternativeText is provided.");
+                "The percent text shouldn't be displayed after a tapped when "
+                    "alternativeText is provided.");
         expect(
             find.descendant(of: widget, matching: find.text(alternativeText)),
             findsOneWidget,

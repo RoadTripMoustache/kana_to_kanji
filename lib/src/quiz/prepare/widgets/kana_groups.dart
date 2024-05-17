@@ -13,7 +13,11 @@ class KanaGroups extends StatelessWidget {
   final Function(List<Group> groups, bool toAdd) onSelectAllTapped;
 
   const KanaGroups(
-      {required this.groups, required this.selectedGroups, required this.onGroupTapped, required this.onSelectAllTapped, super.key});
+      {required this.groups,
+      required this.selectedGroups,
+      required this.onGroupTapped,
+      required this.onSelectAllTapped,
+      super.key});
 
   @override
   Widget build(BuildContext context) {

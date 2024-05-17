@@ -78,11 +78,11 @@ class PrepareQuizViewModel extends FutureViewModel {
     notifyListeners();
   }
 
-  void startQuiz() {
-    router.push(QuizView.routeName, extra: _selectedGroups);
+  Future<void> startQuiz() async {
+    await router.push(QuizView.routeName, extra: _selectedGroups);
   }
 
-  void onSettingsTapped() {
-    router.push(SettingsView.routeName);
+  Future<void> onSettingsTapped() async {
+    await router.push(SettingsView.routeName);
   }
 }

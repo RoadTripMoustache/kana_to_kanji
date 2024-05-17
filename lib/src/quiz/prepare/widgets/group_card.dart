@@ -9,10 +9,8 @@ class GroupCard extends StatelessWidget {
   const GroupCard(
       {required this.group, super.key, this.onTap, this.isChecked = false});
 
-  onChanged(bool? value) {
-    if (onTap != null) {
-      onTap!(group);
-    }
+  void onChanged(bool? value) {
+    onTap?.call(group);
   }
 
   @override
@@ -22,7 +20,6 @@ class GroupCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(group.localizedName ?? group.name,

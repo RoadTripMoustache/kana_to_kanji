@@ -46,7 +46,8 @@ void main() {
       final sectionTitle = find.byType(SectionTitle);
       expect(sectionTitle, findsOneWidget,
           reason:
-              "Should only have the pronunciation section as Kana don't have meanings");
+              "Should only have the pronunciation section as Kana "
+                  "don't have meanings");
       expect(tester.widget<SectionTitle>(sectionTitle).title,
           equals(l10n.glossary_details_pronunciation(1)));
 

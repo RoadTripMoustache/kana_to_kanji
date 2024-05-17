@@ -10,7 +10,9 @@ import "../../../helpers.dart";
 import "feedback_screenshot_form_test.mocks.dart";
 
 @GenerateNiceMocks([MockSpec<Functions>(as: #MockFunction)])
+// ignore: one_member_abstracts,unreachable_from_main
 abstract class Functions {
+  // ignore: unreachable_from_main
   Future<void> onSubmit(String text, {Map<String, dynamic>? extras});
 }
 

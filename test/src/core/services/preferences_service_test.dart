@@ -56,7 +56,7 @@ void main() {
       expect(await service!.getBool(PreferenceFlags.themeMode), isTrue);
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.clear();
+      await prefs.clear();
 
       expect(await service!.getBool(PreferenceFlags.themeMode), null);
     });

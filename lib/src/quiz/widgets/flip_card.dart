@@ -71,7 +71,7 @@ class _FlipCardState extends State<FlipCard> {
     });
   }
 
-  onTap() {
+  void onTap() {
     if (widget.allowTapToFlip) {
       setState(() {
         _flipped = !_flipped;
@@ -102,7 +102,6 @@ class _FlipCardState extends State<FlipCard> {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(20.0),
           color: backgroundColor,
         ),
