@@ -16,7 +16,12 @@ class KanaGroupsSection extends StatelessWidget {
   final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
   const KanaGroupsSection(
-      {required this.type, required this.groups, required this.selectedGroups, required this.onGroupTapped, required this.onSelectAllTapped, super.key});
+      {required this.type,
+      required this.groups,
+      required this.selectedGroups,
+      required this.onGroupTapped,
+      required this.onSelectAllTapped,
+      super.key});
 
   @override
   Widget build(BuildContext context) {

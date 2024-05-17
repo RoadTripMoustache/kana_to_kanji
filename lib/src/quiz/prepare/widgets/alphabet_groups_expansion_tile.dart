@@ -19,7 +19,12 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
   final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
   const AlphabetGroupsExpansionTile(
-      {required this.alphabet, required this.groups, required this.selectedGroups, required this.onGroupTapped, required this.onSelectAllTapped, super.key,
+      {required this.alphabet,
+      required this.groups,
+      required this.selectedGroups,
+      required this.onGroupTapped,
+      required this.onSelectAllTapped,
+      super.key,
       this.initiallyExpanded = false});
 
   @override
