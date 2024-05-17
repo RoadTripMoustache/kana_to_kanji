@@ -241,6 +241,7 @@ xcuserdata/
 untranslated-messages.txt
 ## Firebase generated files
 firebase_options.dart
+firebase.json
 
 # Envied files
 .env
