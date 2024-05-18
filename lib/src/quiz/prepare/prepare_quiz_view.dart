@@ -29,10 +29,10 @@ class PrepareQuizView extends StatelessWidget {
               if (viewModel.selectedGroups.isNotEmpty)
                 IconButton(
                     onPressed: viewModel.resetSelected,
-                    icon: const Icon(Icons.clear_all)),
+                    icon: const Icon(Icons.clear_all_rounded)),
               IconButton(
                   onPressed: viewModel.onSettingsTapped,
-                  icon: const Icon(Icons.settings_outlined))
+                  icon: const Icon(Icons.settings_rounded))
             ],
           ),
           body: SingleChildScrollView(

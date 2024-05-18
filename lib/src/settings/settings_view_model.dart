@@ -19,15 +19,15 @@ class SettingsViewModel extends BaseViewModel {
 
   Map<ThemeMode, Map<String, dynamic>> get themeModes => {
         ThemeMode.light: {
-          "icon": Icons.light_mode_outlined,
+          "icon": Icons.light_mode_rounded,
           "tooltip": l10n.settings_theme_light
         },
         ThemeMode.system: {
-          "icon": Icons.smartphone_outlined,
+          "icon": Icons.smartphone_rounded,
           "tooltip": l10n.settings_theme_system
         },
         ThemeMode.dark: {
-          "icon": Icons.dark_mode_outlined,
+          "icon": Icons.dark_mode_rounded,
           "tooltip": l10n.settings_theme_dark
         },
       };

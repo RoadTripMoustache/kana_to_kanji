@@ -126,7 +126,7 @@ class _QuestionTileState extends State<QuestionTile> {
                             borderSide: BorderSide(color: Colors.green))
                         : null,
                     suffixIcon: _showSuccess
-                        ? const Icon(Icons.check, color: Colors.green)
+                        ? const Icon(Icons.check_rounded, color: Colors.green)
                         : null),
                 onSubmitted: onSubmit),
           ),

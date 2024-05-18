@@ -31,7 +31,7 @@ void main() {
       expect(button, findsOneWidget);
       expect(
           find.descendant(
-              of: button, matching: find.byIcon(Icons.bug_report_outlined)),
+              of: button, matching: find.byIcon(Icons.bug_report_rounded)),
           findsOneWidget);
       expect(
           find.descendant(
@@ -50,8 +50,7 @@ void main() {
       expect(button, findsOneWidget);
       expect(
           find.descendant(
-              of: button,
-              matching: find.byIcon(Icons.design_services_outlined)),
+              of: button, matching: find.byIcon(Icons.design_services_rounded)),
           findsOneWidget);
       expect(
           find.descendant(

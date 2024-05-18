@@ -32,7 +32,7 @@ class _SortBy extends State<SortBy> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: const Icon(Icons.close_rounded),
           onPressed: () {
             Navigator.of(context).pop();
             widget.sortGlossary(_selectedOrder);
