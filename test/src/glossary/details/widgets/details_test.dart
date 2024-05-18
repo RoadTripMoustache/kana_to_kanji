@@ -1,16 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/alphabets.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/details.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/section_title.dart";
 
+import "../../../../dummies/kana.dart";
+import "../../../../dummies/kanji.dart";
+import "../../../../dummies/vocabulary.dart";
 import "../../../../helpers.dart";
 
 void main() {
@@ -29,16 +26,7 @@ void main() {
     });
 
     testWidgets("Kana", (WidgetTester tester) async {
-      const kanaSample = Kana(
-          ResourceUid("kanji-1", ResourceType.kana),
-          Alphabets.hiragana,
-          ResourceUid("group-1", ResourceType.group),
-          "あ",
-          "a",
-          "2023-12-01",
-          1);
-
-      final widget = await pump(tester, Details.kana(kana: kanaSample));
+      final widget = await pump(tester, Details.kana(kana: dummyHiragana));
 
       expect(widget, findsOneWidget);
 
@@ -54,29 +42,11 @@ void main() {
       final pronunciationCard = find.byType(PronunciationCard);
       expect(pronunciationCard, findsOneWidget);
       expect(tester.widget<PronunciationCard>(pronunciationCard).pronunciation,
-          equals(kanaSample.romaji));
+          equals(dummyHiragana.romaji));
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
-      const kanjiSample = Kanji(
-          ResourceUid("kanji-1", ResourceType.kanji),
-          "本",
-          5,
-          5,
-          5,
-          ["book"],
-          ["ほん"],
-          ["ほん"],
-          [],
-          "2023-12-1",
-          [],
-          [],
-          [],
-          [],
-          [],
-          "");
-
-      final widget = await pump(tester, Details.kanji(kanji: kanjiSample));
+      final widget = await pump(tester, Details.kanji(kanji: dummyKanji));
 
       expect(widget, findsOneWidget);
 
@@ -89,8 +59,8 @@ void main() {
               .widgetList<SectionTitle>(sectionTitles)
               .map((sectionTitle) => sectionTitle.title),
           equals([
-            l10n.glossary_details_pronunciation(kanjiSample.readings.length),
-            l10n.glossary_details_meaning(kanjiSample.meanings.length)
+            l10n.glossary_details_pronunciation(dummyKanji.readings.length),
+            l10n.glossary_details_meaning(dummyKanji.meanings.length)
           ]),
           reason:
               "Should have the pronunciation section than the meaning section");
@@ -99,29 +69,15 @@ void main() {
       expect(find.widgetWithText(PronunciationCard, "ほん"), findsNWidgets(2));
 
       // Check the meaning section
-      expect(find.byType(Chip), findsNWidgets(kanjiSample.meanings.length));
-      for (final String meaning in kanjiSample.meanings) {
+      expect(find.byType(Chip), findsNWidgets(dummyKanji.meanings.length));
+      for (final String meaning in dummyKanji.meanings) {
         expect(find.widgetWithText(Chip, meaning), findsOneWidget);
       }
     });
 
     testWidgets("Vocabulary", (WidgetTester tester) async {
-      const vocabularySample = Vocabulary(
-          ResourceUid("vocabulary-1", ResourceType.vocabulary),
-          "亜",
-          "あ",
-          1,
-          ["inferior"],
-          "a",
-          [],
-          "2023-12-1",
-          [],
-          [],
-          [],
-          []);
-
       final widget =
-          await pump(tester, Details.vocabulary(vocabulary: vocabularySample));
+          await pump(tester, Details.vocabulary(vocabulary: dummyVocabulary));
 
       expect(widget, findsOneWidget);
 
@@ -135,19 +91,18 @@ void main() {
               .map((sectionTitle) => sectionTitle.title),
           equals([
             l10n.glossary_details_pronunciation(1),
-            l10n.glossary_details_meaning(vocabularySample.meanings.length)
+            l10n.glossary_details_meaning(dummyVocabulary.meanings.length)
           ]),
           reason:
               "Should have the pronunciation section than the meaning section");
 
       // Check the pronunciation section
-      expect(find.widgetWithText(PronunciationCard, vocabularySample.kana),
+      expect(find.widgetWithText(PronunciationCard, dummyVocabulary.kana),
           findsOneWidget);
 
       // Check the meaning section
-      expect(
-          find.byType(Chip), findsNWidgets(vocabularySample.meanings.length));
-      for (final String meaning in vocabularySample.meanings) {
+      expect(find.byType(Chip), findsNWidgets(dummyVocabulary.meanings.length));
+      for (final String meaning in dummyVocabulary.meanings) {
         expect(find.widgetWithText(Chip, meaning), findsOneWidget);
       }
     });

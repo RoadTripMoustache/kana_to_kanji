@@ -1,18 +1,14 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kanji_list.dart";
 
+import "../../../dummies/kanji.dart";
 import "../../../helpers.dart";
 
 void main() {
   group("KanjiList", () {
-    const kanji = Kanji(ResourceUid("kanji-1", ResourceType.kanji), "本", 5, 1,
-        5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], [], [], [], "");
-
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const KanjiList(
         items: [],
@@ -24,7 +20,7 @@ void main() {
     });
 
     testWidgets("Contains 1 kanji", (WidgetTester tester) async {
-      final List<Kanji> kanjiList = [kanji];
+      final List<Kanji> kanjiList = [dummyKanji];
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,
       ));
@@ -42,7 +38,7 @@ void main() {
     });
 
     testWidgets("Contains 2 kanji", (WidgetTester tester) async {
-      final List<Kanji> kanjiList = [kanji, kanji];
+      final List<Kanji> kanjiList = [dummyKanji, dummyKanji];
 
       await tester.pumpLocalizedWidget(KanjiList(
         items: kanjiList,

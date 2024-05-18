@@ -1,25 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart";
 
+import "../../../dummies/kana.dart";
 import "../../../helpers.dart";
 
 void main() {
   group("KanaListTile", () {
-    const Kana kanaSample = Kana(
-        ResourceUid("kana-1", ResourceType.kana),
-        Alphabets.hiragana,
-        ResourceUid("group-1", ResourceType.group),
-        "あ",
-        "a",
-        "2023-12-01",
-        1);
-
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
@@ -30,15 +18,15 @@ void main() {
     group("UI", () {
       testWidgets("It should display the kana and its pronunciation",
           (WidgetTester tester) async {
-        final widget = await pump(tester, const KanaListTile(kanaSample));
+        final widget = await pump(tester, const KanaListTile(dummyKatakana));
 
-        // Validate that the Card's elevation property is equal to 0
+        // Validate that the Card"s elevation property is equal to 0
         final Finder card =
             find.descendant(of: widget, matching: find.byType(Card));
         expect((tester.widget(card) as Card).elevation, equals(1.0));
 
-        Finder text =
-            find.descendant(of: widget, matching: find.text(kanaSample.kana));
+        Finder text = find.descendant(
+            of: widget, matching: find.text(dummyKatakana.kana));
         expect(text, findsOneWidget);
         TextStyle? style = (tester.widget(text) as Text).style;
         TextStyle? expectedStyle = AppTheme.light().textTheme.titleMedium;
@@ -46,8 +34,8 @@ void main() {
             reason: "Font used should be bold");
         expect(style?.color, expectedStyle?.color);
 
-        text =
-            find.descendant(of: widget, matching: find.text(kanaSample.romaji));
+        text = find.descendant(
+            of: widget, matching: find.text(dummyKatakana.romaji));
         expect(text, findsOneWidget);
         style = (tester.widget(text) as Text).style;
         expectedStyle = AppTheme.light().textTheme.bodyMedium;
@@ -59,10 +47,10 @@ void main() {
       // Added test
       testWidgets("When disabled, elevation and text color should change",
           (WidgetTester tester) async {
-        final widget =
-            await pump(tester, const KanaListTile(kanaSample, disabled: true));
+        final widget = await pump(
+            tester, const KanaListTile(dummyKatakana, disabled: true));
 
-        // Validate that the Card's elevation property is equal to 0
+        // Validate that the Card"s elevation property is equal to 0
         final Finder card =
             find.descendant(of: widget, matching: find.byType(Card));
         expect((tester.widget(card) as Card).elevation, equals(0.0));
@@ -86,8 +74,8 @@ void main() {
           (WidgetTester tester) async {
         final widget = await pump(
             tester,
-            KanaListTile(kanaSample, onPressed: () {
-              log.add(kanaSample.id);
+            KanaListTile(dummyKatakana, onPressed: () {
+              log.add(dummyKatakana.id);
             }));
 
         expect(widget, findsOneWidget);
@@ -95,7 +83,7 @@ void main() {
         await tester.tap(widget);
         await tester.pumpAndSettle();
 
-        expect(log, containsOnce(kanaSample.id),
+        expect(log, containsOnce(dummyKatakana.id),
             reason: "proof that onPressed was called one time");
       });
 
@@ -103,8 +91,8 @@ void main() {
           (WidgetTester tester) async {
         final widget = await pump(
             tester,
-            KanaListTile(kanaSample, onPressed: () {
-              log.add(kanaSample.id);
+            KanaListTile(dummyKatakana, onPressed: () {
+              log.add(dummyKatakana.id);
             }, disabled: true));
 
         expect(widget, findsOneWidget);
@@ -112,7 +100,7 @@ void main() {
         await tester.tap(widget);
         await tester.pumpAndSettle();
 
-        expect(log, isNot(contains(kanaSample.id)),
+        expect(log, isNot(contains(dummyKatakana.id)),
             reason: "proof that onPressed wasn't called");
       });
     });

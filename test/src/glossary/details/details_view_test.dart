@@ -1,28 +1,16 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/details/details_view.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/details.dart";
 
+import "../../../dummies/kana.dart";
+import "../../../dummies/kanji.dart";
+import "../../../dummies/vocabulary.dart";
 import "../../../helpers.dart";
 
 void main() {
   group("DetailsView", () {
-    const kanaSample = Kana(
-        ResourceUid("kana-1", ResourceType.kana),
-        Alphabets.hiragana,
-        ResourceUid("group-1", ResourceType.group),
-        "あ",
-        "a",
-        "2023-12-01",
-        1);
-
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
@@ -41,11 +29,11 @@ void main() {
     });
 
     testWidgets("Kana", (WidgetTester tester) async {
-      await pump(tester, const DetailsView(item: kanaSample));
+      await pump(tester, const DetailsView(item: dummyHiragana));
       final theme = AppTheme.light();
 
       // Check title section
-      final title = find.text(kanaSample.kana);
+      final title = find.text(dummyHiragana.kana);
       expect(title, findsOneWidget);
       expect(
           find.ancestor(
@@ -60,30 +48,14 @@ void main() {
       final details = find.byType(Details);
       expect(details, findsOneWidget);
       expect(
-          find.descendant(of: details, matching: find.text(kanaSample.romaji)),
+          find.descendant(
+              of: details, matching: find.text(dummyHiragana.romaji)),
           findsOneWidget);
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
       final theme = AppTheme.light();
-      const kanjiSample = Kanji(
-          ResourceUid("kanji-1", ResourceType.kanji),
-          "本",
-          5,
-          5,
-          5,
-          ["book"],
-          [],
-          ["ほん"],
-          [],
-          "2023-12-1",
-          [],
-          [],
-          [],
-          [],
-          [],
-          "");
-      await pump(tester, const DetailsView(item: kanjiSample));
+      await pump(tester, const DetailsView(item: dummyKanji));
 
       // Check title section
       final titleContainer = find.byWidgetPredicate((widget) =>
@@ -92,7 +64,7 @@ void main() {
       expect(titleContainer, findsOneWidget);
       expect(
           find.descendant(
-              of: titleContainer, matching: find.text(kanjiSample.kanji)),
+              of: titleContainer, matching: find.text(dummyKanji.kanji)),
           findsOneWidget);
 
       // Check details
@@ -100,27 +72,38 @@ void main() {
       expect(details, findsOneWidget);
       expect(
           find.descendant(
-              of: details, matching: find.text(kanjiSample.meanings[0])),
+              of: details, matching: find.text(dummyKanji.meanings[0])),
           findsOneWidget);
     });
 
     group("Vocabulary", () {
       testWidgets("With kanji", (WidgetTester tester) async {
         final theme = AppTheme.light();
-        const vocabularySample = Vocabulary(
-            ResourceUid("vocabulary-1", ResourceType.vocabulary),
-            "亜",
-            "あ",
-            1,
-            ["inferior"],
-            "a",
-            [],
-            "2023-12-1",
-            [],
-            [],
-            [],
-            []);
-        await pump(tester, const DetailsView(item: vocabularySample));
+        await pump(tester, const DetailsView(item: dummyVocabulary));
+
+        // Check title section
+        final titleContainer = find.byWidgetPredicate((widget) =>
+            widget is ColoredBox &&
+            widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
+        expect(titleContainer, findsOneWidget);
+        expect(
+            find.descendant(
+                of: titleContainer, matching: find.text(dummyVocabulary.kanji)),
+            findsOneWidget);
+
+        // Check details
+        final details = find.byType(Details);
+        expect(details, findsOneWidget);
+        expect(
+            find.descendant(
+                of: details, matching: find.text(dummyVocabulary.kana)),
+            findsOneWidget);
+      });
+
+      testWidgets("Without kanji", (WidgetTester tester) async {
+        final theme = AppTheme.light();
+        await pump(
+            tester, const DetailsView(item: dummyVocabularyWithoutKanji));
 
         // Check title section
         final titleContainer = find.byWidgetPredicate((widget) =>
@@ -130,7 +113,7 @@ void main() {
         expect(
             find.descendant(
                 of: titleContainer,
-                matching: find.text(vocabularySample.kanji)),
+                matching: find.text(dummyVocabularyWithoutKanji.kana)),
             findsOneWidget);
 
         // Check details
@@ -138,43 +121,8 @@ void main() {
         expect(details, findsOneWidget);
         expect(
             find.descendant(
-                of: details, matching: find.text(vocabularySample.kana)),
-            findsOneWidget);
-      });
-
-      testWidgets("Without kanji", (WidgetTester tester) async {
-        final theme = AppTheme.light();
-        const vocabularySample = Vocabulary(
-            ResourceUid("vocabulary-1", ResourceType.vocabulary),
-            "",
-            "あ",
-            1,
-            ["inferior"],
-            "a",
-            [],
-            "2023-12-1",
-            [],
-            [],
-            [],
-            []);
-        await pump(tester, const DetailsView(item: vocabularySample));
-
-        // Check title section
-        final titleContainer = find.byWidgetPredicate((widget) =>
-            widget is ColoredBox &&
-            widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
-        expect(titleContainer, findsOneWidget);
-        expect(
-            find.descendant(
-                of: titleContainer, matching: find.text(vocabularySample.kana)),
-            findsOneWidget);
-
-        // Check details
-        final details = find.byType(Details);
-        expect(details, findsOneWidget);
-        expect(
-            find.descendant(
-                of: details, matching: find.text(vocabularySample.kana)),
+                of: details,
+                matching: find.text(dummyVocabularyWithoutKanji.kana)),
             findsOneWidget);
       });
     });

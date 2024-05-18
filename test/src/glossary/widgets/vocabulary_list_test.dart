@@ -1,29 +1,14 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
 import "package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart";
 
+import "../../../dummies/vocabulary.dart";
 import "../../../helpers.dart";
 
 void main() {
   group("VocabularyList", () {
-    const vocabulary = Vocabulary(
-        ResourceUid("vocabulary-1", ResourceType.vocabulary),
-        "亜",
-        "あ",
-        1,
-        ["inferior"],
-        "a",
-        [],
-        "2023-12-1",
-        ["a"],
-        [],
-        [],
-        []);
-
     testWidgets("Empty list", (WidgetTester tester) async {
       await tester.pumpLocalizedWidget(const VocabularyList(
         items: [],
@@ -35,7 +20,7 @@ void main() {
     });
 
     testWidgets("Contains 1 item", (WidgetTester tester) async {
-      final List<Vocabulary> vocabularyList = [vocabulary];
+      final List<Vocabulary> vocabularyList = [dummyVocabulary];
 
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,
@@ -55,7 +40,10 @@ void main() {
     });
 
     testWidgets("Contains 2 items", (WidgetTester tester) async {
-      final List<Vocabulary> vocabularyList = [vocabulary, vocabulary];
+      final List<Vocabulary> vocabularyList = [
+        dummyVocabulary,
+        dummyVocabulary
+      ];
       await tester.pumpLocalizedWidget(VocabularyList(
         items: vocabularyList,
       ));
