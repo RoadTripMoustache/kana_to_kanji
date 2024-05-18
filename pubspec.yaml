@@ -24,7 +24,7 @@ dependencies:
   path: ^1.9.0
   stacked: ^3.4.2
   rive: ^0.13.4
-  package_info_plus: ^4.2.0
+  package_info_plus: ^8.0.0
   shared_preferences: ^2.2.3
   isar:
     version: ^4.0.3
