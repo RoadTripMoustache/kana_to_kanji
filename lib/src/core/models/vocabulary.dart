@@ -40,7 +40,7 @@ class Vocabulary {
   /// List of syllables forming the word in kana.
   /// Use to facilitate vocabulary sorting.
   @JsonKey(name: "kana_syllables")
-  final List<String>
+  final List<int>
       kanaSyllables; // TODO: To remove once migrated to "kanjiReadings"
 
   /// List of kanji which are in the vocabulary with their respective reading
