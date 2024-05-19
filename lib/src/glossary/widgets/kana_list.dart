@@ -26,20 +26,53 @@ class _KanaListState extends State<KanaList> {
   final _scrollToWidgetKey =
       GlobalKey(debugLabel: "kana_list_scroll_to_widget_key");
 
+  final List<({Kana kana, bool disabled})?> main = [];
+  final List<({Kana kana, bool disabled})> dakuten = [];
+  final List<({Kana kana, bool disabled})> combination = [];
+
   void _onPressed(Kana kana) {
     widget.onPressed?.call(kana);
+  }
+
+  void _splitKanaList() {
+    if (widget.items.length < 107) {
+      return;
+    }
+    main
+      ..clear()
+      ..addAll(widget.items.sublist(0, _mainKanaLastId));
+    for (final int id in _emptyTiles) {
+      main.insert(id, null);
+    }
+    dakuten
+      ..clear()
+      ..addAll(widget.items.sublist(_mainKanaLastId, _dakutenLastId));
+    combination
+      ..clear()
+      ..addAll(widget.items.sublist(_dakutenLastId));
+  }
+
+  @override
+  void initState() {
+    _splitKanaList();
+    super.initState();
   }
 
   @override
   void didUpdateWidget(KanaList oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    _splitKanaList();
+
     if (_scrollToWidgetKey.currentContext != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await Scrollable.ensureVisible(
-          _scrollToWidgetKey.currentContext!,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOut,
-        );
+        if (_scrollToWidgetKey.currentContext != null) {
+          await Scrollable.ensureVisible(
+            _scrollToWidgetKey.currentContext!,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+          );
+        }
       });
     }
   }
@@ -55,50 +88,29 @@ class _KanaListState extends State<KanaList> {
     }
 
     final sectionTextStyle = Theme.of(context).textTheme.titleLarge;
-    const cleanTile = Card(elevation: 0);
-
-    final List<Widget> main = widget.items
-        .sublist(0, _mainKanaLastId)
-        .map<Widget>((item) => KanaListTile(
-              item.kana,
-              key: item.kana.position == scrollToIndex
-                  ? _scrollToWidgetKey
-                  : null,
-              disabled: item.disabled,
-              onPressed: () => _onPressed(item.kana),
-            ))
-        .toList();
-    for (final int id in _emptyTiles) {
-      main.insert(id, cleanTile);
-    }
-
-    final List<Widget> dakuten = widget.items
-        .sublist(_mainKanaLastId, _dakutenLastId)
-        .map<Widget>((item) => KanaListTile(item.kana,
-            key:
-                item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
-            disabled: item.disabled,
-            onPressed: () => _onPressed(item.kana)))
-        .toList();
-    final List<Widget> combination = widget.items
-        .sublist(_dakutenLastId)
-        .map<Widget>((item) => KanaListTile(item.kana,
-            key:
-                item.kana.position == scrollToIndex ? _scrollToWidgetKey : null,
-            disabled: item.disabled,
-            onPressed: () => _onPressed(item.kana)))
-        .toList();
 
     return SingleChildScrollView(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-          GridView.count(
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 5,
-            children: main,
+            itemCount: main.length,
+            itemBuilder: (BuildContext context, int index) =>
+                main[index] != null
+                    ? KanaListTile(
+                        main[index]!.kana,
+                        key: main[index]!.kana.position == scrollToIndex
+                            ? _scrollToWidgetKey
+                            : null,
+                        disabled: main[index]!.disabled,
+                        onPressed: () => _onPressed(main[index]!.kana),
+                      )
+                    : const Card(elevation: 0),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -108,11 +120,20 @@ class _KanaListState extends State<KanaList> {
             padding: EdgeInsets.only(bottom: 8.0),
             child: Divider(height: 0, endIndent: 150),
           ),
-          GridView.count(
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 5,
-            children: dakuten,
+            itemCount: dakuten.length,
+            itemBuilder: (BuildContext context, int index) => KanaListTile(
+              dakuten[index].kana,
+              key: dakuten[index].kana.position == scrollToIndex
+                  ? _scrollToWidgetKey
+                  : null,
+              disabled: dakuten[index].disabled,
+              onPressed: () => _onPressed(dakuten[index].kana),
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -122,12 +143,20 @@ class _KanaListState extends State<KanaList> {
             padding: EdgeInsets.only(bottom: 8.0),
             child: Divider(height: 0, endIndent: 150),
           ),
-          GridView.count(
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 3,
-            childAspectRatio: 1.8,
-            children: combination,
+            itemCount: combination.length,
+            itemBuilder: (BuildContext context, int index) => KanaListTile(
+              combination[index].kana,
+              key: combination[index].kana.position == scrollToIndex
+                  ? _scrollToWidgetKey
+                  : null,
+              disabled: combination[index].disabled,
+              onPressed: () => _onPressed(combination[index].kana),
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, childAspectRatio: 1.8),
           ),
         ]));
   }
