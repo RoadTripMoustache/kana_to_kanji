@@ -41,7 +41,8 @@ class _GlossaryViewState extends State<GlossaryView>
     const textIconStyle = TextStyle(fontSize: 26);
 
     return ViewModelBuilder<GlossaryViewModel>.reactive(
-        viewModelBuilder: () => GlossaryViewModel(GoRouter.of(context)),
+        viewModelBuilder: () =>
+            GlossaryViewModel(GoRouter.of(context), _tabController),
         builder: (context, viewModel, child) => AppScaffold(
               showBottomBar: true,
               appBar: AppBar(
