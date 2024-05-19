@@ -50,7 +50,7 @@ void main() {
         final widget = await pump(
             tester, const KanaListTile(dummyKatakana, disabled: true));
 
-        // Validate that the Card"s elevation property is equal to 0
+        // Validate that the Card's elevation property is equal to 0
         final Finder card =
             find.descendant(of: widget, matching: find.byType(Card));
         expect((tester.widget(card) as Card).elevation, equals(0.0));
