@@ -7,7 +7,7 @@ class VocabularyList extends StatefulWidget {
   final List<Vocabulary> items;
 
   /// Function to execute when a [GlossaryListTile] is pressed
-  final Function(Vocabulary vocabulary)? onPressed;
+  final Function(Vocabulary kanji)? onPressed;
 
   const VocabularyList({required this.items, super.key, this.onPressed});
 
