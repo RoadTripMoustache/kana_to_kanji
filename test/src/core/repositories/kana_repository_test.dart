@@ -1,34 +1,16 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/alphabets.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/services/kana_service.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
+
+import "../../../dummies/kana.dart";
 
 @GenerateNiceMocks([MockSpec<KanaService>()])
 import "kana_repository_test.mocks.dart";
 
 void main() {
   group("KanaRepository", () {
-    const hiraganaSample = Kana(
-        ResourceUid("0", ResourceType.kana),
-        Alphabets.hiragana,
-        ResourceUid("0", ResourceType.group),
-        "あ",
-        "a",
-        "2023-12-01",
-        1);
-    const katakanaSample = Kana(
-        ResourceUid("1", ResourceType.kana),
-        Alphabets.katakana,
-        ResourceUid("1", ResourceType.group),
-        "ア",
-        "a",
-        "2023-12-01",
-        2);
     late KanaRepository repository;
 
     final kanaServiceMock = MockKanaService();
@@ -43,8 +25,8 @@ void main() {
 
     group("loadKana", () {
       test("it should load the kana from the KanaService", () {
-        when(kanaServiceMock.getHiragana()).thenReturn([hiraganaSample]);
-        when(kanaServiceMock.getKatakana()).thenReturn([katakanaSample]);
+        when(kanaServiceMock.getHiragana()).thenReturn([dummyHiragana]);
+        when(kanaServiceMock.getKatakana()).thenReturn([dummyKatakana]);
 
         expect(repository.kana.length, 0,
             reason: "Should be empty after initialization");
@@ -53,67 +35,66 @@ void main() {
 
         verifyInOrder(
             [kanaServiceMock.getHiragana(), kanaServiceMock.getKatakana()]);
-        expect(repository.kana, [hiraganaSample, katakanaSample],
+        expect(repository.kana, [dummyHiragana, dummyKatakana],
             reason:
                 "Hiragana and katakana from the KanaService should be present");
       });
 
       test("it should not call the KanaService if kanas are already loaded",
           () {
-        repository.kana.add(hiraganaSample);
+        repository.kana.add(dummyHiragana);
 
         repository.loadKana();
 
         verifyZeroInteractions(kanaServiceMock);
-        expect(repository.kana, [hiraganaSample]);
+        expect(repository.kana, [dummyHiragana]);
       });
     });
 
     group("getHiragana", () {
       test("it should return all the hiragana", () {
-        repository.kana.addAll([hiraganaSample, katakanaSample]);
+        repository.kana.addAll([dummyHiragana, dummyKatakana]);
 
-        expect(repository.getHiragana(), [hiraganaSample],
+        expect(repository.getHiragana(), [dummyHiragana],
             reason: "it should only return the hiragana");
       });
     });
 
     group("getKatakana", () {
       test("it should return all the katakana", () {
-        repository.kana.addAll([hiraganaSample, katakanaSample]);
+        repository.kana.addAll([dummyHiragana, dummyKatakana]);
 
-        expect(repository.getKatakana(), [katakanaSample],
+        expect(repository.getKatakana(), [dummyKatakana],
             reason: "it should only return the katakana");
       });
     });
 
     group("getByGroupIds", () {
       test("it should return all the kana related to the group id passed", () {
-        repository.kana.addAll([hiraganaSample, katakanaSample]);
+        repository.kana.addAll([dummyHiragana, dummyKatakana]);
 
-        expect(repository.getByGroupIds([hiraganaSample.groupUid]),
-            [hiraganaSample],
+        expect(
+            repository.getByGroupIds([dummyHiragana.groupUid]), [dummyHiragana],
             reason: "should contains the hiragana sample");
       });
 
       test("it should return all the kana related to all the group ids passed",
           () {
-        repository.kana.addAll([hiraganaSample, katakanaSample]);
+        repository.kana.addAll([dummyHiragana, dummyKatakana]);
 
         expect(
             repository.getByGroupIds(
-                [hiraganaSample.groupUid, katakanaSample.groupUid]),
-            containsAll([hiraganaSample, katakanaSample]),
+                [dummyHiragana.groupUid, dummyKatakana.groupUid]),
+            containsAll([dummyHiragana, dummyKatakana]),
             reason: "should contains both hiragana and katakana");
       });
     });
 
     group("getByGroupId", () {
       test("it should return all the kana related to the group id passed", () {
-        repository.kana.addAll([hiraganaSample, katakanaSample]);
+        repository.kana.addAll([dummyHiragana, dummyKatakana]);
 
-        expect(
-            repository.getByGroupId(hiraganaSample.groupUid), [hiraganaSample],
+        expect(repository.getByGroupId(dummyHiragana.groupUid), [dummyHiragana],
             reason: "should contains the hiragana sample");
       });
     });

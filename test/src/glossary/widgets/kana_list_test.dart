@@ -1,28 +1,17 @@
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/alphabets.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_list.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart";
 
+import "../../../dummies/kana.dart";
 import "../../../helpers.dart";
 
 void main() {
   group("KanaList", () {
     late final AppLocalizations l10n;
-    final List<Kana> kanaListSample = List.generate(
-        107,
-        (index) => Kana(
-            const ResourceUid("kana-1", ResourceType.kana),
-            Alphabets.hiragana,
-            const ResourceUid("group-1", ResourceType.group),
-            "あ",
-            "a",
-            "2023-12-01",
-            index));
+    final List<Kana> kanaListSample = List.generate(107, generateDummyKana);
 
     setUpAll(() async {
       l10n = await setupLocalizations();

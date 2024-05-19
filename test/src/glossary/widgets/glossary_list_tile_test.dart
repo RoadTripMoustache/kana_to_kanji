@@ -1,19 +1,14 @@
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
 
+import "../../../dummies/kanji.dart";
+import "../../../dummies/vocabulary.dart";
 import "../../../helpers.dart";
 
 void main() {
   group("GlossaryListTile", () {
-    const kanji = Kanji(ResourceUid("kanji-1", ResourceType.kanji), "本", 5, 5,
-        5, ["book"], [], ["ほん"], [], "2023-12-1", [], [], [], [], [], "");
-
     Future<Finder> pump(WidgetTester tester, Widget widget) async {
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
@@ -25,60 +20,15 @@ void main() {
       testWidgets("Kanji", (WidgetTester tester) async {
         final AppLocalizations l10n = await setupLocalizations();
 
-        final widget = await pump(tester, GlossaryListTile.kanji(kanji));
+        final widget = await pump(tester, GlossaryListTile.kanji(dummyKanji));
 
-        expect(find.descendant(of: widget, matching: find.text(kanji.kanji)),
+        expect(
+            find.descendant(of: widget, matching: find.text(dummyKanji.kanji)),
             findsOneWidget,
             reason: "Main text should be a kanji");
         expect(
             find.descendant(
-                of: widget, matching: find.text(kanji.kunReadings[0])),
-            findsOneWidget,
-            reason: "If showFurigana is true, the furigana should be displayed "
-                "when available");
-        expect(
-            find.descendant(
-                of: widget,
-                matching: find
-                    .text(l10n.glossary_tile_meanings(kanji.meanings[0], 0))),
-            findsOneWidget,
-            reason: "Kanji first meaning should be displayed");
-        final badge = find.byType(Badge);
-        expect(find.descendant(of: widget, matching: badge), findsOneWidget);
-        expect(
-            find.descendant(
-                of: badge,
-                matching: find.text(l10n.jlpt_level_short(kanji.jlptLevel))),
-            findsOneWidget,
-            reason: "Kanji JLPT level should be displayed on the first badge");
-      });
-
-      testWidgets("Vocabulary", (WidgetTester tester) async {
-        const vocabulary = Vocabulary(
-            ResourceUid("vocabulary-1", ResourceType.vocabulary),
-            "亜",
-            "あ",
-            1,
-            ["inferior"],
-            "a",
-            [],
-            "2023-12-1",
-            [],
-            [],
-            [],
-            []);
-        final AppLocalizations l10n = await setupLocalizations();
-
-        final widget =
-            await pump(tester, GlossaryListTile.vocabulary(vocabulary));
-
-        expect(
-            find.descendant(of: widget, matching: find.text(vocabulary.kanji)),
-            findsOneWidget,
-            reason: "Main text should be a kanji");
-        expect(
-            find.descendant(
-                of: widget, matching: find.text(vocabulary.kana[0])),
+                of: widget, matching: find.text(dummyKanji.kunReadings[0])),
             findsOneWidget,
             reason: "If showFurigana is true, the furigana should be displayed "
                 "when available");
@@ -86,7 +36,7 @@ void main() {
             find.descendant(
                 of: widget,
                 matching: find.text(
-                    l10n.glossary_tile_meanings(vocabulary.meanings[0], 0))),
+                    l10n.glossary_tile_meanings(dummyKanji.meanings[0], 0))),
             findsOneWidget,
             reason: "Kanji first meaning should be displayed");
         final badge = find.byType(Badge);
@@ -95,7 +45,42 @@ void main() {
             find.descendant(
                 of: badge,
                 matching:
-                    find.text(l10n.jlpt_level_short(vocabulary.jlptLevel))),
+                    find.text(l10n.jlpt_level_short(dummyKanji.jlptLevel))),
+            findsOneWidget,
+            reason: "Kanji JLPT level should be displayed on the first badge");
+      });
+
+      testWidgets("Vocabulary", (WidgetTester tester) async {
+        final AppLocalizations l10n = await setupLocalizations();
+
+        final widget =
+            await pump(tester, GlossaryListTile.vocabulary(dummyVocabulary));
+
+        expect(
+            find.descendant(
+                of: widget, matching: find.text(dummyVocabulary.kanji)),
+            findsOneWidget,
+            reason: "Main text should be a kanji");
+        expect(
+            find.descendant(
+                of: widget, matching: find.text(dummyVocabulary.kana[0])),
+            findsOneWidget,
+            reason: "If showFurigana is true, the furigana should be displayed "
+                "when available");
+        expect(
+            find.descendant(
+                of: widget,
+                matching: find.text(l10n.glossary_tile_meanings(
+                    dummyVocabulary.meanings[0], 0))),
+            findsOneWidget,
+            reason: "Kanji first meaning should be displayed");
+        final badge = find.byType(Badge);
+        expect(find.descendant(of: widget, matching: badge), findsOneWidget);
+        expect(
+            find.descendant(
+                of: badge,
+                matching: find
+                    .text(l10n.jlpt_level_short(dummyVocabulary.jlptLevel))),
             findsOneWidget,
             reason:
                 "Vocabulary JLPT level should be displayed on the first badge");
@@ -111,11 +96,11 @@ void main() {
         final widget = await pump(
             tester,
             GlossaryListTile(
-                meanings: const ["book"],
+                meanings: dummyKanji.meanings,
                 jlptLevel: 1,
-                kanji: kanji,
+                kanji: dummyKanji,
                 onTap: () {
-                  log.add(kanji.id);
+                  log.add(dummyKanji.id);
                 }));
 
         await tester.tap(widget);
