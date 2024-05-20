@@ -302,5 +302,7 @@
   },
   "glossary_sort_by_title": "Filtrer par",
   "glossary_sort_by_alphabetical": "Alphabétique (A-Z)",
-  "glossary_sort_by_japanese": "Syllabe japonaise (あ-お)"
+  "glossary_sort_by_japanese": "Syllabe japonaise (あ-お)",
+  "snackbar_update_version_action": "Mettre à jour",
+  "snackbar_update_version_message": "Une nouvelle version est disponible !"
 }
