@@ -68,7 +68,7 @@ class _FilterBy extends State<FilterBy> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: const Icon(Icons.close_rounded),
           onPressed: () {
             Navigator.of(context).pop();
             widget.filterGlossary();
@@ -77,7 +77,7 @@ class _FilterBy extends State<FilterBy> {
         title: Text(l10n.glossary_filter_by_title),
         actions: [
           IconButton(
-            icon: const Icon(Icons.clear_all),
+            icon: const Icon(Icons.clear_all_rounded),
             onPressed: _clearLists,
           )
         ],

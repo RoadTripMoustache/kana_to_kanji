@@ -28,7 +28,7 @@ class FeedbackTypeSelection extends StatelessWidget {
             style: FilledButton.styleFrom(
                 backgroundColor: Colors.red, foregroundColor: Colors.black),
             onPressed: () => onPressed(FeedbackType.bug),
-            icon: const Icon(Icons.bug_report_outlined,
+            icon: const Icon(Icons.bug_report_rounded,
                 size: _kButtonLeadingIconSize),
             label: ListTile(
               title: Text(l10n.feedback_report_bug),
@@ -38,7 +38,7 @@ class FeedbackTypeSelection extends StatelessWidget {
       FilledButton.icon(
           key: featureRequestButtonKey,
           style: FilledButton.styleFrom(foregroundColor: Colors.white),
-          icon: const Icon(Icons.design_services_outlined,
+          icon: const Icon(Icons.design_services_rounded,
               size: _kButtonLeadingIconSize),
           onPressed: () => onPressed(FeedbackType.featureRequest),
           label: ListTile(

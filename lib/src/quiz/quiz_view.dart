@@ -29,7 +29,7 @@ class QuizView extends StatelessWidget {
               centerTitle: true,
               backgroundColor: Colors.transparent,
               leading: IconButton(
-                icon: const Icon(Icons.close),
+                icon: const Icon(Icons.close_rounded),
                 onPressed: () => context.pop(),
               ),
               title: Row(

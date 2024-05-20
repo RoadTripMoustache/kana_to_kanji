@@ -9,7 +9,7 @@ void main() {
     testWidgets("UI", (WidgetTester tester) async {
       const String title = "title";
       const String subtitle = "Subtitle";
-      const IconData leading = Icons.abc;
+      const IconData leading = Icons.abc_rounded;
       const IconData trailing = Icons.account_circle_outlined;
 
       await tester.pumpLocalizedWidget(const TileItem(

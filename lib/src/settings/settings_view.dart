@@ -26,7 +26,7 @@ class SettingsView extends StatelessWidget {
               title: Text(l10n.settings),
               centerTitle: true,
               leading: IconButton(
-                icon: const Icon(Icons.close),
+                icon: const Icon(Icons.close_rounded),
                 onPressed: () => context.pop(),
               ),
             ),
@@ -56,7 +56,7 @@ class SettingsView extends StatelessWidget {
                       trailing: DropdownButton<Locale>(
                         value: viewModel.currentLocale ??
                             Localizations.localeOf(context),
-                        icon: const Icon(Icons.arrow_downward),
+                        icon: const Icon(Icons.arrow_downward_rounded),
                         style: const TextStyle(color: Colors.deepPurple),
                         underline: Container(
                           height: 2,
@@ -85,7 +85,7 @@ class SettingsView extends StatelessWidget {
                             context: context,
                             applicationVersion: viewModel.version);
                       },
-                      trailing: const Icon(Icons.arrow_forward),
+                      trailing: const Icon(Icons.arrow_forward_rounded),
                     ),
                   ],
                 ),

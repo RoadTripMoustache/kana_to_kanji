@@ -46,8 +46,8 @@ class _ChipListState extends State<ChipList> {
         if (widget.children.isNotEmpty)
           TextButton.icon(
               icon: Icon(showAll
-                  ? Icons.keyboard_arrow_up
-                  : Icons.keyboard_arrow_down),
+                  ? Icons.keyboard_arrow_up_rounded
+                  : Icons.keyboard_arrow_down_rounded),
               onPressed: () {
                 setState(() {
                   showAll = !showAll;

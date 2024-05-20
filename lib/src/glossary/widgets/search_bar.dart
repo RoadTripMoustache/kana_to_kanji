@@ -250,7 +250,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                     onPressed: () async {
                       await Navigator.of(context).push(_createRouteFilterBy());
                     },
-                    icon: const Icon(Icons.tune),
+                    icon: const Icon(Icons.tune_rounded),
                   ),
                 ],
               )),
@@ -269,7 +269,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
             child: const SizedBox(
               width: 36,
               height: kToolbarHeight,
-              child: Icon(Icons.arrow_back),
+              child: Icon(Icons.arrow_back_rounded),
             ),
           ),
         AnimatedPositioned(
@@ -323,7 +323,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                               child: const SizedBox(
                                 width: kToolbarHeight,
                                 height: kToolbarHeight,
-                                child: Icon(Icons.search),
+                                child: Icon(Icons.search_rounded),
                               ),
                             )
                           : null,
