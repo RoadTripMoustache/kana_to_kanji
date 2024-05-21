@@ -221,7 +221,7 @@ const List<String> jpOrder = [
   "ン"
 ];
 
-List<String> splitBySyllable(String kanaWord) {
+List<int> splitBySyllable(String kanaWord) {
   final List<String> syllables = kanaWord.split("");
 
   for (var i = 0; i < syllables.length; i++) {
@@ -233,15 +233,13 @@ List<String> splitBySyllable(String kanaWord) {
     }
   }
 
-  return syllables;
+  return syllables.map((e) => jpOrder.indexOf(e)).toList();
 }
 
-int sortBySyllables(List<String> syllablesA, List<String> syllablesB) {
+int sortBySyllables(List<int> syllablesA, List<int> syllablesB) {
   int index = 0;
   while (index < syllablesA.length && index < syllablesB.length) {
-    final int comparison = jpOrder
-        .indexOf(syllablesA[index])
-        .compareTo(jpOrder.indexOf(syllablesB[index]));
+    final int comparison = syllablesA[index].compareTo(syllablesB[index]);
     if (comparison != 0) {
       // -1 or +1 means that the letters are different, thus an order is found
       return comparison;

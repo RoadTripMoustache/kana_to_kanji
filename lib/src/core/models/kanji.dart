@@ -61,7 +61,7 @@ class Kanji {
   /// List of syllables of the first kanji Kun reading
   /// to facilitate the kanji sorting
   @JsonKey(name: "jp_sort_syllables")
-  final List<String> jpSortSyllables;
+  final List<int> jpSortSyllables;
 
   /// Usage examples of the kanji
   @Default([])
