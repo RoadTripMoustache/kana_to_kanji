@@ -4,7 +4,7 @@ description: A new Flutter project.
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.29.0+1
+version: 0.30.0+1
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -43,6 +43,7 @@ dependencies:
   image: ^4.1.7
   intl: ^0.19.0
   infinite_scroll_pagination: ^4.0.0
+  upgrader: ^10.3.0
 
 dev_dependencies:
   flutter_test:
