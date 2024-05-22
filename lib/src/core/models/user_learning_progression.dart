@@ -8,6 +8,7 @@ part "user_learning_progression.g.dart";
 @embedded
 @JsonSerializable()
 class UserLearningProgression {
+  /// Uid of the current learning stage
   @Default(ResourceUid("", ResourceType.stage))
   final ResourceUid stage;
 
