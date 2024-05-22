@@ -12,6 +12,7 @@ class UserLearningProgression {
   @Default(ResourceUid("", ResourceType.stage))
   final ResourceUid stage;
 
+  /// Uid of the current learning level
   @Default(ResourceUid("", ResourceType.level))
   final ResourceUid level;
 
