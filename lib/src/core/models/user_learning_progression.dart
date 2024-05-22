@@ -16,6 +16,7 @@ class UserLearningProgression {
   @Default(ResourceUid("", ResourceType.level))
   final ResourceUid level;
 
+  /// Index of the last resource shown in the current level
   final int resource;
 
   const UserLearningProgression(this.stage, this.level, this.resource);
