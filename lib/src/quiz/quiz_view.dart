@@ -1,10 +1,8 @@
-import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
-import "package:kana_to_kanji/src/core/widgets/rounded_linear_progress_indicator.dart";
+import "package:kana_to_kanji/src/practice/quiz/widgets/quiz_app_bar.dart";
 import "package:kana_to_kanji/src/quiz/quiz_view_model.dart";
 import "package:kana_to_kanji/src/quiz/widgets/question_tile.dart";
 import "package:stacked/stacked.dart";
@@ -17,62 +15,36 @@ class QuizView extends StatelessWidget {
   const QuizView({super.key, this.groups = const []});
 
   @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final textTheme = Theme.of(context).textTheme;
-
-    return ViewModelBuilder<QuizViewModel>.reactive(
-        viewModelBuilder: () => QuizViewModel(groups, GoRouter.of(context)),
-        builder: (context, viewModel, child) => AppScaffold(
-            resizeToAvoidBottomInset: true,
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: const Icon(Icons.close_rounded),
-                onPressed: () => context.pop(),
+  Widget build(BuildContext context) =>
+      ViewModelBuilder<QuizViewModel>.reactive(
+          viewModelBuilder: () => QuizViewModel(groups, GoRouter.of(context)),
+          builder: (context, viewModel, child) => AppScaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: QuizAppBar(
+                onClosePressed: () => context.pop(),
+                onSkipPressed: viewModel.skipQuestion,
+                progressBarValue: viewModel.quizLength > 0
+                    ? (viewModel.questionNumber / viewModel.quizLength)
+                    : 0.0,
               ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.60,
-                    child: RoundedLinearProgressIndicator(
-                      value: viewModel.quizLength > 0
-                          ? (viewModel.questionNumber / viewModel.quizLength)
-                          : 0.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: AutoSizeText(
-                      l10n.quiz_length(
-                          viewModel.questionNumber, viewModel.quizLength),
-                      style: textTheme.titleMedium,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            body: viewModel.isBusy
-                ? const CircularProgressIndicator()
-                : Column(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            QuestionTile(
-                              question: viewModel.current,
-                              submitAnswer: viewModel.validateAnswer,
-                              maximumAttempts: viewModel.attemptMaxNumber,
-                              nextQuestion: viewModel.nextQuestion,
-                              skipQuestion: viewModel.skipQuestion,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )));
-  }
+              body: viewModel.isBusy
+                  ? const CircularProgressIndicator()
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              QuestionTile(
+                                question: viewModel.current,
+                                submitAnswer: viewModel.validateAnswer,
+                                maximumAttempts: viewModel.attemptMaxNumber,
+                                nextQuestion: viewModel.nextQuestion,
+                                skipQuestion: viewModel.skipQuestion,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )));
 }

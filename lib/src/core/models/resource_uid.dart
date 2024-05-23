@@ -6,6 +6,7 @@ part "resource_uid.g.dart";
 
 @embedded
 @JsonSerializable()
+@immutable
 class ResourceUid {
   final String uid;
 
@@ -20,4 +21,12 @@ class ResourceUid {
       uid,
       ResourceType.values
           .firstWhere((element) => element.name == uid.split("-")[0]));
+
+  @override
+  bool operator ==(covariant ResourceUid other) =>
+      identical(this, other) ||
+      (other.uid == uid && other.resourceType == resourceType);
+
+  @override
+  int get hashCode => uid.hashCode + resourceType.hashCode;
 }
