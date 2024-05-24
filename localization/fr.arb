@@ -304,5 +304,6 @@
   "glossary_sort_by_alphabetical": "Alphabétique (A-Z)",
   "glossary_sort_by_japanese": "Syllabe japonaise (あ-お)",
   "snackbar_update_version_action": "Mettre à jour",
-  "snackbar_update_version_message": "Une nouvelle version est disponible !"
+  "snackbar_update_version_message": "Une nouvelle version est disponible !",
+  "practice_quiz_practice_button": "Pratique"
 }
