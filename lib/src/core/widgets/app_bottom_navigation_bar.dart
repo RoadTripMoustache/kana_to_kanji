@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/models/app_navigation_destination.dart";
-import "package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart";
+import "package:kana_to_kanji/src/practice/quiz/practice_view.dart";
 
 class AppBottomNavigationBar extends StatelessWidget {
   const AppBottomNavigationBar({super.key});
@@ -40,7 +40,7 @@ class AppBottomNavigationBar extends StatelessWidget {
             icon: const Icon(Icons.psychology_outlined),
             selectedIcon: const Icon(Icons.psychology_rounded),
             label: l10n.app_bottom_bar_practice,
-            location: PrepareQuizView.routeName),
+            location: PracticeView.routeName),
         AppNavigationDestination(
             icon: const Icon(Icons.menu_book_outlined),
             selectedIcon: const Icon(Icons.menu_book_rounded),
