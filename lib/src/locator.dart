@@ -4,15 +4,18 @@ import "package:isar/isar.dart";
 import "package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kana_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
+import "package:kana_to_kanji/src/core/dataloaders/user_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/user.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/core/repositories/groups_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
@@ -29,7 +32,9 @@ void setupLocator() {
   locator
     ..registerLazySingleton<Logger>(Logger.new)
 
-    // Services
+    //----------------------//
+    // ----- Services ----- //
+    //----------------------//
     ..registerSingleton<DialogService>(DialogService())
     ..registerLazySingleton<PreferencesService>(PreferencesService.new)
     ..registerSingletonAsync<ApiService>(() async => ApiService())
@@ -39,7 +44,9 @@ void setupLocator() {
       return instance;
     })
 
-    // Isar
+    // ---------------- //
+    // ----- Isar ----- //
+    // ---------------- //
     ..registerSingletonAsync<Isar>(() async {
       await Isar.initialize();
       final String directory = kIsWeb
@@ -47,7 +54,13 @@ void setupLocator() {
           : (await getApplicationSupportDirectory()).path;
 
       final isar = Isar.open(
-        schemas: [GroupSchema, KanaSchema, KanjiSchema, VocabularySchema],
+        schemas: [
+          GroupSchema,
+          KanaSchema,
+          KanjiSchema,
+          VocabularySchema,
+          UserSchema
+        ],
         directory: directory,
         engine: IsarEngine.sqlite,
       );
@@ -55,7 +68,9 @@ void setupLocator() {
       return isar;
     })
 
-    // Repositories
+    // ------------------------ //
+    // ----- Repositories ----- //
+    // ------------------------ //
     ..registerSingletonWithDependencies<GroupsRepository>(GroupsRepository.new,
         dependsOn: [Isar])
     ..registerSingletonWithDependencies<KanaRepository>(KanaRepository.new,
@@ -65,9 +80,13 @@ void setupLocator() {
     ..registerSingletonWithDependencies<VocabularyRepository>(
         VocabularyRepository.new,
         dependsOn: [Isar])
+    ..registerSingletonWithDependencies<UserRepository>(UserRepository.new,
+        dependsOn: [Isar])
     ..registerSingleton<SettingsRepository>(SettingsRepository())
 
-    // Data Loaders
+    // ------------------------ //
+    // ----- Data Loaders ----- //
+    // ------------------------ //
     ..registerSingletonAsync<SyncService>(() async {
       final instance = SyncService();
 
@@ -128,6 +147,14 @@ void setupLocator() {
           ApiService,
         ]);
 
+      return instance;
+    }, dependsOn: [ApiService, Isar])
+
+    // - user
+    ..registerSingletonAsync<UserDataLoader>(() async {
+      final instance = UserDataLoader();
+      // Always sync the user data
+      await instance.loadCollection();
       return instance;
     }, dependsOn: [ApiService, Isar]);
 }

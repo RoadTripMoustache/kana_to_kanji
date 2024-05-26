@@ -83,6 +83,10 @@ class CleanUpService {
           return _kanjiRepository.delete(element);
         case ResourceType.vocabulary:
           return _vocabularyRepository.delete(element);
+        case ResourceType.level:
+          return Future.value();
+        case ResourceType.stage:
+          return Future.value();
       }
     }));
   }

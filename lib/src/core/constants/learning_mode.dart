@@ -1,0 +1,4 @@
+enum LearningMode {
+  learn,
+  review;
+}

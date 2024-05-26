@@ -45,7 +45,7 @@ class GroupDataLoader {
       return groups;
     } else {
       // If the server did not return a 200 OK response,
-      // then throw an exception.
+      // then return an empty list.
       return List.empty();
     }
   }
