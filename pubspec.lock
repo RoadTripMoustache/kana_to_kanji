@@ -405,6 +405,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttermoji:
+    dependency: "direct main"
+    description:
+      name: fluttermoji
+      sha256: c33d4b26eeee3c80b377d0cbe1efdaa21dca07d2fd8a25feeecb1381ffabb1b9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   freezed:
     dependency: "direct dev"
     description:
@@ -429,6 +437,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  get:
+    dependency: transitive
+    description:
+      name: get
+      sha256: e4e7335ede17452b391ed3b2ede016545706c01a02292a6c97619705e7d2a85e
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.6"
   get_it:
     dependency: "direct main"
     description:

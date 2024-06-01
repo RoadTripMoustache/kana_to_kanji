@@ -127,39 +127,47 @@ class StatCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Card(
-        color: backgroundColor,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: isSmall ? MainAxisSize.min : MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: icon,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title,
-                          style: titleTextStyle ??
-                              Theme.of(context).textTheme.bodyMedium),
-                      if (!isSmall && subtitle != null)
-                        Text(subtitle ?? "",
-                            style: subtitleTextStyle ??
-                                Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(color: Colors.grey)),
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
+  Widget build(BuildContext context) {
+    final statCard = Card(
+      color: backgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: isSmall ? MainAxisSize.min : MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: icon,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title,
+                        style: titleTextStyle ??
+                            Theme.of(context).textTheme.bodyMedium),
+                    if (!isSmall && subtitle != null)
+                      Text(subtitle ?? "",
+                          style: subtitleTextStyle ??
+                              Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: Colors.grey)),
+                  ],
+                )
+              ],
+            )
+          ],
         ),
-      );
+      ),
+    );
+
+    if (isSmall) {
+      return statCard;
+    } else {
+      return Expanded(child: statCard);
+    }
+  }
 }

@@ -15,7 +15,7 @@ class StatTimerData {
 
 Future<void> main() async {
   Future<Finder> pump(WidgetTester tester, Widget widget) async {
-    await tester.pumpLocalizedWidget(widget);
+    await tester.pumpLocalizedWidget(Column(children: [widget]));
     await tester.pumpAndSettle();
 
     return find.byType(StatCard);

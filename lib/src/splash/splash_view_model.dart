@@ -2,6 +2,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/services/dataloader_service.dart";
 import "package:kana_to_kanji/src/core/services/token_service.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view.dart";
@@ -12,6 +13,7 @@ class SplashViewModel extends FutureViewModel {
   final AuthService _authService = locator<AuthService>();
   final TokenService _tokenService = locator<TokenService>();
   final DataloaderService _dataloaderService = locator<DataloaderService>();
+  final UserRepository _userRepository = locator<UserRepository>();
   final GoRouter goRouter;
 
   SplashViewModel(this.goRouter);
@@ -31,6 +33,8 @@ class SplashViewModel extends FutureViewModel {
       _tokenService.userCredential = user;
 
       await _dataloaderService.loadStaticData();
+
+      await _userRepository.signIn();
 
       // Move to main app screen
       await goRouter.replace(GlossaryView.routeName);

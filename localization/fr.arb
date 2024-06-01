@@ -323,7 +323,7 @@
   "input_password_configuration_mismatch": "Les mots de passe saisis ne sont pas identiques",
   "create_account_view_create_account": "Créer compte",
   "create_account_view_or_separator": "OU",
-  "streak_title": "{nb_days} jours",
+  "streak_title": "{nb_days} {nb_days, plural, zero{jours} one{jour} other{jours}}",
   "@streak_title": {
     "description": "Label pour afficher la durée de la streak de l'utilisateur",
     "placeholders": {
@@ -333,8 +333,8 @@
       }
     }
   },
-  "streak_label": "d'apprentissage continue",
-  "nbr_words": "{nb_words} mots",
+  "streak_label": "consécutifs",
+  "nbr_words": "{nb_words} {nb_words, plural, zero{mots} one{mot} other{mots}}",
   "@nbr_words": {
      "description": "Label pour afficher le nombre de mots appris",
      "placeholders": {
@@ -344,5 +344,15 @@
        }
      }
   },
-  "words_learned": "appris"
+  "words_learned": "appris",
+  "learningSince": "Apprend depuis: {since}",
+  "@learningSince": {
+    "description": "Label pour afficher depuis quand l'utilisateur apprend",
+    "placeholders": {
+      "since": {
+        "type": "String",
+        "example": "Date à laquelle l'utilisateur a commencé son apprentissage"
+      }
+    }
+  }
 }

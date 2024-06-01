@@ -27,9 +27,8 @@ class UserRepository with ListenableServiceMixin {
     return Future.value(true);
   }
 
-  Future<bool> signIn(AuthenticationMethod method,
-      {bool isSilent = false, String? email, String? password}) {
-    throw UnimplementedError();
+  Future<void> signIn() async {
+    _self = await _userService.getUser();
   }
 
   /// Sign in the user anonymously, store its token and create its user account
@@ -64,6 +63,8 @@ class UserRepository with ListenableServiceMixin {
     final user = await _userService.getUser();
     if (user == null) {
       return Future.value(false);
+    } else {
+      _self = user;
     }
 
     return Future.value(true);
