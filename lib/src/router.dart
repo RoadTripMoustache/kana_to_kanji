@@ -7,6 +7,7 @@ import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_not_found_view.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view.dart";
 import "package:kana_to_kanji/src/practice/quiz/practice_view.dart";
+import "package:kana_to_kanji/src/profile/profile_view.dart";
 import "package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart";
 import "package:kana_to_kanji/src/quiz/models/question.dart";
 import "package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart";
@@ -72,5 +73,8 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
               builder: (_, __) => const GlossaryView()),
           GoRoute(
               path: PracticeView.routeName,
-              builder: (_, __) => const PracticeView())
+              builder: (_, __) => const PracticeView()),
+          GoRoute(
+              path: ProfileView.routeName,
+              builder: (_, __) => const ProfileView())
         ]);
