@@ -16,7 +16,7 @@ class LandingView extends StatelessWidget {
     super.key,
   });
 
-  final TextStyle _style = const TextStyle(
+  static const TextStyle _style = TextStyle(
       // TODO : Change style, it's ugly !
       fontWeight: FontWeight.w500,
       color: Colors.black,
