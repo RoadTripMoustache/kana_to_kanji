@@ -327,5 +327,27 @@
   "input_password_confirmation_placeholder": "Password confirmation",
   "input_password_configuration_mismatch": "Password confirmation is different from the password",
   "create_account_view_create_account": "Create account",
-  "create_account_view_or_separator": "OR"
+  "create_account_view_or_separator": "OR",
+  "streak_title": "{nb_days} days",
+  "@streak_title": {
+    "description": "Label to display the length of the user streak",
+    "placeholders": {
+      "nb_days": {
+        "type": "int",
+        "example": "A number of days"
+      }
+    }
+  },
+  "streak_label": "of continued learning",
+  "nbr_words": "{nb_words} words",
+  "@nbr_words": {
+     "description": "Label to display the number of words learned",
+     "placeholders": {
+       "nb_words": {
+         "type": "int",
+         "example": "A number of words"
+       }
+     }
+  },
+     "words_learned": "learned"
 }

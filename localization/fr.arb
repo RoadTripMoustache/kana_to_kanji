@@ -322,5 +322,27 @@
   "input_password_confirmation_placeholder": "Confirmation mot de passe",
   "input_password_configuration_mismatch": "Les mots de passe saisis ne sont pas identiques",
   "create_account_view_create_account": "Créer compte",
-  "create_account_view_or_separator": "OU"
+  "create_account_view_or_separator": "OU",
+  "streak_title": "{nb_days} jours",
+  "@streak_title": {
+    "description": "Label pour afficher la durée de la streak de l'utilisateur",
+    "placeholders": {
+      "nb_days": {
+        "type": "int",
+        "example": "Nombre de jours"
+      }
+    }
+  },
+  "streak_label": "d'apprentissage continue",
+  "nbr_words": "{nb_words} mots",
+  "@nbr_words": {
+     "description": "Label pour afficher le nombre de mots appris",
+     "placeholders": {
+       "nb_words": {
+         "type": "int",
+         "example": "Un nombre de mots"
+       }
+     }
+  },
+  "words_learned": "appris"
 }
