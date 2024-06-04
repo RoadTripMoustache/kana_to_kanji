@@ -15,4 +15,17 @@ class ApiService {
   Future<http.Response> get(String path) async => http.get(
       Uri.parse("${AppConfiguration.apiUrl}$path"),
       headers: {"Authorization": "Bearer ${await _tokenService.getToken()}"});
+
+  /// patch - Execute an HTTP PATCH request to the API using the path given in
+  /// parameter. The authorization token is automatically injected in the
+  /// headers.
+  /// params :
+  /// - path : String - Path of the API to call
+  /// - body : Object? - Object to send
+  /// returns : Future<http.Response> - The response of the HTTP request.
+  Future<http.Response> patch(String path, Object? body) async => http.patch(
+        Uri.parse("${AppConfiguration.apiUrl}$path"),
+        headers: {"Authorization": "Bearer ${await _tokenService.getToken()}"},
+        body: body,
+      );
 }

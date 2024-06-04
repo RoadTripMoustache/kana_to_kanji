@@ -3,6 +3,7 @@ import "package:firebase_core/firebase_core.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
+import "package:kana_to_kanji/src/core/models/api_user.dart";
 import "package:kana_to_kanji/src/core/models/user.dart" as ktk;
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/services/dataloader_service.dart";
@@ -151,6 +152,86 @@ void main() {
           dataloaderServiceMock.loadStaticData(),
           userServiceMock.getUser()
         ]);
+        expect(result, false);
+      });
+    });
+
+    group("updateSelf", () {
+      const userPatch = ApiUser();
+      test("Ok", () async {
+        when(userServiceMock.updateUser(userPatch))
+            .thenAnswer((_) => Future.value(ktkUser));
+
+        final result = await repository.updateSelf(userPatch);
+
+        verifyInOrder([userServiceMock.updateUser(userPatch)]);
+        expect(result, ktkUser);
+      });
+      test("Nok", () async {
+        when(userServiceMock.updateUser(userPatch))
+            .thenAnswer((_) => Future.value());
+
+        final result = await repository.updateSelf(userPatch);
+
+        verifyInOrder([userServiceMock.updateUser(userPatch)]);
+        expect(result, null);
+      });
+    });
+
+    group("linkAccount", () {
+      test("Correct link - apple", () async {
+        when(authServiceMock.linkAccountWithApple())
+            .thenAnswer((_) => Future.value(userCredential));
+        when(userCredential.user).thenReturn(user);
+
+        final result = await repository.linkAccount(AuthenticationMethod.apple);
+
+        verifyInOrder([
+          authServiceMock.linkAccountWithApple(),
+        ]);
+        verifyNever(loggerMock.e(any));
+        expect(result, true);
+      });
+      test("Correct link - classic", () async {
+        when(
+          authServiceMock.linkAccountWithEmail("toto", "tata"),
+        ).thenAnswer((_) => Future.value(userCredential));
+        when(userCredential.user).thenReturn(user);
+
+        final result = await repository.linkAccount(
+            AuthenticationMethod.classic,
+            email: "toto",
+            password: "tata");
+
+        verifyInOrder([
+          authServiceMock.linkAccountWithEmail("toto", "tata"),
+        ]);
+        verifyNever(loggerMock.e(any));
+        expect(result, true);
+      });
+      test("Correct link - google", () async {
+        when(authServiceMock.linkAccountWithGoogle())
+            .thenAnswer((_) => Future.value(userCredential));
+        when(userCredential.user).thenReturn(user);
+
+        final result =
+            await repository.linkAccount(AuthenticationMethod.google);
+
+        verifyInOrder([
+          authServiceMock.linkAccountWithGoogle(),
+        ]);
+        verifyNever(loggerMock.e(any));
+        expect(result, true);
+      });
+
+      test("Incorrect link - ktkUser credential null", () async {
+        when(authServiceMock.linkAccountWithGoogle())
+            .thenAnswer((_) => Future.value());
+
+        final result =
+            await repository.linkAccount(AuthenticationMethod.google);
+
+        verifyInOrder([authServiceMock.linkAccountWithGoogle()]);
         expect(result, false);
       });
     });

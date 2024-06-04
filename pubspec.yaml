@@ -48,6 +48,8 @@ dependencies:
   firebase_auth: ^4.19.6
   google_sign_in: ^6.2.1
   fluttermoji: ^1.0.2
+  sign_in_with_apple: ^6.1.0
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:

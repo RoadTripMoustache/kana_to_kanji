@@ -13,4 +13,13 @@ class TokenService {
   set userCredential(User firebaseUser) {
     _firebaseUser = firebaseUser;
   }
+
+  /// isAnonymous - Returns a boolean to let know if the current user is
+  /// signed with an anonymous account.
+  bool get isAnonymous {
+    if (_firebaseUser == null) {
+      return false;
+    }
+    return _firebaseUser!.isAnonymous;
+  }
 }

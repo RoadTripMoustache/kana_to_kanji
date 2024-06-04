@@ -1,10 +1,20 @@
 import "package:flutter/foundation.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/authentication/create/create_account_view.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:mockito/annotations.dart";
 
 import "../../../helpers.dart";
+@GenerateNiceMocks([MockSpec<UserRepository>()])
+import "create_account_view_test.mocks.dart";
+
+final userRepositoryMock = MockUserRepository();
 
 void main() {
+  setUpAll(() async {
+    locator.registerSingleton<UserRepository>(userRepositoryMock);
+  });
   group("CreateAccountView", () {
     group("Default display", () {
       testWidgets("IOS", (WidgetTester tester) async {

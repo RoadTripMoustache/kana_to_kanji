@@ -3,15 +3,17 @@ import "package:flutter_test/flutter_test.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
+import "package:kana_to_kanji/src/core/services/token_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:kana_to_kanji/src/profile/profile_view_model.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-import "../../../dummies/user.dart";
+import "../../dummies/user.dart";
 @GenerateNiceMocks([
   MockSpec<SettingsRepository>(),
   MockSpec<UserRepository>(),
+  MockSpec<TokenService>(),
   MockSpec<GoRouter>()
 ])
 import "profile_view_model_test.mocks.dart";
@@ -22,11 +24,13 @@ void main() async {
 
     final settingsRepositoryMock = MockSettingsRepository();
     final userRepositoryMock = MockUserRepository();
+    final tokenServiceMock = MockTokenService();
     final goRouterMock = MockGoRouter();
 
     setUpAll(() {
       locator
         ..registerSingleton<SettingsRepository>(settingsRepositoryMock)
+        ..registerSingleton<TokenService>(tokenServiceMock)
         ..registerSingleton<UserRepository>(userRepositoryMock);
     });
 

@@ -359,5 +359,7 @@
          "example": "Date when the user started to learn"
        }
      }
-  }
+  },
+  "link_account_banner_button_label": "Create account",
+  "link_account_banner_message": "Create an account to not loose your progression!"
 }

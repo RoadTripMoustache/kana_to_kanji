@@ -6,7 +6,7 @@ import "package:kana_to_kanji/src/settings/settings_view.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-import "../../../../helpers.dart";
+import "../../../helpers.dart";
 
 @GenerateNiceMocks([
   MockSpec<GoRouter>(),

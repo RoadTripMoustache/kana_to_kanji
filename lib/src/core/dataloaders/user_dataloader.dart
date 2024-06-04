@@ -3,6 +3,7 @@ import "dart:convert";
 
 import "package:http/http.dart" as http;
 import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/core/models/api_user.dart";
 import "package:kana_to_kanji/src/core/models/user.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -18,6 +19,10 @@ class UserDataLoader {
           _isar.write((isar) => isar.users.put(user));
         }
       });
+
+  /// Update the user data to the API.
+  Future<User?> patchUser(ApiUser userPatch) async =>
+      _apiService.patch("/v1/user", userPatch.toJson()).then(_extractUser);
 
   /// Extract the user from the API Response.
   User? _extractUser(http.Response response) {

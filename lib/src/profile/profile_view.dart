@@ -5,6 +5,7 @@ import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 import "package:kana_to_kanji/src/core/widgets/stat_card.dart";
 import "package:kana_to_kanji/src/profile/profile_view_model.dart";
+import "package:kana_to_kanji/src/profile/widgets/link_account_banner.dart";
 import "package:kana_to_kanji/src/profile/widgets/profile_app_bar.dart";
 import "package:stacked/stacked.dart";
 
@@ -30,6 +31,7 @@ class ProfileView extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
+                if (viewModel.isAnonymousUser()) const LinkAccountBanner(),
                 FluttermojiCircleAvatar(
                   backgroundColor: Colors.grey[200],
                   radius: 100,
