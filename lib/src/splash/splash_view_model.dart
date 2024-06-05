@@ -1,6 +1,6 @@
 import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/locator.dart";
-import "package:kana_to_kanji/src/quiz/prepare/prepare_quiz_view.dart";
 import "package:stacked/stacked.dart";
 
 class SplashViewModel extends FutureViewModel {
@@ -18,6 +18,6 @@ class SplashViewModel extends FutureViewModel {
     ]);
 
     // Move to main screen
-    await goRouter.replace(PrepareQuizView.routeName);
+    await goRouter.replace(LandingView.routeName);
   }
 }

@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_not_found_view.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view.dart";
@@ -22,6 +23,9 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
           GoRoute(
               path: SplashView.routeName,
               builder: (_, __) => const SplashView()),
+          GoRoute(
+              path: LandingView.routeName,
+              builder: (_, __) => const LandingView()),
           GoRoute(
               path: PrepareQuizView.routeName,
               builder: (_, __) => const PrepareQuizView(),

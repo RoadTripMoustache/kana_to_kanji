@@ -310,5 +310,7 @@
   "glossary_sort_by_japanese": "Japanese syllable (あ-お)",
   "snackbar_update_version_action": "Update",
   "snackbar_update_version_message": "A new version is available!",
-  "practice_quiz_practice_button": "Practice"
+  "practice_quiz_practice_button": "Practice",
+  "landing_sign_in": "Sign in",
+  "landing_getting_started": "Getting started"
 }
