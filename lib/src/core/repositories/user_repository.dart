@@ -1,7 +1,6 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
-import "package:kana_to_kanji/src/core/models/api_user.dart";
 import "package:kana_to_kanji/src/core/models/user.dart" as ktk_user;
 import "package:kana_to_kanji/src/core/services/dataloader_service.dart";
 import "package:kana_to_kanji/src/core/services/token_service.dart";
@@ -55,7 +54,7 @@ class UserRepository with ListenableServiceMixin {
     }
 
     // Store the user credentials
-    _tokenService.userCredential = userCredential.user!;
+    _tokenService.userCredential = userCredential.user;
 
     // Load/update the static data stored locally
     await _dataloaderService.loadStaticData();
@@ -72,16 +71,18 @@ class UserRepository with ListenableServiceMixin {
   }
 
   /// updateSelf - Update the current user with the patch given in parameter.
-  /// params :
-  /// - userPatch : ApiUser - Contains only the data to update the user.
-  /// returns : User? - The updated user or null if an issue happened during
-  /// the API call.
-  Future<ktk_user.User?> updateSelf(ApiUser userPatch) async {
-    final updatedUser = await _userService.updateUser(userPatch);
-    if (updatedUser != null) {
+  Future<void> updateSelf(
+      ktk_user.User updatedUser, Map<String, dynamic> extra) async {
+    if (_self != null) {
+      if (extra.containsKey("display_name")) {
+        await _tokenService.userCredential
+            ?.updateDisplayName(extra["display_name"]);
+      }
+
+      extra["last_update_received"] = updatedUser.lastUpdate;
       _self = updatedUser;
+      await _userService.updateUser(extra);
     }
-    return Future.value(updatedUser);
   }
 
   /// linkAccount - Link the anonymous account of the current user to another
@@ -119,7 +120,7 @@ class UserRepository with ListenableServiceMixin {
     }
 
     // Store the user credentials
-    _tokenService.userCredential = userCredential.user!;
+    _tokenService.userCredential = userCredential.user;
 
     return Future.value(true);
   }

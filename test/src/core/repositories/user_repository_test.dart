@@ -3,7 +3,6 @@ import "package:firebase_core/firebase_core.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
-import "package:kana_to_kanji/src/core/models/api_user.dart";
 import "package:kana_to_kanji/src/core/models/user.dart" as ktk;
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/services/dataloader_service.dart";
@@ -157,29 +156,50 @@ void main() {
     });
 
     group("updateSelf", () {
-      const userPatch = ApiUser();
-      test("Ok", () async {
-        when(userServiceMock.updateUser(userPatch))
+      final Map<String, dynamic> userPatch = {};
+      test("User logged in - without display name change", () async {
+        when(userServiceMock.getUser())
             .thenAnswer((_) => Future.value(ktkUser));
-
-        final result = await repository.updateSelf(userPatch);
-
-        verifyInOrder([userServiceMock.updateUser(userPatch)]);
-        expect(result, ktkUser);
-      });
-      test("Nok", () async {
         when(userServiceMock.updateUser(userPatch))
-            .thenAnswer((_) => Future.value());
+            .thenAnswer((_) => Future.value(true));
 
-        final result = await repository.updateSelf(userPatch);
+        await repository.signIn();
+
+        await repository.updateSelf(ktkUser, userPatch);
 
         verifyInOrder([userServiceMock.updateUser(userPatch)]);
-        expect(result, null);
+      });
+      test("User logged in - with display name change", () async {
+        final userPatchWithDisplayName = {"display_name": " TOTO"};
+        when(userServiceMock.getUser())
+            .thenAnswer((_) => Future.value(ktkUser));
+        when(userServiceMock.updateUser(userPatchWithDisplayName))
+            .thenAnswer((_) => Future.value(true));
+
+        await repository.signIn();
+
+        await repository.updateSelf(ktkUser, userPatchWithDisplayName);
+
+        verifyInOrder([
+          tokenServiceMock.userCredential,
+          userServiceMock.updateUser(userPatchWithDisplayName)
+        ]);
+      });
+      test("No user logged in", () async {
+        await repository.signOut();
+
+        await repository.updateSelf(ktkUser, userPatch);
+
+        verifyInOrder([]);
       });
     });
 
     group("linkAccount", () {
       test("Correct link - apple", () async {
+        when(userServiceMock.getUser())
+            .thenAnswer((_) => Future.value(ktkUser));
+        await repository.signIn();
+
         when(authServiceMock.linkAccountWithApple())
             .thenAnswer((_) => Future.value(userCredential));
         when(userCredential.user).thenReturn(user);
@@ -193,6 +213,10 @@ void main() {
         expect(result, true);
       });
       test("Correct link - classic", () async {
+        when(userServiceMock.getUser())
+            .thenAnswer((_) => Future.value(ktkUser));
+        await repository.signIn();
+
         when(
           authServiceMock.linkAccountWithEmail("toto", "tata"),
         ).thenAnswer((_) => Future.value(userCredential));
@@ -210,6 +234,10 @@ void main() {
         expect(result, true);
       });
       test("Correct link - google", () async {
+        when(userServiceMock.getUser())
+            .thenAnswer((_) => Future.value(ktkUser));
+        await repository.signIn();
+
         when(authServiceMock.linkAccountWithGoogle())
             .thenAnswer((_) => Future.value(userCredential));
         when(userCredential.user).thenReturn(user);
@@ -225,6 +253,10 @@ void main() {
       });
 
       test("Incorrect link - ktkUser credential null", () async {
+        when(userServiceMock.getUser())
+            .thenAnswer((_) => Future.value(ktkUser));
+        await repository.signIn();
+
         when(authServiceMock.linkAccountWithGoogle())
             .thenAnswer((_) => Future.value());
 
