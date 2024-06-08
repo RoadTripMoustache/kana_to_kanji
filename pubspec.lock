@@ -801,10 +801,10 @@ packages:
     dependency: "direct main"
     description:
       name: rive
-      sha256: "03bae056e67a5c98f9523c34f8ea63c15b323426a7e8d76d7ebb93066d4df6dc"
+      sha256: "24868d5e5ad7e7937dbaaed508e48ca96d164fb4fbeac3400be119596588ab72"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.5"
+    version: "0.13.7"
   rive_common:
     dependency: transitive
     description:
