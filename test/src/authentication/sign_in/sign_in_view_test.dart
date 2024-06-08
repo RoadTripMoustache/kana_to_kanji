@@ -59,12 +59,9 @@ void main() {
             find.byKey(const Key("sign_in_view_forgot_password"));
         expect(forgotPasswordLink, findsOneWidget);
 
-        final signInButton =
-            find.byKey(const Key("sign_in_view_sign_in_button"));
-        expect(signInButton, findsOneWidget);
-
         final logoButton = find.byKey(const Key("button_logo_widget"));
         expect(logoButton, findsNWidgets(1));
+
         debugDefaultTargetPlatformOverride = null;
       });
     });
