@@ -1,10 +1,16 @@
 import "dart:ui";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
+import "package:kana_to_kanji/src/glossary/glossary_view.dart";
+import "package:kana_to_kanji/src/locator.dart";
 import "package:rive/rive.dart";
 import "package:stacked/stacked.dart";
 
 class LandingViewModel extends BaseViewModel {
   /// Locale used to determine the language of the animation
   final Locale locale;
+  final UserRepository _userRepository = locator<UserRepository>();
 
   LandingViewModel({required this.locale});
 
@@ -30,5 +36,13 @@ class LandingViewModel extends BaseViewModel {
         return 0;
     }
     return 0;
+  }
+
+  /// Sign the current user anonymously and redirect the user to the glossary
+  /// if everything goes well.
+  Future<void> getStarted(GoRouter router) async {
+    if (await _userRepository.register(AuthenticationMethod.anonymous)) {
+      await router.replace(GlossaryView.routeName);
+    }
   }
 }

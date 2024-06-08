@@ -4,7 +4,10 @@ import "package:kana_to_kanji/src/core/services/token_service.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
-@GenerateNiceMocks([MockSpec<UserCredential>(), MockSpec<User>()])
+@GenerateNiceMocks([
+  MockSpec<UserCredential>(),
+  MockSpec<User>(),
+])
 import "token_service_test.mocks.dart";
 
 void main() {
@@ -18,28 +21,24 @@ void main() {
       });
 
       test("After initialisation without user", () async {
-        final userCredentialMock = MockUserCredential();
+        final userMock = MockUser();
 
-        service.token = userCredentialMock;
+        service.userCredential = userMock;
         final String? token = await service.getToken();
 
         expect(token, null);
-        verify(userCredentialMock.user).called(1);
-        verifyNever(userCredentialMock.user?.getIdToken());
       });
 
       test("After initialisation with a valid user", () async {
-        final userCredentialMock = MockUserCredential();
         final userMock = MockUser();
         when(userMock.getIdToken())
             .thenAnswer((realInvocation) => Future.value("toto"));
-        when(userCredentialMock.user).thenReturn(userMock);
 
-        service.token = userCredentialMock;
+        service.userCredential = userMock;
         final String? token = await service.getToken();
 
         expect(token, "toto");
-        verify(userCredentialMock.user?.getIdToken()).called(1);
+        verify(userMock.getIdToken()).called(1);
       });
     });
   });

@@ -20,6 +20,7 @@ import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
+import "package:kana_to_kanji/src/core/services/dataloader_service.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
@@ -34,16 +35,17 @@ final GetIt locator = GetIt.instance;
 
 void setupLocator() {
   locator
-    ..registerLazySingleton<Logger>(Logger.new)
+    ..registerSingletonAsync<Logger>(() async => Logger())
 
     //----------------------//
     // ----- Services ----- //
     //----------------------//
-    ..registerSingletonAsync<AuthService>(() async => AuthService())
+    ..registerSingletonWithDependencies<AuthService>(AuthService.new,
+        dependsOn: [Logger])
     ..registerSingleton<DialogService>(DialogService())
     ..registerLazySingleton<PreferencesService>(PreferencesService.new)
     ..registerSingletonAsync<TokenService>(() async => TokenService())
-    ..registerSingleton<ToasterService>(ToasterService())
+    ..registerLazySingleton<ToasterService>(ToasterService.new)
     ..registerSingletonWithDependencies<ApiService>(ApiService.new,
         dependsOn: [TokenService])
     ..registerSingletonAsync<InfoService>(() async {
@@ -93,82 +95,47 @@ void setupLocator() {
     // ------------------------ //
     // ----- Data Loaders ----- //
     // ------------------------ //
-    ..registerSingletonAsync<SyncService>(() async {
-      final instance = SyncService();
+    ..registerSingletonAsync<SyncService>(() async => SyncService(),
+        dependsOn: [ApiService, Isar])
 
-      // Get the sync data to know which calls need to be done.
-      final sync = await instance.getSyncData();
+    // - Group
+    ..registerSingletonAsync<GroupDataLoader>(() async => GroupDataLoader(),
+        dependsOn: [ApiService, Isar])
 
-      // - Group
-      locator
-        ..registerSingletonAsync<GroupDataLoader>(() async {
-          final instance = GroupDataLoader();
-          if (sync.groupsFlag) {
-            // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
-          }
-          return instance;
-        }, dependsOn: [Isar])
+    // - Kana
+    ..registerSingletonAsync<KanaDataLoader>(() async => KanaDataLoader(),
+        dependsOn: [ApiService, Isar])
 
-        // - Kana
-        ..registerSingletonAsync<KanaDataLoader>(() async {
-          final instance = KanaDataLoader();
-          if (sync.kana) {
-            // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
-          }
-          return instance;
-        }, dependsOn: [Isar])
+    // - Kanji
+    ..registerSingletonAsync<KanjiDataLoader>(() async => KanjiDataLoader(),
+        dependsOn: [ApiService, Isar])
 
-        // - Kanji
-        ..registerSingletonAsync<KanjiDataLoader>(() async {
-          final instance = KanjiDataLoader();
-          if (sync.kanji) {
-            // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
-          }
-          return instance;
-        }, dependsOn: [Isar])
-
-        // - Vocabulary
-        ..registerSingletonAsync<VocabularyDataLoader>(() async {
-          final instance = VocabularyDataLoader();
-          if (sync.vocabulary) {
-            // Load the collection only if required
-            await instance.loadCollection(forceReload: sync.forceReload);
-          }
-          return instance;
-        }, dependsOn: [Isar])
-
-        // - Clean up
-        ..registerSingletonAsync<CleanUpService>(() async {
-          final instance = CleanUpService();
-          if (sync.cleanup) {
-            // Execute the clean up, only if required
-            await instance.executeCleanUp(forceReload: sync.forceReload);
-          }
-          return instance;
-        }, dependsOn: [
-          Isar,
-          ApiService,
-        ]);
-
-      return instance;
-    }, dependsOn: [ApiService, Isar])
+    // - Vocabulary
+    ..registerSingletonAsync<VocabularyDataLoader>(
+        () async => VocabularyDataLoader(),
+        dependsOn: [ApiService, Isar])
 
     // - user
-    ..registerSingletonAsync<UserDataLoader>(() async {
-      final instance = UserDataLoader();
-      // Always sync the user data
-      await instance.loadCollection();
-      return instance;
-    }, dependsOn: [ApiService, Isar])
+    ..registerSingletonWithDependencies<UserDataLoader>(UserDataLoader.new,
+        dependsOn: [ApiService, Isar])
 
     // ---------------------------- //
     // ----- Services with DB ----- //
     // ---------------------------- //
+    ..registerSingletonAsync<CleanUpService>(() async => CleanUpService(),
+        dependsOn: [Isar, ApiService])
     ..registerSingletonWithDependencies<UserService>(UserService.new,
         dependsOn: [Isar, UserDataLoader])
     ..registerSingletonWithDependencies<UserRepository>(UserRepository.new,
-        dependsOn: [Isar, UserService, AuthService]);
+        dependsOn: [Isar, UserService, AuthService])
+    ..registerSingletonWithDependencies<DataloaderService>(
+        DataloaderService.new,
+        dependsOn: [
+          SyncService,
+          GroupDataLoader,
+          KanaDataLoader,
+          KanjiDataLoader,
+          VocabularyDataLoader,
+          CleanUpService,
+        ]);
 }
