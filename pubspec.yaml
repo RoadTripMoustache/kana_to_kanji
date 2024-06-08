@@ -51,7 +51,7 @@ dev_dependencies:
   analyzer: ^6.4.0
   flutter_lints: ^4.0.0
   freezed: ^2.5.2
-  build_runner: ^2.4.10
+  build_runner: ^2.4.11
   json_serializable: ^6.7.0
   mockito: ^5.4.2
   envied_generator: ^0.5.4+1
