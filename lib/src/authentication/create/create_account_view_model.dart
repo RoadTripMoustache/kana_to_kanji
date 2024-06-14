@@ -25,8 +25,6 @@ class CreateAccountViewModel extends FutureViewModel {
   void createAccount() {
     if (_formKey.currentState!.validate()) {
       // TODO : To replace
-      //print("email : ${_emailController.text}");
-      //print("password : ${_passwordController.text}");
       _emailController.clear();
       _passwordController.clear();
       router.go(GlossaryView.routeName);

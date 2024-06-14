@@ -2,17 +2,17 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
 import "package:kana_to_kanji/src/core/models/user.dart" as ktk_user;
+import "package:kana_to_kanji/src/core/services/dataloader_service.dart";
 import "package:kana_to_kanji/src/core/services/token_service.dart";
 import "package:kana_to_kanji/src/core/services/user_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
-import "package:logger/logger.dart";
 import "package:stacked/stacked.dart";
 
 class UserRepository with ListenableServiceMixin {
-  final Logger _logger = locator<Logger>();
   final UserService _userService = locator<UserService>();
   final AuthService _authService = locator<AuthService>();
   final TokenService _tokenService = locator<TokenService>();
+  final DataloaderService _dataloaderService = locator<DataloaderService>();
 
   UserRepository() {
     listenToReactiveValues([_self]);
@@ -36,20 +36,37 @@ class UserRepository with ListenableServiceMixin {
   /// in the database.
   /// Returns: Future<bool> - If the registration goes well, returns
   /// `Future.value(true)`. Otherwise `Future.value(false)`.
-  Future<bool> register() async {
-    try {
-      final userCredential = await _authService.signInAnonymously();
-      _tokenService.token = userCredential;
-      return _userService.getUser().then((value) => true);
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "operation-not-allowed":
-          _logger.e("Anonymous auth hasn't been enabled for this project.");
-        default:
-          _logger.e("Unknown error while doing anonymous authentication.");
-      }
+  Future<bool> register(AuthenticationMethod method,
+      {bool isSilent = false, String email = "", String password = ""}) async {
+    // Sign In
+    UserCredential? userCredential;
+    switch (method) {
+      case AuthenticationMethod.anonymous:
+        userCredential = await _authService.signInAnonymously();
+      case AuthenticationMethod.apple:
+        userCredential = await _authService.signInWithApple();
+      case AuthenticationMethod.classic:
+        userCredential = await _authService.signInEmail(email, password);
+      case AuthenticationMethod.google:
+        userCredential = await _authService.signInWithGoogle();
+    }
+    if (userCredential == null) {
       return Future.value(false);
     }
+
+    // Store the user credentials
+    _tokenService.userCredential = userCredential.user!;
+
+    // Load/update the static data stored locally
+    await _dataloaderService.loadStaticData();
+
+    // Create the user in the API
+    final user = await _userService.getUser();
+    if (user == null) {
+      return Future.value(false);
+    }
+
+    return Future.value(true);
   }
 
   Future<bool> updateSelf(ktk_user.User updatedUser) {
