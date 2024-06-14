@@ -307,5 +307,13 @@
   "snackbar_update_version_message": "Une nouvelle version est disponible !",
   "practice_quiz_practice_button": "Pratique",
   "landing_sign_in": "Se connecter",
-  "landing_getting_started": "Commencer"
+  "landing_getting_started": "Commencer",
+  "input_email_placeholder": "Adresse email",
+  "input_password_placeholder": "Mot de passe",
+  "input_email_missing_email": "Adresse email requise",
+  "input_password_msg_missing_password": "Mot de passe requis",
+  "input_email_incorrect_email_format": "Format d'adresse email invalide",
+  "sign_in_view_forgot_password": "Mot de passe oublié ?",
+  "sign_in_view_sign_in": "Se connecter",
+  "sign_in_view_or_separator": "OU"
 }

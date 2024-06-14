@@ -312,5 +312,13 @@
   "snackbar_update_version_message": "A new version is available!",
   "practice_quiz_practice_button": "Practice",
   "landing_sign_in": "Sign in",
-  "landing_getting_started": "Getting started"
+  "landing_getting_started": "Getting started",
+  "input_email_placeholder": "Email",
+  "input_password_placeholder": "Password",
+  "input_email_missing_email": "Email is required",
+  "input_password_msg_missing_password": "Password is required",
+  "input_email_incorrect_email_format": "Email invalid format",
+  "sign_in_view_forgot_password": "Forgot password ?",
+  "sign_in_view_sign_in": "Sign in",
+  "sign_in_view_or_separator": "OR"
 }
