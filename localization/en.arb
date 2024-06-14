@@ -313,6 +313,7 @@
   "practice_quiz_practice_button": "Practice",
   "landing_sign_in": "Sign in",
   "landing_getting_started": "Getting started",
+  "landing_err_anonymous_registration": "Error during the account initialization",
   "input_email_placeholder": "Email",
   "input_password_placeholder": "Password",
   "input_email_missing_email": "Email is required",

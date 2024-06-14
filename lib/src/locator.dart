@@ -1,6 +1,7 @@
 import "package:flutter/foundation.dart" show kIsWeb;
 import "package:get_it/get_it.dart";
 import "package:isar/isar.dart";
+import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kana_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
@@ -23,6 +24,9 @@ import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/sync_service.dart";
+import "package:kana_to_kanji/src/core/services/toaster_service.dart";
+import "package:kana_to_kanji/src/core/services/token_service.dart";
+import "package:kana_to_kanji/src/core/services/user_service.dart";
 import "package:logger/logger.dart";
 import "package:path_provider/path_provider.dart";
 
@@ -35,9 +39,13 @@ void setupLocator() {
     //----------------------//
     // ----- Services ----- //
     //----------------------//
+    ..registerSingletonAsync<AuthService>(() async => AuthService())
     ..registerSingleton<DialogService>(DialogService())
     ..registerLazySingleton<PreferencesService>(PreferencesService.new)
-    ..registerSingletonAsync<ApiService>(() async => ApiService())
+    ..registerSingletonAsync<TokenService>(() async => TokenService())
+    ..registerSingleton<ToasterService>(ToasterService())
+    ..registerSingletonWithDependencies<ApiService>(ApiService.new,
+        dependsOn: [TokenService])
     ..registerSingletonAsync<InfoService>(() async {
       final instance = InfoService();
       await instance.initialize();
@@ -79,8 +87,6 @@ void setupLocator() {
         dependsOn: [Isar])
     ..registerSingletonWithDependencies<VocabularyRepository>(
         VocabularyRepository.new,
-        dependsOn: [Isar])
-    ..registerSingletonWithDependencies<UserRepository>(UserRepository.new,
         dependsOn: [Isar])
     ..registerSingleton<SettingsRepository>(SettingsRepository())
 
@@ -156,5 +162,13 @@ void setupLocator() {
       // Always sync the user data
       await instance.loadCollection();
       return instance;
-    }, dependsOn: [ApiService, Isar]);
+    }, dependsOn: [ApiService, Isar])
+
+    // ---------------------------- //
+    // ----- Services with DB ----- //
+    // ---------------------------- //
+    ..registerSingletonWithDependencies<UserService>(UserService.new,
+        dependsOn: [Isar, UserDataLoader])
+    ..registerSingletonWithDependencies<UserRepository>(UserRepository.new,
+        dependsOn: [Isar, UserService, AuthService]);
 }
