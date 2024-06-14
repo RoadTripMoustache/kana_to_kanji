@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if is there no misses
+if grep -Rnwi './lib/' -e 'michel'; then
+  echo "Did you miss something ??"
+  exit 1
+fi
+
 echo -e "\033[0;34m-- Format dart files --\033[0m"
 
 # Determine which files are modified by the commit.

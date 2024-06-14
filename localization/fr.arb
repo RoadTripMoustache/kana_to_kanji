@@ -308,6 +308,7 @@
   "practice_quiz_practice_button": "Pratique",
   "landing_sign_in": "Se connecter",
   "landing_getting_started": "Commencer",
+  "landing_err_anonymous_registration": "Erreur lors de l'initialisation du compte",
   "input_email_placeholder": "Adresse email",
   "input_password_placeholder": "Mot de passe",
   "input_email_missing_email": "Adresse email requise",
