@@ -15,14 +15,11 @@ class ButtonLogo extends StatelessWidget {
       : logoPath = "assets/images/logos/apple_light.svg";
 
   @override
-  Widget build(BuildContext context) => ElevatedButton(
+  Widget build(BuildContext context) => IconButton.outlined(
         key: const Key("button_logo_widget"),
         onPressed: onPressedFunction,
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          side: const BorderSide(),
-        ),
-        child: SvgPicture.asset(
+        padding: EdgeInsets.zero,
+        icon: SvgPicture.asset(
           logoPath,
           height: 56.0,
         ),
