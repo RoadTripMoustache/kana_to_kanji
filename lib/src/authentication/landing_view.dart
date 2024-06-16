@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/authentication/landing_view_model.dart";
+import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
 import "package:kana_to_kanji/src/core/widgets/app_config.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
@@ -56,7 +57,7 @@ class LandingView extends StatelessWidget {
                                 child: OutlinedButton(
                                   onPressed: () async {
                                     await GoRouter.of(context)
-                                        .replace(GlossaryView.routeName);
+                                        .push(SignInView.routeName);
                                   },
                                   child: Text(
                                     l10n.landing_sign_in,
