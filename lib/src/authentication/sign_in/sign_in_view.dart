@@ -23,21 +23,14 @@ class SignInView extends StatefulWidget {
 
 class _SignInViewState extends State<SignInView> {
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    final Widget textDivider = Expanded(
+    const Widget textDivider = Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: Divider(
-          color: Theme.of(context).colorScheme.primaryContainer,
-        ),
+        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        child: Divider(),
       ),
     );
 
@@ -60,62 +53,68 @@ class _SignInViewState extends State<SignInView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AppSpacer.p64(),
+              // TODO Replace by image
               const Placeholder(fallbackHeight: 300),
               AppSpacer.p8(),
               Form(
                 key: viewModel.formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InputEmail(
-                      controller: viewModel.emailController,
-                      autofocus: true,
-                      enabled: !viewModel.isBusy,
-                      focusNode: viewModel.emailFocusNode,
-                      onEditingComplete: viewModel.onEditingCompleted,
-                    ),
-                    InputPassword(
-                      controller: viewModel.passwordController,
-                      focusNode: viewModel.passwordFocusNode,
-                      enabled: !viewModel.isBusy,
-                      onEditingComplete: viewModel.onEditingCompleted,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          key: const Key("sign_in_view_forgot_password"),
-                          onPressed: viewModel.isBusy
-                              ? null
-                              : viewModel.forgotPassword,
-                          style: TextButton.styleFrom(
-                              textStyle: textTheme.titleMedium),
-                          child: Text(
-                            l10n.sign_in_view_forgot_password,
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (viewModel.busy(viewModel.isSignInButtonEnabled))
-                      const CircularProgressIndicator()
-                    else
-                      SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: FilledButton(
-                            key: const Key("sign_in_view_sign_in_button"),
-                            onPressed: viewModel.isSignInButtonEnabled
-                                ? viewModel.signIn
-                                : null,
+                child: FocusScope(
+                  node: viewModel.focusScopeNode,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InputEmail(
+                        controller: viewModel.emailController,
+                        autofocus: true,
+                        enabled: !viewModel.isBusy,
+                        onChange: viewModel.onFormChange,
+                        onEditingComplete: viewModel.onEditingCompleted,
+                      ),
+                      InputPassword(
+                        controller: viewModel.passwordController,
+                        onChange: viewModel.onFormChange,
+                        enabled: !viewModel.isBusy,
+                        onEditingComplete: () =>
+                            viewModel.onEditingCompleted(submit: true),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            key: const Key("sign_in_view_forgot_password"),
+                            onPressed: viewModel.isBusy
+                                ? null
+                                : viewModel.forgotPassword,
+                            style: TextButton.styleFrom(
+                                textStyle: textTheme.titleMedium),
                             child: Text(
-                              l10n.sign_in_view_sign_in,
-                              style: const TextStyle(fontSize: 20.0),
+                              l10n.sign_in_view_forgot_password,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (viewModel.busy(viewModel.isSignInButtonEnabled))
+                        const CircularProgressIndicator()
+                      else
+                        SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 8.0),
+                            child: FilledButton(
+                              key: const Key("sign_in_view_sign_in_button"),
+                              onPressed: viewModel.isSignInButtonEnabled
+                                  ? viewModel.signIn
+                                  : null,
+                              child: Text(
+                                l10n.sign_in_view_sign_in,
+                                style: const TextStyle(fontSize: 20.0),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               AppSpacer.p8(),
@@ -129,7 +128,7 @@ class _SignInViewState extends State<SignInView> {
                   textDivider
                 ],
               ),
-              AppSpacer.p8(),
+              AppSpacer.p16(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
