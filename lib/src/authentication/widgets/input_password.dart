@@ -4,18 +4,24 @@ import "package:flutter_gen/gen_l10n/app_localizations.dart";
 class InputPassword extends StatefulWidget {
   final TextEditingController controller;
 
+  final FocusNode? focusNode;
+
   final VoidCallback? onEditingComplete;
 
   final bool isRequired;
 
   final bool autoFocus;
 
+  final bool enabled;
+
   final TextInputAction textInputAction;
 
   const InputPassword({
     required this.controller,
+    this.focusNode,
     this.isRequired = true,
     this.autoFocus = false,
+    this.enabled = true,
     this.onEditingComplete,
     this.textInputAction = TextInputAction.done,
     super.key,
@@ -65,7 +71,9 @@ class _InputPasswordState extends State<InputPassword> {
       child: TextFormField(
         key: _formFieldKey,
         controller: widget.controller,
+        focusNode: widget.focusNode,
         autofocus: widget.autoFocus,
+        enabled: widget.enabled,
         autofillHints: const [AutofillHints.password],
         textInputAction: widget.textInputAction,
         onEditingComplete: _onEditingComplete,

@@ -7,15 +7,19 @@ class InputEmail extends StatelessWidget {
       GlobalKey<FormFieldState>(debugLabel: "email_input_widget");
 
   final TextEditingController controller;
+  final FocusNode? focusNode;
   final bool autofocus;
   final bool isRequired;
+  final bool enabled;
   final VoidCallback? onEditingComplete;
   final TextInputAction textInputAction;
 
   InputEmail(
       {required this.controller,
+      this.focusNode,
       this.isRequired = true,
       this.autofocus = false,
+      this.enabled = true,
       this.textInputAction = TextInputAction.continueAction,
       this.onEditingComplete,
       super.key});
@@ -43,10 +47,12 @@ class InputEmail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
       child: TextFormField(
           key: _formFieldKey,
+          focusNode: focusNode,
           controller: controller,
           autofillHints: const [AutofillHints.email],
           keyboardType: TextInputType.emailAddress,
           autofocus: autofocus,
+          enabled: enabled,
           textInputAction: textInputAction,
           onEditingComplete: _onEditingComplete,
           decoration: InputDecoration(hintText: l10n.input_email_placeholder),
