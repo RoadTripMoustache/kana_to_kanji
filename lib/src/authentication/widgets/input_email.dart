@@ -1,37 +1,53 @@
+import "dart:async";
+
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/regexp.dart";
 
-class InputEmail extends StatelessWidget {
-  final GlobalKey<FormFieldState> _formFieldKey =
-      GlobalKey<FormFieldState>(debugLabel: "email_input_widget");
-
+class InputEmail extends StatefulWidget {
   final TextEditingController controller;
-  final FocusNode? focusNode;
   final bool autofocus;
   final bool isRequired;
   final bool enabled;
+  final VoidCallback? onChange;
   final VoidCallback? onEditingComplete;
   final TextInputAction textInputAction;
 
-  InputEmail(
+  const InputEmail(
       {required this.controller,
-      this.focusNode,
       this.isRequired = true,
       this.autofocus = false,
       this.enabled = true,
       this.textInputAction = TextInputAction.continueAction,
+      this.onChange,
       this.onEditingComplete,
       super.key});
 
-  void _onEditingComplete() {
-    if (_formFieldKey.currentState!.validate()) {
-      onEditingComplete?.call();
-    }
+  @override
+  State<InputEmail> createState() => _InputEmailState();
+}
+
+class _InputEmailState extends State<InputEmail> {
+  final GlobalKey<FormFieldState> _formFieldKey =
+      GlobalKey<FormFieldState>(debugLabel: "email_input_widget");
+  Timer? timer;
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void _onChange(String? _) {
+    timer?.cancel();
+    timer = Timer(const Duration(milliseconds: 300), () {
+      _formFieldKey.currentState!.validate();
+      widget.onChange?.call();
+    });
   }
 
   String? _validate(String? value, AppLocalizations l10n) {
-    if (isRequired && (value == null || value.isEmpty)) {
+    if (widget.isRequired && (value == null || value.isEmpty)) {
       return l10n.input_email_missing_email;
     } else if (value != null && !emailRegexp.hasMatch(value)) {
       return l10n.input_email_incorrect_email_format;
@@ -47,14 +63,14 @@ class InputEmail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
       child: TextFormField(
           key: _formFieldKey,
-          focusNode: focusNode,
-          controller: controller,
+          controller: widget.controller,
           autofillHints: const [AutofillHints.email],
           keyboardType: TextInputType.emailAddress,
-          autofocus: autofocus,
-          enabled: enabled,
-          textInputAction: textInputAction,
-          onEditingComplete: _onEditingComplete,
+          autofocus: widget.autofocus,
+          enabled: widget.enabled,
+          textInputAction: widget.textInputAction,
+          onEditingComplete: widget.onEditingComplete,
+          onChanged: _onChange,
           decoration: InputDecoration(hintText: l10n.input_email_placeholder),
           validator: (String? value) => _validate(value, l10n)),
     );

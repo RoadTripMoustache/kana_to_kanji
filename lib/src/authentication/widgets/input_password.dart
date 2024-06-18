@@ -1,10 +1,12 @@
+import "dart:async";
+
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class InputPassword extends StatefulWidget {
   final TextEditingController controller;
 
-  final FocusNode? focusNode;
+  final VoidCallback? onChange;
 
   final VoidCallback? onEditingComplete;
 
@@ -18,10 +20,10 @@ class InputPassword extends StatefulWidget {
 
   const InputPassword({
     required this.controller,
-    this.focusNode,
     this.isRequired = true,
     this.autoFocus = false,
     this.enabled = true,
+    this.onChange,
     this.onEditingComplete,
     this.textInputAction = TextInputAction.done,
     super.key,
@@ -34,6 +36,7 @@ class InputPassword extends StatefulWidget {
 class _InputPasswordState extends State<InputPassword> {
   final GlobalKey<FormFieldState> _formFieldKey =
       GlobalKey<FormFieldState>(debugLabel: "password_input_widget");
+  Timer? timer;
 
   bool passwordVisible = true;
 
@@ -43,10 +46,19 @@ class _InputPasswordState extends State<InputPassword> {
     passwordVisible = true;
   }
 
-  void _onEditingComplete() {
-    if (_formFieldKey.currentState!.validate()) {
-      widget.onEditingComplete?.call();
-    }
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void _onChange(String? _) {
+    timer?.cancel();
+    // Trigger a new timer that will validate on inactivity
+    timer = Timer(const Duration(milliseconds: 300), () {
+      _formFieldKey.currentState!.validate();
+      widget.onChange?.call();
+    });
   }
 
   String? _validate(String? value, AppLocalizations l10n) {
@@ -71,12 +83,12 @@ class _InputPasswordState extends State<InputPassword> {
       child: TextFormField(
         key: _formFieldKey,
         controller: widget.controller,
-        focusNode: widget.focusNode,
         autofocus: widget.autoFocus,
         enabled: widget.enabled,
         autofillHints: const [AutofillHints.password],
         textInputAction: widget.textInputAction,
-        onEditingComplete: _onEditingComplete,
+        onChanged: _onChange,
+        onEditingComplete: widget.onEditingComplete,
         validator: (String? value) => _validate(value, l10n),
         obscureText: passwordVisible,
         decoration: InputDecoration(
