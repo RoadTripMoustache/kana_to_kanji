@@ -20,7 +20,7 @@ class LandingView extends StatelessWidget {
   static const TextStyle _style = TextStyle(
       // TODO : Change style, it's ugly !
       fontWeight: FontWeight.w500,
-      color: Colors.black,
+      // color: Colors.black,
       fontSize: 18.0);
 
   @override
@@ -74,11 +74,10 @@ class LandingView extends StatelessWidget {
                                         .replace(GlossaryView.routeName);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue,
-                                  ),
+                                      backgroundColor: Colors.blue),
                                   child: Text(
                                     l10n.landing_getting_started,
-                                    style: _style,
+                                    style: _style.copyWith(color: Colors.black),
                                   ),
                                 ),
                               )
