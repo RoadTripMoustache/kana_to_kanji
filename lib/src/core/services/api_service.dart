@@ -28,4 +28,15 @@ class ApiService {
         headers: {"Authorization": "Bearer ${await _tokenService.getToken()}"},
         body: body,
       );
+
+  /// delete - Execute an HTTP DELETE request to the API using the path given in
+  /// parameter. The authorization token is automatically injected in the
+  /// headers.
+  /// params :
+  /// - path : String - Path of the API to call
+  /// returns : Future<http.Response> - The response of the HTTP request.
+  Future<http.Response> delete(String path) async => http.delete(
+        Uri.parse("${AppConfiguration.apiUrl}$path"),
+        headers: {"Authorization": "Bearer ${await _tokenService.getToken()}"},
+      );
 }

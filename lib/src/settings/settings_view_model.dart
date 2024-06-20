@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/feedback/feedback_view.dart";
@@ -9,7 +12,9 @@ import "package:stacked/stacked.dart";
 
 class SettingsViewModel extends BaseViewModel {
   final SettingsRepository _repository = locator<SettingsRepository>();
+  final UserRepository _userRepository = locator<UserRepository>();
   final InfoService _infoService = locator<InfoService>();
+  final DialogService _dialogService = locator<DialogService>();
 
   final AppLocalizations l10n;
 
@@ -53,10 +58,37 @@ class SettingsViewModel extends BaseViewModel {
 
   /// Open the feedback dialog
   Future<void> giveFeedback() async {
-    await locator<DialogService>().showModalBottomSheet(
+    await _dialogService.showModalBottomSheet(
         enableDrag: false,
         showDragHandle: true,
         isScrollControlled: true,
         builder: (context) => const FeedbackView());
+  }
+
+  /// confirmDeletion - Open a dialog to ask the user to confirm the deletion
+  /// of his account.
+  /// params:
+  /// - context : BuildContext
+  Future<void> confirmDeletion(BuildContext context) async {
+    await _dialogService.showConfirmationModal(
+      context: context,
+      title: l10n.settings_delete_account_dialog_title,
+      content: l10n.settings_delete_account_dialog_content,
+      cancelButtonLabel: l10n.settings_delete_account_dialog_cancel,
+      cancel: () => Navigator.pop(context, "Cancel"),
+      validationButtonLabel: l10n.settings_delete_account_dialog_validate,
+      validate: () => deleteAccount(GoRouter.of(context)),
+    );
+  }
+
+  /// deleteAccount - Delete the account of the user, and redirect the user
+  /// to the landing view if the deletion went well.
+  /// params:
+  /// - router : GoRouter
+  Future<void> deleteAccount(GoRouter router) async {
+    final bool isDeleted = await _userRepository.deleteUser();
+    if (isDeleted) {
+      await router.push(LandingView.routeName);
+    }
   }
 }

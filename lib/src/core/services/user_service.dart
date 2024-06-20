@@ -15,11 +15,11 @@ class UserService {
   }
 
   /// Update the user in database with the new data given in parameter.
+  /// returns: Future<bool> - True if the update went well, otherwise false.
   Future<bool> updateUser(Map<String, dynamic> extra) =>
       _userDataLoader.patchUser(extra);
 
   /// Delete the user given in parameter from the database.
-  Future<bool> deleteUser(User updatedUser) async {
-    throw UnimplementedError();
-  }
+  /// returns: Future<bool> - True if the deletion went well, otherwise false.
+  Future<bool> deleteUser() => _userDataLoader.deleteUser();
 }

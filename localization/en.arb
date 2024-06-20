@@ -150,6 +150,12 @@
   "@settings_give_feedback": {
     "description": "Ask the user to give feedback, either reporting a bug or a feature"
   },
+  "settings_danger_section": "Danger",
+  "settings_delete_account": "Delete account",
+  "settings_delete_account_dialog_title": "Account deletion",
+  "settings_delete_account_dialog_content": "Are you sure to delete your account ?",
+  "settings_delete_account_dialog_cancel": "Cancel",
+  "settings_delete_account_dialog_validate": "Confirm",
   "feedback_report_bug": "Report a bug",
   "@feedback_report_bug": {
     "description": "Text use on the button to report a bug"

@@ -24,6 +24,12 @@ class UserDataLoader {
       .patch("/v1/user", json.encode(extra))
       .then((response) => response.statusCode == 200);
 
+  /// Delete the user data to the API.
+  /// Returns true if the deletion is a success. Otherwise, false.
+  Future<bool> deleteUser() async => _apiService
+      .delete("/v1/user")
+      .then((response) => response.statusCode == 200);
+
   /// Extract the user from the API Response.
   User? _extractUser(http.Response response) {
     if (response.statusCode == 200) {

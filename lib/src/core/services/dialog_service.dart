@@ -1,4 +1,6 @@
 import "package:flutter/material.dart" as material;
+import "package:flutter/material.dart";
+import "package:kana_to_kanji/src/core/widgets/confirmation_dialog.dart";
 
 class DialogService {
   final material.GlobalKey<material.NavigatorState> navigatorKey =
@@ -45,5 +47,27 @@ class DialogService {
         routeSettings: routeSettings,
         transitionAnimationController: transitionAnimationController,
         anchorPoint: anchorPoint);
+  }
+
+  /// showConfirmationModal - Display the confirmation Modal.
+  Future<void> showConfirmationModal(
+      {required BuildContext context,
+      required String title,
+      required String content,
+      required String cancelButtonLabel,
+      required String validationButtonLabel,
+      required void Function() cancel,
+      required void Function() validate}) async {
+    await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => ConfirmationDialog(
+        title: title,
+        content: content,
+        cancelButtonLabel: cancelButtonLabel,
+        cancel: cancel,
+        validationButtonLabel: validationButtonLabel,
+        validate: validate,
+      ),
+    );
   }
 }

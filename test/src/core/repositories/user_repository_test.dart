@@ -267,5 +267,42 @@ void main() {
         expect(result, false);
       });
     });
+
+    group("deleteUser", () {
+      test("successful", () async {
+        when(userServiceMock.deleteUser())
+            .thenAnswer((_) => Future.value(true));
+        await repository.signIn();
+
+        when(authServiceMock.linkAccountWithApple())
+            .thenAnswer((_) => Future.value(userCredential));
+        when(userCredential.user).thenReturn(user);
+
+        final result = await repository.deleteUser();
+
+        verifyInOrder([
+          userServiceMock.deleteUser(),
+          dataloaderServiceMock.deleteStaticData(),
+        ]);
+        expect(result, true);
+      });
+      test("failed", () async {
+        when(userServiceMock.deleteUser())
+            .thenAnswer((_) => Future.value(false));
+        await repository.signIn();
+
+        when(authServiceMock.linkAccountWithApple())
+            .thenAnswer((_) => Future.value(userCredential));
+        when(userCredential.user).thenReturn(user);
+
+        final result = await repository.deleteUser();
+
+        verifyInOrder([
+          userServiceMock.deleteUser(),
+        ]);
+        verifyNever(dataloaderServiceMock.deleteStaticData());
+        expect(result, false);
+      });
+    });
   });
 }

@@ -87,6 +87,14 @@ class SettingsView extends StatelessWidget {
                       },
                       trailing: const Icon(Icons.arrow_forward_rounded),
                     ),
+                    // Danger section
+                    HeadingItem(title: l10n.settings_danger_section),
+                    FilledButton(
+                        onPressed: () async =>
+                            viewModel.confirmDeletion(context),
+                        style:
+                            FilledButton.styleFrom(backgroundColor: Colors.red),
+                        child: Text(l10n.settings_delete_account)),
                   ],
                 ),
                 Row(

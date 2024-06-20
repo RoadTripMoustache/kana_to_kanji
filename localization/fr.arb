@@ -145,6 +145,12 @@
   "@settings_give_feedback": {
     "description": "Demande à l'utilisateur de donner son avis, que ce soit pour reporter un bug ou une fonctionnalité"
   },
+  "settings_danger_section": "Danger",
+  "settings_delete_account": "Supprimer le compte",
+  "settings_delete_account_dialog_title": "Suppression du compte",
+  "settings_delete_account_dialog_content": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+  "settings_delete_account_dialog_cancel": "Annuler",
+  "settings_delete_account_dialog_validate": "Confirmer",
   "feedback_report_bug": "Signaler un bogue",
   "@feedback_report_bug": {
     "description": "Texte utilisé dans le bouton pour signaler un bogue"

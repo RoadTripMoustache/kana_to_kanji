@@ -1,3 +1,4 @@
+import "package:isar/isar.dart";
 import "package:kana_to_kanji/src/core/dataloaders/group_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kana_dataloader.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
@@ -14,6 +15,7 @@ class DataloaderService {
   final VocabularyDataLoader _vocabularyDataLoader =
       locator<VocabularyDataLoader>();
   final CleanUpService _cleanUpService = locator<CleanUpService>();
+  final Isar _isar = locator<Isar>();
 
   /// Load all the static data from the API. But to optimise the calls,
   /// a first one is done to `GET /sync` to know which data must be updated.
@@ -39,5 +41,10 @@ class DataloaderService {
     if (sync.cleanup) {
       await _cleanUpService.executeCleanUp(forceReload: sync.forceReload);
     }
+  }
+
+  /// deleteStaticData - Remove all the data from the local database.
+  Future<void> deleteStaticData() async {
+    await _isar.writeAsync((isar) => isar.clear());
   }
 }

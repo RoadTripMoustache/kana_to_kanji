@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -10,9 +13,12 @@ import "package:mockito/mockito.dart";
 
 import "../../helpers.dart";
 @GenerateNiceMocks([
+  MockSpec<UserRepository>(),
   MockSpec<SettingsRepository>(),
   MockSpec<DialogService>(),
-  MockSpec<InfoService>()
+  MockSpec<InfoService>(),
+  MockSpec<BuildContext>(),
+  MockSpec<GoRouter>()
 ])
 import "settings_view_model_test.mocks.dart";
 
@@ -24,13 +30,17 @@ void main() async {
     late SettingsViewModel viewModel;
 
     final settingsRepositoryMock = MockSettingsRepository();
+    final userRepositoryMock = MockUserRepository();
     final dialogServiceMock = MockDialogService();
     final infoServiceMock = MockInfoService();
+    final buildContextMock = MockBuildContext();
+    final goRouterMock = MockGoRouter();
 
     setUpAll(() {
       locator
         ..registerSingleton<SettingsRepository>(settingsRepositoryMock)
         ..registerSingleton<InfoService>(infoServiceMock)
+        ..registerSingleton<UserRepository>(userRepositoryMock)
         ..registerSingleton<DialogService>(dialogServiceMock);
     });
 
@@ -45,12 +55,15 @@ void main() async {
       reset(settingsRepositoryMock);
       reset(dialogServiceMock);
       reset(infoServiceMock);
+      reset(userRepositoryMock);
+      reset(goRouterMock);
     });
 
     tearDownAll(() {
       locator
         ..unregister<SettingsRepository>(instance: settingsRepositoryMock)
         ..unregister<InfoService>(instance: infoServiceMock)
+        ..unregister<UserRepository>(instance: userRepositoryMock)
         ..unregister<DialogService>(instance: dialogServiceMock);
     });
 
@@ -126,6 +139,44 @@ void main() async {
             showDragHandle: true,
             isScrollControlled: true,
             builder: anyNamed("builder")));
+      });
+    });
+
+    group("confirmDeletion", () {
+      test("Should call dialog service", () {
+        viewModel.confirmDeletion(buildContextMock);
+
+        verify(
+          dialogServiceMock.showConfirmationModal(
+            context: buildContextMock,
+            title: l10n.settings_delete_account_dialog_title,
+            content: l10n.settings_delete_account_dialog_content,
+            cancelButtonLabel: l10n.settings_delete_account_dialog_cancel,
+            validationButtonLabel: l10n.settings_delete_account_dialog_validate,
+            cancel: anyNamed("cancel"),
+            validate: anyNamed("validate"),
+          ),
+        );
+      });
+    });
+
+    group("deleteAccount", () {
+      test("not deleted", () {
+        when(userRepositoryMock.deleteUser())
+            .thenAnswer((_) => Future.value(false));
+
+        viewModel.deleteAccount(goRouterMock);
+
+        verify(userRepositoryMock.deleteUser());
+        verifyNever(goRouterMock.push(LandingView.routeName));
+      });
+      test("deleted", () {
+        when(userRepositoryMock.deleteUser())
+            .thenAnswer((_) => Future.value(true));
+
+        viewModel.deleteAccount(goRouterMock);
+
+        verify(userRepositoryMock.deleteUser());
       });
     });
   });

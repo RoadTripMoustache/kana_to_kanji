@@ -125,8 +125,18 @@ class UserRepository with ListenableServiceMixin {
     return Future.value(true);
   }
 
-  Future<bool> deleteUser() {
-    throw UnimplementedError();
+  /// deleteUser - Delete the current user and, if the user deletion went well,
+  /// remove all the static data.
+  Future<bool> deleteUser() async {
+    final bool isDeleted = await _userService.deleteUser();
+
+    if (isDeleted) {
+      _self = null;
+      _tokenService.userCredential = null;
+      await _dataloaderService.deleteStaticData();
+    }
+
+    return isDeleted;
   }
 
   Future<bool> updatePassword(String oldPassword, String newPassword) {
