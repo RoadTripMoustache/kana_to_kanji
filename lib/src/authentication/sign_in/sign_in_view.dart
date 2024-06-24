@@ -3,9 +3,9 @@ import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view_model.dart";
-import "package:kana_to_kanji/src/authentication/widgets/third_party_round_icon_button.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_email.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";
+import "package:kana_to_kanji/src/authentication/widgets/third_party_round_icon_button.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
 import "package:stacked/stacked.dart";
@@ -54,7 +54,8 @@ class _SignInViewState extends State<SignInView> {
             children: [
               AppSpacer.p64(),
               // TODO Replace by image
-              const Placeholder(fallbackHeight: 300),
+              if (MediaQuery.of(context).size.width > 650)
+                const Placeholder(fallbackHeight: 200),
               AppSpacer.p8(),
               Form(
                 key: viewModel.formKey,
@@ -81,7 +82,6 @@ class _SignInViewState extends State<SignInView> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            key: const Key("sign_in_view_forgot_password"),
                             onPressed: viewModel.isBusy
                                 ? null
                                 : viewModel.forgotPassword,
@@ -102,7 +102,6 @@ class _SignInViewState extends State<SignInView> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12.0, vertical: 8.0),
                             child: FilledButton(
-                              key: const Key("sign_in_view_sign_in_button"),
                               onPressed: viewModel.isSignInButtonEnabled
                                   ? viewModel.signIn
                                   : null,
@@ -133,6 +132,7 @@ class _SignInViewState extends State<SignInView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ThirdPartyRoundIconButton.google(
+                    key: const Key("google_sign_in"),
                     onPressed: viewModel.isBusy ? null : viewModel.signInGoogle,
                   ),
                   // Display the Apple button only on iOS
@@ -140,6 +140,7 @@ class _SignInViewState extends State<SignInView> {
                     Padding(
                       padding: const EdgeInsets.only(left: 40.0),
                       child: ThirdPartyRoundIconButton.apple(
+                        key: const Key("apple_sign_in"),
                         onPressed:
                             viewModel.isBusy ? null : viewModel.signInApple,
                       ),

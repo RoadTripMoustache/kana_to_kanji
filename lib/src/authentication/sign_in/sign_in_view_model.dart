@@ -37,10 +37,10 @@ class SignInViewModel extends BaseViewModel {
   /// Redirect the user to the forgot password flow
   Future<void> forgotPassword() async {
     // TODO : To replace
-    await router.push(GlossaryView.routeName);
+    await router.push("/authentication/reset_password");
   }
 
-  void signIn() {
+  Future<void> signIn() async {
     if (formKey.currentState!.validate()) {
       // Change the sign in button into a loading.
       setBusyForObject(isSignInButtonEnabled, true);
@@ -49,20 +49,20 @@ class SignInViewModel extends BaseViewModel {
       setBusy(true);
 
       // TODO: Handle login
-      router.go(GlossaryView.routeName);
+      await router.pushReplacement(GlossaryView.routeName);
     }
   }
 
-  void signInApple() {
-    // TODO : To replace
+  Future<void> signInApple() async {
+    // TODO : Handle Apple sign in
     setBusy(true);
-    router.go(GlossaryView.routeName);
+    await router.pushReplacement(GlossaryView.routeName);
   }
 
-  void signInGoogle() {
-    // TODO : To replace
+  Future<void> signInGoogle() async {
+    // TODO : Handle Google sign in
     setBusy(true);
-    router.go(GlossaryView.routeName);
+    await router.pushReplacement(GlossaryView.routeName);
   }
 
   @override
