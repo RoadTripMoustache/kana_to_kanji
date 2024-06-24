@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view_model.dart";
-import "package:kana_to_kanji/src/authentication/widgets/button_logo.dart";
+import "package:kana_to_kanji/src/authentication/widgets/third_party_round_icon_button.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_email.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
@@ -132,16 +132,16 @@ class _SignInViewState extends State<SignInView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ButtonLogo.google(
-                    onPressedFunction:
+                  ThirdPartyRoundIconButton.google(
+                    onPressed:
                         viewModel.isBusy ? null : viewModel.signInGoogle,
                   ),
                   // Display the Apple button only on iOS
                   if (defaultTargetPlatform == TargetPlatform.iOS)
                     Padding(
                       padding: const EdgeInsets.only(left: 40.0),
-                      child: ButtonLogo.apple(
-                        onPressedFunction:
+                      child: ThirdPartyRoundIconButton.apple(
+                        onPressed:
                             viewModel.isBusy ? null : viewModel.signInApple,
                       ),
                     ),

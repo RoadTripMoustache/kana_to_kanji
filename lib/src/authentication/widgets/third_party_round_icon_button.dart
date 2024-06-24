@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-class ButtonLogo extends StatelessWidget {
+class ThirdPartyRoundIconButton extends StatelessWidget {
   /// Neutral version of the logo. The path must be an image supported
   /// by [Image.asset].
   final String? logoPath;
@@ -18,10 +18,10 @@ class ButtonLogo extends StatelessWidget {
   final String? darkLogoPath;
 
   /// Function called when the button is pressed.
-  final VoidCallback? onPressedFunction;
+  final VoidCallback? onPressed;
 
-  const ButtonLogo(
-      {required this.onPressedFunction,
+  const ThirdPartyRoundIconButton._(
+      {this.onPressed,
       this.logoPath,
       this.lightLogoPath,
       this.darkLogoPath,
@@ -30,12 +30,12 @@ class ButtonLogo extends StatelessWidget {
             logoPath != null || (lightLogoPath != null && darkLogoPath != null),
             "Either logo path or light and dark path must be provided");
 
-  const ButtonLogo.google({required this.onPressedFunction, super.key})
+  const ThirdPartyRoundIconButton.google({this.onPressed, super.key})
       : lightLogoPath = "assets/images/logos/google_light.png",
         darkLogoPath = "assets/images/logos/google_dark.png",
         logoPath = null;
 
-  const ButtonLogo.apple({required this.onPressedFunction, super.key})
+  const ThirdPartyRoundIconButton.apple({this.onPressed, super.key})
       : lightLogoPath = "assets/images/logos/apple_light.png",
         darkLogoPath = "assets/images/logos/apple_dark.png",
         logoPath = null;
@@ -50,17 +50,15 @@ class ButtonLogo extends StatelessWidget {
     }
 
     return InkWell(
-      key: const Key("button_logo_widget"),
-      onTap: onPressedFunction,
+      key: const Key("third_party_round_icon_button"),
+      onTap: onPressed,
       borderRadius: BorderRadius.circular(50.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30.0),
         child: Image.asset(
           imagePath,
           fit: BoxFit.fill,
-          color: onPressedFunction == null
-              ? Theme.of(context).disabledColor
-              : null,
+          color: onPressed == null ? Theme.of(context).disabledColor : null,
           colorBlendMode: BlendMode.dstATop,
           height: 56.0,
           width: 56.0,
