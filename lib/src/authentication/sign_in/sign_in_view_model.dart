@@ -25,10 +25,10 @@ class SignInViewModel extends BaseViewModel {
 
   /// Move to the next input or unfocus if [submit] is true. Also if [submit] is
   /// true, the [signIn] method will be called
-  void onEditingCompleted({bool submit = false}) {
+  Future<void> onEditingCompleted({bool submit = false}) async {
     if (submit) {
       focusScopeNode.unfocus();
-      signIn();
+      await signIn();
     } else {
       focusScopeNode.nextFocus();
     }

@@ -40,8 +40,7 @@ void main() {
                 matching:
                     find.widgetWithIcon(IconButton, Icons.arrow_back_rounded)),
             findsOneWidget,
-            reason:
-                "The back button should be available in the appbar of the view");
+            reason: "The back button should be available in the AppBar");
 
         // Validate the form
         expect(find.byType(InputEmail), findsOneWidget);
@@ -72,8 +71,7 @@ void main() {
                 matching:
                     find.widgetWithIcon(IconButton, Icons.arrow_back_rounded)),
             findsOneWidget,
-            reason:
-                "The back button should be available in the appbar of the view");
+            reason: "The back button should be available in the AppBar");
 
         // Validate the form
         expect(find.byType(InputEmail), findsOneWidget);
@@ -195,8 +193,8 @@ void main() {
       });
 
       testWidgets(
-          "Clicking on Forgot password should redirect to the forgot password view",
-          (WidgetTester tester) async {
+          "Clicking on Forgot password should redirect to the "
+          "ResetPasswordView", (WidgetTester tester) async {
         await pumpAndSettleView(tester);
 
         // Tap on Forgot password button

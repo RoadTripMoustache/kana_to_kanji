@@ -75,7 +75,7 @@ class _SignInViewState extends State<SignInView> {
                         controller: viewModel.passwordController,
                         onChange: viewModel.onFormChange,
                         enabled: !viewModel.isBusy,
-                        onEditingComplete: () =>
+                        onEditingComplete: () async =>
                             viewModel.onEditingCompleted(submit: true),
                       ),
                       Row(
