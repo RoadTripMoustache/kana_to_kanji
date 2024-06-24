@@ -133,8 +133,7 @@ class _SignInViewState extends State<SignInView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ThirdPartyRoundIconButton.google(
-                    onPressed:
-                        viewModel.isBusy ? null : viewModel.signInGoogle,
+                    onPressed: viewModel.isBusy ? null : viewModel.signInGoogle,
                   ),
                   // Display the Apple button only on iOS
                   if (defaultTargetPlatform == TargetPlatform.iOS)
