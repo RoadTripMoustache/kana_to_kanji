@@ -20,16 +20,6 @@ class ThirdPartyRoundIconButton extends StatelessWidget {
   /// Function called when the button is pressed.
   final VoidCallback? onPressed;
 
-  const ThirdPartyRoundIconButton._(
-      {this.onPressed,
-      this.logoPath,
-      this.lightLogoPath,
-      this.darkLogoPath,
-      super.key})
-      : assert(
-            logoPath != null || (lightLogoPath != null && darkLogoPath != null),
-            "Either logo path or light and dark path must be provided");
-
   const ThirdPartyRoundIconButton.google({this.onPressed, super.key})
       : lightLogoPath = "assets/images/logos/google_light.png",
         darkLogoPath = "assets/images/logos/google_dark.png",
