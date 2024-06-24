@@ -139,8 +139,8 @@ void main() {
         // Pump the timer before validation is triggered
         await tester.pump(const Duration(milliseconds: 300));
 
-        expect(find.text(l10n.input_password_msg_missing_password),
-            findsNothing);
+        expect(
+            find.text(l10n.input_password_msg_missing_password), findsNothing);
         expect(onChangeCalled, 1);
       });
     });
