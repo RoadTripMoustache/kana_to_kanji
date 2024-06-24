@@ -36,14 +36,16 @@ class InputPassword extends StatefulWidget {
 class _InputPasswordState extends State<InputPassword> {
   final GlobalKey<FormFieldState> _formFieldKey =
       GlobalKey<FormFieldState>(debugLabel: "password_input_widget");
+  // Timer applied before the validation is triggered
   Timer? timer;
 
-  bool passwordVisible = true;
+  // Indicate if the password is hidden or not.
+  bool isPasswordObscured = true;
 
   @override
   void initState() {
     super.initState();
-    passwordVisible = true;
+    isPasswordObscured = true;
   }
 
   @override
@@ -70,7 +72,7 @@ class _InputPasswordState extends State<InputPassword> {
 
   void _toggleVisibility() {
     setState(() {
-      passwordVisible = !passwordVisible;
+      isPasswordObscured = !isPasswordObscured;
     });
   }
 
@@ -90,13 +92,13 @@ class _InputPasswordState extends State<InputPassword> {
         onChanged: _onChange,
         onEditingComplete: widget.onEditingComplete,
         validator: (String? value) => _validate(value, l10n),
-        obscureText: passwordVisible,
+        obscureText: isPasswordObscured,
         decoration: InputDecoration(
           hintText: l10n.input_password_placeholder,
           suffixIcon: IconButton(
-            icon: Icon(passwordVisible
+            icon: Icon(isPasswordObscured
                 ? Icons.visibility_rounded
-                : Icons.visibility_off),
+                : Icons.visibility_off_rounded),
             onPressed: _toggleVisibility,
           ),
           alignLabelWithHint: false,

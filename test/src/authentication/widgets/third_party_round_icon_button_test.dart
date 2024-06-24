@@ -15,15 +15,15 @@ void main() {
 
       final inkWell = find.byKey(const Key("third_party_round_icon_button"));
 
-      expect(inkWell, findsOne);
+      expect(inkWell, findsOneWidget);
       expect(tester.widget<InkWell>(inkWell).borderRadius,
           BorderRadius.circular(50.0),
           reason: "InkWell should be rounded");
       expect(find.descendant(of: inkWell, matching: find.byType(ClipRRect)),
-          findsOne,
+          findsOneWidget,
           reason: "It should have a ClipRRect to round the image");
-      expect(
-          find.descendant(of: inkWell, matching: find.byType(Image)), findsOne,
+      expect(find.descendant(of: inkWell, matching: find.byType(Image)),
+          findsOneWidget,
           reason: "It should have an image");
     });
 
