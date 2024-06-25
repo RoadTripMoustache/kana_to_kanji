@@ -4,7 +4,7 @@ description: A new Flutter project.
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.34.8+1
+version: 0.35.0+1
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -64,8 +64,9 @@ flutter:
 
   assets:
     # Add assets from the images directory to the application.
-    - assets/images/
     - assets/animations/
+    - assets/images/
+    - assets/images/logos/
 
   fonts:
     - family: MPlusRounded1c
