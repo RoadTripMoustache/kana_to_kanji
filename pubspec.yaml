@@ -22,7 +22,7 @@ dependencies:
   json_annotation: ^4.9.0
   logger: ^2.3.0
   path: ^1.9.0
-  stacked: ^3.4.2
+  stacked: ^3.4.3
   rive: ^0.13.8
   package_info_plus: ^8.0.0
   shared_preferences: ^2.2.3
