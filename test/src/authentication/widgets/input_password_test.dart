@@ -26,7 +26,10 @@ void main() {
     testWidgets(
         "It should have a TextFormField, obscured text, and an IconButton",
         (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(InputPassword(controller: controller!));
+      await tester.pumpLocalizedWidget(InputPassword(
+        controller: controller!,
+        validate: (String? value) => null,
+      ));
       await tester.pumpAndSettle();
 
       expect(
@@ -55,7 +58,10 @@ void main() {
     testWidgets(
         "It should obscure and reveal the password when IconButton is tapped",
         (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(InputPassword(controller: controller!));
+      await tester.pumpLocalizedWidget(InputPassword(
+        controller: controller!,
+        validate: (String? value) => null,
+      ));
       await tester.pumpAndSettle();
 
       // Extract the TextField inside the TextFormField.
@@ -94,7 +100,10 @@ void main() {
           (WidgetTester tester) async {
         int onChangeCalled = 0;
         await tester.pumpLocalizedWidget(InputPassword(
-            controller: controller!, onChange: () => onChangeCalled++));
+          controller: controller!,
+          onChange: () => onChangeCalled++,
+          validate: (String? value) => null,
+        ));
         await tester.pumpAndSettle();
 
         await tester.enterText(find.byType(TextFormField), "password");
@@ -110,7 +119,10 @@ void main() {
           (WidgetTester tester) async {
         int onChangeCalled = 0;
         await tester.pumpLocalizedWidget(InputPassword(
-            controller: controller!, onChange: () => onChangeCalled++));
+          controller: controller!,
+          onChange: () => onChangeCalled++,
+          validate: (String? value) => null,
+        ));
         await tester.pumpAndSettle();
 
         // We inject a value then remove it.
@@ -128,9 +140,11 @@ void main() {
           (WidgetTester tester) async {
         int onChangeCalled = 0;
         await tester.pumpLocalizedWidget(InputPassword(
-            controller: controller!,
-            isRequired: false,
-            onChange: () => onChangeCalled++));
+          controller: controller!,
+          isRequired: false,
+          onChange: () => onChangeCalled++,
+          validate: (String? value) => null,
+        ));
         await tester.pumpAndSettle();
 
         // We inject a value then remove it.
