@@ -18,7 +18,7 @@ class InputEmail extends StatefulWidget {
       this.isRequired = true,
       this.autofocus = false,
       this.enabled = true,
-      this.textInputAction = TextInputAction.continueAction,
+      this.textInputAction = TextInputAction.none,
       this.onChange,
       this.onEditingComplete,
       super.key});

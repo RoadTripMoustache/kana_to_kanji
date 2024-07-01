@@ -77,6 +77,7 @@ class _SignInViewState extends State<SignInView> {
                         enabled: !viewModel.isBusy,
                         onEditingComplete: () async =>
                             viewModel.onEditingCompleted(submit: true),
+                        validate: (String? value) => null,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
