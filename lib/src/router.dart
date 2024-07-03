@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/authentication/create/create_account_view.dart";
 import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
@@ -30,6 +31,9 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
           GoRoute(
               path: SignInView.routeName,
               builder: (_, __) => const SignInView()),
+          GoRoute(
+              path: CreateAccountView.routeName,
+              builder: (_, __) => const CreateAccountView()),
           GoRoute(
               path: PrepareQuizView.routeName,
               builder: (_, __) => const PrepareQuizView(),

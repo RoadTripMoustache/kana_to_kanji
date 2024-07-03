@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 class InputPassword extends StatefulWidget {
+  /// Controller of the input password
   final TextEditingController controller;
 
   final VoidCallback? onChange;
@@ -18,14 +19,20 @@ class InputPassword extends StatefulWidget {
 
   final TextInputAction textInputAction;
 
+  final String? Function(String? value)? validate;
+
+  final String? textHint;
+
   const InputPassword({
     required this.controller,
+    this.validate,
     this.isRequired = true,
     this.autoFocus = false,
     this.enabled = true,
     this.onChange,
     this.onEditingComplete,
     this.textInputAction = TextInputAction.done,
+    this.textHint,
     super.key,
   });
 
@@ -36,6 +43,7 @@ class InputPassword extends StatefulWidget {
 class _InputPasswordState extends State<InputPassword> {
   final GlobalKey<FormFieldState> _formFieldKey =
       GlobalKey<FormFieldState>(debugLabel: "password_input_widget");
+
   // Timer applied before the validation is triggered
   Timer? timer;
 
@@ -64,8 +72,13 @@ class _InputPasswordState extends State<InputPassword> {
   }
 
   String? _validate(String? value, AppLocalizations l10n) {
-    if (widget.isRequired && (value == null || value.isEmpty)) {
-      return l10n.input_password_msg_missing_password;
+    if (value == null || value.isEmpty) {
+      if (widget.isRequired) {
+        return l10n.input_password_msg_missing_password;
+      }
+    }
+    if (widget.validate != null) {
+      return widget.validate!(value);
     }
     return null;
   }
@@ -94,7 +107,7 @@ class _InputPasswordState extends State<InputPassword> {
         validator: (String? value) => _validate(value, l10n),
         obscureText: isPasswordObscured,
         decoration: InputDecoration(
-          hintText: l10n.input_password_placeholder,
+          hintText: widget.textHint ?? l10n.input_password_placeholder,
           suffixIcon: IconButton(
             icon: Icon(isPasswordObscured
                 ? Icons.visibility_rounded
