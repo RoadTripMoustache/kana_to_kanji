@@ -317,8 +317,13 @@
   "input_password_placeholder": "Password",
   "input_email_missing_email": "Email is required",
   "input_password_msg_missing_password": "Password is required",
+  "input_password_msg_missing_password_confirmation": "Password confirmation is required",
   "input_email_incorrect_email_format": "Email invalid format",
   "sign_in_view_forgot_password": "Forgot password ?",
   "sign_in_view_sign_in": "Sign in",
-  "sign_in_view_or_separator": "OR"
+  "sign_in_view_or_separator": "OR",
+  "input_password_confirmation_placeholder": "Password confirmation",
+  "input_password_configuration_mismatch": "Both passwords should be identical",
+  "create_account_view_create_account": "Create an account",
+  "create_account_view_or_separator": "OR"
 }

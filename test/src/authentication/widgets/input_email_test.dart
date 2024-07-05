@@ -32,7 +32,7 @@ void main() {
       expect(textField.autofillHints, containsAll([AutofillHints.email]));
       expect(textField.decoration?.hintText, l10n.input_email_placeholder);
       expect(textField.keyboardType, TextInputType.emailAddress);
-      expect(textField.textInputAction, TextInputAction.continueAction);
+      expect(textField.textInputAction, TextInputAction.none);
 
       // Tear down
       controller.dispose();
