@@ -6,7 +6,6 @@ import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
 import "package:kana_to_kanji/src/core/widgets/app_config.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
-import "package:kana_to_kanji/src/glossary/glossary_view.dart";
 import "package:rive/rive.dart";
 import "package:stacked/stacked.dart";
 
@@ -70,8 +69,8 @@ class LandingView extends StatelessWidget {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    await GoRouter.of(context)
-                                        .replace(GlossaryView.routeName);
+                                    await viewModel
+                                        .getStarted(GoRouter.of(context));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.blue),
