@@ -41,7 +41,7 @@ class LandingViewModel extends BaseViewModel {
   /// Sign the current user anonymously and redirect the user to the glossary
   /// if everything goes well.
   Future<void> getStarted(GoRouter router) async {
-    if (await _userRepository.register(AuthenticationMethod.anonymous)) {
+    if (await _userRepository.authenticate(AuthenticationMethod.anonymous)) {
       await router.replace(GlossaryView.routeName);
     }
   }

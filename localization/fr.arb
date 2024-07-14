@@ -318,6 +318,7 @@
   "sign_in_view_forgot_password": "Mot de passe oublié ?",
   "sign_in_view_sign_in": "Se connecter",
   "sign_in_view_or_separator": "OU",
+  "sign_in_error": "Une erreur a été relevée durant la connexion",
   "input_password_confirmation_placeholder": "Confirmation mot de passe",
   "input_password_configuration_mismatch": "Les mots de passe saisis ne sont pas identiques",
   "create_account_view_create_account": "Créer un compte",

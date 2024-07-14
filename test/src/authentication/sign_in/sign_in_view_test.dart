@@ -6,11 +6,51 @@ import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_email.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";
 import "package:kana_to_kanji/src/authentication/widgets/third_party_round_icon_button.dart";
+import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
+import "package:kana_to_kanji/src/core/services/toaster_service.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
 import "../../../helpers.dart";
+@GenerateNiceMocks([MockSpec<UserRepository>(), MockSpec<ToasterService>()])
+import "sign_in_view_test.mocks.dart";
+
+final userRepositoryMock = MockUserRepository();
+final toasterServiceMock = MockToasterService();
 
 void main() {
+  setUpAll(() async {
+    locator
+      ..registerSingleton<UserRepository>(userRepositoryMock)
+      ..registerSingleton<ToasterService>(toasterServiceMock);
+  });
+
+  void checkButtonsAndInputsEnabled(
+    WidgetTester tester,
+    AppLocalizations l10n,
+  ) {
+    // Validate all inputs are enabled
+    expect(tester.widget<InputEmail>(find.byType(InputEmail)).enabled, isTrue);
+    expect(tester.widget<InputPassword>(find.byType(InputPassword)).enabled,
+        isTrue);
+
+    // Validate all buttons are enabled.
+    expect(
+        tester
+            .widget<TextButton>(find.widgetWithText(
+                TextButton, l10n.sign_in_view_forgot_password))
+            .enabled,
+        isTrue);
+    for (final ThirdPartyRoundIconButton button
+        in tester.widgetList<ThirdPartyRoundIconButton>(
+            find.byType(ThirdPartyRoundIconButton))) {
+      expect(button.onPressed, isNotNull);
+    }
+  }
+
   group("SignInView", () {
     late final AppLocalizations l10n;
 
@@ -133,7 +173,7 @@ void main() {
         await tester.enterText(find.byType(InputEmail), "");
         await tester.enterText(find.byType(InputEmail), "invalid");
         // Pump 300ms for the validation to be triggered
-        await tester.pump(const Duration(milliseconds: 300));
+        await tester.pump(const Duration(milliseconds: 600));
 
         // Sign in button should be disabled
         signInButton =
@@ -145,6 +185,11 @@ void main() {
 
       testWidgets("All button should be disabled during sign in process",
           (WidgetTester tester) async {
+        when(userRepositoryMock.authenticate(AuthenticationMethod.classic,
+                email: "valid@valid.com", password: "password"))
+            .thenAnswer((_) =>
+                Future.delayed(const Duration(milliseconds: 600), () => true));
+
         await pumpAndSettleView(tester);
 
         // Enter valid email and password
@@ -205,12 +250,67 @@ void main() {
         expect(find.byKey(Key(getRouterKey("/authentication/reset_password"))),
             findsOneWidget);
       });
+
+      testWidgets("Clicking on the sign in button but got an error",
+          (WidgetTester tester) async {
+        when(userRepositoryMock.authenticate(AuthenticationMethod.classic,
+                email: "valid@valid.com", password: "password"))
+            .thenAnswer((_) =>
+                Future.delayed(const Duration(milliseconds: 600), () => true));
+
+        await pumpAndSettleView(tester);
+
+        // Enter valid email and password
+        await tester.enterText(find.byType(InputEmail), "valid@valid.com");
+        await tester.enterText(find.byType(InputPassword), "password");
+        // Pump 300ms for the validation to be triggered
+        await tester.pump(const Duration(milliseconds: 300));
+        // Trigger sign in.
+        await tester.tap(find.text(l10n.sign_in_view_sign_in));
+        await tester.pump();
+
+        // Validate all inputs are disabled
+        expect(tester.widget<InputEmail>(find.byType(InputEmail)).enabled,
+            isFalse);
+        expect(tester.widget<InputPassword>(find.byType(InputPassword)).enabled,
+            isFalse);
+
+        // Validate all buttons are disabled.
+        expect(
+            tester
+                .widget<TextButton>(find.widgetWithText(
+                    TextButton, l10n.sign_in_view_forgot_password))
+                .enabled,
+            isFalse);
+        for (final ThirdPartyRoundIconButton button
+            in tester.widgetList<ThirdPartyRoundIconButton>(
+                find.byType(ThirdPartyRoundIconButton))) {
+          expect(button.onPressed, isNull);
+        }
+
+        // Validate Sign in button is a CircularProgressIndicator
+        expect(find.widgetWithText(FilledButton, l10n.sign_in_view_sign_in),
+            findsNothing,
+            reason: "During the sign in process the sign in"
+                " button should not be visible");
+        expect(find.byType(CircularProgressIndicator), findsOneWidget,
+            reason: "During the sign in process, a CircularProgressIndicator "
+                "should be displayed instead of the sign in button");
+
+        // Finish the sign in process
+        await tester.pumpAndSettle();
+
+        // Validate all inputs are enabled
+        checkButtonsAndInputsEnabled(tester, l10n);
+      });
     });
 
     group("Social Sign in", () {
       group("Google", () {
         testWidgets("Redirect to the glossary if sign in succeed",
             (WidgetTester tester) async {
+          when(userRepositoryMock.authenticate(AuthenticationMethod.google))
+              .thenAnswer((_) => Future.value(true));
           // TODO: Temporary solution until we understand why the Widget is
           //  off-screen only in the test
           await tester.binding.setSurfaceSize(const Size(800, 800));
@@ -231,11 +331,34 @@ void main() {
           // Reset surface size.
           await tester.binding.setSurfaceSize(null);
         });
+        testWidgets("Stay on a page due to an error",
+            (WidgetTester tester) async {
+          when(userRepositoryMock.authenticate(AuthenticationMethod.google))
+              .thenAnswer((_) => Future.value(true));
+          // TODO: Temporary solution until we understand why the Widget is
+          //  off-screen only in the test
+          await tester.binding.setSurfaceSize(const Size(800, 800));
+          await pumpAndSettleView(tester);
+
+          // Tap on Forgot password button
+          await tester.tap(find.byKey(const Key("google_sign_in")));
+          await tester.pumpAndSettle();
+
+          // TODO : Validate Google sign in.
+
+          // Validate all inputs are enabled
+          checkButtonsAndInputsEnabled(tester, l10n);
+
+          // Reset surface size.
+          await tester.binding.setSurfaceSize(null);
+        });
       });
 
       group("Apple", () {
         testWidgets("Redirect to the glossary if sign in succeed",
             (WidgetTester tester) async {
+          when(userRepositoryMock.authenticate(AuthenticationMethod.apple))
+              .thenAnswer((_) => Future.value(true));
           // Set iOS as platform to make the Apple sign in button appear
           debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
           // TODO: Temporary solution until we understand why the Widget is
@@ -254,6 +377,31 @@ void main() {
               findsOneWidget,
               reason: "On successful sign in, the user should be redirected "
                   "to the glossary");
+
+          // Reset the default platform
+          debugDefaultTargetPlatformOverride = null;
+          // Reset surface size.
+          await tester.binding.setSurfaceSize(null);
+        });
+        testWidgets("Stay on the page due to an error",
+            (WidgetTester tester) async {
+          when(userRepositoryMock.authenticate(AuthenticationMethod.apple))
+              .thenAnswer((_) => Future.value(true));
+          // Set iOS as platform to make the Apple sign in button appear
+          debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+          // TODO: Temporary solution until we understand why the Widget is
+          //  off-screen only in the test
+          await tester.binding.setSurfaceSize(const Size(800, 800));
+          await pumpAndSettleView(tester);
+
+          // Tap on Forgot password button
+          await tester.tap(find.byKey(const Key("apple_sign_in")));
+          await tester.pumpAndSettle();
+
+          // TODO : Validate Apple sign in.
+
+          // Validate all inputs are enabled
+          checkButtonsAndInputsEnabled(tester, l10n);
 
           // Reset the default platform
           debugDefaultTargetPlatformOverride = null;

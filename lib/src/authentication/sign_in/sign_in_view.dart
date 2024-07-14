@@ -2,6 +2,7 @@ import "package:flutter/foundation.dart" show defaultTargetPlatform;
 import "package:flutter/material.dart";
 import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view_model.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_email.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";
@@ -35,7 +36,7 @@ class _SignInViewState extends State<SignInView> {
     );
 
     return ViewModelBuilder<SignInViewModel>.reactive(
-      viewModelBuilder: () => SignInViewModel(GoRouter.of(context)),
+      viewModelBuilder: () => SignInViewModel(GoRouter.of(context), l10n),
       builder: (context, viewModel, child) => AppScaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -44,7 +45,7 @@ class _SignInViewState extends State<SignInView> {
           leading: IconButton(
             key: const Key("sign_in_view_return"),
             icon: const Icon(Icons.arrow_back_rounded),
-            onPressed: () => context.pop(),
+            onPressed: () => context.replace(LandingView.routeName),
           ),
         ),
         body: SingleChildScrollView(
@@ -69,14 +70,15 @@ class _SignInViewState extends State<SignInView> {
                         autofocus: true,
                         enabled: !viewModel.isBusy,
                         onChange: viewModel.onFormChange,
-                        onEditingComplete: viewModel.onEditingCompleted,
+                        onEditingComplete: () async =>
+                            viewModel.onEditingCompleted(context: context),
                       ),
                       InputPassword(
                         controller: viewModel.passwordController,
                         onChange: viewModel.onFormChange,
                         enabled: !viewModel.isBusy,
-                        onEditingComplete: () async =>
-                            viewModel.onEditingCompleted(submit: true),
+                        onEditingComplete: () async => viewModel
+                            .onEditingCompleted(context: context, submit: true),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -103,7 +105,7 @@ class _SignInViewState extends State<SignInView> {
                                 horizontal: 12.0, vertical: 8.0),
                             child: FilledButton(
                               onPressed: viewModel.isSignInButtonEnabled
-                                  ? viewModel.signIn
+                                  ? () async => viewModel.signIn(context)
                                   : null,
                               child: Text(
                                 l10n.sign_in_view_sign_in,
@@ -133,7 +135,9 @@ class _SignInViewState extends State<SignInView> {
                 children: [
                   ThirdPartyRoundIconButton.google(
                     key: const Key("google_sign_in"),
-                    onPressed: viewModel.isBusy ? null : viewModel.signInGoogle,
+                    onPressed: viewModel.isBusy
+                        ? null
+                        : () async => viewModel.signInGoogle(context),
                   ),
                   // Display the Apple button only on iOS
                   if (defaultTargetPlatform == TargetPlatform.iOS)
@@ -141,8 +145,9 @@ class _SignInViewState extends State<SignInView> {
                       padding: const EdgeInsets.only(left: 40.0),
                       child: ThirdPartyRoundIconButton.apple(
                         key: const Key("apple_sign_in"),
-                        onPressed:
-                            viewModel.isBusy ? null : viewModel.signInApple,
+                        onPressed: viewModel.isBusy
+                            ? null
+                            : () async => viewModel.signInApple(context),
                       ),
                     ),
                 ],

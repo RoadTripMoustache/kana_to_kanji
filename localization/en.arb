@@ -323,6 +323,7 @@
   "sign_in_view_forgot_password": "Forgot password ?",
   "sign_in_view_sign_in": "Sign in",
   "sign_in_view_or_separator": "OR",
+  "sign_in_error": "Error during the sign in",
   "input_password_confirmation_placeholder": "Password confirmation",
   "input_password_configuration_mismatch": "Both passwords should be identical",
   "create_account_view_create_account": "Create an account",
