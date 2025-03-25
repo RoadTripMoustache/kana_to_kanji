@@ -26,59 +26,72 @@ class QuizConclusionView extends StatelessWidget {
         (MediaQuery.of(context).size.height) / 2 - _kArcProgressIndicatorSize;
 
     return ViewModelBuilder<QuizConclusionViewModel>.reactive(
-        viewModelBuilder: () => QuizConclusionViewModel(questions),
-        builder: (context, viewModel, child) => AppScaffold(
+      viewModelBuilder: () => QuizConclusionViewModel(questions),
+      builder:
+          (context, viewModel, child) => AppScaffold(
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
-                centerTitle: true,
-                surfaceTintColor: Colors.transparent,
-                backgroundColor: Colors.transparent,
-                leading: IconButton(
-                  icon: const Icon(Icons.close_rounded),
-                  onPressed: () => context.pop(),
-                ),
-                title: Text(l10n.quiz_conclusion)),
+              centerTitle: true,
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                icon: const Icon(Icons.close_rounded),
+                onPressed: () => context.pop(),
+              ),
+              title: Text(l10n.quiz_conclusion),
+            ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: viewModel.wrongAnswers.isNotEmpty
-                            ? 20.0
-                            : maxTopPaddingIndicator,
-                        bottom: 20.0),
+                      top:
+                          viewModel.wrongAnswers.isNotEmpty
+                              ? 20.0
+                              : maxTopPaddingIndicator,
+                      bottom: 20.0,
+                    ),
                     child: ArcProgressIndicator(
-                        value: viewModel.percent,
-                        radius: _kArcProgressIndicatorSize,
-                        alternativeText: l10n.quiz_length(
-                            viewModel.rightAnswers.length,
-                            viewModel.questions.length)),
+                      value: viewModel.percent,
+                      radius: _kArcProgressIndicatorSize,
+                      alternativeText: l10n.quiz_length(
+                        viewModel.rightAnswers.length,
+                        viewModel.questions.length,
+                      ),
+                    ),
                   ),
                 ),
                 if (viewModel.wrongAnswers.isNotEmpty)
                   Expanded(
-                      child: ToReviewSection(
-                          questionsToReview: viewModel.wrongAnswers)),
+                    child: ToReviewSection(
+                      questionsToReview: viewModel.wrongAnswers,
+                    ),
+                  ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          onPressed: () => context.pop(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 8.0),
-                            child: Text(
-                              l10n.button_continue.toUpperCase(),
-                              style: textTheme.headlineSmall,
-                            ),
-                          )),
+                        onPressed: () => context.pop(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 8.0,
+                          ),
+                          child: Text(
+                            l10n.button_continue.toUpperCase(),
+                            style: textTheme.headlineSmall,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
-            )));
+            ),
+          ),
+    );
   }
 }

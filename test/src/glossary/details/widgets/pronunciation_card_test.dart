@@ -9,26 +9,34 @@ void main() {
     const sampleHiraganaPronunciation = "あ";
 
     group("UI", () {
-      testWidgets(
-          "Should contains an ActionChip with volume up icon and "
+      testWidgets("Should contains an ActionChip with volume up icon and "
           "pronunciation passed", (WidgetTester tester) async {
-        await tester.pumpLocalizedWidget(const PronunciationCard(
-            pronunciation: sampleHiraganaPronunciation));
+        await tester.pumpLocalizedWidget(
+          const PronunciationCard(pronunciation: sampleHiraganaPronunciation),
+        );
         await tester.pumpAndSettle();
 
         final widget = find.byType(PronunciationCard);
 
         expect(widget, findsOneWidget);
-        expect(find.descendant(of: widget, matching: find.byType(ActionChip)),
-            findsOneWidget);
         expect(
-            find.descendant(
-                of: widget, matching: find.byIcon(Icons.volume_up_rounded)),
-            findsOneWidget);
+          find.descendant(of: widget, matching: find.byType(ActionChip)),
+          findsOneWidget,
+        );
         expect(
-            find.descendant(
-                of: widget, matching: find.text(sampleHiraganaPronunciation)),
-            findsOneWidget);
+          find.descendant(
+            of: widget,
+            matching: find.byIcon(Icons.volume_up_rounded),
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: widget,
+            matching: find.text(sampleHiraganaPronunciation),
+          ),
+          findsOneWidget,
+        );
       });
     });
   });

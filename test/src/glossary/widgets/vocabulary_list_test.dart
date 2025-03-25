@@ -10,9 +10,7 @@ import "../../../helpers.dart";
 void main() {
   group("VocabularyList", () {
     testWidgets("Empty list", (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(const VocabularyList(
-        items: [],
-      ));
+      await tester.pumpLocalizedWidget(const VocabularyList(items: []));
       await tester.pumpAndSettle();
 
       final found = find.byType(GlossaryListTile);
@@ -22,9 +20,7 @@ void main() {
     testWidgets("Contains 1 item", (WidgetTester tester) async {
       final List<Vocabulary> vocabularyList = [dummyVocabulary];
 
-      await tester.pumpLocalizedWidget(VocabularyList(
-        items: vocabularyList,
-      ));
+      await tester.pumpLocalizedWidget(VocabularyList(items: vocabularyList));
       await tester.pumpAndSettle();
       expect(find.byType(PagedListView<int, Vocabulary>), findsOneWidget);
 
@@ -34,19 +30,19 @@ void main() {
       final tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < vocabularyList.length; i++) {
         tileList.moveNext();
-        expect((tileList.current as GlossaryListTile).vocabulary,
-            vocabularyList[i]);
+        expect(
+          (tileList.current as GlossaryListTile).vocabulary,
+          vocabularyList[i],
+        );
       }
     });
 
     testWidgets("Contains 2 items", (WidgetTester tester) async {
       final List<Vocabulary> vocabularyList = [
         dummyVocabulary,
-        dummyVocabulary
+        dummyVocabulary,
       ];
-      await tester.pumpLocalizedWidget(VocabularyList(
-        items: vocabularyList,
-      ));
+      await tester.pumpLocalizedWidget(VocabularyList(items: vocabularyList));
       await tester.pumpAndSettle();
 
       final foundAllTiles = find.byType(GlossaryListTile);
@@ -55,8 +51,10 @@ void main() {
       final tileList = tester.widgetList(foundAllTiles).iterator;
       for (var i = 0; i < vocabularyList.length; i++) {
         tileList.moveNext();
-        expect((tileList.current as GlossaryListTile).vocabulary,
-            vocabularyList[i]);
+        expect(
+          (tileList.current as GlossaryListTile).vocabulary,
+          vocabularyList[i],
+        );
       }
     });
   });

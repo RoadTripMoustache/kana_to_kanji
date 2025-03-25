@@ -18,7 +18,7 @@ import "package:mockito/mockito.dart";
   MockSpec<FirebaseAuth>(),
   MockSpec<UserCredential>(),
   MockSpec<FirebaseApp>(),
-  MockSpec<AuthService>()
+  MockSpec<AuthService>(),
 ])
 import "user_repository_test.mocks.dart";
 
@@ -43,12 +43,14 @@ void main() {
     group("register", () {
       test("Correct registration", () async {
         final UserCredential userCredential = MockUserCredential();
-        when(authServiceMock.signInAnonymously())
-            .thenAnswer((_) => Future.value(userCredential));
+        when(
+          authServiceMock.signInAnonymously(),
+        ).thenAnswer((_) => Future.value(userCredential));
         when(userServiceMock.getUser()).thenAnswer((_) => Future.value());
 
-        final result =
-            await repository.register(AuthenticationMethod.anonymous);
+        final result = await repository.register(
+          AuthenticationMethod.anonymous,
+        );
 
         verifyInOrder([
           authServiceMock.signInAnonymously(),
@@ -59,36 +61,42 @@ void main() {
       });
 
       test("Incorrect registration - operation not allowed", () async {
-        when(authServiceMock.signInAnonymously())
-            .thenThrow(FirebaseAuthException(code: "operation-not-allowed"));
+        when(
+          authServiceMock.signInAnonymously(),
+        ).thenThrow(FirebaseAuthException(code: "operation-not-allowed"));
 
-        final result =
-            await repository.register(AuthenticationMethod.anonymous);
+        final result = await repository.register(
+          AuthenticationMethod.anonymous,
+        );
 
         verifyInOrder([
           authServiceMock.signInAnonymously(),
-          loggerMock.e("Anonymous auth hasn't been enabled for this project.")
+          loggerMock.e("Anonymous auth hasn't been enabled for this project."),
         ]);
         verifyNever(userServiceMock.getUser());
-        verifyNever(loggerMock
-            .e("Unknown error while doing anonymous authentication."));
+        verifyNever(
+          loggerMock.e("Unknown error while doing anonymous authentication."),
+        );
         expect(result, false);
       });
 
       test("Incorrect registration - default", () async {
-        when(authServiceMock.signInAnonymously())
-            .thenThrow(FirebaseAuthException(code: "operwed"));
+        when(
+          authServiceMock.signInAnonymously(),
+        ).thenThrow(FirebaseAuthException(code: "operwed"));
 
-        final result =
-            await repository.register(AuthenticationMethod.anonymous);
+        final result = await repository.register(
+          AuthenticationMethod.anonymous,
+        );
 
         verifyInOrder([
           authServiceMock.signInAnonymously(),
-          loggerMock.e("Unknown error while doing anonymous authentication.")
+          loggerMock.e("Unknown error while doing anonymous authentication."),
         ]);
         verifyNever(userServiceMock.getUser());
-        verifyNever(loggerMock
-            .e("Anonymous auth hasn't been enabled for this project."));
+        verifyNever(
+          loggerMock.e("Anonymous auth hasn't been enabled for this project."),
+        );
         expect(result, false);
       });
     });

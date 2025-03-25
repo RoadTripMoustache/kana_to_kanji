@@ -18,9 +18,11 @@ class ResourceUid {
   factory ResourceUid.fromJson(String uid) => ResourceUid.fromString(uid);
 
   factory ResourceUid.fromString(String uid) => ResourceUid(
-      uid,
-      ResourceType.values
-          .firstWhere((element) => element.name == uid.split("-")[0]));
+    uid,
+    ResourceType.values.firstWhere(
+      (element) => element.name == uid.split("-")[0],
+    ),
+  );
 
   @override
   bool operator ==(covariant ResourceUid other) =>

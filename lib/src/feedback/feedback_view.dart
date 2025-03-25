@@ -14,28 +14,36 @@ class FeedbackView extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<FeedbackViewModel>.reactive(
-          viewModelBuilder: () => FeedbackViewModel(
+        viewModelBuilder:
+            () => FeedbackViewModel(
               appConfig: AppConfig.of(context),
               router: GoRouter.of(context),
-              l10n: AppLocalizations.of(context)),
-          builder: (BuildContext context, FeedbackViewModel viewModel,
-              Widget? child) {
-            Widget content = FeedbackTypeSelection(
-                onPressed: viewModel.onFeedbackTypePressed);
+              l10n: AppLocalizations.of(context),
+            ),
+        builder: (
+          BuildContext context,
+          FeedbackViewModel viewModel,
+          Widget? child,
+        ) {
+          Widget content = FeedbackTypeSelection(
+            onPressed: viewModel.onFeedbackTypePressed,
+          );
 
-            if (viewModel.selectedFeedbackType != null) {
-              content = FeedbackForm(
-                  feedbackType: viewModel.selectedFeedbackType!,
-                  onSubmit: viewModel.onFormSubmit,
-                  onChange: viewModel.onFormChange,
-                  validator: viewModel.formValidator,
-                  isSubmitEnabled: viewModel.isFormSubmitEnabled,
-                  allowScreenshot: viewModel.isFormAddScreenshotEnabled,
-                  onScreenshotButtonPressed: () =>
-                      viewModel.onIncludeScreenshotPressed(context));
-            }
+          if (viewModel.selectedFeedbackType != null) {
+            content = FeedbackForm(
+              feedbackType: viewModel.selectedFeedbackType!,
+              onSubmit: viewModel.onFormSubmit,
+              onChange: viewModel.onFormChange,
+              validator: viewModel.formValidator,
+              isSubmitEnabled: viewModel.isFormSubmitEnabled,
+              allowScreenshot: viewModel.isFormAddScreenshotEnabled,
+              onScreenshotButtonPressed:
+                  () => viewModel.onIncludeScreenshotPressed(context),
+            );
+          }
 
-            // TODO Add web dialog
-            return DraggableSheetFeedback(child: content);
-          });
+          // TODO Add web dialog
+          return DraggableSheetFeedback(child: content);
+        },
+      );
 }

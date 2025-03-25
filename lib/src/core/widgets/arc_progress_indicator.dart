@@ -69,17 +69,18 @@ class ArcProgressIndicator extends StatefulWidget {
   /// from one text to the other by tapping on it.
   final String? alternativeText;
 
-  const ArcProgressIndicator(
-      {required this.value,
-      super.key,
-      this.radius,
-      this.backgroundColor,
-      this.color,
-      this.valueColor,
-      this.semanticsLabel,
-      this.semanticsValue,
-      this.showPercentage = true,
-      this.alternativeText});
+  const ArcProgressIndicator({
+    required this.value,
+    super.key,
+    this.radius,
+    this.backgroundColor,
+    this.color,
+    this.valueColor,
+    this.semanticsLabel,
+    this.semanticsValue,
+    this.showPercentage = true,
+    this.alternativeText,
+  });
 
   @override
   State<ArcProgressIndicator> createState() => _ArcProgressIndicatorState();
@@ -96,10 +97,10 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: _kAnimationDuration),
-        vsync: this,
-        animationBehavior: AnimationBehavior.preserve)
-      ..forward();
+      duration: const Duration(milliseconds: _kAnimationDuration),
+      vsync: this,
+      animationBehavior: AnimationBehavior.preserve,
+    )..forward();
 
     _animation = CurvedAnimation(
       parent: _controller,
@@ -138,13 +139,14 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final textStyle = Theme.of(context)
-        .textTheme
-        .headlineLarge
-        ?.copyWith(color: _getValueColor(context));
-    final ProgressIndicatorThemeData indicatorTheme =
-        ProgressIndicatorTheme.of(context);
-    final Color backColor = widget.backgroundColor ??
+    final textStyle = Theme.of(
+      context,
+    ).textTheme.headlineLarge?.copyWith(color: _getValueColor(context));
+    final ProgressIndicatorThemeData indicatorTheme = ProgressIndicatorTheme.of(
+      context,
+    );
+    final Color backColor =
+        widget.backgroundColor ??
         indicatorTheme.circularTrackColor ??
         Theme.of(context).colorScheme.surfaceContainerHighest;
     final double size = widget.radius ?? _kMinRadius;
@@ -158,33 +160,35 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
           alignment: Alignment.center,
           children: [
             _buildSemanticsWrapper(
-                context: context,
-                child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: size,
-                      minHeight: size,
-                    ),
-                    child: CustomPaint(
-                      painter: _ArcProgressIndicatorPainter(
-                          value: animatedValue,
-                          valueColor: _getValueColor(context),
-                          backgroundColor: backColor),
-                    ))),
+              context: context,
+              child: Container(
+                constraints: BoxConstraints(minWidth: size, minHeight: size),
+                child: CustomPaint(
+                  painter: _ArcProgressIndicatorPainter(
+                    value: animatedValue,
+                    valueColor: _getValueColor(context),
+                    backgroundColor: backColor,
+                  ),
+                ),
+              ),
+            ),
             if (widget.showPercentage)
               GestureDetector(
-                onTap: widget.alternativeText != null
-                    ? () {
-                        setState(() {
-                          _showAlternativeText = !_showAlternativeText;
-                        });
-                      }
-                    : null,
+                onTap:
+                    widget.alternativeText != null
+                        ? () {
+                          setState(() {
+                            _showAlternativeText = !_showAlternativeText;
+                          });
+                        }
+                        : null,
                 child: Text(
-                    _showAlternativeText && widget.alternativeText != null
-                        ? widget.alternativeText!
-                        : l10n.percent(animatedValue),
-                    style: textStyle),
-              )
+                  _showAlternativeText && widget.alternativeText != null
+                      ? widget.alternativeText!
+                      : l10n.percent(animatedValue),
+                  style: textStyle,
+                ),
+              ),
           ],
         );
       },
@@ -207,19 +211,20 @@ class _ArcProgressIndicatorPainter extends CustomPainter {
 
   final double _arcSweep;
 
-  _ArcProgressIndicatorPainter(
-      {required this.backgroundColor,
-      required this.valueColor,
-      required this.value})
-      : _arcSweep = clampDouble(value, 0.0, 1.0) * _sweep;
+  _ArcProgressIndicatorPainter({
+    required this.backgroundColor,
+    required this.valueColor,
+    required this.value,
+  }) : _arcSweep = clampDouble(value, 0.0, 1.0) * _sweep;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = backgroundColor
-      ..strokeWidth = _kStrokeWidth
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
+    final Paint paint =
+        Paint()
+          ..color = backgroundColor
+          ..strokeWidth = _kStrokeWidth
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.stroke;
 
     // Draw background
     canvas.drawArc(Offset.zero & size, _startAngle, _sweep, false, paint);

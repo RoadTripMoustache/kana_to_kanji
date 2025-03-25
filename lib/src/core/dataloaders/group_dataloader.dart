@@ -29,8 +29,9 @@ class GroupDataLoader {
     return _apiService
         .get("/v1/groups$versionQueryParam")
         .then(_extractGroups)
-        .then((listGroups) =>
-            _isar.write((isar) => isar.groups.putAll(listGroups)));
+        .then(
+          (listGroups) => _isar.write((isar) => isar.groups.putAll(listGroups)),
+        );
   }
 
   /// Extract all the groups

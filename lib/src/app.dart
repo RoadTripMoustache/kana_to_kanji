@@ -20,9 +20,7 @@ import "package:kana_to_kanji/src/router.dart";
 class KanaToKanjiApp extends StatelessWidget {
   final SettingsRepository _settingsRepository = locator<SettingsRepository>();
 
-  KanaToKanjiApp({
-    super.key,
-  });
+  KanaToKanjiApp({super.key});
 
   static Future initializeApp() async {
     setupLocator();
@@ -55,37 +53,45 @@ class KanaToKanjiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-      animation: _settingsRepository,
-      builder: (BuildContext context, _) => BetterFeedback(
-            mode: FeedbackMode.navigate,
+    animation: _settingsRepository,
+    builder:
+        (BuildContext context, _) => BetterFeedback(
+          mode: FeedbackMode.navigate,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          localeOverride: _settingsRepository.locale,
+          theme: FeedbackThemeData(
+            sheetIsDraggable: false,
+            feedbackSheetHeight: 0.1,
+          ),
+          feedbackBuilder:
+              (context, onSubmit, _) =>
+                  FeedbackScreenshotForm(onSubmit: onSubmit),
+          child: MaterialApp.router(
+            restorationScopeId: "app",
+
+            // Localizations
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            localeOverride: _settingsRepository.locale,
-            theme: FeedbackThemeData(
-                sheetIsDraggable: false, feedbackSheetHeight: 0.1),
-            feedbackBuilder: (context, onSubmit, _) =>
-                FeedbackScreenshotForm(onSubmit: onSubmit),
-            child: MaterialApp.router(
-              restorationScopeId: "app",
+            supportedLocales: AppLocalizations.supportedLocales,
+            onGenerateTitle:
+                (BuildContext context) =>
+                    AppLocalizations.of(context).app_title,
+            locale: _settingsRepository.locale,
 
-              // Localizations
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              onGenerateTitle: (BuildContext context) =>
-                  AppLocalizations.of(context).app_title,
-              locale: _settingsRepository.locale,
+            // Theme
+            theme: AppTheme.light(),
+            darkTheme: AppTheme.dark(),
+            themeMode: _settingsRepository.themeMode,
 
-              // Theme
-              theme: AppTheme.light(),
-              darkTheme: AppTheme.dark(),
-              themeMode: _settingsRepository.themeMode,
-
-              // Router
-              routerConfig: _router,
-              builder: (context, child) => AppSnackBarUpgrader(
-                navigatorKey: _router.routerDelegate.navigatorKey,
-                child:
-                    child ?? AppNotFoundView(uri: Uri(host: ""), goBackUrl: ""),
-              ),
-            ),
-          ));
+            // Router
+            routerConfig: _router,
+            builder:
+                (context, child) => AppSnackBarUpgrader(
+                  navigatorKey: _router.routerDelegate.navigatorKey,
+                  child:
+                      child ??
+                      AppNotFoundView(uri: Uri(host: ""), goBackUrl: ""),
+                ),
+          ),
+        ),
+  );
 }

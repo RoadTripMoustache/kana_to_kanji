@@ -54,25 +54,27 @@ class SyncService {
       // If the server did return a 404 response,
       // returns an sync object with all flags to true.
       return const Sync(
-          achievements: true,
-          cleanup: true,
-          groupsFlag: true,
-          kana: true,
-          kanji: true,
-          learning: LearningSync(stages: true),
-          vocabulary: true,
-          forceReload: true);
+        achievements: true,
+        cleanup: true,
+        groupsFlag: true,
+        kana: true,
+        kanji: true,
+        learning: LearningSync(stages: true),
+        vocabulary: true,
+        forceReload: true,
+      );
     } else {
       // If the server did return something else,
       // returns an sync object with all flags to false.
       return const Sync(
-          achievements: false,
-          cleanup: false,
-          groupsFlag: false,
-          kana: false,
-          kanji: false,
-          learning: LearningSync(stages: false),
-          vocabulary: false);
+        achievements: false,
+        cleanup: false,
+        groupsFlag: false,
+        kana: false,
+        kanji: false,
+        learning: LearningSync(stages: false),
+        vocabulary: false,
+      );
     }
   }
 }

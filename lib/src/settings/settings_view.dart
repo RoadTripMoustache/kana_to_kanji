@@ -19,8 +19,9 @@ class SettingsView extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
 
     return ViewModelBuilder<SettingsViewModel>.reactive(
-        viewModelBuilder: () => SettingsViewModel(l10n: l10n),
-        builder: (context, viewModel, child) => AppScaffold(
+      viewModelBuilder: () => SettingsViewModel(l10n: l10n),
+      builder:
+          (context, viewModel, child) => AppScaffold(
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
               title: Text(l10n.settings),
@@ -45,16 +46,20 @@ class SettingsView extends StatelessWidget {
                         isSelected: viewModel.themeModeSelected,
                         onPressed: viewModel.setThemeMode,
                         children: viewModel.themeModes.values
-                            .map((value) => Tooltip(
+                            .map(
+                              (value) => Tooltip(
                                 message: value["tooltip"],
-                                child: Icon(value["icon"])))
+                                child: Icon(value["icon"]),
+                              ),
+                            )
                             .toList(growable: false),
                       ),
                     ),
                     TileItem(
                       title: Text(l10n.settings_language),
                       trailing: DropdownButton<Locale>(
-                        value: viewModel.currentLocale ??
+                        value:
+                            viewModel.currentLocale ??
                             Localizations.localeOf(context),
                         icon: const Icon(Icons.arrow_downward_rounded),
                         style: const TextStyle(color: Colors.deepPurple),
@@ -63,27 +68,32 @@ class SettingsView extends StatelessWidget {
                           color: Colors.deepPurpleAccent,
                         ),
                         onChanged: viewModel.setLocale,
-                        items: AppLocalizations.supportedLocales
-                            .map<DropdownMenuItem<Locale>>((Locale locale) =>
-                                DropdownMenuItem<Locale>(
-                                  value: locale,
-                                  child:
-                                      Text(l10n.language(locale.languageCode)),
-                                ))
-                            .toList(),
+                        items:
+                            AppLocalizations.supportedLocales
+                                .map<DropdownMenuItem<Locale>>(
+                                  (Locale locale) => DropdownMenuItem<Locale>(
+                                    value: locale,
+                                    child: Text(
+                                      l10n.language(locale.languageCode),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                       ),
                     ),
                     ButtonItem(
-                        onPressed: viewModel.giveFeedback,
-                        child: Text(l10n.settings_give_feedback)),
+                      onPressed: viewModel.giveFeedback,
+                      child: Text(l10n.settings_give_feedback),
+                    ),
                     // Legal section
                     HeadingItem(title: l10n.settings_legal_section),
                     TileItem(
                       title: Text(l10n.settings_acknowledgements),
                       onTap: () {
                         showLicensePage(
-                            context: context,
-                            applicationVersion: viewModel.version);
+                          context: context,
+                          applicationVersion: viewModel.version,
+                        );
                       },
                       trailing: const Icon(Icons.arrow_forward_rounded),
                     ),
@@ -92,12 +102,17 @@ class SettingsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(l10n.settings_app_version(
+                    Text(
+                      l10n.settings_app_version(
                         AppConfig.of(context).environment.name,
-                        viewModel.version)),
+                        viewModel.version,
+                      ),
+                    ),
                   ],
-                )
+                ),
               ],
-            )));
+            ),
+          ),
+    );
   }
 }

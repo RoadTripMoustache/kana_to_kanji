@@ -34,15 +34,21 @@ class QuizViewModel extends FutureViewModel {
 
   @override
   Future futureToRun() async {
-    final kana = _kanaRepository
-        .getByGroupIds(groups.map((e) => e.uid).toList(growable: false));
+    final kana = _kanaRepository.getByGroupIds(
+      groups.map((e) => e.uid).toList(growable: false),
+    );
     _questions
-      ..addAll(kana.map((element) => Question(
-          alphabet: element.alphabet,
-          kana: element,
-          type: QuestionTypes.toRomaji,
-          remainingAttempt:
-              _settingsRepository.getMaximumAttemptsByQuestion())))
+      ..addAll(
+        kana.map(
+          (element) => Question(
+            alphabet: element.alphabet,
+            kana: element,
+            type: QuestionTypes.toRomaji,
+            remainingAttempt:
+                _settingsRepository.getMaximumAttemptsByQuestion(),
+          ),
+        ),
+      )
       ..shuffle();
   }
 
@@ -66,8 +72,10 @@ class QuizViewModel extends FutureViewModel {
 
   Future<void> nextQuestion() async {
     if (_currentQuestionIndex + 1 == _questions.length) {
-      await router.pushReplacement(QuizConclusionView.routeName,
-          extra: _questions);
+      await router.pushReplacement(
+        QuizConclusionView.routeName,
+        extra: _questions,
+      );
     } else {
       _currentQuestionIndex++;
       notifyListeners();

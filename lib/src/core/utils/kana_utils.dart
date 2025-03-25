@@ -218,7 +218,7 @@ const List<String> jpOrder = [
   "を",
   "ヲ",
   "ん",
-  "ン"
+  "ン",
 ];
 
 List<int> splitBySyllable(String kanaWord) {

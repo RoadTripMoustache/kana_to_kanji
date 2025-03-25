@@ -21,14 +21,14 @@ class ThirdPartyRoundIconButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const ThirdPartyRoundIconButton.google({this.onPressed, super.key})
-      : lightLogoPath = "assets/images/logos/google_light.png",
-        darkLogoPath = "assets/images/logos/google_dark.png",
-        logoPath = null;
+    : lightLogoPath = "assets/images/logos/google_light.png",
+      darkLogoPath = "assets/images/logos/google_dark.png",
+      logoPath = null;
 
   const ThirdPartyRoundIconButton.apple({this.onPressed, super.key})
-      : lightLogoPath = "assets/images/logos/apple_light.png",
-        darkLogoPath = "assets/images/logos/apple_dark.png",
-        logoPath = null;
+    : lightLogoPath = "assets/images/logos/apple_light.png",
+      darkLogoPath = "assets/images/logos/apple_dark.png",
+      logoPath = null;
 
   @override
   Widget build(BuildContext context) {

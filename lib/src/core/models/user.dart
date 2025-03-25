@@ -48,17 +48,18 @@ class User {
   final List<UserAchievement> achievements;
 
   const User(
-      this.uuid,
-      this.externalId,
-      this.createdAt,
-      this.lastUpdate,
-      this.displayName,
-      this.avatar,
-      this.preferences,
-      this.streakStartDate,
-      this.streakLastUpdate,
-      this.learning,
-      this.achievements);
+    this.uuid,
+    this.externalId,
+    this.createdAt,
+    this.lastUpdate,
+    this.displayName,
+    this.avatar,
+    this.preferences,
+    this.streakStartDate,
+    this.streakLastUpdate,
+    this.learning,
+    this.achievements,
+  );
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

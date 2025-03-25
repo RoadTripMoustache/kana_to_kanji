@@ -43,17 +43,18 @@ class _SortBy extends State<SortBy> {
       body: Column(
         children: [
           RadioListTile(
-              visualDensity: VisualDensity.compact,
-              title: Text(l10n.glossary_sort_by_alphabetical),
-              value: SortOrder.alphabetical,
-              groupValue: _selectedOrder,
-              onChanged: (SortOrder? value) {
-                if (value != null) {
-                  setState(() {
-                    _selectedOrder = value;
-                  });
-                }
-              }),
+            visualDensity: VisualDensity.compact,
+            title: Text(l10n.glossary_sort_by_alphabetical),
+            value: SortOrder.alphabetical,
+            groupValue: _selectedOrder,
+            onChanged: (SortOrder? value) {
+              if (value != null) {
+                setState(() {
+                  _selectedOrder = value;
+                });
+              }
+            },
+          ),
           RadioListTile(
             visualDensity: VisualDensity.compact,
             title: Text(l10n.glossary_sort_by_japanese),
@@ -66,7 +67,7 @@ class _SortBy extends State<SortBy> {
                 });
               }
             },
-          )
+          ),
         ],
       ),
     );

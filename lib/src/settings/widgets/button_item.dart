@@ -10,7 +10,7 @@ class ButtonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-        title: ElevatedButton(onPressed: onPressed, child: child),
-      );
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+    title: ElevatedButton(onPressed: onPressed, child: child),
+  );
 }

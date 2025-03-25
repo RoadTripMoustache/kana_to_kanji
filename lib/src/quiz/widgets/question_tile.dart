@@ -16,13 +16,14 @@ class QuestionTile extends StatefulWidget {
 
   final VoidCallback skipQuestion;
 
-  const QuestionTile(
-      {required this.question,
-      required this.submitAnswer,
-      required this.nextQuestion,
-      required this.skipQuestion,
-      required this.maximumAttempts,
-      super.key});
+  const QuestionTile({
+    required this.question,
+    required this.submitAnswer,
+    required this.nextQuestion,
+    required this.skipQuestion,
+    required this.maximumAttempts,
+    super.key,
+  });
 
   @override
   State<QuestionTile> createState() => _QuestionTileState();
@@ -49,11 +50,12 @@ class _QuestionTileState extends State<QuestionTile> {
         _showSuccess = true;
       });
       Future.delayed(
-          const Duration(milliseconds: 500),
-          () => setState(() {
-                _showSuccess = false;
-                _focusNode.requestFocus();
-              }));
+        const Duration(milliseconds: 500),
+        () => setState(() {
+          _showSuccess = false;
+          _focusNode.requestFocus();
+        }),
+      );
     } else {
       _focusNode.requestFocus();
     }
@@ -71,12 +73,16 @@ class _QuestionTileState extends State<QuestionTile> {
     final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
-    final nextButton = widget.question.remainingAttempt > 0
-        ? TextButton(
-            onPressed: widget.skipQuestion,
-            child: Text(l10n.quiz_skip_question))
-        : ElevatedButton(
-            onPressed: widget.nextQuestion, child: Text(l10n.button_continue));
+    final nextButton =
+        widget.question.remainingAttempt > 0
+            ? TextButton(
+              onPressed: widget.skipQuestion,
+              child: Text(l10n.quiz_skip_question),
+            )
+            : ElevatedButton(
+              onPressed: widget.nextQuestion,
+              child: Text(l10n.button_continue),
+            );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,12 +90,15 @@ class _QuestionTileState extends State<QuestionTile> {
         SizedBox(
           height: 30,
           child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: widget.maximumAttempts,
-              itemBuilder: (context, index) => AnimatedDot(
-                  filledOut: index < widget.question.remainingAttempt)),
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: widget.maximumAttempts,
+            itemBuilder:
+                (context, index) => AnimatedDot(
+                  filledOut: index < widget.question.remainingAttempt,
+                ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
@@ -114,23 +123,28 @@ class _QuestionTileState extends State<QuestionTile> {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.6,
             child: TextField(
-                controller: _controller,
-                focusNode: _focusNode,
-                autocorrect: false,
-                autofocus: true,
-                textAlign: TextAlign.center,
-                textInputAction: TextInputAction.send,
-                decoration: InputDecoration(
-                    enabledBorder: _showSuccess
+              controller: _controller,
+              focusNode: _focusNode,
+              autocorrect: false,
+              autofocus: true,
+              textAlign: TextAlign.center,
+              textInputAction: TextInputAction.send,
+              decoration: InputDecoration(
+                enabledBorder:
+                    _showSuccess
                         ? const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))
+                          borderSide: BorderSide(color: Colors.green),
+                        )
                         : null,
-                    suffixIcon: _showSuccess
+                suffixIcon:
+                    _showSuccess
                         ? const Icon(Icons.check_rounded, color: Colors.green)
-                        : null),
-                onSubmitted: onSubmit),
+                        : null,
+              ),
+              onSubmitted: onSubmit,
+            ),
           ),
-        nextButton
+        nextButton,
       ],
     );
   }

@@ -7,6 +7,6 @@ class HeadingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
-      );
+    title: Text(title, style: Theme.of(context).textTheme.headlineSmall),
+  );
 }

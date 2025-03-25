@@ -7,9 +7,7 @@ void main() {
   group("HeadingItem", () {
     testWidgets("UI", (WidgetTester tester) async {
       const String title = "TEST";
-      await tester.pumpLocalizedWidget(const HeadingItem(
-        title: title,
-      ));
+      await tester.pumpLocalizedWidget(const HeadingItem(title: title));
       await tester.pumpAndSettle();
 
       final widget = find.byType(HeadingItem);

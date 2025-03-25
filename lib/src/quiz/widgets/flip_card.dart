@@ -11,12 +11,13 @@ class FlipCard extends StatefulWidget {
 
   final bool allowTapToFlip;
 
-  const FlipCard(
-      {required this.front,
-      required this.back,
-      super.key,
-      this.flipped = false,
-      this.allowTapToFlip = false});
+  const FlipCard({
+    required this.front,
+    required this.back,
+    super.key,
+    this.flipped = false,
+    this.allowTapToFlip = false,
+  });
 
   @override
   State<FlipCard> createState() => _FlipCardState();
@@ -93,27 +94,30 @@ class _FlipCardState extends State<FlipCard> {
         layoutBuilder: (child, list) => Stack(children: [child!, ...list]),
         switchInCurve: Curves.easeInBack,
         switchOutCurve: Curves.easeInBack.flipped,
-        child: _build(_flipped ? _back : _front,
-            MediaQuery.of(context).size.width * 0.5, cardBackgroundColor),
+        child: _build(
+          _flipped ? _back : _front,
+          MediaQuery.of(context).size.width * 0.5,
+          cardBackgroundColor,
+        ),
       ),
     );
   }
 
   Widget _build(Widget child, double size, Color? backgroundColor) => Container(
-        key: ValueKey(_flipped),
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          color: backgroundColor,
-        ),
-        child: Card(
-          child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-              child: Center(child: child)),
-        ),
-      );
+    key: ValueKey(_flipped),
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20.0),
+      color: backgroundColor,
+    ),
+    child: Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+        child: Center(child: child),
+      ),
+    ),
+  );
 
   Widget _transitionBuilder(Widget widget, Animation<double> animation) {
     final rotationAnimation = Tween(begin: pi, end: 0.0).animate(animation);
@@ -125,9 +129,10 @@ class _FlipCardState extends State<FlipCard> {
         final isUnder = (ValueKey(_flipped) != widget.key);
         var tilt = ((animation.value - 0.5).abs() - 0.5) * 0.003;
         tilt *= isUnder ? -1.0 : 1.0;
-        final value = isUnder
-            ? min(rotationAnimation.value, pi / 2)
-            : rotationAnimation.value;
+        final value =
+            isUnder
+                ? min(rotationAnimation.value, pi / 2)
+                : rotationAnimation.value;
 
         return Transform(
           transform: Matrix4.rotationY(value)..setEntry(3, 0, tilt),

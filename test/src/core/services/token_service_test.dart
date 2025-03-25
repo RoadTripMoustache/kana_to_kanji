@@ -31,8 +31,9 @@ void main() {
       test("After initialisation with a valid user", () async {
         final userCredentialMock = MockUserCredential();
         final userMock = MockUser();
-        when(userMock.getIdToken())
-            .thenAnswer((realInvocation) => Future.value("toto"));
+        when(
+          userMock.getIdToken(),
+        ).thenAnswer((realInvocation) => Future.value("toto"));
         when(userCredentialMock.user).thenReturn(userMock);
 
         service.token = userCredentialMock;

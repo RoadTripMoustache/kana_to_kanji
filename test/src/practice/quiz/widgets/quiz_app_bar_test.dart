@@ -24,9 +24,10 @@ void main() {
       onSkipPressedCalled = false;
 
       const widget = QuizAppBar(
-          progressBarValue: progressBarValue,
-          onClosePressed: onClosePressed,
-          onSkipPressed: onSkipPressed);
+        progressBarValue: progressBarValue,
+        onClosePressed: onClosePressed,
+        onSkipPressed: onSkipPressed,
+      );
 
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
@@ -38,15 +39,17 @@ void main() {
       expect(onSkipPressedCalled, false);
     });
 
-    testWidgets("It should call onClosePressed when close icon is pressed",
-        (WidgetTester tester) async {
+    testWidgets("It should call onClosePressed when close icon is pressed", (
+      WidgetTester tester,
+    ) async {
       onClosePressedCalled = false;
       onSkipPressedCalled = false;
 
       const widget = QuizAppBar(
-          progressBarValue: progressBarValue,
-          onClosePressed: onClosePressed,
-          onSkipPressed: onSkipPressed);
+        progressBarValue: progressBarValue,
+        onClosePressed: onClosePressed,
+        onSkipPressed: onSkipPressed,
+      );
 
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
@@ -58,15 +61,17 @@ void main() {
       expect(onSkipPressedCalled, false);
     });
 
-    testWidgets("It should call onSkipPressed when skip button is pressed",
-        (WidgetTester tester) async {
+    testWidgets("It should call onSkipPressed when skip button is pressed", (
+      WidgetTester tester,
+    ) async {
       onClosePressedCalled = false;
       onSkipPressedCalled = false;
 
       const widget = QuizAppBar(
-          progressBarValue: progressBarValue,
-          onClosePressed: onClosePressed,
-          onSkipPressed: onSkipPressed);
+        progressBarValue: progressBarValue,
+        onClosePressed: onClosePressed,
+        onSkipPressed: onSkipPressed,
+      );
 
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();

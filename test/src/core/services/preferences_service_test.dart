@@ -20,38 +20,50 @@ void main() {
     group("setters", () {
       test("setBool", () async {
         expect(await service!.setBool(PreferenceFlags.themeMode, true), isTrue);
-        expect(sharedPreferences!.getBool(PreferenceFlags.themeMode.toString()),
-            isTrue);
+        expect(
+          sharedPreferences!.getBool(PreferenceFlags.themeMode.toString()),
+          isTrue,
+        );
       });
 
       test("setString", () async {
-        expect(await service!.setString(PreferenceFlags.themeMode, "Test"),
-            isTrue);
         expect(
-            sharedPreferences!.getString(PreferenceFlags.themeMode.toString()),
-            "Test");
+          await service!.setString(PreferenceFlags.themeMode, "Test"),
+          isTrue,
+        );
+        expect(
+          sharedPreferences!.getString(PreferenceFlags.themeMode.toString()),
+          "Test",
+        );
       });
 
       test("setInt", () async {
         expect(await service!.setInt(PreferenceFlags.themeMode, 1), isTrue);
         expect(
-            sharedPreferences!.getInt(PreferenceFlags.themeMode.toString()), 1);
+          sharedPreferences!.getInt(PreferenceFlags.themeMode.toString()),
+          1,
+        );
       });
 
       test("setDateTime", () async {
         expect(
-            await service!
-                .setDateTime(PreferenceFlags.themeMode, DateTime(2000, 01, 02)),
-            isTrue);
+          await service!.setDateTime(
+            PreferenceFlags.themeMode,
+            DateTime(2000, 01, 02),
+          ),
+          isTrue,
+        );
         expect(
-            sharedPreferences!.getString(PreferenceFlags.themeMode.toString()),
-            DateTime(2000, 01, 02).toIso8601String());
+          sharedPreferences!.getString(PreferenceFlags.themeMode.toString()),
+          DateTime(2000, 01, 02).toIso8601String(),
+        );
       });
     });
 
     test("clear", () async {
-      SharedPreferences.setMockInitialValues(
-          {PreferenceFlags.themeMode.toString(): true});
+      SharedPreferences.setMockInitialValues({
+        PreferenceFlags.themeMode.toString(): true,
+      });
 
       expect(await service!.getBool(PreferenceFlags.themeMode), isTrue);
 
@@ -63,22 +75,25 @@ void main() {
 
     group("getters", () {
       test("getBool", () async {
-        SharedPreferences.setMockInitialValues(
-            {PreferenceFlags.themeMode.toString(): true});
+        SharedPreferences.setMockInitialValues({
+          PreferenceFlags.themeMode.toString(): true,
+        });
 
         expect(await service!.getBool(PreferenceFlags.themeMode), isTrue);
       });
 
       test("getString", () async {
-        SharedPreferences.setMockInitialValues(
-            {PreferenceFlags.themeMode.toString(): "Test"});
+        SharedPreferences.setMockInitialValues({
+          PreferenceFlags.themeMode.toString(): "Test",
+        });
 
         expect(await service!.getString(PreferenceFlags.themeMode), "Test");
       });
 
       test("getInt", () async {
-        SharedPreferences.setMockInitialValues(
-            {PreferenceFlags.themeMode.toString(): 1});
+        SharedPreferences.setMockInitialValues({
+          PreferenceFlags.themeMode.toString(): 1,
+        });
 
         expect(await service!.getInt(PreferenceFlags.themeMode), 1);
       });
@@ -86,11 +101,13 @@ void main() {
       test("getDateTime", () async {
         SharedPreferences.setMockInitialValues({
           PreferenceFlags.themeMode.toString():
-              DateTime(2000, 01, 02).toIso8601String()
+              DateTime(2000, 01, 02).toIso8601String(),
         });
 
-        expect(await service!.getDateTime(PreferenceFlags.themeMode),
-            DateTime(2000, 01, 02));
+        expect(
+          await service!.getDateTime(PreferenceFlags.themeMode),
+          DateTime(2000, 01, 02),
+        );
       });
     });
   });

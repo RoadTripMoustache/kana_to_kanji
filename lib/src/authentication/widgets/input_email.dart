@@ -13,23 +13,25 @@ class InputEmail extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final TextInputAction textInputAction;
 
-  const InputEmail(
-      {required this.controller,
-      this.isRequired = true,
-      this.autofocus = false,
-      this.enabled = true,
-      this.textInputAction = TextInputAction.none,
-      this.onChange,
-      this.onEditingComplete,
-      super.key});
+  const InputEmail({
+    required this.controller,
+    this.isRequired = true,
+    this.autofocus = false,
+    this.enabled = true,
+    this.textInputAction = TextInputAction.none,
+    this.onChange,
+    this.onEditingComplete,
+    super.key,
+  });
 
   @override
   State<InputEmail> createState() => _InputEmailState();
 }
 
 class _InputEmailState extends State<InputEmail> {
-  final GlobalKey<FormFieldState> _formFieldKey =
-      GlobalKey<FormFieldState>(debugLabel: "email_input_widget");
+  final GlobalKey<FormFieldState> _formFieldKey = GlobalKey<FormFieldState>(
+    debugLabel: "email_input_widget",
+  );
   Timer? timer;
 
   @override
@@ -62,17 +64,18 @@ class _InputEmailState extends State<InputEmail> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
       child: TextFormField(
-          key: _formFieldKey,
-          controller: widget.controller,
-          autofillHints: const [AutofillHints.email],
-          keyboardType: TextInputType.emailAddress,
-          autofocus: widget.autofocus,
-          enabled: widget.enabled,
-          textInputAction: widget.textInputAction,
-          onEditingComplete: widget.onEditingComplete,
-          onChanged: _onChange,
-          decoration: InputDecoration(hintText: l10n.input_email_placeholder),
-          validator: (String? value) => _validate(value, l10n)),
+        key: _formFieldKey,
+        controller: widget.controller,
+        autofillHints: const [AutofillHints.email],
+        keyboardType: TextInputType.emailAddress,
+        autofocus: widget.autofocus,
+        enabled: widget.enabled,
+        textInputAction: widget.textInputAction,
+        onEditingComplete: widget.onEditingComplete,
+        onChanged: _onChange,
+        decoration: InputDecoration(hintText: l10n.input_email_placeholder),
+        validator: (String? value) => _validate(value, l10n),
+      ),
     );
   }
 }

@@ -100,9 +100,11 @@ class GlossaryViewModel extends FutureViewModel {
   /// and selected knowledge levels.
   void _updateHiraganaList() {
     if (_hiraganaList.isEmpty) {
-      _hiraganaList.addAll(_kanaRepository
-          .getHiragana()
-          .map((kana) => (kana: kana, disabled: false)));
+      _hiraganaList.addAll(
+        _kanaRepository.getHiragana().map(
+          (kana) => (kana: kana, disabled: false),
+        ),
+      );
     }
     final hiraganaIdsFiltered = _kanaRepository
         .searchHiragana(_currentSearch, _selectedKnowledgeLevel)
@@ -110,7 +112,7 @@ class GlossaryViewModel extends FutureViewModel {
     for (final ({Kana kana, bool disabled}) pair in _hiraganaList) {
       _hiraganaList[pair.kana.position] = (
         kana: pair.kana,
-        disabled: !hiraganaIdsFiltered.contains(pair.kana.uid)
+        disabled: !hiraganaIdsFiltered.contains(pair.kana.uid),
       );
     }
   }
@@ -119,9 +121,11 @@ class GlossaryViewModel extends FutureViewModel {
   /// and selected knowledge levels.
   void _updateKatakanaList() {
     if (_katakanaList.isEmpty) {
-      _katakanaList.addAll(_kanaRepository
-          .getKatakana()
-          .map((kana) => (kana: kana, disabled: false)));
+      _katakanaList.addAll(
+        _kanaRepository.getKatakana().map(
+          (kana) => (kana: kana, disabled: false),
+        ),
+      );
     }
     final katakanaIdsFiltered = _kanaRepository
         .searchKatakana(_currentSearch, _selectedKnowledgeLevel)
@@ -129,7 +133,7 @@ class GlossaryViewModel extends FutureViewModel {
     for (final ({Kana kana, bool disabled}) pair in _katakanaList) {
       _katakanaList[pair.kana.position] = (
         kana: pair.kana,
-        disabled: !katakanaIdsFiltered.contains(pair.kana.uid)
+        disabled: !katakanaIdsFiltered.contains(pair.kana.uid),
       );
     }
   }
@@ -138,32 +142,37 @@ class GlossaryViewModel extends FutureViewModel {
   void _updateKanjiList() {
     _kanjiList
       ..clear()
-      ..addAll(_kanjiRepository.searchKanji(
-        _currentSearch,
-        _selectedKnowledgeLevel,
-        _selectedJlptLevel,
-        selectedOrder,
-      ));
+      ..addAll(
+        _kanjiRepository.searchKanji(
+          _currentSearch,
+          _selectedKnowledgeLevel,
+          _selectedJlptLevel,
+          selectedOrder,
+        ),
+      );
   }
 
   /// Update the vocabulary list to display based on all the filter/search configurations.
   void _updateVocabularyList() {
     _vocabularyList
       ..clear()
-      ..addAll(_vocabularyRepository.searchVocabulary(
-        _currentSearch,
-        _selectedKnowledgeLevel,
-        _selectedJlptLevel,
-        selectedOrder,
-      ));
+      ..addAll(
+        _vocabularyRepository.searchVocabulary(
+          _currentSearch,
+          _selectedKnowledgeLevel,
+          _selectedJlptLevel,
+          selectedOrder,
+        ),
+      );
   }
 
   /// Displays a modal with the informations of the selected item.
   Future<void> onTilePressed(dynamic item) async {
     await _dialogService.showModalBottomSheet(
-        useSafeArea: true,
-        showDragHandle: true,
-        isScrollControlled: true,
-        builder: (context) => DetailsView(item: item));
+      useSafeArea: true,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (context) => DetailsView(item: item),
+    );
   }
 }

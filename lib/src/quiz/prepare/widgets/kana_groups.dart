@@ -12,12 +12,13 @@ class KanaGroups extends StatelessWidget {
 
   final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
-  const KanaGroups(
-      {required this.groups,
-      required this.selectedGroups,
-      required this.onGroupTapped,
-      required this.onSelectAllTapped,
-      super.key});
+  const KanaGroups({
+    required this.groups,
+    required this.selectedGroups,
+    required this.onGroupTapped,
+    required this.onSelectAllTapped,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +32,31 @@ class KanaGroups extends StatelessWidget {
         .where((group) => group.kanaType == KanaTypes.combination)
         .toList(growable: false);
 
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      KanaGroupsSection(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        KanaGroupsSection(
           type: KanaTypes.main,
           groups: mainKana,
           selectedGroups: selectedGroups,
           onGroupTapped: onGroupTapped,
-          onSelectAllTapped: onSelectAllTapped),
-      KanaGroupsSection(
+          onSelectAllTapped: onSelectAllTapped,
+        ),
+        KanaGroupsSection(
           type: KanaTypes.dakuten,
           groups: dakutenKana,
           selectedGroups: selectedGroups,
           onGroupTapped: onGroupTapped,
-          onSelectAllTapped: onSelectAllTapped),
-      KanaGroupsSection(
+          onSelectAllTapped: onSelectAllTapped,
+        ),
+        KanaGroupsSection(
           type: KanaTypes.combination,
           groups: combinationKana,
           selectedGroups: selectedGroups,
           onGroupTapped: onGroupTapped,
-          onSelectAllTapped: onSelectAllTapped),
-    ]);
+          onSelectAllTapped: onSelectAllTapped,
+        ),
+      ],
+    );
   }
 }

@@ -17,34 +17,39 @@ class QuizView extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       ViewModelBuilder<QuizViewModel>.reactive(
-          viewModelBuilder: () => QuizViewModel(groups, GoRouter.of(context)),
-          builder: (context, viewModel, child) => AppScaffold(
+        viewModelBuilder: () => QuizViewModel(groups, GoRouter.of(context)),
+        builder:
+            (context, viewModel, child) => AppScaffold(
               resizeToAvoidBottomInset: true,
               appBar: QuizAppBar(
                 onClosePressed: () => context.pop(),
                 onSkipPressed: viewModel.skipQuestion,
-                progressBarValue: viewModel.quizLength > 0
-                    ? (viewModel.questionNumber / viewModel.quizLength)
-                    : 0.0,
+                progressBarValue:
+                    viewModel.quizLength > 0
+                        ? (viewModel.questionNumber / viewModel.quizLength)
+                        : 0.0,
               ),
-              body: viewModel.isBusy
-                  ? const CircularProgressIndicator()
-                  : Column(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              QuestionTile(
-                                question: viewModel.current,
-                                submitAnswer: viewModel.validateAnswer,
-                                maximumAttempts: viewModel.attemptMaxNumber,
-                                nextQuestion: viewModel.nextQuestion,
-                                skipQuestion: viewModel.skipQuestion,
-                              ),
-                            ],
+              body:
+                  viewModel.isBusy
+                      ? const CircularProgressIndicator()
+                      : Column(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                QuestionTile(
+                                  question: viewModel.current,
+                                  submitAnswer: viewModel.validateAnswer,
+                                  maximumAttempts: viewModel.attemptMaxNumber,
+                                  nextQuestion: viewModel.nextQuestion,
+                                  skipQuestion: viewModel.skipQuestion,
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    )));
+                        ],
+                      ),
+            ),
+      );
 }

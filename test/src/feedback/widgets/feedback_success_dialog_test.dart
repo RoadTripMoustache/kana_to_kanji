@@ -13,32 +13,35 @@ void main() {
       l10n = await setupLocalizations();
     });
 
-    testWidgets("Should have a done green icon and thanks text",
-        (WidgetTester tester) async {
+    testWidgets("Should have a done green icon and thanks text", (
+      WidgetTester tester,
+    ) async {
       await tester.pumpLocalizedWidget(const FeedbackSuccessDialog());
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackSuccessDialog);
       expect(widget, findsOneWidget);
       expect(
-          find.descendant(
-              of: widget,
-              matching: find.byWidgetPredicate((widget) {
-                if (widget is Icon) {
-                  return widget.icon == Icons.done_rounded &&
-                      widget.color == Colors.green &&
-                      widget.size == 52;
-                }
+        find.descendant(
+          of: widget,
+          matching: find.byWidgetPredicate((widget) {
+            if (widget is Icon) {
+              return widget.icon == Icons.done_rounded &&
+                  widget.color == Colors.green &&
+                  widget.size == 52;
+            }
 
-                return false;
-              })),
-          findsOneWidget,
-          reason: "Should have a Done Rounded green icon of size 52");
+            return false;
+          }),
+        ),
+        findsOneWidget,
+        reason: "Should have a Done Rounded green icon of size 52",
+      );
       expect(
-          find.descendant(
-              of: widget, matching: find.text(l10n.feedback_thanks)),
-          findsOneWidget,
-          reason: "Should have the Thanks text");
+        find.descendant(of: widget, matching: find.text(l10n.feedback_thanks)),
+        findsOneWidget,
+        reason: "Should have the Thanks text",
+      );
     });
   });
 }

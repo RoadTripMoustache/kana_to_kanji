@@ -18,28 +18,31 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
 
   final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
-  const AlphabetGroupsExpansionTile(
-      {required this.alphabet,
-      required this.groups,
-      required this.selectedGroups,
-      required this.onGroupTapped,
-      required this.onSelectAllTapped,
-      super.key,
-      this.initiallyExpanded = false});
+  const AlphabetGroupsExpansionTile({
+    required this.alphabet,
+    required this.groups,
+    required this.selectedGroups,
+    required this.onGroupTapped,
+    required this.onSelectAllTapped,
+    super.key,
+    this.initiallyExpanded = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    final areAllSelected = selectedGroups
+    final areAllSelected =
+        selectedGroups
             .where((element) => element.alphabet == alphabet)
             .length ==
         groups.length;
 
     String title;
-    String multiselectButtonText = areAllSelected
-        ? l10n.quiz_build_unselect_all("kana")
-        : l10n.quiz_build_select_all("kana");
+    String multiselectButtonText =
+        areAllSelected
+            ? l10n.quiz_build_unselect_all("kana")
+            : l10n.quiz_build_select_all("kana");
 
     switch (alphabet) {
       case Alphabets.hiragana:
@@ -48,9 +51,10 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
         title = l10n.katakana;
       case Alphabets.kanji:
         title = l10n.kanji;
-        multiselectButtonText = areAllSelected
-            ? l10n.quiz_build_unselect_all("kanji")
-            : l10n.quiz_build_select_all("kanji");
+        multiselectButtonText =
+            areAllSelected
+                ? l10n.quiz_build_unselect_all("kanji")
+                : l10n.quiz_build_select_all("kanji");
     }
 
     return ExpansionTile(
@@ -60,25 +64,31 @@ class AlphabetGroupsExpansionTile extends StatelessWidget {
       childrenPadding: const EdgeInsets.all(8.0),
       children: [
         ElevatedButton(
-            onPressed: () => onSelectAllTapped(groups, toAdd: !areAllSelected),
-            child: Text(multiselectButtonText)),
+          onPressed: () => onSelectAllTapped(groups, toAdd: !areAllSelected),
+          child: Text(multiselectButtonText),
+        ),
         if (alphabet != Alphabets.kanji)
           KanaGroups(
-              groups: groups,
-              selectedGroups: selectedGroups,
-              onGroupTapped: onGroupTapped,
-              onSelectAllTapped: onSelectAllTapped)
+            groups: groups,
+            selectedGroups: selectedGroups,
+            onGroupTapped: onGroupTapped,
+            onSelectAllTapped: onSelectAllTapped,
+          )
         else
           GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 3.5, crossAxisCount: 2),
+              childAspectRatio: 3.5,
+              crossAxisCount: 2,
+            ),
             itemCount: groups.length,
-            itemBuilder: (context, index) => GroupCard(
-                isChecked: selectedGroups.contains(groups[index]),
-                onTap: onGroupTapped,
-                group: groups[index]),
-          )
+            itemBuilder:
+                (context, index) => GroupCard(
+                  isChecked: selectedGroups.contains(groups[index]),
+                  onTap: onGroupTapped,
+                  group: groups[index],
+                ),
+          ),
       ],
     );
   }

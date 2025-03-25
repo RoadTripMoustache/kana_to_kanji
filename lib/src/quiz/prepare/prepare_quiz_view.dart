@@ -19,70 +19,78 @@ class PrepareQuizView extends StatelessWidget {
 
     return ViewModelBuilder<PrepareQuizViewModel>.reactive(
       viewModelBuilder: () => PrepareQuizViewModel(GoRouter.of(context)),
-      builder: (context, viewModel, _) => AppScaffold(
-          showBottomBar: true,
-          appBar: AppBar(
-            title: Text(l10n.quiz_build_title),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            actions: [
-              if (viewModel.selectedGroups.isNotEmpty)
-                IconButton(
+      builder:
+          (context, viewModel, _) => AppScaffold(
+            showBottomBar: true,
+            appBar: AppBar(
+              title: Text(l10n.quiz_build_title),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              actions: [
+                if (viewModel.selectedGroups.isNotEmpty)
+                  IconButton(
                     onPressed: viewModel.resetSelected,
-                    icon: const Icon(Icons.clear_all_rounded)),
-              IconButton(
-                  onPressed: viewModel.onSettingsTapped,
-                  icon: const Icon(Icons.settings_rounded))
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                ChipList(
-                  emptyListLabel: Text(l10n.quiz_build_nothing_selected),
-                  children: List.generate(
-                      viewModel.selectedGroups.length,
-                      (index) => Chip(
-                            label: Text(viewModel.selectedGroups[index].name),
-                            onDeleted: () => viewModel.onGroupCardTapped(
-                                viewModel.selectedGroups[index]),
-                          )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Column(
-                      children: [
-                        AlphabetGroupsExpansionTile(
-                          alphabet: Alphabets.hiragana,
-                          groups: viewModel.getGroup(Alphabets.hiragana),
-                          selectedGroups: viewModel.selectedGroups,
-                          onGroupTapped: viewModel.onGroupCardTapped,
-                          onSelectAllTapped: viewModel.onSelectAllTapped,
-                          initiallyExpanded: true,
-                        ),
-                        const Divider(height: 0),
-                        AlphabetGroupsExpansionTile(
-                          alphabet: Alphabets.katakana,
-                          groups: viewModel.getGroup(Alphabets.katakana),
-                          selectedGroups: viewModel.selectedGroups,
-                          onGroupTapped: viewModel.onGroupCardTapped,
-                          onSelectAllTapped: viewModel.onSelectAllTapped,
-                        ),
-                      ],
-                    ),
+                    icon: const Icon(Icons.clear_all_rounded),
                   ),
-                )
+                IconButton(
+                  onPressed: viewModel.onSettingsTapped,
+                  icon: const Icon(Icons.settings_rounded),
+                ),
               ],
             ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ChipList(
+                    emptyListLabel: Text(l10n.quiz_build_nothing_selected),
+                    children: List.generate(
+                      viewModel.selectedGroups.length,
+                      (index) => Chip(
+                        label: Text(viewModel.selectedGroups[index].name),
+                        onDeleted:
+                            () => viewModel.onGroupCardTapped(
+                              viewModel.selectedGroups[index],
+                            ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          AlphabetGroupsExpansionTile(
+                            alphabet: Alphabets.hiragana,
+                            groups: viewModel.getGroup(Alphabets.hiragana),
+                            selectedGroups: viewModel.selectedGroups,
+                            onGroupTapped: viewModel.onGroupCardTapped,
+                            onSelectAllTapped: viewModel.onSelectAllTapped,
+                            initiallyExpanded: true,
+                          ),
+                          const Divider(height: 0),
+                          AlphabetGroupsExpansionTile(
+                            alphabet: Alphabets.katakana,
+                            groups: viewModel.getGroup(Alphabets.katakana),
+                            selectedGroups: viewModel.selectedGroups,
+                            onGroupTapped: viewModel.onGroupCardTapped,
+                            onSelectAllTapped: viewModel.onSelectAllTapped,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            fabPosition: FloatingActionButtonLocation.centerFloat,
+            fab:
+                viewModel.readyToStart
+                    ? FloatingActionButton.extended(
+                      onPressed: viewModel.startQuiz,
+                      label: Text(l10n.quiz_build_ready),
+                    )
+                    : null,
           ),
-          fabPosition: FloatingActionButtonLocation.centerFloat,
-          fab: viewModel.readyToStart
-              ? FloatingActionButton.extended(
-                  onPressed: viewModel.startQuiz,
-                  label: Text(l10n.quiz_build_ready),
-                )
-              : null),
     );
   }
 }

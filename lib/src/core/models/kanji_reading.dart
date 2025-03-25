@@ -8,7 +8,6 @@ part "kanji_reading.g.dart";
 
 @JsonSerializable()
 @embedded
-
 /// Reading of a kanji in a word.
 class KanjiReading {
   /// ID of the kanji

@@ -19,7 +19,7 @@ class SectionTitle extends StatelessWidget {
         AppSpacer.p8(),
         Text(title, style: style ?? defaultStyle),
         const Divider(height: 0, endIndent: 150),
-        AppSpacer.p8()
+        AppSpacer.p8(),
       ],
     );
   }

@@ -27,23 +27,24 @@ class DialogService {
       throw Exception("Navigator context not available");
     }
     return material.showModalBottomSheet(
-        context: navigatorKey.currentContext!,
-        builder: builder,
-        backgroundColor: backgroundColor,
-        barrierLabel: barrierLabel,
-        elevation: elevation,
-        shape: shape,
-        clipBehavior: clipBehavior,
-        constraints: constraints,
-        barrierColor: barrierColor,
-        isScrollControlled: isScrollControlled,
-        useRootNavigator: useRootNavigator,
-        isDismissible: isDismissible,
-        enableDrag: enableDrag,
-        showDragHandle: showDragHandle,
-        useSafeArea: useSafeArea,
-        routeSettings: routeSettings,
-        transitionAnimationController: transitionAnimationController,
-        anchorPoint: anchorPoint);
+      context: navigatorKey.currentContext!,
+      builder: builder,
+      backgroundColor: backgroundColor,
+      barrierLabel: barrierLabel,
+      elevation: elevation,
+      shape: shape,
+      clipBehavior: clipBehavior,
+      constraints: constraints,
+      barrierColor: barrierColor,
+      isScrollControlled: isScrollControlled,
+      useRootNavigator: useRootNavigator,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      showDragHandle: showDragHandle,
+      useSafeArea: useSafeArea,
+      routeSettings: routeSettings,
+      transitionAnimationController: transitionAnimationController,
+      anchorPoint: anchorPoint,
+    );
   }
 }

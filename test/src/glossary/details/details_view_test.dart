@@ -18,8 +18,9 @@ void main() {
       return find.byType(DetailsView);
     }
 
-    testWidgets("Should only accept Kana, Kanji, and Vocabulary",
-        (WidgetTester tester) async {
+    testWidgets("Should only accept Kana, Kanji, and Vocabulary", (
+      WidgetTester tester,
+    ) async {
       expect(() async {
         await pump(tester, DetailsView(item: 0));
       }, throwsAssertionError);
@@ -36,21 +37,25 @@ void main() {
       final title = find.text(dummyHiragana.kana);
       expect(title, findsOneWidget);
       expect(
-          find.ancestor(
-              of: title,
-              matching: find.byWidgetPredicate((widget) =>
-                  widget is ColoredBox &&
-                  widget.color ==
-                      AppTheme.getModalBottomSheetBackgroundColor(theme))),
-          findsOneWidget);
+        find.ancestor(
+          of: title,
+          matching: find.byWidgetPredicate(
+            (widget) =>
+                widget is ColoredBox &&
+                widget.color ==
+                    AppTheme.getModalBottomSheetBackgroundColor(theme),
+          ),
+        ),
+        findsOneWidget,
+      );
 
       // Check details
       final details = find.byType(Details);
       expect(details, findsOneWidget);
       expect(
-          find.descendant(
-              of: details, matching: find.text(dummyHiragana.romaji)),
-          findsOneWidget);
+        find.descendant(of: details, matching: find.text(dummyHiragana.romaji)),
+        findsOneWidget,
+      );
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
@@ -58,22 +63,30 @@ void main() {
       await pump(tester, const DetailsView(item: dummyKanji));
 
       // Check title section
-      final titleContainer = find.byWidgetPredicate((widget) =>
-          widget is ColoredBox &&
-          widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
+      final titleContainer = find.byWidgetPredicate(
+        (widget) =>
+            widget is ColoredBox &&
+            widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme),
+      );
       expect(titleContainer, findsOneWidget);
       expect(
-          find.descendant(
-              of: titleContainer, matching: find.text(dummyKanji.kanji)),
-          findsOneWidget);
+        find.descendant(
+          of: titleContainer,
+          matching: find.text(dummyKanji.kanji),
+        ),
+        findsOneWidget,
+      );
 
       // Check details
       final details = find.byType(Details);
       expect(details, findsOneWidget);
       expect(
-          find.descendant(
-              of: details, matching: find.text(dummyKanji.meanings[0])),
-          findsOneWidget);
+        find.descendant(
+          of: details,
+          matching: find.text(dummyKanji.meanings[0]),
+        ),
+        findsOneWidget,
+      );
     });
 
     group("Vocabulary", () {
@@ -82,48 +95,66 @@ void main() {
         await pump(tester, const DetailsView(item: dummyVocabulary));
 
         // Check title section
-        final titleContainer = find.byWidgetPredicate((widget) =>
-            widget is ColoredBox &&
-            widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
+        final titleContainer = find.byWidgetPredicate(
+          (widget) =>
+              widget is ColoredBox &&
+              widget.color ==
+                  AppTheme.getModalBottomSheetBackgroundColor(theme),
+        );
         expect(titleContainer, findsOneWidget);
         expect(
-            find.descendant(
-                of: titleContainer, matching: find.text(dummyVocabulary.kanji)),
-            findsOneWidget);
+          find.descendant(
+            of: titleContainer,
+            matching: find.text(dummyVocabulary.kanji),
+          ),
+          findsOneWidget,
+        );
 
         // Check details
         final details = find.byType(Details);
         expect(details, findsOneWidget);
         expect(
-            find.descendant(
-                of: details, matching: find.text(dummyVocabulary.kana)),
-            findsOneWidget);
+          find.descendant(
+            of: details,
+            matching: find.text(dummyVocabulary.kana),
+          ),
+          findsOneWidget,
+        );
       });
 
       testWidgets("Without kanji", (WidgetTester tester) async {
         final theme = AppTheme.light();
         await pump(
-            tester, const DetailsView(item: dummyVocabularyWithoutKanji));
+          tester,
+          const DetailsView(item: dummyVocabularyWithoutKanji),
+        );
 
         // Check title section
-        final titleContainer = find.byWidgetPredicate((widget) =>
-            widget is ColoredBox &&
-            widget.color == AppTheme.getModalBottomSheetBackgroundColor(theme));
+        final titleContainer = find.byWidgetPredicate(
+          (widget) =>
+              widget is ColoredBox &&
+              widget.color ==
+                  AppTheme.getModalBottomSheetBackgroundColor(theme),
+        );
         expect(titleContainer, findsOneWidget);
         expect(
-            find.descendant(
-                of: titleContainer,
-                matching: find.text(dummyVocabularyWithoutKanji.kana)),
-            findsOneWidget);
+          find.descendant(
+            of: titleContainer,
+            matching: find.text(dummyVocabularyWithoutKanji.kana),
+          ),
+          findsOneWidget,
+        );
 
         // Check details
         final details = find.byType(Details);
         expect(details, findsOneWidget);
         expect(
-            find.descendant(
-                of: details,
-                matching: find.text(dummyVocabularyWithoutKanji.kana)),
-            findsOneWidget);
+          find.descendant(
+            of: details,
+            matching: find.text(dummyVocabularyWithoutKanji.kana),
+          ),
+          findsOneWidget,
+        );
       });
     });
   });

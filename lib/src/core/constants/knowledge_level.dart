@@ -1,6 +1,1 @@
-enum KnowledgeLevel {
-  learned,
-  practicing,
-  seen,
-  other;
-}
+enum KnowledgeLevel { learned, practicing, seen, other }

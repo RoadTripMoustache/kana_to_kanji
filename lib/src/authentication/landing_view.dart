@@ -12,36 +12,37 @@ import "package:stacked/stacked.dart";
 class LandingView extends StatelessWidget {
   static const routeName = "/authentication";
 
-  const LandingView({
-    super.key,
-  });
+  const LandingView({super.key});
 
   static const TextStyle _style = TextStyle(
-      // TODO : Change style, it's ugly !
-      fontWeight: FontWeight.w500,
-      // color: Colors.black,
-      fontSize: 18.0);
+    // TODO : Change style, it's ugly !
+    fontWeight: FontWeight.w500,
+    // color: Colors.black,
+    fontSize: 18.0,
+  );
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
 
     return ViewModelBuilder<LandingViewModel>.reactive(
-        viewModelBuilder: () =>
-            LandingViewModel(locale: Localizations.localeOf(context)),
-        builder: (context, viewModel, _) => AppScaffold(
-                body: Center(
+      viewModelBuilder:
+          () => LandingViewModel(locale: Localizations.localeOf(context)),
+      builder:
+          (context, viewModel, _) => AppScaffold(
+            body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: SizedBox(
-                        width: 400,
-                        child: RiveAnimation.asset(
-                          "assets/animations/landing.riv",
-                          artboard: AppConfig.of(context).environment.name,
-                          onInit: viewModel.onRiveInit,
-                        )),
+                      width: 400,
+                      child: RiveAnimation.asset(
+                        "assets/animations/landing.riv",
+                        artboard: AppConfig.of(context).environment.name,
+                        onInit: viewModel.onRiveInit,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -55,8 +56,9 @@ class LandingView extends StatelessWidget {
                                 width: double.infinity,
                                 child: OutlinedButton(
                                   onPressed: () async {
-                                    await GoRouter.of(context)
-                                        .push(SignInView.routeName);
+                                    await GoRouter.of(
+                                      context,
+                                    ).push(SignInView.routeName);
                                   },
                                   child: Text(
                                     l10n.landing_sign_in,
@@ -69,25 +71,29 @@ class LandingView extends StatelessWidget {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    await viewModel
-                                        .getStarted(GoRouter.of(context));
+                                    await viewModel.getStarted(
+                                      GoRouter.of(context),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue),
+                                    backgroundColor: Colors.blue,
+                                  ),
                                   child: Text(
                                     l10n.landing_getting_started,
                                     style: _style.copyWith(color: Colors.black),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-            )));
+            ),
+          ),
+    );
   }
 }

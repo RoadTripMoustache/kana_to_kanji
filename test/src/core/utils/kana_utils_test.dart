@@ -16,7 +16,11 @@ class SortBySyllableTestCase {
   final int expectedResult;
 
   SortBySyllableTestCase(
-      this.name, this.syllablesA, this.syllablesB, this.expectedResult);
+    this.name,
+    this.syllablesA,
+    this.syllablesB,
+    this.expectedResult,
+  );
 }
 
 void main() {
@@ -42,50 +46,72 @@ void main() {
   group("sortBySyllables", () {
     final List<SortBySyllableTestCase> cases = [
       SortBySyllableTestCase(
-          "あ - ア", [jpOrder.indexOf("あ")], [jpOrder.indexOf("ア")], -1),
+        "あ - ア",
+        [jpOrder.indexOf("あ")],
+        [jpOrder.indexOf("ア")],
+        -1,
+      ),
       SortBySyllableTestCase(
-          "ア - あ", [jpOrder.indexOf("ア")], [jpOrder.indexOf("あ")], 1),
+        "ア - あ",
+        [jpOrder.indexOf("ア")],
+        [jpOrder.indexOf("あ")],
+        1,
+      ),
       SortBySyllableTestCase(
-          "あ - あ", [jpOrder.indexOf("あ")], [jpOrder.indexOf("あ")], 0),
+        "あ - あ",
+        [jpOrder.indexOf("あ")],
+        [jpOrder.indexOf("あ")],
+        0,
+      ),
       SortBySyllableTestCase(
-          "ア - ア", [jpOrder.indexOf("ア")], [jpOrder.indexOf("ア")], 0),
+        "ア - ア",
+        [jpOrder.indexOf("ア")],
+        [jpOrder.indexOf("ア")],
+        0,
+      ),
       SortBySyllableTestCase(
-          "ああ - あア",
-          [jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
-          [jpOrder.indexOf("あ"), jpOrder.indexOf("ア")],
-          -1),
+        "ああ - あア",
+        [jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
+        [jpOrder.indexOf("あ"), jpOrder.indexOf("ア")],
+        -1,
+      ),
       SortBySyllableTestCase(
-          "あア - ああ",
-          [jpOrder.indexOf("あ"), jpOrder.indexOf("ア")],
-          [jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
-          1),
+        "あア - ああ",
+        [jpOrder.indexOf("あ"), jpOrder.indexOf("ア")],
+        [jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
+        1,
+      ),
       SortBySyllableTestCase(
-          "あああ - ああ",
-          [jpOrder.indexOf("あ"), jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
-          [jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
-          1),
+        "あああ - ああ",
+        [jpOrder.indexOf("あ"), jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
+        [jpOrder.indexOf("あ"), jpOrder.indexOf("あ")],
+        1,
+      ),
       SortBySyllableTestCase(
-          "がここきょ - がここキキ",
-          [
-            jpOrder.indexOf("が"),
-            jpOrder.indexOf("こ"),
-            jpOrder.indexOf("こ"),
-            jpOrder.indexOf("き"),
-            jpOrder.indexOf("ょ")
-          ],
-          [
-            jpOrder.indexOf("が"),
-            jpOrder.indexOf("こ"),
-            jpOrder.indexOf("こ"),
-            jpOrder.indexOf("キ"),
-            jpOrder.indexOf("キ")
-          ],
-          -1),
+        "がここきょ - がここキキ",
+        [
+          jpOrder.indexOf("が"),
+          jpOrder.indexOf("こ"),
+          jpOrder.indexOf("こ"),
+          jpOrder.indexOf("き"),
+          jpOrder.indexOf("ょ"),
+        ],
+        [
+          jpOrder.indexOf("が"),
+          jpOrder.indexOf("こ"),
+          jpOrder.indexOf("こ"),
+          jpOrder.indexOf("キ"),
+          jpOrder.indexOf("キ"),
+        ],
+        -1,
+      ),
     ];
     for (final SortBySyllableTestCase testCase in cases) {
       test(testCase.name, () {
-        final int result =
-            sortBySyllables(testCase.syllablesA, testCase.syllablesB);
+        final int result = sortBySyllables(
+          testCase.syllablesA,
+          testCase.syllablesB,
+        );
 
         expect(testCase.expectedResult, result);
       });

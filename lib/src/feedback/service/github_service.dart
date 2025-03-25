@@ -9,33 +9,40 @@ import "package:logger/logger.dart";
 class GithubService {
   final Logger _logger = locator<Logger>();
 
-  final CommitUser _commitUser =
-      CommitUser(AppConfiguration.githubUser, AppConfiguration.githubUserEmail);
+  final CommitUser _commitUser = CommitUser(
+    AppConfiguration.githubUser,
+    AppConfiguration.githubUserEmail,
+  );
 
   late GitHub _github;
 
   GithubService() {
-    _github =
-        GitHub(auth: Authentication.withToken(AppConfiguration.githubToken));
+    _github = GitHub(
+      auth: Authentication.withToken(AppConfiguration.githubToken),
+    );
   }
 
   /// Upload a file to the report repository.
   /// Return the HTML url of the file to access the file raw
-  Future<String> uploadFileToGithub(
-      {required String filePath, required List<int> fileInBytes}) async {
+  Future<String> uploadFileToGithub({
+    required String filePath,
+    required List<int> fileInBytes,
+  }) async {
     final content = await _github.repositories
         .createFile(
-            RepositorySlug.full(AppConfiguration.githubFeedbackRepoSlug),
-            CreateFile(
-                path: filePath,
-                content: base64Encode(fileInBytes),
-                message: DateTime.now().toString(),
-                committer: _commitUser,
-                branch: "main"))
+          RepositorySlug.full(AppConfiguration.githubFeedbackRepoSlug),
+          CreateFile(
+            path: filePath,
+            content: base64Encode(fileInBytes),
+            message: DateTime.now().toString(),
+            committer: _commitUser,
+            branch: "main",
+          ),
+        )
         .catchError((error) {
-      _logger.e("uploadFileToGithub error: $error");
-      throw error;
-    });
+          _logger.e("uploadFileToGithub error: $error");
+          throw error;
+        });
 
     return "${content.content!.htmlUrl}?raw=true";
   }
@@ -44,20 +51,26 @@ class GithubService {
   /// The issue created will have two(2) more labels:
   /// - 'platform: {platform}'
   /// - 'need triage'
-  Future<Issue?> createIssue(
-      {String? title, String? body, List<String> labels = const []}) async {
-    final IssueRequest issueToCreate = IssueRequest()
-      ..title = title ?? "Issue reported by a user"
-      ..body = body
-      ..labels = [
-        ...labels,
-        'platform: ${kIsWeb ? "web" : defaultTargetPlatform.name}',
-        "need triage"
-      ];
+  Future<Issue?> createIssue({
+    String? title,
+    String? body,
+    List<String> labels = const [],
+  }) async {
+    final IssueRequest issueToCreate =
+        IssueRequest()
+          ..title = title ?? "Issue reported by a user"
+          ..body = body
+          ..labels = [
+            ...labels,
+            'platform: ${kIsWeb ? "web" : defaultTargetPlatform.name}',
+            "need triage",
+          ];
 
     try {
       return await _github.issues.create(
-          RepositorySlug.full(AppConfiguration.githubRepoSlug), issueToCreate);
+        RepositorySlug.full(AppConfiguration.githubRepoSlug),
+        issueToCreate,
+      );
     } on GitHubError catch (error) {
       _logger.e("createGithubIssue error: ${error.message}");
       return null;

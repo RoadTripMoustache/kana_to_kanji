@@ -6,18 +6,20 @@ class FeedbackSuccessDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.done_rounded, color: Colors.green, size: 52),
-                Text(AppLocalizations.of(context).feedback_thanks,
-                    style: Theme.of(context).textTheme.bodyLarge)
-              ],
+            const Icon(Icons.done_rounded, color: Colors.green, size: 52),
+            Text(
+              AppLocalizations.of(context).feedback_thanks,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }

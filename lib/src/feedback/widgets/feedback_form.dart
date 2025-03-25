@@ -21,15 +21,16 @@ class FeedbackForm extends StatefulWidget {
 
   final Future Function([Uint8List? screenshot]) onSubmit;
 
-  const FeedbackForm(
-      {required this.feedbackType,
-      required this.onChange,
-      required this.validator,
-      required this.onSubmit,
-      super.key,
-      this.isSubmitEnabled = false,
-      this.allowScreenshot = false,
-      this.onScreenshotButtonPressed});
+  const FeedbackForm({
+    required this.feedbackType,
+    required this.onChange,
+    required this.validator,
+    required this.onSubmit,
+    super.key,
+    this.isSubmitEnabled = false,
+    this.allowScreenshot = false,
+    this.onScreenshotButtonPressed,
+  });
 
   @override
   State<FeedbackForm> createState() => _FeedbackFormState();
@@ -56,39 +57,51 @@ class _FeedbackFormState extends State<FeedbackForm> {
     // Padding used by the [TextFormField] if not visible when focused.
     // This allows the entire field to be visible on screen.
     final EdgeInsets scrollPadding = EdgeInsets.only(
-        bottom: Theme.of(context).textTheme.bodyMedium!.fontSize! * 8);
+      bottom: Theme.of(context).textTheme.bodyMedium!.fontSize! * 8,
+    );
 
-    final List<Widget> extraWidgets = (widget.feedbackType == FeedbackType.bug)
-        ? [
-            Padding(
-              padding: padding,
-              child: TextFormField(
+    final List<Widget> extraWidgets =
+        (widget.feedbackType == FeedbackType.bug)
+            ? [
+              Padding(
+                padding: padding,
+                child: TextFormField(
                   autofocus: true,
                   keyboardType: TextInputType.text,
                   maxLines: 4,
                   scrollPadding: scrollPadding,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  onChanged: (String value) => widget.onChange(
-                      FeedbackFormFields.stepsToReproduce, value),
-                  validator: (String? value) => widget.validator(
-                      FeedbackFormFields.stepsToReproduce, value),
+                  onChanged:
+                      (String value) => widget.onChange(
+                        FeedbackFormFields.stepsToReproduce,
+                        value,
+                      ),
+                  validator:
+                      (String? value) => widget.validator(
+                        FeedbackFormFields.stepsToReproduce,
+                        value,
+                      ),
                   decoration: InputDecoration(
                     labelText: l10n.feedback_bug_steps,
                   ),
-                  textInputAction: TextInputAction.done),
-            ),
-            Padding(
-              padding: padding,
-              child: OutlinedButton(
+                  textInputAction: TextInputAction.done,
+                ),
+              ),
+              Padding(
+                padding: padding,
+                child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(40)),
-                  onPressed: widget.allowScreenshot && !_isLoading
-                      ? widget.onScreenshotButtonPressed
-                      : null,
-                  child: Text(l10n.feedback_include_screenshot)),
-            )
-          ]
-        : [];
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  onPressed:
+                      widget.allowScreenshot && !_isLoading
+                          ? widget.onScreenshotButtonPressed
+                          : null,
+                  child: Text(l10n.feedback_include_screenshot),
+                ),
+              ),
+            ]
+            : [];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -97,58 +110,67 @@ class _FeedbackFormState extends State<FeedbackForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
-                autofocus: true,
-                keyboardType: TextInputType.emailAddress,
-                autofillHints: const [AutofillHints.email],
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                onChanged: (String value) =>
-                    widget.onChange(FeedbackFormFields.email, value),
-                validator: (String? value) =>
-                    widget.validator(FeedbackFormFields.email, value),
-                decoration: InputDecoration(
-                    labelText: l10n.email_optional,
-                    helperText: l10n.feedback_email_helper),
-                textInputAction: TextInputAction.next),
+              autofocus: true,
+              keyboardType: TextInputType.emailAddress,
+              autofillHints: const [AutofillHints.email],
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              onChanged:
+                  (String value) =>
+                      widget.onChange(FeedbackFormFields.email, value),
+              validator:
+                  (String? value) =>
+                      widget.validator(FeedbackFormFields.email, value),
+              decoration: InputDecoration(
+                labelText: l10n.email_optional,
+                helperText: l10n.feedback_email_helper,
+              ),
+              textInputAction: TextInputAction.next,
+            ),
             Padding(
               padding: padding,
               child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  maxLines: 4,
-                  maxLength: 1000,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  scrollPadding: scrollPadding,
-                  decoration: InputDecoration(
-                      labelText:
-                          widget.feedbackType == FeedbackType.featureRequest
-                              ? l10n.feedback_description
-                              : l10n.feedback_description_optional,
-                      hintText:
-                          widget.feedbackType == FeedbackType.featureRequest
-                              ? l10n.feedback_request_feature_subtitle
-                              : l10n.feedback_report_bug_subtitle),
-                  onChanged: (String value) =>
-                      widget.onChange(FeedbackFormFields.description, value),
-                  validator: (String? value) =>
-                      widget.validator(FeedbackFormFields.description, value),
-                  textInputAction:
+                keyboardType: TextInputType.text,
+                maxLines: 4,
+                maxLength: 1000,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                scrollPadding: scrollPadding,
+                decoration: InputDecoration(
+                  labelText:
                       widget.feedbackType == FeedbackType.featureRequest
-                          ? TextInputAction.done
-                          : TextInputAction.next),
+                          ? l10n.feedback_description
+                          : l10n.feedback_description_optional,
+                  hintText:
+                      widget.feedbackType == FeedbackType.featureRequest
+                          ? l10n.feedback_request_feature_subtitle
+                          : l10n.feedback_report_bug_subtitle,
+                ),
+                onChanged:
+                    (String value) =>
+                        widget.onChange(FeedbackFormFields.description, value),
+                validator:
+                    (String? value) =>
+                        widget.validator(FeedbackFormFields.description, value),
+                textInputAction:
+                    widget.feedbackType == FeedbackType.featureRequest
+                        ? TextInputAction.done
+                        : TextInputAction.next,
+              ),
             ),
             ...extraWidgets,
             FilledButton(
-                onPressed:
-                    widget.isSubmitEnabled && !_isLoading ? onSubmit : null,
-                style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40)),
-                child: _isLoading
-                    ? SizedBox.fromSize(
+              onPressed:
+                  widget.isSubmitEnabled && !_isLoading ? onSubmit : null,
+              style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(40),
+              ),
+              child:
+                  _isLoading
+                      ? SizedBox.fromSize(
                         size: const Size.square(24.0),
                         child: const CircularProgressIndicator(),
                       )
-                    : Text(
-                        l10n.feedback_submit(widget.feedbackType.name),
-                      ))
+                      : Text(l10n.feedback_submit(widget.feedbackType.name)),
+            ),
           ],
         ),
       ),

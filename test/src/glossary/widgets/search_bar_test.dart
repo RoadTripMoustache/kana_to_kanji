@@ -14,14 +14,16 @@ void main() {
        * 1. Load the GlossarySearchBar
        */
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
       await tester.pumpAndSettle();
 
       final searchBar = find.byType(GlossarySearchBar);
@@ -42,14 +44,16 @@ void main() {
 
       final l10n = await setupLocalizations();
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -57,12 +61,17 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      final searchTextField =
-          find.byKey(const Key("glossary_bar_search_text_field"));
+      final searchTextField = find.byKey(
+        const Key("glossary_bar_search_text_field"),
+      );
       expect(
-          tester.widget(searchTextField),
-          isA<TextField>().having((tf) => tf.decoration?.hintText,
-              "decoration.hintText", l10n.glossary_search_bar_hint));
+        tester.widget(searchTextField),
+        isA<TextField>().having(
+          (tf) => tf.decoration?.hintText,
+          "decoration.hintText",
+          l10n.glossary_search_bar_hint,
+        ),
+      );
 
       final found = find.byType(GlossarySearchBar);
       expect(found, findsOneWidget);
@@ -78,14 +87,16 @@ void main() {
       // Init widget
       final l10n = await setupLocalizations();
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -113,14 +124,16 @@ void main() {
       // Init widget
       final l10n = await setupLocalizations();
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -131,8 +144,9 @@ void main() {
       checkOpenWithoutTextState(tester, l10n);
 
       // Simulate text typed in search field
-      final searchTextField =
-          find.byKey(const Key("glossary_bar_search_text_field"));
+      final searchTextField = find.byKey(
+        const Key("glossary_bar_search_text_field"),
+      );
       await tester.enterText(searchTextField, "toto");
 
       await tester.pumpAndSettle();
@@ -151,14 +165,16 @@ void main() {
       // Init widget
       final l10n = await setupLocalizations();
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -169,8 +185,9 @@ void main() {
       checkOpenWithoutTextState(tester, l10n);
 
       // Simulate text typed in search field
-      final searchTextField =
-          find.byKey(const Key("glossary_bar_search_text_field"));
+      final searchTextField = find.byKey(
+        const Key("glossary_bar_search_text_field"),
+      );
       await tester.enterText(searchTextField, "toto");
 
       await tester.pumpAndSettle();
@@ -197,14 +214,16 @@ void main() {
       // Init widget
       final l10n = await setupLocalizations();
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -215,8 +234,9 @@ void main() {
       checkOpenWithoutTextState(tester, l10n);
 
       // Simulate text typed in search field
-      final searchTextField =
-          find.byKey(const Key("glossary_bar_search_text_field"));
+      final searchTextField = find.byKey(
+        const Key("glossary_bar_search_text_field"),
+      );
       await tester.enterText(searchTextField, "toto");
 
       await tester.pumpAndSettle();
@@ -231,8 +251,9 @@ void main() {
       checkSearchState(tester, "toto");
 
       // Simulate click to clear the input
-      final clearSearchIcon =
-          find.byKey(const Key("glossary_bar_clear_search_icon"));
+      final clearSearchIcon = find.byKey(
+        const Key("glossary_bar_clear_search_icon"),
+      );
       await tester.tap(clearSearchIcon);
 
       await tester.pumpAndSettle();
@@ -240,8 +261,9 @@ void main() {
       checkOpenWithoutTextState(tester, l10n);
     });
 
-    testWidgets("Search text, then clear and close",
-        (WidgetTester tester) async {
+    testWidgets("Search text, then clear and close", (
+      WidgetTester tester,
+    ) async {
       /**
            * Steps:
            * 1. Load the GlossarySearchBar
@@ -255,14 +277,16 @@ void main() {
       final l10n = await setupLocalizations();
       var lastSearchTxt = "";
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) => lastSearchTxt = searchText,
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) => lastSearchTxt = searchText,
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -273,8 +297,9 @@ void main() {
       checkOpenWithoutTextState(tester, l10n);
 
       // Simulate text typed in search field
-      final searchTextField =
-          find.byKey(const Key("glossary_bar_search_text_field"));
+      final searchTextField = find.byKey(
+        const Key("glossary_bar_search_text_field"),
+      );
       await tester.enterText(searchTextField, "toto");
 
       await tester.pumpAndSettle();
@@ -291,8 +316,9 @@ void main() {
       expect(lastSearchTxt, "toto");
 
       // Simulate click to clear the input
-      final clearSearchIcon =
-          find.byKey(const Key("glossary_bar_clear_search_icon"));
+      final clearSearchIcon = find.byKey(
+        const Key("glossary_bar_clear_search_icon"),
+      );
       await tester.tap(clearSearchIcon);
 
       await tester.pumpAndSettle();
@@ -320,14 +346,16 @@ void main() {
       // Init widget
       final l10n = await setupLocalizations();
 
-      await tester.pumpLocalizedWidget(GlossarySearchBar(
-        searchGlossary: (String searchText) {},
-        filterGlossary: () {},
-        selectedJlptLevel: const [],
-        selectedKnowledgeLevel: const [],
-        selectedOrder: SortOrder.japanese,
-        sortGlossary: (SortOrder order) => {},
-      ));
+      await tester.pumpLocalizedWidget(
+        GlossarySearchBar(
+          searchGlossary: (String searchText) {},
+          filterGlossary: () {},
+          selectedJlptLevel: const [],
+          selectedKnowledgeLevel: const [],
+          selectedOrder: SortOrder.japanese,
+          sortGlossary: (SortOrder order) => {},
+        ),
+      );
 
       // Simulate click to open the search bar
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -338,8 +366,9 @@ void main() {
       checkOpenWithoutTextState(tester, l10n);
 
       // Simulate text typed in search field
-      final searchTextField =
-          find.byKey(const Key("glossary_bar_search_text_field"));
+      final searchTextField = find.byKey(
+        const Key("glossary_bar_search_text_field"),
+      );
       await tester.enterText(searchTextField, "toto");
 
       await tester.pumpAndSettle();
@@ -354,8 +383,9 @@ void main() {
       checkSearchState(tester, "toto");
 
       // Simulate click to clear the input
-      final cancelSearchIcon =
-          find.byKey(const Key("glossary_bar_cancel_search_icon"));
+      final cancelSearchIcon = find.byKey(
+        const Key("glossary_bar_cancel_search_icon"),
+      );
       await tester.tap(cancelSearchIcon);
 
       await tester.pumpAndSettle();
@@ -367,93 +397,130 @@ void main() {
 
 // Check components of the search bar when the search bar is closed.
 void checkClosedState(WidgetTester tester) {
-  final searchTextField =
-      find.byKey(const Key("glossary_bar_search_text_field"));
+  final searchTextField = find.byKey(
+    const Key("glossary_bar_search_text_field"),
+  );
   expect(
-      tester.widget(searchTextField),
-      isA<TextField>()
-          .having((tf) => tf.decoration?.hintText, "decoration.hintText", ""));
+    tester.widget(searchTextField),
+    isA<TextField>().having(
+      (tf) => tf.decoration?.hintText,
+      "decoration.hintText",
+      "",
+    ),
+  );
 
   final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
   expect(searchIcon, findsOneWidget);
 
-  final clearSearchIcon =
-      find.byKey(const Key("glossary_bar_clear_search_icon"));
+  final clearSearchIcon = find.byKey(
+    const Key("glossary_bar_clear_search_icon"),
+  );
   expect(clearSearchIcon, findsNothing);
 
-  final closeSearchIcon =
-      find.byKey(const Key("glossary_bar_cancel_search_icon"));
+  final closeSearchIcon = find.byKey(
+    const Key("glossary_bar_cancel_search_icon"),
+  );
   expect(closeSearchIcon, findsNothing);
 }
 
 // Check components of the search bar when the search bar is opened and
 // no text is typed in the input.
 void checkOpenWithoutTextState(WidgetTester tester, AppLocalizations l10n) {
-  final searchTextField =
-      find.byKey(const Key("glossary_bar_search_text_field"));
+  final searchTextField = find.byKey(
+    const Key("glossary_bar_search_text_field"),
+  );
   expect(
-      tester.widget(searchTextField),
-      isA<TextField>().having((tf) => tf.decoration?.hintText,
-          "decoration.hintText", l10n.glossary_search_bar_hint));
-  expect((tester.widget(searchTextField) as TextField).focusNode?.hasFocus,
-      isTrue);
+    tester.widget(searchTextField),
+    isA<TextField>().having(
+      (tf) => tf.decoration?.hintText,
+      "decoration.hintText",
+      l10n.glossary_search_bar_hint,
+    ),
+  );
+  expect(
+    (tester.widget(searchTextField) as TextField).focusNode?.hasFocus,
+    isTrue,
+  );
 
   final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
   expect(searchIcon, findsOneWidget);
 
-  final clearSearchIcon =
-      find.byKey(const Key("glossary_bar_clear_search_icon"));
+  final clearSearchIcon = find.byKey(
+    const Key("glossary_bar_clear_search_icon"),
+  );
   expect(clearSearchIcon, findsNothing);
 
-  final closeSearchIcon =
-      find.byKey(const Key("glossary_bar_cancel_search_icon"));
+  final closeSearchIcon = find.byKey(
+    const Key("glossary_bar_cancel_search_icon"),
+  );
   expect(closeSearchIcon, findsNothing);
 }
 
 // Check components of the search bar when the search bar is opened and
 // text is typed in the input.
-void checkOpenWithTextState(WidgetTester tester, String textSearchInput,
-    {bool isClearVisible = false}) {
-  final searchTextField =
-      find.byKey(const Key("glossary_bar_search_text_field"));
+void checkOpenWithTextState(
+  WidgetTester tester,
+  String textSearchInput, {
+  bool isClearVisible = false,
+}) {
+  final searchTextField = find.byKey(
+    const Key("glossary_bar_search_text_field"),
+  );
   expect(
-      tester.widget(searchTextField),
-      isA<TextField>().having(
-          (tf) => tf.controller?.text, "controller.test", textSearchInput));
-  expect((tester.widget(searchTextField) as TextField).focusNode?.hasFocus,
-      isTrue);
+    tester.widget(searchTextField),
+    isA<TextField>().having(
+      (tf) => tf.controller?.text,
+      "controller.test",
+      textSearchInput,
+    ),
+  );
+  expect(
+    (tester.widget(searchTextField) as TextField).focusNode?.hasFocus,
+    isTrue,
+  );
 
   final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
   expect(searchIcon, findsOneWidget);
 
-  final clearSearchIcon =
-      find.byKey(const Key("glossary_bar_clear_search_icon"));
+  final clearSearchIcon = find.byKey(
+    const Key("glossary_bar_clear_search_icon"),
+  );
   expect(clearSearchIcon, (isClearVisible ? findsOneWidget : findsNothing));
 
-  final closeSearchIcon =
-      find.byKey(const Key("glossary_bar_cancel_search_icon"));
+  final closeSearchIcon = find.byKey(
+    const Key("glossary_bar_cancel_search_icon"),
+  );
   expect(closeSearchIcon, findsNothing);
 }
 
 // Check components of the search bar when a search has been triggered.
 void checkSearchState(WidgetTester tester, String textSearchInput) {
-  final searchTextField =
-      find.byKey(const Key("glossary_bar_search_text_field"));
+  final searchTextField = find.byKey(
+    const Key("glossary_bar_search_text_field"),
+  );
   expect(
-      tester.widget(searchTextField),
-      isA<TextField>().having(
-          (tf) => tf.controller?.text, "controller.test", textSearchInput));
-  expect((tester.widget(searchTextField) as TextField).focusNode?.hasFocus,
-      isFalse);
+    tester.widget(searchTextField),
+    isA<TextField>().having(
+      (tf) => tf.controller?.text,
+      "controller.test",
+      textSearchInput,
+    ),
+  );
+  expect(
+    (tester.widget(searchTextField) as TextField).focusNode?.hasFocus,
+    isFalse,
+  );
 
   final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
   expect(searchIcon, findsNothing);
 
-  final clearSearchIcon =
-      find.byKey(const Key("glossary_bar_clear_search_icon"));
+  final clearSearchIcon = find.byKey(
+    const Key("glossary_bar_clear_search_icon"),
+  );
   expect(clearSearchIcon, findsOneWidget);
 
-  final closeSearchIcon =
-      find.byKey(const Key("glossary_bar_cancel_search_icon"));
+  final closeSearchIcon = find.byKey(
+    const Key("glossary_bar_cancel_search_icon"),
+  );
   expect(closeSearchIcon, findsOneWidget);
 }

@@ -27,15 +27,20 @@ class UserRepository with ListenableServiceMixin {
     return Future.value(true);
   }
 
-  Future<bool> signIn(AuthenticationMethod method,
-      {bool isSilent = false, String? email, String? password}) {
+  Future<bool> signIn(
+    AuthenticationMethod method, {
+    bool isSilent = false,
+    String? email,
+    String? password,
+  }) {
     throw UnimplementedError();
   }
 
   /// Sign in the user anonymously, store its token and create its user account
   /// in the database.
-  /// Returns: Future<bool> - If the registration goes well, returns
-  /// `Future.value(true)`. Otherwise `Future.value(false)`.
+  ///
+  /// If the registration goes well, returns `Future.value(true)`.
+  /// Otherwise `Future.value(false)`.
   Future<bool> register(AuthenticationMethod method) async {
     try {
       final userCredential = await _authService.signInAnonymously();
@@ -56,8 +61,11 @@ class UserRepository with ListenableServiceMixin {
     throw UnimplementedError();
   }
 
-  Future<bool> linkAccount(AuthenticationMethod method,
-      {String? email, String? password}) {
+  Future<bool> linkAccount(
+    AuthenticationMethod method, {
+    String? email,
+    String? password,
+  }) {
     throw UnimplementedError();
   }
 

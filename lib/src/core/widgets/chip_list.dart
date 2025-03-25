@@ -8,11 +8,12 @@ class ChipList extends StatefulWidget {
 
   final int maxLines;
 
-  const ChipList(
-      {required this.children,
-      super.key,
-      this.maxLines = 2,
-      this.emptyListLabel});
+  const ChipList({
+    required this.children,
+    super.key,
+    this.maxLines = 2,
+    this.emptyListLabel,
+  });
 
   @override
   State<ChipList> createState() => _ChipListState();
@@ -32,28 +33,34 @@ class _ChipListState extends State<ChipList> {
       children: [
         ConstrainedBox(
           constraints: BoxConstraints(
-              maxHeight: showAll && widget.children.isNotEmpty
-                  ? double.infinity
-                  : _kChipSize * (widget.maxLines + 0.3)),
-          child: widget.children.isEmpty && widget.emptyListLabel != null
-              ? Center(child: widget.emptyListLabel)
-              : Wrap(
-                  spacing: 6.0,
-                  clipBehavior: Clip.hardEdge,
-                  children: widget.children,
-                ),
+            maxHeight:
+                showAll && widget.children.isNotEmpty
+                    ? double.infinity
+                    : _kChipSize * (widget.maxLines + 0.3),
+          ),
+          child:
+              widget.children.isEmpty && widget.emptyListLabel != null
+                  ? Center(child: widget.emptyListLabel)
+                  : Wrap(
+                    spacing: 6.0,
+                    clipBehavior: Clip.hardEdge,
+                    children: widget.children,
+                  ),
         ),
         if (widget.children.isNotEmpty)
           TextButton.icon(
-              icon: Icon(showAll
+            icon: Icon(
+              showAll
                   ? Icons.keyboard_arrow_up_rounded
-                  : Icons.keyboard_arrow_down_rounded),
-              onPressed: () {
-                setState(() {
-                  showAll = !showAll;
-                });
-              },
-              label: Text(showAll ? l10n.show_less : l10n.show_more))
+                  : Icons.keyboard_arrow_down_rounded,
+            ),
+            onPressed: () {
+              setState(() {
+                showAll = !showAll;
+              });
+            },
+            label: Text(showAll ? l10n.show_less : l10n.show_more),
+          ),
       ],
     );
   }

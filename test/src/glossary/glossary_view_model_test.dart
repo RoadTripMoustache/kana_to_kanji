@@ -20,7 +20,7 @@ import "../../dummies/vocabulary.dart";
   MockSpec<DialogService>(),
   MockSpec<KanaRepository>(),
   MockSpec<KanjiRepository>(),
-  MockSpec<VocabularyRepository>()
+  MockSpec<VocabularyRepository>(),
 ])
 import "glossary_view_model_test.mocks.dart";
 
@@ -34,31 +34,44 @@ final DialogService dialogServiceMock = MockDialogService();
 
 void main() {
   group("GlossaryViewModel", () {
-    when(kanaRepositoryMock.getHiragana())
-        .thenAnswer((_) => [dummyHiragana, dummyHiragana]);
-    when(kanaRepositoryMock.searchHiragana("", []))
-        .thenAnswer((_) => [dummyHiragana, dummyHiragana]);
-    when(kanaRepositoryMock.searchHiragana("toto", []))
-        .thenAnswer((_) => [dummyHiragana, dummyHiragana]);
+    when(
+      kanaRepositoryMock.getHiragana(),
+    ).thenAnswer((_) => [dummyHiragana, dummyHiragana]);
+    when(
+      kanaRepositoryMock.searchHiragana("", []),
+    ).thenAnswer((_) => [dummyHiragana, dummyHiragana]);
+    when(
+      kanaRepositoryMock.searchHiragana("toto", []),
+    ).thenAnswer((_) => [dummyHiragana, dummyHiragana]);
 
-    when(kanaRepositoryMock.getKatakana())
-        .thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
-    when(kanaRepositoryMock.searchKatakana("", []))
-        .thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
-    when(kanaRepositoryMock.searchKatakana("toto", []))
-        .thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
+    when(
+      kanaRepositoryMock.getKatakana(),
+    ).thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
+    when(
+      kanaRepositoryMock.searchKatakana("", []),
+    ).thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
+    when(
+      kanaRepositoryMock.searchKatakana("toto", []),
+    ).thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
 
-    when(vocabularyRepositoryMock.searchVocabulary(
-            "", [], [], SortOrder.japanese))
-        .thenAnswer((_) => [dummyVocabulary]);
-    when(vocabularyRepositoryMock.searchVocabulary(
-            "toto", [], [], SortOrder.japanese))
-        .thenAnswer((_) => [dummyVocabulary, dummyVocabulary, dummyVocabulary]);
+    when(
+      vocabularyRepositoryMock.searchVocabulary("", [], [], SortOrder.japanese),
+    ).thenAnswer((_) => [dummyVocabulary]);
+    when(
+      vocabularyRepositoryMock.searchVocabulary(
+        "toto",
+        [],
+        [],
+        SortOrder.japanese,
+      ),
+    ).thenAnswer((_) => [dummyVocabulary, dummyVocabulary, dummyVocabulary]);
 
-    when(kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese))
-        .thenAnswer((_) => [dummyKanji, dummyKanji, dummyKanji, dummyKanji]);
-    when(kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese))
-        .thenAnswer((_) => [dummyKanji]);
+    when(
+      kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+    ).thenAnswer((_) => [dummyKanji, dummyKanji, dummyKanji, dummyKanji]);
+    when(
+      kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+    ).thenAnswer((_) => [dummyKanji]);
 
     setUpAll(() async {
       locator
@@ -68,12 +81,15 @@ void main() {
         ..registerSingleton<VocabularyRepository>(vocabularyRepositoryMock);
     });
 
-    testWidgets("New GlossaryViewModel open nothing",
-        (WidgetTester tester) async {
+    testWidgets("New GlossaryViewModel open nothing", (
+      WidgetTester tester,
+    ) async {
       when(tabControllerMock.index).thenAnswer((_) => 0);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock);
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      );
 
       checkLists(gvm, 0, 0, 0, 0);
       verifyNever(kanaRepositoryMock.getHiragana());
@@ -83,21 +99,38 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
-    testWidgets("New GlossaryViewModel open on the Hiragana tab",
-        (WidgetTester tester) async {
+    testWidgets("New GlossaryViewModel open on the Hiragana tab", (
+      WidgetTester tester,
+    ) async {
       when(tabControllerMock.index).thenAnswer((_) => 0);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock);
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      );
       await gvm.futureToRun();
 
       checkLists(gvm, 2, 0, 0, 0);
@@ -108,21 +141,38 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
-    testWidgets("New GlossaryViewModel open on the Katakana tab",
-        (WidgetTester tester) async {
+    testWidgets("New GlossaryViewModel open on the Katakana tab", (
+      WidgetTester tester,
+    ) async {
       when(tabControllerMock.index).thenAnswer((_) => 1);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock);
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      );
       await gvm.futureToRun();
 
       checkLists(gvm, 0, 3, 0, 0);
@@ -133,21 +183,38 @@ void main() {
       verify(kanaRepositoryMock.searchKatakana("", [])).called(1);
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
-    testWidgets("New GlossaryViewModel open on the Kanji tab",
-        (WidgetTester tester) async {
+    testWidgets("New GlossaryViewModel open on the Kanji tab", (
+      WidgetTester tester,
+    ) async {
       when(tabControllerMock.index).thenAnswer((_) => 2);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock);
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      );
       await gvm.futureToRun();
 
       checkLists(gvm, 0, 0, 4, 0);
@@ -157,22 +224,39 @@ void main() {
       verifyNever(kanaRepositoryMock.getKatakana());
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
-      verify(kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese))
-          .called(1);
+      verify(
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      ).called(1);
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
-    testWidgets("New GlossaryViewModel open on the Vocabulary tab",
-        (WidgetTester tester) async {
+    testWidgets("New GlossaryViewModel open on the Vocabulary tab", (
+      WidgetTester tester,
+    ) async {
       when(tabControllerMock.index).thenAnswer((_) => 3);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock);
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      );
       await gvm.futureToRun();
 
       checkLists(gvm, 0, 0, 0, 1);
@@ -183,22 +267,36 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verify(vocabularyRepositoryMock.searchVocabulary(
-              "", [], [], SortOrder.japanese))
-          .called(1);
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verify(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      ).called(1);
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
     testWidgets("Search on the Hiragana tab", (WidgetTester tester) async {
       when(tabControllerMock.index).thenAnswer((_) => 0);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock)
-            ..searchGlossary("toto");
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      )..searchGlossary("toto");
 
       checkLists(gvm, 2, 0, 0, 0);
       verify(kanaRepositoryMock.getHiragana()).called(1);
@@ -208,21 +306,36 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
     testWidgets("Search on the Katakana tab", (WidgetTester tester) async {
       when(tabControllerMock.index).thenAnswer((_) => 1);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock)
-            ..searchGlossary("toto");
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      )..searchGlossary("toto");
 
       checkLists(gvm, 0, 3, 0, 0);
       verifyNever(kanaRepositoryMock.getHiragana());
@@ -232,21 +345,36 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verify(kanaRepositoryMock.searchKatakana("toto", [])).called(1);
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
     testWidgets("Search on the Vocabulary tab", (WidgetTester tester) async {
       when(tabControllerMock.index).thenAnswer((_) => 3);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock)
-            ..searchGlossary("toto");
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      )..searchGlossary("toto");
 
       checkLists(gvm, 0, 0, 0, 3);
       verifyNever(kanaRepositoryMock.getHiragana());
@@ -256,22 +384,36 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
       verifyNever(
-          kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verify(vocabularyRepositoryMock.searchVocabulary(
-              "toto", [], [], SortOrder.japanese))
-          .called(1);
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verify(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      ).called(1);
     });
 
     testWidgets("Search on the Kanji tab", (WidgetTester tester) async {
       when(tabControllerMock.index).thenAnswer((_) => 2);
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock)
-            ..searchGlossary("toto");
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      )..searchGlossary("toto");
 
       checkLists(gvm, 0, 0, 1, 0);
       verifyNever(kanaRepositoryMock.getHiragana());
@@ -281,22 +423,37 @@ void main() {
       verifyNever(kanaRepositoryMock.searchKatakana("", []));
       verifyNever(kanaRepositoryMock.searchKatakana("toto", []));
       verifyNever(
-          kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese));
-      verify(kanjiRepositoryMock.searchKanji(
-              "toto", [], [], SortOrder.japanese))
-          .called(1);
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "", [], [], SortOrder.japanese));
-      verifyNever(vocabularyRepositoryMock.searchVocabulary(
-          "toto", [], [], SortOrder.japanese));
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      );
+      verify(
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      ).called(1);
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
+      verifyNever(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      );
     });
 
     testWidgets("Switch between tabs", (WidgetTester tester) async {
       final indexes = [0, 3, 1, 2];
       when(tabControllerMock.index).thenAnswer((_) => indexes.removeAt(0));
 
-      final GlossaryViewModel gvm =
-          GlossaryViewModel(goRouterMock, tabControllerMock);
+      final GlossaryViewModel gvm = GlossaryViewModel(
+        goRouterMock,
+        tabControllerMock,
+      );
 
       checkLists(gvm, 0, 0, 0, 0);
 
@@ -319,8 +476,13 @@ void main() {
   });
 }
 
-void checkLists(GlossaryViewModel gvm, int hiraganaListLength,
-    int katakanaListLength, int kanjiListLength, int vocabularyListLength) {
+void checkLists(
+  GlossaryViewModel gvm,
+  int hiraganaListLength,
+  int katakanaListLength,
+  int kanjiListLength,
+  int vocabularyListLength,
+) {
   expect(gvm.hiraganaList.length, hiraganaListLength);
   expect(gvm.katakanaList.length, katakanaListLength);
   expect(gvm.kanjiList.length, kanjiListLength);

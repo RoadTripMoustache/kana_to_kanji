@@ -73,21 +73,23 @@ class CleanUpService {
   Future<void> executeCleanUp({bool forceReload = false}) async {
     final resourcesToDelete = await getSyncData(forceReload: forceReload);
 
-    await Future.wait(resourcesToDelete.map((element) {
-      switch (element.resourceType) {
-        case ResourceType.group:
-          return _groupsRepository.delete(element);
-        case ResourceType.kana:
-          return _kanaRepository.delete(element);
-        case ResourceType.kanji:
-          return _kanjiRepository.delete(element);
-        case ResourceType.vocabulary:
-          return _vocabularyRepository.delete(element);
-        case ResourceType.level:
-          return Future.value();
-        case ResourceType.stage:
-          return Future.value();
-      }
-    }));
+    await Future.wait(
+      resourcesToDelete.map((element) {
+        switch (element.resourceType) {
+          case ResourceType.group:
+            return _groupsRepository.delete(element);
+          case ResourceType.kana:
+            return _kanaRepository.delete(element);
+          case ResourceType.kanji:
+            return _kanjiRepository.delete(element);
+          case ResourceType.vocabulary:
+            return _vocabularyRepository.delete(element);
+          case ResourceType.level:
+            return Future.value();
+          case ResourceType.stage:
+            return Future.value();
+        }
+      }),
+    );
   }
 }

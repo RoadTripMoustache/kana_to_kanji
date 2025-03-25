@@ -32,8 +32,10 @@ class VocabularyDataLoader {
     return _apiService
         .get("/v1/vocabulary$versionQueryParam")
         .then(_extractVocabulary)
-        .then((listVocabulary) =>
-            _isar.write((isar) => isar.vocabularys.putAll(listVocabulary)));
+        .then(
+          (listVocabulary) =>
+              _isar.write((isar) => isar.vocabularys.putAll(listVocabulary)),
+        );
   }
 
   /// Extract all the vocabulary from the API Response.

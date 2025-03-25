@@ -1,4 +1,1 @@
-enum SortOrder {
-  japanese,
-  alphabetical;
-}
+enum SortOrder { japanese, alphabetical }

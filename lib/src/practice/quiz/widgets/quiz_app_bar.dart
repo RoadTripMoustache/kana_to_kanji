@@ -28,9 +28,7 @@ class QuizAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Expanded(
-            child: RoundedLinearProgressIndicator(
-              value: progressBarValue,
-            ),
+            child: RoundedLinearProgressIndicator(value: progressBarValue),
           ),
         ],
       ),

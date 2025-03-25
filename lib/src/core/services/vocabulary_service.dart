@@ -10,9 +10,12 @@ class VocabularyService {
   List<Vocabulary> getAll() => _isar.vocabularys.where().findAll();
 
   Future delete(ResourceUid resourceUid) async {
-    await _isar.writeAsync((isar) => isar.vocabularys
-        .where()
-        .uid((uid) => uid.uidEqualTo(resourceUid.uid))
-        .deleteFirst());
+    await _isar.writeAsync(
+      (isar) =>
+          isar.vocabularys
+              .where()
+              .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+              .deleteFirst(),
+    );
   }
 }

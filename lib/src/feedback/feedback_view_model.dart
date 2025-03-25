@@ -63,14 +63,14 @@ class FeedbackViewModel extends BaseViewModel {
       formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty;
 
   /// Do not provide [githubService] as it's present for testing purpose only.
-  FeedbackViewModel(
-      {required this.appConfig,
-      required this.router,
-      required this.l10n,
-      FeedbackType? feedbackType,
-      GithubService? githubService})
-      : _selectedFeedbackType = feedbackType,
-        _githubService = githubService ?? GithubService();
+  FeedbackViewModel({
+    required this.appConfig,
+    required this.router,
+    required this.l10n,
+    FeedbackType? feedbackType,
+    GithubService? githubService,
+  }) : _selectedFeedbackType = feedbackType,
+       _githubService = githubService ?? GithubService();
 
   void onFeedbackTypePressed(FeedbackType type) {
     _selectedFeedbackType = type;
@@ -130,9 +130,7 @@ class FeedbackViewModel extends BaseViewModel {
 
     bool needToBeClosed = true;
     String? screenshotUrl;
-    final labels = [
-      _selectedFeedbackType!.value,
-    ];
+    final labels = [_selectedFeedbackType!.value];
 
     setBusy(true);
     if (screenshot != null) {
@@ -142,22 +140,28 @@ class FeedbackViewModel extends BaseViewModel {
 
       // Encode the image then upload it
       final image.Image screenshotImage = image.decodeImage(screenshot)!;
-      final Uint8List encodedScreenshot = image.encodePng(image.copyResize(
+      final Uint8List encodedScreenshot = image.encodePng(
+        image.copyResize(
           screenshotImage,
           // Resize differently if we are on landscape or portrait mode
-          width: screenshotImage.height > screenshotImage.width
-              ? kScreenshotPortraitWidth
-              : kScreenshotLandscapeWidth));
+          width:
+              screenshotImage.height > screenshotImage.width
+                  ? kScreenshotPortraitWidth
+                  : kScreenshotLandscapeWidth,
+        ),
+      );
       screenshotUrl = await _githubService.uploadFileToGithub(
-          filePath: DateTime.now().toIso8601String(),
-          fileInBytes: encodedScreenshot.toList(growable: false));
+        filePath: DateTime.now().toIso8601String(),
+        fileInBytes: encodedScreenshot.toList(growable: false),
+      );
     }
 
     // Create the issue
     await _githubService.createIssue(
-        title: buildIssueTitle(_selectedFeedbackType!),
-        body: buildIssueBody(appConfig.environment, formData, screenshotUrl),
-        labels: labels);
+      title: buildIssueTitle(_selectedFeedbackType!),
+      body: buildIssueBody(appConfig.environment, formData, screenshotUrl),
+      labels: labels,
+    );
     setBusy(false);
 
     // Close the dialog if still opened
@@ -167,10 +171,11 @@ class FeedbackViewModel extends BaseViewModel {
 
     // Show success dialog and thanks the user
     await locator<DialogService>().showModalBottomSheet(
-        isDismissible: false,
-        builder: (BuildContext context) {
-          Future.delayed(const Duration(seconds: 2), () => context.pop());
-          return const FeedbackSuccessDialog();
-        });
+      isDismissible: false,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 2), router.pop);
+        return const FeedbackSuccessDialog();
+      },
+    );
   }
 }

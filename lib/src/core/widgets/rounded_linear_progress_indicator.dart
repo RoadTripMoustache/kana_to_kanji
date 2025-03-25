@@ -53,15 +53,16 @@ class RoundedLinearProgressIndicator extends StatefulWidget {
   /// If not provided 12.0 will be used
   final double? height;
 
-  const RoundedLinearProgressIndicator(
-      {required this.value,
-      super.key,
-      this.height,
-      this.backgroundColor,
-      this.color,
-      this.valueColor,
-      this.semanticsLabel,
-      this.semanticsValue});
+  const RoundedLinearProgressIndicator({
+    required this.value,
+    super.key,
+    this.height,
+    this.backgroundColor,
+    this.color,
+    this.valueColor,
+    this.semanticsLabel,
+    this.semanticsValue,
+  });
 
   @override
   State<RoundedLinearProgressIndicator> createState() =>
@@ -71,8 +72,9 @@ class RoundedLinearProgressIndicator extends StatefulWidget {
 class _RoundedLinearProgressIndicatorState
     extends State<RoundedLinearProgressIndicator>
     with SingleTickerProviderStateMixin {
-  static const Duration _animationDuration =
-      Duration(milliseconds: _kAnimationDuration);
+  static const Duration _animationDuration = Duration(
+    milliseconds: _kAnimationDuration,
+  );
 
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -84,12 +86,15 @@ class _RoundedLinearProgressIndicatorState
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: _animationDuration,
-        vsync: this,
-        animationBehavior: AnimationBehavior.preserve);
+      duration: _animationDuration,
+      vsync: this,
+      animationBehavior: AnimationBehavior.preserve,
+    );
 
-    _animation = Tween<double>(begin: _currentBegin, end: _currentEnd)
-        .animate(_controller);
+    _animation = Tween<double>(
+      begin: _currentBegin,
+      end: _currentEnd,
+    ).animate(_controller);
 
     _triggerAnimation();
   }
@@ -107,8 +112,10 @@ class _RoundedLinearProgressIndicatorState
       _currentBegin = _animation.value;
       _currentEnd = widget.value / 1;
 
-      _animation = Tween<double>(begin: _currentBegin, end: _currentEnd)
-          .animate(_controller);
+      _animation = Tween<double>(
+        begin: _currentBegin,
+        end: _currentEnd,
+      ).animate(_controller);
     });
     _controller
       ..reset()
@@ -145,9 +152,11 @@ class _RoundedLinearProgressIndicatorState
 
   @override
   Widget build(BuildContext context) {
-    final ProgressIndicatorThemeData indicatorTheme =
-        ProgressIndicatorTheme.of(context);
-    final Color backColor = widget.backgroundColor ??
+    final ProgressIndicatorThemeData indicatorTheme = ProgressIndicatorTheme.of(
+      context,
+    );
+    final Color backColor =
+        widget.backgroundColor ??
         indicatorTheme.circularTrackColor ??
         Theme.of(context).colorScheme.surfaceContainerHighest;
     final double height = widget.height ?? _kMinHeight;
@@ -158,17 +167,18 @@ class _RoundedLinearProgressIndicatorState
         final double animatedValue = _animation.value;
 
         return _buildSemanticsWrapper(
-            context: context,
-            child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: height,
-                ),
-                child: CustomPaint(
-                  painter: _RoundedLinearIndicatorPainter(
-                      value: animatedValue,
-                      valueColor: _getValueColor(context),
-                      backgroundColor: backColor),
-                )));
+          context: context,
+          child: Container(
+            constraints: BoxConstraints(maxHeight: height),
+            child: CustomPaint(
+              painter: _RoundedLinearIndicatorPainter(
+                value: animatedValue,
+                valueColor: _getValueColor(context),
+                backgroundColor: backColor,
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -184,18 +194,20 @@ class _RoundedLinearIndicatorPainter extends CustomPainter {
 
   final double value;
 
-  _RoundedLinearIndicatorPainter(
-      {required this.backgroundColor,
-      required this.valueColor,
-      required this.value});
+  _RoundedLinearIndicatorPainter({
+    required this.backgroundColor,
+    required this.valueColor,
+    required this.value,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = backgroundColor
-      ..strokeWidth = _kStrokeWidth
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
+    final Paint paint =
+        Paint()
+          ..color = backgroundColor
+          ..strokeWidth = _kStrokeWidth
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.stroke;
 
     final double center = size.height / 2;
     final Offset start = Offset(0, center);

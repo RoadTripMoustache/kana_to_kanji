@@ -17,8 +17,10 @@ String buildIssueTitle(FeedbackType feedbackType) =>
 /// Will also be added the [environment] of the application.
 /// If [screenshotUrl] is provided, a screenshot section will be added.
 String buildIssueBody(
-    Environment environment, Map<FeedbackFormFields, String> formData,
-    [String? screenshotUrl]) {
+  Environment environment,
+  Map<FeedbackFormFields, String> formData, [
+  String? screenshotUrl,
+]) {
   final InfoService infoService = locator<InfoService>();
   String body = "";
 
@@ -30,18 +32,21 @@ String buildIssueBody(
 
   if (formData.containsKey(FeedbackFormFields.stepsToReproduce) &&
       formData[FeedbackFormFields.stepsToReproduce]!.isNotEmpty) {
-    body += "### Steps to reproduce\n\n"
+    body +=
+        "### Steps to reproduce\n\n"
         "${formData[FeedbackFormFields.stepsToReproduce]}\n\n";
   }
 
   if (screenshotUrl != null) {
-    body += "### Screenshot\n\n"
+    body +=
+        "### Screenshot\n\n"
         "![screenshot]($screenshotUrl)\n\n";
   }
 
   if (formData.containsKey(FeedbackFormFields.email) &&
       formData[FeedbackFormFields.email]!.isNotEmpty) {
-    body += "### User information\n\n"
+    body +=
+        "### User information\n\n"
         "Email: ${formData[FeedbackFormFields.email]}\n\n";
   }
 

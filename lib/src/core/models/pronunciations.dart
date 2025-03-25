@@ -5,7 +5,6 @@ part "pronunciations.g.dart";
 
 @JsonSerializable()
 @embedded
-
 /// Pronunciation of a kanji with all the meanings matching the readings
 class Pronunciation {
   @JsonKey(name: "index")

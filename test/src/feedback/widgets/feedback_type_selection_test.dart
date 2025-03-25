@@ -14,10 +14,12 @@ void main() {
       l10n = await setupLocalizations();
     });
 
-    testWidgets("Should display bug and feature request buttons",
-        (WidgetTester tester) async {
-      await tester
-          .pumpLocalizedWidget(FeedbackTypeSelection(onPressed: (_) {}));
+    testWidgets("Should display bug and feature request buttons", (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpLocalizedWidget(
+        FeedbackTypeSelection(onPressed: (_) {}),
+      );
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackTypeSelection);
@@ -26,76 +28,98 @@ void main() {
 
       // Valid bug report button
       Finder button = find.descendant(
-          of: widget,
-          matching: find.byKey(FeedbackTypeSelection.reportBugButtonKey));
+        of: widget,
+        matching: find.byKey(FeedbackTypeSelection.reportBugButtonKey),
+      );
       expect(button, findsOneWidget);
       expect(
-          find.descendant(
-              of: button, matching: find.byIcon(Icons.bug_report_rounded)),
-          findsOneWidget);
+        find.descendant(
+          of: button,
+          matching: find.byIcon(Icons.bug_report_rounded),
+        ),
+        findsOneWidget,
+      );
       expect(
-          find.descendant(
-              of: button, matching: find.text(l10n.feedback_report_bug)),
-          findsOneWidget);
+        find.descendant(
+          of: button,
+          matching: find.text(l10n.feedback_report_bug),
+        ),
+        findsOneWidget,
+      );
       expect(
-          find.descendant(
-              of: button,
-              matching: find.text(l10n.feedback_report_bug_subtitle)),
-          findsOneWidget);
+        find.descendant(
+          of: button,
+          matching: find.text(l10n.feedback_report_bug_subtitle),
+        ),
+        findsOneWidget,
+      );
 
       // Valid feature request button
       button = find.descendant(
-          of: widget,
-          matching: find.byKey(FeedbackTypeSelection.featureRequestButtonKey));
+        of: widget,
+        matching: find.byKey(FeedbackTypeSelection.featureRequestButtonKey),
+      );
       expect(button, findsOneWidget);
       expect(
-          find.descendant(
-              of: button, matching: find.byIcon(Icons.design_services_rounded)),
-          findsOneWidget);
+        find.descendant(
+          of: button,
+          matching: find.byIcon(Icons.design_services_rounded),
+        ),
+        findsOneWidget,
+      );
       expect(
-          find.descendant(
-              of: button, matching: find.text(l10n.feedback_request_feature)),
-          findsOneWidget);
+        find.descendant(
+          of: button,
+          matching: find.text(l10n.feedback_request_feature),
+        ),
+        findsOneWidget,
+      );
       expect(
-          find.descendant(
-              of: button,
-              matching: find.text(l10n.feedback_request_feature_subtitle)),
-          findsOneWidget);
+        find.descendant(
+          of: button,
+          matching: find.text(l10n.feedback_request_feature_subtitle),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets(
-        "Should call the onPressed function with the right FeedbackType",
-        (WidgetTester tester) async {
-      FeedbackType? typePassed;
-      void onPressed(FeedbackType type) {
-        typePassed = type;
-      }
+      "Should call the onPressed function with the right FeedbackType",
+      (WidgetTester tester) async {
+        FeedbackType? typePassed;
+        void onPressed(FeedbackType type) {
+          typePassed = type;
+        }
 
-      await tester
-          .pumpLocalizedWidget(FeedbackTypeSelection(onPressed: onPressed));
-      await tester.pumpAndSettle();
+        await tester.pumpLocalizedWidget(
+          FeedbackTypeSelection(onPressed: onPressed),
+        );
+        await tester.pumpAndSettle();
 
-      final widget = find.byType(FeedbackTypeSelection);
+        final widget = find.byType(FeedbackTypeSelection);
 
-      expect(widget, findsOneWidget);
+        expect(widget, findsOneWidget);
 
-      // Valid bug report button
-      var button = find.descendant(
+        // Valid bug report button
+        var button = find.descendant(
           of: widget,
-          matching: find.byKey(FeedbackTypeSelection.reportBugButtonKey));
-      expect(button, findsOneWidget);
-      await tester.tap(button);
-      expect(typePassed, FeedbackType.bug);
+          matching: find.byKey(FeedbackTypeSelection.reportBugButtonKey),
+        );
+        expect(button, findsOneWidget);
+        await tester.tap(button);
+        expect(typePassed, FeedbackType.bug);
 
-      typePassed = null;
+        typePassed = null;
 
-      // Valid feature request button
-      button = find.descendant(
+        // Valid feature request button
+        button = find.descendant(
           of: widget,
-          matching: find.byKey(FeedbackTypeSelection.featureRequestButtonKey));
-      expect(button, findsOneWidget);
-      await tester.tap(button);
-      expect(typePassed, FeedbackType.featureRequest);
-    });
+          matching: find.byKey(FeedbackTypeSelection.featureRequestButtonKey),
+        );
+        expect(button, findsOneWidget);
+        await tester.tap(button);
+        expect(typePassed, FeedbackType.featureRequest);
+      },
+    );
   });
 }

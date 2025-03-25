@@ -1,4 +1,1 @@
-enum PreferenceFlags {
-  themeMode,
-  locale,
-}
+enum PreferenceFlags { themeMode, locale }

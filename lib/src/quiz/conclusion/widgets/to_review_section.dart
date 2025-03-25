@@ -19,13 +19,11 @@ class ToReviewSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.quiz_conclusion_to_review,
-            style: Theme.of(context).textTheme.titleLarge),
-        const Divider(
-          thickness: 0,
-          indent: 0,
-          endIndent: 150,
+        Text(
+          l10n.quiz_conclusion_to_review,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
+        const Divider(thickness: 0, indent: 0, endIndent: 150),
         Expanded(
           child: Scrollbar(
             thumbVisibility: true,
@@ -35,13 +33,15 @@ class ToReviewSection extends StatelessWidget {
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   children: List.generate(
-                      questionsToReview.length,
-                      (index) => SizedBox(
-                            width: tileWidth,
-                            height: _kTileHeight,
-                            child: QuestionReviewTile(
-                                question: questionsToReview[index]),
-                          )),
+                    questionsToReview.length,
+                    (index) => SizedBox(
+                      width: tileWidth,
+                      height: _kTileHeight,
+                      child: QuestionReviewTile(
+                        question: questionsToReview[index],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

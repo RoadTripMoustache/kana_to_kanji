@@ -12,14 +12,17 @@ void main() {
     group("Default display", () {
       testWidgets("IOS", (WidgetTester tester) async {
         debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-        await tester.pumpLocalizedRouterWidget(const CreateAccountView(),
-            initialLocation: CreateAccountView.routeName,
-            allowedRoutes: [],
-            allowedRoutesChild: const CreateAccountView());
+        await tester.pumpLocalizedRouterWidget(
+          const CreateAccountView(),
+          initialLocation: CreateAccountView.routeName,
+          allowedRoutes: [],
+          allowedRoutesChild: const CreateAccountView(),
+        );
         await tester.pumpAndSettle();
 
-        final returnButton =
-            find.byKey(const Key("create_account_view_return"));
+        final returnButton = find.byKey(
+          const Key("create_account_view_return"),
+        );
         expect(returnButton, findsOneWidget);
 
         final emailInput = find.byType(InputEmail);
@@ -28,8 +31,9 @@ void main() {
         final passwordInputs = find.byType(InputPassword);
         expect(passwordInputs, findsNWidgets(2));
 
-        final createAccountButton =
-            find.byKey(const Key("create_account_view_create_account_button"));
+        final createAccountButton = find.byKey(
+          const Key("create_account_view_create_account_button"),
+        );
         expect(createAccountButton, findsOneWidget);
 
         final logoButtons = find.byType(ThirdPartyRoundIconButton);
@@ -40,14 +44,17 @@ void main() {
 
       testWidgets("Android", (WidgetTester tester) async {
         debugDefaultTargetPlatformOverride = TargetPlatform.android;
-        await tester.pumpLocalizedRouterWidget(const CreateAccountView(),
-            initialLocation: CreateAccountView.routeName,
-            allowedRoutes: [],
-            allowedRoutesChild: const CreateAccountView());
+        await tester.pumpLocalizedRouterWidget(
+          const CreateAccountView(),
+          initialLocation: CreateAccountView.routeName,
+          allowedRoutes: [],
+          allowedRoutesChild: const CreateAccountView(),
+        );
         await tester.pumpAndSettle();
 
-        final returnButton =
-            find.byKey(const Key("create_account_view_return"));
+        final returnButton = find.byKey(
+          const Key("create_account_view_return"),
+        );
         expect(returnButton, findsOneWidget);
 
         final emailInput = find.byType(InputEmail);
@@ -56,8 +63,9 @@ void main() {
         final passwordInputs = find.byType(InputPassword);
         expect(passwordInputs, findsNWidgets(2));
 
-        final createAccountButton =
-            find.byKey(const Key("create_account_view_create_account_button"));
+        final createAccountButton = find.byKey(
+          const Key("create_account_view_create_account_button"),
+        );
         expect(createAccountButton, findsOneWidget);
 
         final logoButton = find.byType(ThirdPartyRoundIconButton);
@@ -68,10 +76,12 @@ void main() {
 
     group("Form validations", () {
       testWidgets("Email invalid format", (WidgetTester tester) async {
-        await tester.pumpLocalizedRouterWidget(const CreateAccountView(),
-            initialLocation: CreateAccountView.routeName,
-            allowedRoutes: [],
-            allowedRoutesChild: const CreateAccountView());
+        await tester.pumpLocalizedRouterWidget(
+          const CreateAccountView(),
+          initialLocation: CreateAccountView.routeName,
+          allowedRoutes: [],
+          allowedRoutesChild: const CreateAccountView(),
+        );
         await tester.pumpAndSettle();
 
         await tester.enterText(find.byType(InputEmail), "invalid");
@@ -85,10 +95,12 @@ void main() {
       });
 
       testWidgets("Passwords mismatch", (WidgetTester tester) async {
-        await tester.pumpLocalizedRouterWidget(const CreateAccountView(),
-            initialLocation: CreateAccountView.routeName,
-            allowedRoutes: [],
-            allowedRoutesChild: const CreateAccountView());
+        await tester.pumpLocalizedRouterWidget(
+          const CreateAccountView(),
+          initialLocation: CreateAccountView.routeName,
+          allowedRoutes: [],
+          allowedRoutesChild: const CreateAccountView(),
+        );
         await tester.pumpAndSettle();
 
         final passwordInput = find.byType(InputPassword).first;
@@ -100,16 +112,19 @@ void main() {
         await tester.pump(const Duration(milliseconds: 300));
 
         // Check the error message
-        final passwordErrorFinder =
-            find.text("Both passwords should be identical");
+        final passwordErrorFinder = find.text(
+          "Both passwords should be identical",
+        );
         expect(passwordErrorFinder, findsOneWidget);
       });
 
       testWidgets("Correct email/password", (WidgetTester tester) async {
-        await tester.pumpLocalizedRouterWidget(const CreateAccountView(),
-            initialLocation: CreateAccountView.routeName,
-            allowedRoutes: [],
-            allowedRoutesChild: const CreateAccountView());
+        await tester.pumpLocalizedRouterWidget(
+          const CreateAccountView(),
+          initialLocation: CreateAccountView.routeName,
+          allowedRoutes: [],
+          allowedRoutesChild: const CreateAccountView(),
+        );
         await tester.pumpAndSettle();
 
         final emailInput = find.byType(InputEmail);
@@ -123,8 +138,9 @@ void main() {
         await tester.pump(const Duration(milliseconds: 300));
 
         // Click on the create account button
-        final createAccountButton =
-            find.byKey(const Key("create_account_view_create_account_button"));
+        final createAccountButton = find.byKey(
+          const Key("create_account_view_create_account_button"),
+        );
         await tester.tap(createAccountButton);
 
         await tester.pump(const Duration(milliseconds: 100));
@@ -139,12 +155,14 @@ void main() {
         final passwordRequiredErrorFinder = find.text("Password is required");
         expect(passwordRequiredErrorFinder, findsNothing);
 
-        final passwordConfirmationRequiredErrorFinder =
-            find.text("Password confirmation is required");
+        final passwordConfirmationRequiredErrorFinder = find.text(
+          "Password confirmation is required",
+        );
         expect(passwordConfirmationRequiredErrorFinder, findsNothing);
 
-        final passwordsMismatchErrorFinder =
-            find.text("Password confirmation is different from the password");
+        final passwordsMismatchErrorFinder = find.text(
+          "Password confirmation is different from the password",
+        );
         expect(passwordsMismatchErrorFinder, findsNothing);
       });
     });

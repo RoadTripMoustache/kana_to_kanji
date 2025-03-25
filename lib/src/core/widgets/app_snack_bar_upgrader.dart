@@ -3,8 +3,12 @@ import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:upgrader/upgrader.dart";
 
 class AppSnackBarUpgrader extends UpgradeAlert {
-  AppSnackBarUpgrader(
-      {super.key, super.navigatorKey, super.upgrader, super.child});
+  AppSnackBarUpgrader({
+    super.key,
+    super.navigatorKey,
+    super.upgrader,
+    super.child,
+  });
 
   /// Override the [createState] method to provide a custom class
   /// with overridden methods.
@@ -27,13 +31,14 @@ class AppSnackBarUpgraderState extends UpgradeAlertState {
   }) {
     final l10n = AppLocalizations.of(context);
     final snackBar = SnackBar(
-        content: Text(l10n.snackbar_update_version_message),
-        action: SnackBarAction(
-          label: l10n.snackbar_update_version_action,
-          onPressed: () {
-            onUserUpdated(context, !widget.upgrader.blocked());
-          },
-        ));
+      content: Text(l10n.snackbar_update_version_message),
+      action: SnackBarAction(
+        label: l10n.snackbar_update_version_action,
+        onPressed: () {
+          onUserUpdated(context, !widget.upgrader.blocked());
+        },
+      ),
+    );
 
     // Find the ScaffoldMessenger in the widget tree
     // and use it to show a SnackBar.

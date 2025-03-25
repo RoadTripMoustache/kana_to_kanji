@@ -13,9 +13,10 @@ class SplashView extends StatelessWidget {
   const SplashView({super.key});
 
   static const TextStyle _style = TextStyle(
-      fontFamily: "MPlusRounded1c",
-      fontWeight: FontWeight.w400,
-      fontSize: 60.0);
+    fontFamily: "MPlusRounded1c",
+    fontWeight: FontWeight.w400,
+    fontSize: 60.0,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -23,32 +24,40 @@ class SplashView extends StatelessWidget {
 
     return ViewModelBuilder<SplashViewModel>.nonReactive(
       viewModelBuilder: () => SplashViewModel(GoRouter.of(context)),
-      builder: (context, _, __) => AppScaffold(
-          body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text.rich(
-                TextSpan(text: l10n.app_title_kana, children: [
-                  TextSpan(
-                      text: l10n.app_title_to,
-                      style: const TextStyle(color: Color(0xffFF862F))),
-                  TextSpan(text: l10n.app_title_kanji)
-                ]),
-                style: _style),
-            Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: SizedBox(
-                  width: 300,
-                  height: 300,
-                  child: RiveAnimation.asset(
-                    "assets/animations/kitsune_hot_cup_of_tea.riv",
-                    artboard: AppConfig.of(context).environment.name,
-                  )),
+      builder:
+          (context, _, __) => AppScaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      text: l10n.app_title_kana,
+                      children: [
+                        TextSpan(
+                          text: l10n.app_title_to,
+                          style: const TextStyle(color: Color(0xffFF862F)),
+                        ),
+                        TextSpan(text: l10n.app_title_kanji),
+                      ],
+                    ),
+                    style: _style,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: RiveAnimation.asset(
+                        "assets/animations/kitsune_hot_cup_of_tea.riv",
+                        artboard: AppConfig.of(context).environment.name,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      )),
+          ),
     );
   }
 }
