@@ -17,19 +17,22 @@ void main() {
     final settingsRepositoryMock = MockSettingsRepository();
 
     final Question wrongQuestion = Question(
-        alphabet: dummyKatakana.alphabet,
-        kana: dummyKatakana,
-        type: QuestionTypes.toJapanese,
-        remainingAttempt: 0);
+      alphabet: dummyKatakana.alphabet,
+      kana: dummyKatakana,
+      type: QuestionTypes.toJapanese,
+      remainingAttempt: 0,
+    );
     final Question partiallyWrongQuestion = Question(
-        alphabet: dummyKatakana.alphabet,
-        kana: dummyKatakana,
-        type: QuestionTypes.toJapanese,
-        remainingAttempt: 2);
+      alphabet: dummyKatakana.alphabet,
+      kana: dummyKatakana,
+      type: QuestionTypes.toJapanese,
+      remainingAttempt: 2,
+    );
     final Question rightQuestion = Question(
-        alphabet: dummyKatakana.alphabet,
-        kana: dummyKatakana,
-        type: QuestionTypes.toJapanese);
+      alphabet: dummyKatakana.alphabet,
+      kana: dummyKatakana,
+      type: QuestionTypes.toJapanese,
+    );
 
     setUpAll(() {
       locator.registerSingleton<SettingsRepository>(settingsRepositoryMock);
@@ -48,16 +51,21 @@ void main() {
       final List<Question> questions = [
         wrongQuestion,
         partiallyWrongQuestion,
-        rightQuestion
+        rightQuestion,
       ];
-      final QuizConclusionViewModel viewModel =
-          QuizConclusionViewModel(questions);
+      final QuizConclusionViewModel viewModel = QuizConclusionViewModel(
+        questions,
+      );
 
       expect(viewModel.questions, containsAll(questions));
-      expect(viewModel.rightAnswers,
-          containsAll([partiallyWrongQuestion, rightQuestion]));
-      expect(viewModel.wrongAnswers,
-          containsAll([partiallyWrongQuestion, wrongQuestion]));
+      expect(
+        viewModel.rightAnswers,
+        containsAll([partiallyWrongQuestion, rightQuestion]),
+      );
+      expect(
+        viewModel.wrongAnswers,
+        containsAll([partiallyWrongQuestion, wrongQuestion]),
+      );
     });
   });
 }

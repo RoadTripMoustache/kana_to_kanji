@@ -31,8 +31,9 @@ void main() {
     });
 
     Future<Finder> buildWidget(WidgetTester tester) async {
-      await tester
-          .pumpLocalizedWidget(FeedbackScreenshotForm(onSubmit: mock.onSubmit));
+      await tester.pumpLocalizedWidget(
+        FeedbackScreenshotForm(onSubmit: mock.onSubmit),
+      );
       await tester.pumpAndSettle();
 
       final widget = find.byType(FeedbackScreenshotForm);
@@ -46,27 +47,38 @@ void main() {
 
         // Check submit button
         expect(
-            find.descendant(
-                of: widget,
-                matching: find.widgetWithText(
-                    FilledButton, l10n.feedback_submit(FeedbackType.bug.name))),
-            findsOneWidget,
-            reason: "Submit button should have the report bug submit text");
+          find.descendant(
+            of: widget,
+            matching: find.widgetWithText(
+              FilledButton,
+              l10n.feedback_submit(FeedbackType.bug.name),
+            ),
+          ),
+          findsOneWidget,
+          reason: "Submit button should have the report bug submit text",
+        );
       });
     });
 
     group("Interactions", () {
       group("Submit", () {
-        testWidgets("should call onSubmit when button is enabled and tapped",
-            (WidgetTester tester) async {
+        testWidgets("should call onSubmit when button is enabled and tapped", (
+          WidgetTester tester,
+        ) async {
           final widget = await buildWidget(tester);
           final button = find.descendant(
-              of: widget,
-              matching: find.widgetWithText(
-                  FilledButton, l10n.feedback_submit(FeedbackType.bug.name)));
+            of: widget,
+            matching: find.widgetWithText(
+              FilledButton,
+              l10n.feedback_submit(FeedbackType.bug.name),
+            ),
+          );
 
-          expect(tester.widget<FilledButton>(button).enabled, true,
-              reason: "Submit button should be enabled");
+          expect(
+            tester.widget<FilledButton>(button).enabled,
+            true,
+            reason: "Submit button should be enabled",
+          );
           await tester.tap(button);
 
           verify(mock.onSubmit("")).called(1);

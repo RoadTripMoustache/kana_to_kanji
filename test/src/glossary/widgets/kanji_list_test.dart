@@ -10,9 +10,7 @@ import "../../../helpers.dart";
 void main() {
   group("KanjiList", () {
     testWidgets("Empty list", (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(const KanjiList(
-        items: [],
-      ));
+      await tester.pumpLocalizedWidget(const KanjiList(items: []));
       await tester.pumpAndSettle();
 
       final found = find.byType(GlossaryListTile);
@@ -21,9 +19,7 @@ void main() {
 
     testWidgets("Contains 1 kanji", (WidgetTester tester) async {
       final List<Kanji> kanjiList = [dummyKanji];
-      await tester.pumpLocalizedWidget(KanjiList(
-        items: kanjiList,
-      ));
+      await tester.pumpLocalizedWidget(KanjiList(items: kanjiList));
       await tester.pumpAndSettle();
       expect(find.byType(PagedListView<int, Kanji>), findsOneWidget);
 
@@ -40,9 +36,7 @@ void main() {
     testWidgets("Contains 2 kanji", (WidgetTester tester) async {
       final List<Kanji> kanjiList = [dummyKanji, dummyKanji];
 
-      await tester.pumpLocalizedWidget(KanjiList(
-        items: kanjiList,
-      ));
+      await tester.pumpLocalizedWidget(KanjiList(items: kanjiList));
       await tester.pumpAndSettle();
 
       final foundAllTiles = find.byType(GlossaryListTile);

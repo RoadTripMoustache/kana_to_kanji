@@ -8,29 +8,38 @@ void main() {
   group("SectionTitle", () {
     const titleSample = "Test Title";
 
-    testWidgets("it should display the pass titled",
-        (WidgetTester tester) async {
+    testWidgets("it should display the pass titled", (
+      WidgetTester tester,
+    ) async {
       await tester.pumpLocalizedWidget(const SectionTitle(title: titleSample));
 
       final widget = find.byType(SectionTitle);
 
       expect(widget, findsOneWidget);
-      expect(find.descendant(of: widget, matching: find.text(titleSample)),
-          findsOneWidget);
-      expect(find.descendant(of: widget, matching: find.byType(Divider)),
-          findsOneWidget,
-          reason: "Should have a divider");
+      expect(
+        find.descendant(of: widget, matching: find.text(titleSample)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: widget, matching: find.byType(Divider)),
+        findsOneWidget,
+        reason: "Should have a divider",
+      );
     });
 
     testWidgets("it should use the pass style", (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(const SectionTitle(
-        title: titleSample,
-        style: TextStyle(color: Colors.red, fontSize: 20),
-      ));
+      await tester.pumpLocalizedWidget(
+        const SectionTitle(
+          title: titleSample,
+          style: TextStyle(color: Colors.red, fontSize: 20),
+        ),
+      );
 
       final widget = find.byType(SectionTitle);
-      final title =
-          find.descendant(of: widget, matching: find.text(titleSample));
+      final title = find.descendant(
+        of: widget,
+        matching: find.text(titleSample),
+      );
 
       expect(title, findsOneWidget);
       final Text titleWidget = tester.firstWidget(title);

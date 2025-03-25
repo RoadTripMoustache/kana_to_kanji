@@ -7,42 +7,54 @@ import "../../../helpers.dart";
 
 void main() {
   group("SortBy", () {
-    testWidgets("Default view - Japanese sort selected",
-        (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(SortBy(
-        sortGlossary: (SortOrder order) => {},
-        selectedOrder: SortOrder.japanese,
-      ));
+    testWidgets("Default view - Japanese sort selected", (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpLocalizedWidget(
+        SortBy(
+          sortGlossary: (SortOrder order) => {},
+          selectedOrder: SortOrder.japanese,
+        ),
+      );
       await tester.pumpAndSettle();
 
       final radioButtons = find.byType(Radio<SortOrder>);
       expect(radioButtons, findsNWidgets(2));
 
-      expect((tester.widget(radioButtons.at(0)) as Radio<SortOrder>).groupValue,
-          SortOrder.japanese);
+      expect(
+        (tester.widget(radioButtons.at(0)) as Radio<SortOrder>).groupValue,
+        SortOrder.japanese,
+      );
     });
 
-    testWidgets("Default view - Alphabetical sort selected",
-        (WidgetTester tester) async {
-      await tester.pumpLocalizedWidget(SortBy(
-        sortGlossary: (SortOrder order) => {},
-        selectedOrder: SortOrder.alphabetical,
-      ));
+    testWidgets("Default view - Alphabetical sort selected", (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpLocalizedWidget(
+        SortBy(
+          sortGlossary: (SortOrder order) => {},
+          selectedOrder: SortOrder.alphabetical,
+        ),
+      );
       await tester.pumpAndSettle();
 
       final radioButtons = find.byType(Radio<SortOrder>);
       expect(radioButtons, findsNWidgets(2));
 
-      expect((tester.widget(radioButtons.at(0)) as Radio<SortOrder>).groupValue,
-          SortOrder.alphabetical);
+      expect(
+        (tester.widget(radioButtons.at(0)) as Radio<SortOrder>).groupValue,
+        SortOrder.alphabetical,
+      );
     });
 
     testWidgets("Click on close", (WidgetTester tester) async {
       var isClicked = false;
-      await tester.pumpLocalizedWidget(SortBy(
-        sortGlossary: (SortOrder order) => {isClicked = true},
-        selectedOrder: SortOrder.alphabetical,
-      ));
+      await tester.pumpLocalizedWidget(
+        SortBy(
+          sortGlossary: (SortOrder order) => {isClicked = true},
+          selectedOrder: SortOrder.alphabetical,
+        ),
+      );
       await tester.pumpAndSettle();
 
       final buttons = find.byType(IconButton);

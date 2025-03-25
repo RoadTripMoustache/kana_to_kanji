@@ -12,8 +12,12 @@ class FilterByTestCase {
   final List<KnowledgeLevel> selectedKnowledgeLevel;
   final List<int> indexesTrue;
 
-  FilterByTestCase(this.name, this.selectedJlptLevel,
-      this.selectedKnowledgeLevel, this.indexesTrue);
+  FilterByTestCase(
+    this.name,
+    this.selectedJlptLevel,
+    this.selectedKnowledgeLevel,
+    this.indexesTrue,
+  );
 }
 
 void main() {
@@ -25,50 +29,73 @@ void main() {
       FilterByTestCase("JLPT 3 selected", [JLPTLevel.level3], [], [2]),
       FilterByTestCase("JLPT 4 selected", [JLPTLevel.level4], [], [3]),
       FilterByTestCase("JLPT 5 selected", [JLPTLevel.level5], [], [4]),
-      FilterByTestCase("Knowledge level 'Learned' selected", [],
-          [KnowledgeLevel.learned], [5]),
-      FilterByTestCase("Knowledge level 'Practicing' selected", [],
-          [KnowledgeLevel.practicing], [6]),
       FilterByTestCase(
-          "Knowledge level 'Seen' selected", [], [KnowledgeLevel.seen], [7]),
-      FilterByTestCase("Knowledge level 'Never seen' selected", [],
-          [KnowledgeLevel.other], [8]),
+        "Knowledge level 'Learned' selected",
+        [],
+        [KnowledgeLevel.learned],
+        [5],
+      ),
       FilterByTestCase(
-          "Multiple selections",
-          [JLPTLevel.level1, JLPTLevel.level4],
-          [KnowledgeLevel.other, KnowledgeLevel.practicing],
-          [0, 3, 6, 8]),
+        "Knowledge level 'Practicing' selected",
+        [],
+        [KnowledgeLevel.practicing],
+        [6],
+      ),
+      FilterByTestCase(
+        "Knowledge level 'Seen' selected",
+        [],
+        [KnowledgeLevel.seen],
+        [7],
+      ),
+      FilterByTestCase(
+        "Knowledge level 'Never seen' selected",
+        [],
+        [KnowledgeLevel.other],
+        [8],
+      ),
+      FilterByTestCase(
+        "Multiple selections",
+        [JLPTLevel.level1, JLPTLevel.level4],
+        [KnowledgeLevel.other, KnowledgeLevel.practicing],
+        [0, 3, 6, 8],
+      ),
     ];
 
     for (final FilterByTestCase testCase in cases) {
       testWidgets(testCase.name, (WidgetTester tester) async {
-        await tester.pumpLocalizedWidget(FilterBy(
-          filterGlossary: () => {},
-          selectedJlptLevel: testCase.selectedJlptLevel,
-          selectedKnowledgeLevel: testCase.selectedKnowledgeLevel,
-        ));
+        await tester.pumpLocalizedWidget(
+          FilterBy(
+            filterGlossary: () => {},
+            selectedJlptLevel: testCase.selectedJlptLevel,
+            selectedKnowledgeLevel: testCase.selectedKnowledgeLevel,
+          ),
+        );
         await tester.pumpAndSettle();
 
         final checkboxes = find.byType(Checkbox);
         expect(checkboxes, findsNWidgets(9));
 
         for (int i = 0; i < 9; i++) {
-          expect((tester.widget(checkboxes.at(i)) as Checkbox).value,
-              testCase.indexesTrue.contains(i) ? isTrue : isFalse);
+          expect(
+            (tester.widget(checkboxes.at(i)) as Checkbox).value,
+            testCase.indexesTrue.contains(i) ? isTrue : isFalse,
+          );
         }
       });
     }
 
     testWidgets("Click on close", (WidgetTester tester) async {
       var isClicked = false;
-      await tester.pumpLocalizedWidget(FilterBy(
-        filterGlossary: () => {isClicked = true},
-        selectedJlptLevel: const [JLPTLevel.level1, JLPTLevel.level4],
-        selectedKnowledgeLevel: const [
-          KnowledgeLevel.other,
-          KnowledgeLevel.practicing
-        ],
-      ));
+      await tester.pumpLocalizedWidget(
+        FilterBy(
+          filterGlossary: () => {isClicked = true},
+          selectedJlptLevel: const [JLPTLevel.level1, JLPTLevel.level4],
+          selectedKnowledgeLevel: const [
+            KnowledgeLevel.other,
+            KnowledgeLevel.practicing,
+          ],
+        ),
+      );
       await tester.pumpAndSettle();
 
       final buttons = find.byType(IconButton);
@@ -84,13 +111,15 @@ void main() {
       final selectedJlptLevelList = [JLPTLevel.level1, JLPTLevel.level4];
       final selectedKnowledgeLevelList = [
         KnowledgeLevel.other,
-        KnowledgeLevel.practicing
+        KnowledgeLevel.practicing,
       ];
-      await tester.pumpLocalizedWidget(FilterBy(
-        filterGlossary: () => {isClicked = true},
-        selectedJlptLevel: selectedJlptLevelList,
-        selectedKnowledgeLevel: selectedKnowledgeLevelList,
-      ));
+      await tester.pumpLocalizedWidget(
+        FilterBy(
+          filterGlossary: () => {isClicked = true},
+          selectedJlptLevel: selectedJlptLevelList,
+          selectedKnowledgeLevel: selectedKnowledgeLevelList,
+        ),
+      );
       await tester.pumpAndSettle();
 
       final buttons = find.byType(IconButton);

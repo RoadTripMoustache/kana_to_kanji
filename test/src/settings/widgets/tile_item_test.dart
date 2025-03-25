@@ -12,35 +12,49 @@ void main() {
       const IconData leading = Icons.abc_rounded;
       const IconData trailing = Icons.account_circle_outlined;
 
-      await tester.pumpLocalizedWidget(const TileItem(
-        title: Text(title),
-        subtitle: Text(subtitle),
-        leading: Icon(leading),
-        trailing: Icon(trailing),
-      ));
+      await tester.pumpLocalizedWidget(
+        const TileItem(
+          title: Text(title),
+          subtitle: Text(subtitle),
+          leading: Icon(leading),
+          trailing: Icon(trailing),
+        ),
+      );
       await tester.pumpAndSettle();
 
       final widget = find.byType(TileItem);
 
       expect(widget, findsOneWidget);
 
-      expect(find.descendant(of: widget, matching: find.text(title)),
-          findsOneWidget);
-      expect(find.descendant(of: widget, matching: find.text(subtitle)),
-          findsOneWidget);
-      expect(find.descendant(of: widget, matching: find.byIcon(leading)),
-          findsOneWidget);
-      expect(find.descendant(of: widget, matching: find.byIcon(trailing)),
-          findsOneWidget);
+      expect(
+        find.descendant(of: widget, matching: find.text(title)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: widget, matching: find.text(subtitle)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: widget, matching: find.byIcon(leading)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: widget, matching: find.byIcon(trailing)),
+        findsOneWidget,
+      );
 
       expect(
-          find.descendant(
-              of: widget,
-              matching: find.byWidgetPredicate((widget) =>
-                  widget is ListTile &&
-                  widget.contentPadding ==
-                      const EdgeInsets.symmetric(horizontal: 16.0))),
-          findsOneWidget);
+        find.descendant(
+          of: widget,
+          matching: find.byWidgetPredicate(
+            (widget) =>
+                widget is ListTile &&
+                widget.contentPadding ==
+                    const EdgeInsets.symmetric(horizontal: 16.0),
+          ),
+        ),
+        findsOneWidget,
+      );
     });
   });
 }

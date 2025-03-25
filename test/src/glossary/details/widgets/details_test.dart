@@ -32,17 +32,25 @@ void main() {
 
       // Check section titles
       final sectionTitle = find.byType(SectionTitle);
-      expect(sectionTitle, findsOneWidget,
-          reason: "Should only have the pronunciation section as Kana "
-              "don't have meanings");
-      expect(tester.widget<SectionTitle>(sectionTitle).title,
-          equals(l10n.glossary_details_pronunciation(1)));
+      expect(
+        sectionTitle,
+        findsOneWidget,
+        reason:
+            "Should only have the pronunciation section as Kana "
+            "don't have meanings",
+      );
+      expect(
+        tester.widget<SectionTitle>(sectionTitle).title,
+        equals(l10n.glossary_details_pronunciation(1)),
+      );
 
       // Check pronunciation cards
       final pronunciationCard = find.byType(PronunciationCard);
       expect(pronunciationCard, findsOneWidget);
-      expect(tester.widget<PronunciationCard>(pronunciationCard).pronunciation,
-          equals(dummyHiragana.romaji));
+      expect(
+        tester.widget<PronunciationCard>(pronunciationCard).pronunciation,
+        equals(dummyHiragana.romaji),
+      );
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
@@ -52,18 +60,22 @@ void main() {
 
       // Check section titles
       final sectionTitles = find.byType(SectionTitle);
-      expect(sectionTitles, findsNWidgets(2),
-          reason: "Should the pronunciation and meaning section");
       expect(
-          tester
-              .widgetList<SectionTitle>(sectionTitles)
-              .map((sectionTitle) => sectionTitle.title),
-          equals([
-            l10n.glossary_details_pronunciation(dummyKanji.readings.length),
-            l10n.glossary_details_meaning(dummyKanji.meanings.length)
-          ]),
-          reason:
-              "Should have the pronunciation section than the meaning section");
+        sectionTitles,
+        findsNWidgets(2),
+        reason: "Should the pronunciation and meaning section",
+      );
+      expect(
+        tester
+            .widgetList<SectionTitle>(sectionTitles)
+            .map((sectionTitle) => sectionTitle.title),
+        equals([
+          l10n.glossary_details_pronunciation(dummyKanji.readings.length),
+          l10n.glossary_details_meaning(dummyKanji.meanings.length),
+        ]),
+        reason:
+            "Should have the pronunciation section than the meaning section",
+      );
 
       // Check the pronunciation section
       expect(find.widgetWithText(PronunciationCard, "ほん"), findsNWidgets(2));
@@ -76,29 +88,37 @@ void main() {
     });
 
     testWidgets("Vocabulary", (WidgetTester tester) async {
-      final widget =
-          await pump(tester, Details.vocabulary(vocabulary: dummyVocabulary));
+      final widget = await pump(
+        tester,
+        Details.vocabulary(vocabulary: dummyVocabulary),
+      );
 
       expect(widget, findsOneWidget);
 
       // Check section titles
       final sectionTitles = find.byType(SectionTitle);
-      expect(sectionTitles, findsNWidgets(2),
-          reason: "Should the pronunciation and meaning section");
       expect(
-          tester
-              .widgetList<SectionTitle>(sectionTitles)
-              .map((sectionTitle) => sectionTitle.title),
-          equals([
-            l10n.glossary_details_pronunciation(1),
-            l10n.glossary_details_meaning(dummyVocabulary.meanings.length)
-          ]),
-          reason:
-              "Should have the pronunciation section than the meaning section");
+        sectionTitles,
+        findsNWidgets(2),
+        reason: "Should the pronunciation and meaning section",
+      );
+      expect(
+        tester
+            .widgetList<SectionTitle>(sectionTitles)
+            .map((sectionTitle) => sectionTitle.title),
+        equals([
+          l10n.glossary_details_pronunciation(1),
+          l10n.glossary_details_meaning(dummyVocabulary.meanings.length),
+        ]),
+        reason:
+            "Should have the pronunciation section than the meaning section",
+      );
 
       // Check the pronunciation section
-      expect(find.widgetWithText(PronunciationCard, dummyVocabulary.kana),
-          findsOneWidget);
+      expect(
+        find.widgetWithText(PronunciationCard, dummyVocabulary.kana),
+        findsOneWidget,
+      );
 
       // Check the meaning section
       expect(find.byType(Chip), findsNWidgets(dummyVocabulary.meanings.length));

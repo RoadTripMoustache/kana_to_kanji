@@ -9,8 +9,9 @@ void main() {
     const frontText = "Front";
     const rearText = "Rear";
 
-    testWidgets("Should show the front widget when doing the first build",
-        (WidgetTester tester) async {
+    testWidgets("Should show the front widget when doing the first build", (
+      WidgetTester tester,
+    ) async {
       const widget = FlipCard(front: Text(frontText), back: Text(rearText));
 
       await tester.pumpLocalizedWidget(widget);
@@ -20,10 +21,14 @@ void main() {
       expect(find.text(rearText), findsNothing);
     });
 
-    testWidgets("Should show the back widget when asking for a flip",
-        (WidgetTester tester) async {
-      const widget =
-          FlipCard(front: Text(frontText), back: Text(rearText), flipped: true);
+    testWidgets("Should show the back widget when asking for a flip", (
+      WidgetTester tester,
+    ) async {
+      const widget = FlipCard(
+        front: Text(frontText),
+        back: Text(rearText),
+        flipped: true,
+      );
 
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
@@ -33,8 +38,9 @@ void main() {
     });
 
     group("Tap interaction", () {
-      testWidgets("should do nothing when tapped and interaction are disable",
-          (WidgetTester tester) async {
+      testWidgets("should do nothing when tapped and interaction are disable", (
+        WidgetTester tester,
+      ) async {
         const widget = FlipCard(front: Text(frontText), back: Text(rearText));
 
         await tester.pumpLocalizedWidget(widget);
@@ -50,10 +56,14 @@ void main() {
         expect(find.text(rearText), findsNothing);
       });
 
-      testWidgets("should flip when tapped and tap to flip is allowed",
-          (WidgetTester tester) async {
+      testWidgets("should flip when tapped and tap to flip is allowed", (
+        WidgetTester tester,
+      ) async {
         const widget = FlipCard(
-            front: Text(frontText), back: Text(rearText), allowTapToFlip: true);
+          front: Text(frontText),
+          back: Text(rearText),
+          allowTapToFlip: true,
+        );
 
         await tester.pumpLocalizedWidget(widget);
         await tester.pumpAndSettle();

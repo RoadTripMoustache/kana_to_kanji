@@ -10,9 +10,10 @@ import "../../../../helpers.dart";
 void main() {
   group("ToReviewSection", () {
     final Question kanaQuestionSample = Question(
-        alphabet: dummyKatakana.alphabet,
-        kana: dummyKatakana,
-        type: QuestionTypes.toJapanese);
+      alphabet: dummyKatakana.alphabet,
+      kana: dummyKatakana,
+      type: QuestionTypes.toJapanese,
+    );
 
     final List<Question> questions = [kanaQuestionSample];
 
@@ -23,8 +24,9 @@ void main() {
     });
 
     testWidgets("UI", (WidgetTester tester) async {
-      await tester
-          .pumpLocalizedWidget(ToReviewSection(questionsToReview: questions));
+      await tester.pumpLocalizedWidget(
+        ToReviewSection(questionsToReview: questions),
+      );
       await tester.pumpAndSettle();
 
       final widget = find.byType(ToReviewSection);
@@ -33,19 +35,21 @@ void main() {
       // Check the text
       final l10n = await setupLocalizations();
       expect(
-          find.descendant(
-              of: widget, matching: find.text(l10n.quiz_conclusion_to_review)),
-          findsOneWidget,
-          reason: "Should be displaying the section title");
+        find.descendant(
+          of: widget,
+          matching: find.text(l10n.quiz_conclusion_to_review),
+        ),
+        findsOneWidget,
+        reason: "Should be displaying the section title",
+      );
 
       // Check the list of question to review
       // Don't skip off stage to make sure everything is here.
       expect(
-          find.descendant(
-              of: widget, matching: find.byType(QuestionReviewTile)),
-          findsNWidgets(questions.length),
-          reason:
-              "Should display ${questions.length} question to review tiles");
+        find.descendant(of: widget, matching: find.byType(QuestionReviewTile)),
+        findsNWidgets(questions.length),
+        reason: "Should display ${questions.length} question to review tiles",
+      );
     });
   });
 }

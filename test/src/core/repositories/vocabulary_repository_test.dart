@@ -15,8 +15,9 @@ void main() {
     final vocabularyServiceMock = MockVocabularyService();
 
     setUp(() {
-      repository =
-          VocabularyRepository(vocabularyService: vocabularyServiceMock);
+      repository = VocabularyRepository(
+        vocabularyService: vocabularyServiceMock,
+      );
     });
 
     tearDown(() {
