@@ -45,13 +45,17 @@
   "quiz_build_select_all": "Sélectionner tous les {type, select, kana{kana} kanji{kanji} other{}}",
   "@quiz_build_select_all": {
     "placeholders": {
-      "type": {}
+      "type": {
+        "type": "String"
+      }
     }
   },
   "quiz_build_unselect_all": "Désélectionner tous les {type, select, kana{kana} kanji{kanji} other{}}",
   "@quiz_build_unselect_all": {
     "placeholders": {
-      "type": {}
+      "type": {
+        "type": "String"
+      }
     }
   },
   "quiz_build_nothing_selected": "Sélectionnez au moins un groupe avant de commencer",
