@@ -8,8 +8,11 @@ class AppNotFoundView extends StatelessWidget {
 
   final String goBackUrl;
 
-  const AppNotFoundView(
-      {required this.uri, required this.goBackUrl, super.key});
+  const AppNotFoundView({
+    required this.uri,
+    required this.goBackUrl,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,9 @@ class AppNotFoundView extends StatelessWidget {
           children: [
             Text(l10n.page_not_found(uri.path)),
             ElevatedButton(
-                onPressed: () => context.go(goBackUrl),
-                child: Text(l10n.go_home_button))
+              onPressed: () => context.go(goBackUrl),
+              child: Text(l10n.go_home_button),
+            ),
           ],
         ),
       ),

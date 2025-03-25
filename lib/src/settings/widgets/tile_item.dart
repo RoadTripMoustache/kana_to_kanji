@@ -7,21 +7,22 @@ class TileItem extends StatelessWidget {
   final Widget? trailing;
   final VoidCallback? onTap;
 
-  const TileItem(
-      {required this.title,
-      super.key,
-      this.subtitle,
-      this.leading,
-      this.trailing,
-      this.onTap});
+  const TileItem({
+    required this.title,
+    super.key,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) => ListTile(
-        leading: leading,
-        title: title,
-        subtitle: subtitle,
-        onTap: onTap,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-        trailing: trailing,
-      );
+    leading: leading,
+    title: title,
+    subtitle: subtitle,
+    onTap: onTap,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+    trailing: trailing,
+  );
 }

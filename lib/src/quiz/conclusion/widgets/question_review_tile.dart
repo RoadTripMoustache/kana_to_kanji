@@ -13,12 +13,14 @@ class QuestionReviewTile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final AppLocalizations l10n = AppLocalizations.of(context);
 
-    final String text = question.alphabet.isKana()
-        ? l10n.quiz_conclusion_kana(question.question, question.answer)
-        : question.question;
-    final Icon icon = question.remainingAttempt == 0
-        ? const Icon(Icons.close_rounded, color: Colors.red)
-        : const Icon(Icons.warning_rounded, color: Colors.orange);
+    final String text =
+        question.alphabet.isKana()
+            ? l10n.quiz_conclusion_kana(question.question, question.answer)
+            : question.question;
+    final Icon icon =
+        question.remainingAttempt == 0
+            ? const Icon(Icons.close_rounded, color: Colors.red)
+            : const Icon(Icons.warning_rounded, color: Colors.orange);
 
     return Card(
       child: Padding(
@@ -27,19 +29,18 @@ class QuestionReviewTile extends StatelessWidget {
           color: Colors.transparent,
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 4.0),
-                child: icon,
-              ),
+              Padding(padding: const EdgeInsets.only(right: 4.0), child: icon),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(text,
-                        style: textTheme.bodyLarge?.copyWith(fontSize: 18)),
+                    Text(
+                      text,
+                      style: textTheme.bodyLarge?.copyWith(fontSize: 18),
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

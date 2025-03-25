@@ -13,8 +13,9 @@ class KanaService {
       return _isar.kanas.where().findAll();
     }
 
-    var kanaQuery =
-        _isar.kanas.where().groupUid((q) => q.uidEqualTo(groupIds[0].uid));
+    var kanaQuery = _isar.kanas.where().groupUid(
+      (q) => q.uidEqualTo(groupIds[0].uid),
+    );
 
     for (var i = 1; i < groupIds.length; i++) {
       kanaQuery = kanaQuery.or().groupUid((q) => q.uidEqualTo(groupIds[i].uid));
@@ -37,9 +38,12 @@ class KanaService {
   List<Kana> getKatakana() => getKana(Alphabets.katakana);
 
   Future delete(ResourceUid resourceUid) async {
-    await _isar.writeAsync((isar) => isar.kanas
-        .where()
-        .uid((uid) => uid.uidEqualTo(resourceUid.uid))
-        .deleteFirst());
+    await _isar.writeAsync(
+      (isar) =>
+          isar.kanas
+              .where()
+              .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+              .deleteFirst(),
+    );
   }
 }

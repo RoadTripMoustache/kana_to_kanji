@@ -56,7 +56,8 @@ class PrepareQuizViewModel extends FutureViewModel {
   }
 
   void onSelectAllAlphabetTapped(Alphabets alphabet) {
-    final areAllSelected = selectedGroups
+    final areAllSelected =
+        selectedGroups
             .where((element) => element.alphabet == alphabet)
             .length ==
         _categoryTiles[alphabet]!.length;

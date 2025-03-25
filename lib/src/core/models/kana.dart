@@ -29,8 +29,15 @@ class Kana {
 
   final int position;
 
-  const Kana(this.uid, this.alphabet, this.groupUid, this.kana, this.romaji,
-      this.version, this.position);
+  const Kana(
+    this.uid,
+    this.alphabet,
+    this.groupUid,
+    this.kana,
+    this.romaji,
+    this.version,
+    this.position,
+  );
 
   factory Kana.fromJson(Map<String, dynamic> json) => _$KanaFromJson(json);
 }

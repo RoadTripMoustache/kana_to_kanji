@@ -31,8 +31,9 @@ class KanjiDataLoader {
     return _apiService
         .get("/v1/kanjis?details=light$versionQueryParam")
         .then(_extractKanjis)
-        .then((listKanji) =>
-            _isar.write((isar) => isar.kanjis.putAll(listKanji)));
+        .then(
+          (listKanji) => _isar.write((isar) => isar.kanjis.putAll(listKanji)),
+        );
   }
 
   /// Extract all the kana from the API Response.
@@ -62,8 +63,9 @@ class KanjiDataLoader {
           k["jp_sort_syllables"] = splitBySyllable(k["on_readings"][0]);
         } else if (k["pronunciations"] != null &&
             !k["pronunciations"].isEmpty) {
-          k["jp_sort_syllables"] =
-              splitBySyllable(k["pronunciations"][0]["readings"][0]);
+          k["jp_sort_syllables"] = splitBySyllable(
+            k["pronunciations"][0]["readings"][0],
+          );
         }
         kanjis.add(Kanji.fromJson(k));
       }

@@ -10,9 +10,12 @@ class KanjiService {
   List<Kanji> getAll() => _isar.kanjis.where().findAll();
 
   Future delete(ResourceUid resourceUid) async {
-    await _isar.writeAsync((isar) => isar.kanjis
-        .where()
-        .uid((uid) => uid.uidEqualTo(resourceUid.uid))
-        .deleteFirst());
+    await _isar.writeAsync(
+      (isar) =>
+          isar.kanjis
+              .where()
+              .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+              .deleteFirst(),
+    );
   }
 }

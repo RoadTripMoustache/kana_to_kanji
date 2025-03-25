@@ -29,7 +29,8 @@ class QuizConclusionViewModel extends BaseViewModel {
       }
     }
 
-    wrongAnswers
-        .sort((a, b) => a.remainingAttempt > b.remainingAttempt ? 1 : -1);
+    wrongAnswers.sort(
+      (a, b) => a.remainingAttempt > b.remainingAttempt ? 1 : -1,
+    );
   }
 }

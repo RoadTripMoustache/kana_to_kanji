@@ -5,7 +5,6 @@ part "example.g.dart";
 
 @JsonSerializable()
 @embedded
-
 /// Example of a usage of a resource
 class Example {
   final String japanese;

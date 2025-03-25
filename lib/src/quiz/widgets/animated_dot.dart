@@ -5,17 +5,21 @@ class AnimatedDot extends StatelessWidget {
 
   final bool filledOut;
 
-  const AnimatedDot(
-      {super.key, this.color = Colors.grey, this.filledOut = true});
+  const AnimatedDot({
+    super.key,
+    this.color = Colors.grey,
+    this.filledOut = true,
+  });
 
   @override
   Widget build(BuildContext context) => AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: const EdgeInsets.all(3),
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: filledOut ? color : Colors.transparent,
-            border: Border.all(color: color)),
-      );
+    duration: const Duration(milliseconds: 300),
+    margin: const EdgeInsets.all(3),
+    padding: const EdgeInsets.all(5),
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: filledOut ? color : Colors.transparent,
+      border: Border.all(color: color),
+    ),
+  );
 }

@@ -5,11 +5,7 @@ enum Environment { dev, beta, prod }
 class AppConfig extends InheritedWidget {
   final Environment environment;
 
-  const AppConfig({
-    required super.child,
-    required this.environment,
-    super.key,
-  });
+  const AppConfig({required super.child, required this.environment, super.key});
 
   static AppConfig of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<AppConfig>()!;

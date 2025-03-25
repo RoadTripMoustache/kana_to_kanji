@@ -30,23 +30,26 @@ class VocabularyRepository {
   }
 
   List<Vocabulary> searchVocabulary(
-      String searchTxt,
-      List<KnowledgeLevel> selectedKnowledgeLevel,
-      List<JLPTLevel> selectedJLPTLevel,
-      SortOrder selectedOrder) {
+    String searchTxt,
+    List<KnowledgeLevel> selectedKnowledgeLevel,
+    List<JLPTLevel> selectedJLPTLevel,
+    SortOrder selectedOrder,
+  ) {
     getAll();
     bool Function(Vocabulary) txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
-      txtFilter = (vocabulary) =>
-          vocabulary.romaji.contains(searchTxt) ||
-          vocabulary.meanings
-              .where((String meaning) => meaning.contains(searchTxt))
-              .toList()
-              .isNotEmpty;
+      txtFilter =
+          (vocabulary) =>
+              vocabulary.romaji.contains(searchTxt) ||
+              vocabulary.meanings
+                  .where((String meaning) => meaning.contains(searchTxt))
+                  .toList()
+                  .isNotEmpty;
     } else if (searchTxt != "") {
-      txtFilter = (vocabulary) =>
-          vocabulary.kanji.contains(searchTxt) ||
-          vocabulary.kana.contains(searchTxt);
+      txtFilter =
+          (vocabulary) =>
+              vocabulary.kanji.contains(searchTxt) ||
+              vocabulary.kana.contains(searchTxt);
     }
 
     bool Function(Vocabulary) knowledgeLevelFilter = (element) => true;
@@ -57,22 +60,28 @@ class VocabularyRepository {
 
     bool Function(Vocabulary) jlptLevelFilter = (element) => true;
     if (selectedJLPTLevel.isNotEmpty) {
-      jlptLevelFilter = (vocabulary) =>
-          selectedJLPTLevel.contains(JLPTLevel.getValue(vocabulary.jlptLevel));
+      jlptLevelFilter =
+          (vocabulary) => selectedJLPTLevel.contains(
+            JLPTLevel.getValue(vocabulary.jlptLevel),
+          );
     }
 
-    final vocabularyList = vocabularies
-        .where(txtFilter)
-        .where(knowledgeLevelFilter)
-        .where(jlptLevelFilter)
-        .toList();
+    final vocabularyList =
+        vocabularies
+            .where(txtFilter)
+            .where(knowledgeLevelFilter)
+            .where(jlptLevelFilter)
+            .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      vocabularyList.sort((Vocabulary a, Vocabulary b) =>
-          sortBySyllables(a.kanaSyllables, b.kanaSyllables));
+      vocabularyList.sort(
+        (Vocabulary a, Vocabulary b) =>
+            sortBySyllables(a.kanaSyllables, b.kanaSyllables),
+      );
     } else {
-      vocabularyList
-          .sort((Vocabulary a, Vocabulary b) => a.romaji.compareTo(b.romaji));
+      vocabularyList.sort(
+        (Vocabulary a, Vocabulary b) => a.romaji.compareTo(b.romaji),
+      );
     }
 
     return vocabularyList;

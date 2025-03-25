@@ -1,4 +1,1 @@
-enum LearningMode {
-  learn,
-  review;
-}
+enum LearningMode { learn, review }

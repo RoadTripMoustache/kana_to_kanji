@@ -18,8 +18,9 @@ class KanjiList extends StatefulWidget {
 class _KanjiListState extends State<KanjiList> {
   final _numberOfPostsPerRequest = 20;
 
-  final PagingController<int, Kanji> _pagingController =
-      PagingController(firstPageKey: 0);
+  final PagingController<int, Kanji> _pagingController = PagingController(
+    firstPageKey: 0,
+  );
 
   @override
   void initState() {
@@ -30,10 +31,11 @@ class _KanjiListState extends State<KanjiList> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<Kanji> kanjiList = [];
-      for (int i = pageKey * _numberOfPostsPerRequest;
-          i < (pageKey + 1) * _numberOfPostsPerRequest &&
-              i < widget.items.length;
-          i++) {
+      for (
+        int i = pageKey * _numberOfPostsPerRequest;
+        i < (pageKey + 1) * _numberOfPostsPerRequest && i < widget.items.length;
+        i++
+      ) {
         kanjiList.add(widget.items.elementAt(i));
       }
 
@@ -54,11 +56,13 @@ class _KanjiListState extends State<KanjiList> {
   Widget build(BuildContext context) {
     _pagingController.refresh();
     return PagedListView<int, Kanji>(
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Kanji>(
-          itemBuilder: (context, item, index) =>
-              GlossaryListTile.kanji(item, onPressed: () => _onPressed(item)),
-        ));
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Kanji>(
+        itemBuilder:
+            (context, item, index) =>
+                GlossaryListTile.kanji(item, onPressed: () => _onPressed(item)),
+      ),
+    );
   }
 
   void _onPressed(Kanji kanji) {

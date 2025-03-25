@@ -18,19 +18,19 @@ class SettingsViewModel extends BaseViewModel {
   SettingsViewModel({required this.l10n});
 
   Map<ThemeMode, Map<String, dynamic>> get themeModes => {
-        ThemeMode.light: {
-          "icon": Icons.light_mode_rounded,
-          "tooltip": l10n.settings_theme_light
-        },
-        ThemeMode.system: {
-          "icon": Icons.smartphone_rounded,
-          "tooltip": l10n.settings_theme_system
-        },
-        ThemeMode.dark: {
-          "icon": Icons.dark_mode_rounded,
-          "tooltip": l10n.settings_theme_dark
-        },
-      };
+    ThemeMode.light: {
+      "icon": Icons.light_mode_rounded,
+      "tooltip": l10n.settings_theme_light,
+    },
+    ThemeMode.system: {
+      "icon": Icons.smartphone_rounded,
+      "tooltip": l10n.settings_theme_system,
+    },
+    ThemeMode.dark: {
+      "icon": Icons.dark_mode_rounded,
+      "tooltip": l10n.settings_theme_dark,
+    },
+  };
 
   ThemeMode get _themeMode => _repository.themeMode;
 
@@ -54,9 +54,10 @@ class SettingsViewModel extends BaseViewModel {
   /// Open the feedback dialog
   Future<void> giveFeedback() async {
     await locator<DialogService>().showModalBottomSheet(
-        enableDrag: false,
-        showDragHandle: true,
-        isScrollControlled: true,
-        builder: (context) => const FeedbackView());
+      enableDrag: false,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (context) => const FeedbackView(),
+    );
   }
 }

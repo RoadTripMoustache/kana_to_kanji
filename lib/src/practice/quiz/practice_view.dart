@@ -16,17 +16,18 @@ class PracticeView extends StatelessWidget {
 
     return ViewModelBuilder<PracticeViewModel>.reactive(
       viewModelBuilder: () => PracticeViewModel(GoRouter.of(context)),
-      builder: (context, viewModel, child) => AppScaffold(
-        resizeToAvoidBottomInset: true,
-        showBottomBar: true,
-        body: SizedBox(
-          width: double.infinity,
-          child: FilledButton(
-            onPressed: () {},
-            child: Text(l10n.practice_quiz_practice_button),
+      builder:
+          (context, viewModel, child) => AppScaffold(
+            resizeToAvoidBottomInset: true,
+            showBottomBar: true,
+            body: SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () {},
+                child: Text(l10n.practice_quiz_practice_button),
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 }

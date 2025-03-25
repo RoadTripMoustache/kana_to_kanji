@@ -8,14 +8,19 @@ class GroupsService {
   final Isar _isar = locator<Isar>();
 
   /// Get all the groups related to the alphabet given in parameter.
-  Future<List<Group>> getGroups(Alphabets alphabet,
-          {bool reload = false}) async =>
+  Future<List<Group>> getGroups(
+    Alphabets alphabet, {
+    bool reload = false,
+  }) async =>
       Future.value(_isar.groups.where().alphabetEqualTo(alphabet).findAll());
 
   Future delete(ResourceUid resourceUid) async {
-    await _isar.writeAsync((isar) => isar.groups
-        .where()
-        .uid((uid) => uid.uidEqualTo(resourceUid.uid))
-        .deleteFirst());
+    await _isar.writeAsync(
+      (isar) =>
+          isar.groups
+              .where()
+              .uid((uid) => uid.uidEqualTo(resourceUid.uid))
+              .deleteFirst(),
+    );
   }
 }

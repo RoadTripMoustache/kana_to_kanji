@@ -16,15 +16,16 @@ class Sync {
   final bool vocabulary;
   final bool forceReload;
 
-  const Sync(
-      {required this.achievements,
-      required this.cleanup,
-      required this.groupsFlag,
-      required this.kana,
-      required this.kanji,
-      required this.learning,
-      required this.vocabulary,
-      this.forceReload = false});
+  const Sync({
+    required this.achievements,
+    required this.cleanup,
+    required this.groupsFlag,
+    required this.kana,
+    required this.kanji,
+    required this.learning,
+    required this.vocabulary,
+    this.forceReload = false,
+  });
 
   factory Sync.fromJson(Map<String, dynamic> json) => _$SyncFromJson(json);
 }

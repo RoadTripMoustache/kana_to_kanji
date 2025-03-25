@@ -48,7 +48,9 @@ class InfoService {
   Future _buildAndroidDeviceInfo(DeviceInfoPlugin deviceInfoPlugin) async {
     if (defaultTargetPlatform != TargetPlatform.android) {
       throw PlatformException(
-          code: "INVALID PLATFORM", message: "Platform isn't android");
+        code: "INVALID PLATFORM",
+        message: "Platform isn't android",
+      );
     }
     final info = await deviceInfoPlugin.androidInfo;
 
@@ -59,7 +61,9 @@ class InfoService {
   Future _buildIOSDeviceInfo(DeviceInfoPlugin deviceInfoPlugin) async {
     if (defaultTargetPlatform != TargetPlatform.iOS) {
       throw PlatformException(
-          code: "INVALID PLATFORM", message: "Platform isn't iOS");
+        code: "INVALID PLATFORM",
+        message: "Platform isn't iOS",
+      );
     }
     final info = await deviceInfoPlugin.iosInfo;
 
@@ -70,7 +74,9 @@ class InfoService {
   Future _buildWebDeviceInfo(DeviceInfoPlugin deviceInfoPlugin) async {
     if (!kIsWeb) {
       throw PlatformException(
-          code: "INVALID PLATFORM", message: "Platform isn't Web");
+        code: "INVALID PLATFORM",
+        message: "Platform isn't Web",
+      );
     }
     final info = await deviceInfoPlugin.webBrowserInfo;
 

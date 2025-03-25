@@ -11,7 +11,8 @@ class PronunciationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ActionChip(
-      avatar: const Icon(Icons.volume_up_rounded),
-      label: Text(pronunciation),
-      onPressed: _onPressed);
+    avatar: const Icon(Icons.volume_up_rounded),
+    label: Text(pronunciation),
+    onPressed: _onPressed,
+  );
 }

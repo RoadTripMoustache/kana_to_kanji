@@ -14,23 +14,29 @@ class FuriganaText extends StatelessWidget {
   /// Widget used to display [furigana] in top of [text] when
   /// [showFurigana] is true. Please note that no logic of verification
   /// are done, meaning that you can display any text on top of [text].
-  const FuriganaText(
-      {required this.text,
-      super.key,
-      this.furigana,
-      this.showFurigana = false,
-      this.style});
+  const FuriganaText({
+    required this.text,
+    super.key,
+    this.furigana,
+    this.showFurigana = false,
+    this.style,
+  });
 
-  factory FuriganaText.kanji(Kanji kanji,
-          {String? furigana, TextStyle? style, bool showFurigana = false}) =>
-      FuriganaText(
-          text: kanji.kanji,
-          furigana: furigana ??
-              (kanji.kunReadings.isNotEmpty
-                  ? kanji.kunReadings[0]
-                  : kanji.onReadings[0]),
-          showFurigana: showFurigana,
-          style: style);
+  factory FuriganaText.kanji(
+    Kanji kanji, {
+    String? furigana,
+    TextStyle? style,
+    bool showFurigana = false,
+  }) => FuriganaText(
+    text: kanji.kanji,
+    furigana:
+        furigana ??
+        (kanji.kunReadings.isNotEmpty
+            ? kanji.kunReadings[0]
+            : kanji.onReadings[0]),
+    showFurigana: showFurigana,
+    style: style,
+  );
 
   factory FuriganaText.vocabulary(Vocabulary vocabulary, {TextStyle? style}) {
     if (vocabulary.kanji.isEmpty) {
@@ -38,10 +44,11 @@ class FuriganaText extends StatelessWidget {
     }
 
     return FuriganaText(
-        text: vocabulary.kanji,
-        furigana: vocabulary.kana,
-        showFurigana: true,
-        style: style);
+      text: vocabulary.kanji,
+      furigana: vocabulary.kana,
+      showFurigana: true,
+      style: style,
+    );
   }
 
   @override
@@ -50,22 +57,15 @@ class FuriganaText extends StatelessWidget {
 
     if (showFurigana && furigana != null) {
       final fontSize = Theme.of(context).textTheme.bodySmall?.fontSize ?? 12;
-      final TextStyle furiganaStyle =
-          defaultTextStyle.style.merge(style).copyWith(fontSize: fontSize);
+      final TextStyle furiganaStyle = defaultTextStyle.style
+          .merge(style)
+          .copyWith(fontSize: fontSize);
 
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            furigana!,
-            style: furiganaStyle,
-            softWrap: true,
-          ),
-          Text(
-            text,
-            style: style,
-            softWrap: true,
-          )
+          Text(furigana!, style: furiganaStyle, softWrap: true),
+          Text(text, style: style, softWrap: true),
         ],
       );
     }

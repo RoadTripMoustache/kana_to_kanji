@@ -30,16 +30,18 @@ class Kanji {
   final List<String> meanings; // TODO : To delete
 
   /// Pronunciations in sino-Japanese
+  ///
+  /// TODO : To delete once migrated to "pronunciations"
   @Default([])
   @JsonKey(name: "on_readings")
-  final List<String>
-      onReadings; // TODO : To delete once migrated to "pronunciations"
+  final List<String> onReadings;
 
   /// Pronunciations in Japanese
+  ///
+  /// TODO : To delete once migrated to "pronunciations"
   @Default([])
   @JsonKey(name: "kun_readings")
-  final List<String>
-      kunReadings; // TODO : To delete once migrated to "pronunciations"
+  final List<String> kunReadings;
 
   /// Pronunciations of the kanji
   @Default([])
@@ -48,10 +50,11 @@ class Kanji {
   final String version;
 
   /// List of vocabulary word ids that use the kanji
+  ///
+  /// TODO : To delete once migrated to "relatedVocabulary"
   @Default([])
   @JsonKey(name: "vocabulary_ids")
-  final List<int>?
-      vocabularyIds; // TODO : To delete once migrated to "relatedVocabulary"
+  final List<int>? vocabularyIds;
 
   /// List of vocabulary words that use the kanji
   @Default([])
@@ -76,25 +79,28 @@ class Kanji {
   final String? mainMeaning;
 
   const Kanji(
-      this.uid,
-      this.kanji,
-      this.numberOfStrokes,
-      this.grade,
-      this.jlptLevel,
-      this.meanings,
-      this.onReadings,
-      this.kunReadings,
-      this.pronunciations,
-      this.version,
-      this.vocabularyIds,
-      this.relatedVocabulary,
-      this.jpSortSyllables,
-      this.examples,
-      this.groupList,
-      this.mainMeaning);
+    this.uid,
+    this.kanji,
+    this.numberOfStrokes,
+    this.grade,
+    this.jlptLevel,
+    this.meanings,
+    this.onReadings,
+    this.kunReadings,
+    this.pronunciations,
+    this.version,
+    this.vocabularyIds,
+    this.relatedVocabulary,
+    this.jpSortSyllables,
+    this.examples,
+    this.groupList,
+    this.mainMeaning,
+  );
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 
-  List<String> get readings =>
-      [...kunReadings, ...onReadings]; // TODO : To delete
+  List<String> get readings => [
+    ...kunReadings,
+    ...onReadings,
+  ]; // TODO : To delete
 }

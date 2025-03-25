@@ -35,7 +35,6 @@ final GetIt locator = GetIt.instance;
 void setupLocator() {
   locator
     ..registerLazySingleton<Logger>(Logger.new)
-
     //----------------------//
     // ----- Services ----- //
     //----------------------//
@@ -44,22 +43,24 @@ void setupLocator() {
     ..registerLazySingleton<PreferencesService>(PreferencesService.new)
     ..registerSingletonAsync<TokenService>(() async => TokenService())
     ..registerSingleton<ToasterService>(ToasterService())
-    ..registerSingletonWithDependencies<ApiService>(ApiService.new,
-        dependsOn: [TokenService])
+    ..registerSingletonWithDependencies<ApiService>(
+      ApiService.new,
+      dependsOn: [TokenService],
+    )
     ..registerSingletonAsync<InfoService>(() async {
       final instance = InfoService();
       await instance.initialize();
       return instance;
     })
-
     // ---------------- //
     // ----- Isar ----- //
     // ---------------- //
     ..registerSingletonAsync<Isar>(() async {
       await Isar.initialize();
-      final String directory = kIsWeb
-          ? Isar.sqliteInMemory
-          : (await getApplicationSupportDirectory()).path;
+      final String directory =
+          kIsWeb
+              ? Isar.sqliteInMemory
+              : (await getApplicationSupportDirectory()).path;
 
       final isar = Isar.open(
         schemas: [
@@ -67,7 +68,7 @@ void setupLocator() {
           KanaSchema,
           KanjiSchema,
           VocabularySchema,
-          UserSchema
+          UserSchema,
         ],
         directory: directory,
         engine: IsarEngine.sqlite,
@@ -75,21 +76,26 @@ void setupLocator() {
 
       return isar;
     })
-
     // ------------------------ //
     // ----- Repositories ----- //
     // ------------------------ //
-    ..registerSingletonWithDependencies<GroupsRepository>(GroupsRepository.new,
-        dependsOn: [Isar])
-    ..registerSingletonWithDependencies<KanaRepository>(KanaRepository.new,
-        dependsOn: [Isar])
-    ..registerSingletonWithDependencies<KanjiRepository>(KanjiRepository.new,
-        dependsOn: [Isar])
+    ..registerSingletonWithDependencies<GroupsRepository>(
+      GroupsRepository.new,
+      dependsOn: [Isar],
+    )
+    ..registerSingletonWithDependencies<KanaRepository>(
+      KanaRepository.new,
+      dependsOn: [Isar],
+    )
+    ..registerSingletonWithDependencies<KanjiRepository>(
+      KanjiRepository.new,
+      dependsOn: [Isar],
+    )
     ..registerSingletonWithDependencies<VocabularyRepository>(
-        VocabularyRepository.new,
-        dependsOn: [Isar])
+      VocabularyRepository.new,
+      dependsOn: [Isar],
+    )
     ..registerSingleton<SettingsRepository>(SettingsRepository())
-
     // ------------------------ //
     // ----- Data Loaders ----- //
     // ------------------------ //
@@ -109,7 +115,6 @@ void setupLocator() {
           }
           return instance;
         }, dependsOn: [Isar])
-
         // - Kana
         ..registerSingletonAsync<KanaDataLoader>(() async {
           final instance = KanaDataLoader();
@@ -119,7 +124,6 @@ void setupLocator() {
           }
           return instance;
         }, dependsOn: [Isar])
-
         // - Kanji
         ..registerSingletonAsync<KanjiDataLoader>(() async {
           final instance = KanjiDataLoader();
@@ -129,7 +133,6 @@ void setupLocator() {
           }
           return instance;
         }, dependsOn: [Isar])
-
         // - Vocabulary
         ..registerSingletonAsync<VocabularyDataLoader>(() async {
           final instance = VocabularyDataLoader();
@@ -139,7 +142,6 @@ void setupLocator() {
           }
           return instance;
         }, dependsOn: [Isar])
-
         // - Clean up
         ..registerSingletonAsync<CleanUpService>(() async {
           final instance = CleanUpService();
@@ -148,14 +150,10 @@ void setupLocator() {
             await instance.executeCleanUp(forceReload: sync.forceReload);
           }
           return instance;
-        }, dependsOn: [
-          Isar,
-          ApiService,
-        ]);
+        }, dependsOn: [Isar, ApiService]);
 
       return instance;
     }, dependsOn: [ApiService, Isar])
-
     // - user
     ..registerSingletonAsync<UserDataLoader>(() async {
       final instance = UserDataLoader();
@@ -163,12 +161,15 @@ void setupLocator() {
       await instance.loadCollection();
       return instance;
     }, dependsOn: [ApiService, Isar])
-
     // ---------------------------- //
     // ----- Services with DB ----- //
     // ---------------------------- //
-    ..registerSingletonWithDependencies<UserService>(UserService.new,
-        dependsOn: [Isar, UserDataLoader])
-    ..registerSingletonWithDependencies<UserRepository>(UserRepository.new,
-        dependsOn: [Isar, UserService, AuthService]);
+    ..registerSingletonWithDependencies<UserService>(
+      UserService.new,
+      dependsOn: [Isar, UserDataLoader],
+    )
+    ..registerSingletonWithDependencies<UserRepository>(
+      UserRepository.new,
+      dependsOn: [Isar, UserService, AuthService],
+    );
 }

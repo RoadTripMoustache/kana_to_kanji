@@ -15,13 +15,14 @@ class KanaGroupsSection extends StatelessWidget {
 
   final Function(List<Group> groups, {bool toAdd}) onSelectAllTapped;
 
-  const KanaGroupsSection(
-      {required this.type,
-      required this.groups,
-      required this.selectedGroups,
-      required this.onGroupTapped,
-      required this.onSelectAllTapped,
-      super.key});
+  const KanaGroupsSection({
+    required this.type,
+    required this.groups,
+    required this.selectedGroups,
+    required this.onGroupTapped,
+    required this.onSelectAllTapped,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,30 +40,38 @@ class KanaGroupsSection extends StatelessWidget {
 
     final areAllSelected =
         selectedGroups.where((group) => group.kanaType == type).length ==
-            groups.length;
+        groups.length;
 
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      ListTile(
-        title: Text(sectionTitle),
-        trailing: TextButton(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          title: Text(sectionTitle),
+          trailing: TextButton(
             onPressed: () => onSelectAllTapped(groups, toAdd: !areAllSelected),
-            child: Text(areAllSelected ? l10n.unselect_all : l10n.select_all)),
-      ),
-      const Padding(
-        padding: EdgeInsets.only(bottom: 8.0),
-        child: Divider(height: 0),
-      ),
-      GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 3.5, crossAxisCount: 2),
-        itemCount: groups.length,
-        itemBuilder: (context, index) => GroupCard(
-            isChecked: selectedGroups.contains(groups[index]),
-            onTap: onGroupTapped,
-            group: groups[index]),
-      )
-    ]);
+            child: Text(areAllSelected ? l10n.unselect_all : l10n.select_all),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 8.0),
+          child: Divider(height: 0),
+        ),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 3.5,
+            crossAxisCount: 2,
+          ),
+          itemCount: groups.length,
+          itemBuilder:
+              (context, index) => GroupCard(
+                isChecked: selectedGroups.contains(groups[index]),
+                onTap: onGroupTapped,
+                group: groups[index],
+              ),
+        ),
+      ],
+    );
   }
 }

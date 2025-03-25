@@ -28,8 +28,14 @@ class Group {
 
   final String version;
 
-  Group(this.uid, this.alphabet, this.name, this.kanaType, this.localizedName,
-      this.version);
+  Group(
+    this.uid,
+    this.alphabet,
+    this.name,
+    this.kanaType,
+    this.localizedName,
+    this.version,
+  );
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 }

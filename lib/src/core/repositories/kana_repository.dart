@@ -18,8 +18,10 @@ class KanaRepository {
 
   void loadKana() {
     if (kana.isEmpty) {
-      kana.addAll(
-          [..._kanaService.getHiragana(), ..._kanaService.getKatakana()]);
+      kana.addAll([
+        ..._kanaService.getHiragana(),
+        ..._kanaService.getKatakana(),
+      ]);
     }
   }
 
@@ -35,9 +37,10 @@ class KanaRepository {
 
   List<Kana> getHiragana() {
     loadKana();
-    final listKana = kana
-        .where((element) => Alphabets.hiragana == element.alphabet)
-        .toList();
+    final listKana =
+        kana
+            .where((element) => Alphabets.hiragana == element.alphabet)
+            .toList();
 
     // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
@@ -46,7 +49,9 @@ class KanaRepository {
   }
 
   List<Kana> searchHiragana(
-      String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel) {
+    String searchTxt,
+    List<KnowledgeLevel> selectedKnowledgeLevel,
+  ) {
     /// If is there more than 3 characters in the searchTxt,
     /// return directly an empty list as anything will match.
     if (searchTxt.length > 3) {
@@ -66,11 +71,12 @@ class KanaRepository {
       // TODO : To implement once level is added
       knowledgeLevelFilter = (element) => false;
     }
-    final listKana = kana
-        .where((element) => Alphabets.hiragana == element.alphabet)
-        .where(txtFilter)
-        .where(knowledgeLevelFilter)
-        .toList();
+    final listKana =
+        kana
+            .where((element) => Alphabets.hiragana == element.alphabet)
+            .where(txtFilter)
+            .where(knowledgeLevelFilter)
+            .toList();
 
     // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
@@ -80,9 +86,10 @@ class KanaRepository {
 
   List<Kana> getKatakana() {
     loadKana();
-    final listKana = kana
-        .where((element) => Alphabets.katakana == element.alphabet)
-        .toList();
+    final listKana =
+        kana
+            .where((element) => Alphabets.katakana == element.alphabet)
+            .toList();
 
     // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
@@ -91,7 +98,9 @@ class KanaRepository {
   }
 
   List<Kana> searchKatakana(
-      String searchTxt, List<KnowledgeLevel> selectedKnowledgeLevel) {
+    String searchTxt,
+    List<KnowledgeLevel> selectedKnowledgeLevel,
+  ) {
     /// If is there more than 3 characters in the searchTxt,
     /// return directly an empty list as anything will match.
     if (searchTxt.length > 3) {
@@ -112,11 +121,12 @@ class KanaRepository {
       knowledgeLevelFilter = (element) => false;
     }
 
-    final listKana = kana
-        .where((element) => Alphabets.katakana == element.alphabet)
-        .where(txtFilter)
-        .where(knowledgeLevelFilter)
-        .toList();
+    final listKana =
+        kana
+            .where((element) => Alphabets.katakana == element.alphabet)
+            .where(txtFilter)
+            .where(knowledgeLevelFilter)
+            .toList();
 
     // ignore: cascade_invocations
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));

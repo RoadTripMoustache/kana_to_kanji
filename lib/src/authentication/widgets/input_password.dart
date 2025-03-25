@@ -41,8 +41,9 @@ class InputPassword extends StatefulWidget {
 }
 
 class _InputPasswordState extends State<InputPassword> {
-  final GlobalKey<FormFieldState> _formFieldKey =
-      GlobalKey<FormFieldState>(debugLabel: "password_input_widget");
+  final GlobalKey<FormFieldState> _formFieldKey = GlobalKey<FormFieldState>(
+    debugLabel: "password_input_widget",
+  );
 
   // Timer applied before the validation is triggered
   Timer? timer;
@@ -109,9 +110,11 @@ class _InputPasswordState extends State<InputPassword> {
         decoration: InputDecoration(
           hintText: widget.textHint ?? l10n.input_password_placeholder,
           suffixIcon: IconButton(
-            icon: Icon(isPasswordObscured
-                ? Icons.visibility_rounded
-                : Icons.visibility_off_rounded),
+            icon: Icon(
+              isPasswordObscured
+                  ? Icons.visibility_rounded
+                  : Icons.visibility_off_rounded,
+            ),
             onPressed: _toggleVisibility,
           ),
           alignLabelWithHint: false,

@@ -30,29 +30,33 @@ class KanjiRepository {
   }
 
   List<Kanji> searchKanji(
-      String searchTxt,
-      List<KnowledgeLevel> selectedKnowledgeLevel,
-      List<JLPTLevel> selectedJLPTLevel,
-      SortOrder selectedOrder) {
+    String searchTxt,
+    List<KnowledgeLevel> selectedKnowledgeLevel,
+    List<JLPTLevel> selectedJLPTLevel,
+    SortOrder selectedOrder,
+  ) {
     getAll();
 
     var txtFilter = (Kanji element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
-      txtFilter = (kanji) => kanji.meanings
-          .where((meaning) => meaning.contains(searchTxt))
-          .toList()
-          .isNotEmpty;
+      txtFilter =
+          (kanji) =>
+              kanji.meanings
+                  .where((meaning) => meaning.contains(searchTxt))
+                  .toList()
+                  .isNotEmpty;
     } else if (searchTxt != "") {
-      txtFilter = (kanji) =>
-          kanji.kanji == searchTxt ||
-          kanji.kunReadings
-              .where((String reading) => reading.contains(searchTxt))
-              .toList()
-              .isNotEmpty ||
-          kanji.onReadings
-              .where((String reading) => reading.contains(searchTxt))
-              .toList()
-              .isNotEmpty;
+      txtFilter =
+          (kanji) =>
+              kanji.kanji == searchTxt ||
+              kanji.kunReadings
+                  .where((String reading) => reading.contains(searchTxt))
+                  .toList()
+                  .isNotEmpty ||
+              kanji.onReadings
+                  .where((String reading) => reading.contains(searchTxt))
+                  .toList()
+                  .isNotEmpty;
     }
 
     var knowledgeLevelFilter = (Kanji element) => true;
@@ -63,21 +67,26 @@ class KanjiRepository {
 
     var jlptLevelFilter = (Kanji element) => true;
     if (selectedJLPTLevel.isNotEmpty) {
-      jlptLevelFilter = (Kanji kanji) =>
-          selectedJLPTLevel.contains(JLPTLevel.getValue(kanji.jlptLevel));
+      jlptLevelFilter =
+          (Kanji kanji) =>
+              selectedJLPTLevel.contains(JLPTLevel.getValue(kanji.jlptLevel));
     }
-    final kanjiList = kanjis
-        .where(txtFilter)
-        .where(knowledgeLevelFilter)
-        .where(jlptLevelFilter)
-        .toList();
+    final kanjiList =
+        kanjis
+            .where(txtFilter)
+            .where(knowledgeLevelFilter)
+            .where(jlptLevelFilter)
+            .toList();
 
     if (selectedOrder == SortOrder.japanese) {
-      kanjiList.sort((Kanji a, Kanji b) =>
-          sortBySyllables(a.jpSortSyllables, b.jpSortSyllables));
+      kanjiList.sort(
+        (Kanji a, Kanji b) =>
+            sortBySyllables(a.jpSortSyllables, b.jpSortSyllables),
+      );
     } else {
-      kanjiList
-          .sort((Kanji a, Kanji b) => a.meanings[0].compareTo(b.meanings[0]));
+      kanjiList.sort(
+        (Kanji a, Kanji b) => a.meanings[0].compareTo(b.meanings[0]),
+      );
     }
 
     return kanjiList;

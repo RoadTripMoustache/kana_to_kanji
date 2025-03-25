@@ -1,6 +1,1 @@
-enum AuthenticationMethod {
-  google,
-  apple,
-  classic,
-  anonymous;
-}
+enum AuthenticationMethod { google, apple, classic, anonymous }

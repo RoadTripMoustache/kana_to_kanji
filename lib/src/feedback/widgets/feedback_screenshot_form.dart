@@ -37,19 +37,21 @@ class _FeedbackScreenshotFormState extends State<FeedbackScreenshotForm> {
       child: Theme(
         data: isDarkModeEnabled ? AppTheme.dark() : AppTheme.light(),
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-            child: FilledButton(
-                onPressed: _isLoading ? null : () async => onSubmit(context),
-                style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40)),
-                child: _isLoading
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: FilledButton(
+            onPressed: _isLoading ? null : () async => onSubmit(context),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(40),
+            ),
+            child:
+                _isLoading
                     ? SizedBox.fromSize(
-                        size: const Size.square(24.0),
-                        child: const CircularProgressIndicator(),
-                      )
-                    : Text(
-                        l10n.feedback_submit(FeedbackType.bug.name),
-                      ))),
+                      size: const Size.square(24.0),
+                      child: const CircularProgressIndicator(),
+                    )
+                    : Text(l10n.feedback_submit(FeedbackType.bug.name)),
+          ),
+        ),
       ),
     );
   }

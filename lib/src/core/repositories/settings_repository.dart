@@ -16,14 +16,18 @@ class SettingsRepository with ChangeNotifier {
 
   /// Load the user's settings.
   Future<void> loadSettings() async {
-    final String? modeValue =
-        await _preferencesService.getString(PreferenceFlags.themeMode);
+    final String? modeValue = await _preferencesService.getString(
+      PreferenceFlags.themeMode,
+    );
 
-    _themeMode = ThemeMode.values.firstWhere((e) => e.toString() == modeValue,
-        orElse: () => ThemeMode.system);
+    _themeMode = ThemeMode.values.firstWhere(
+      (e) => e.toString() == modeValue,
+      orElse: () => ThemeMode.system,
+    );
 
-    final String? localeValue =
-        await _preferencesService.getString(PreferenceFlags.locale);
+    final String? localeValue = await _preferencesService.getString(
+      PreferenceFlags.locale,
+    );
 
     _locale = null;
     if (localeValue != null) {
@@ -43,7 +47,9 @@ class SettingsRepository with ChangeNotifier {
 
     notifyListeners();
     await _preferencesService.setString(
-        PreferenceFlags.themeMode, newThemeMode.toString());
+      PreferenceFlags.themeMode,
+      newThemeMode.toString(),
+    );
   }
 
   /// Update and persist the Locale based on the user's selection.
@@ -56,6 +62,8 @@ class SettingsRepository with ChangeNotifier {
 
     notifyListeners();
     await _preferencesService.setString(
-        PreferenceFlags.locale, newLocale.languageCode);
+      PreferenceFlags.locale,
+      newLocale.languageCode,
+    );
   }
 }

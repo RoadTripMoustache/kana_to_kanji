@@ -8,15 +8,16 @@ class ToasterService {
   /// - actionLabel: Label to use for the action label.
   /// - onPressed: Method to execute if the action button
   /// is pressed.
-  void toast(BuildContext context, String message,
-      {String? actionLabel, VoidCallback? onPressed}) {
+  void toast(
+    BuildContext context,
+    String message, {
+    String? actionLabel,
+    VoidCallback? onPressed,
+  }) {
     SnackBarAction? action;
 
     if (actionLabel != null) {
-      action = SnackBarAction(
-        label: actionLabel,
-        onPressed: onPressed!,
-      );
+      action = SnackBarAction(label: actionLabel, onPressed: onPressed!);
     }
 
     final snackBar = SnackBar(content: Text(message), action: action);

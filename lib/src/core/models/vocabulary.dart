@@ -39,9 +39,10 @@ class Vocabulary {
 
   /// List of syllables forming the word in kana.
   /// Use to facilitate vocabulary sorting.
+  ///
+  /// TODO: To remove once migrated to "kanjiReadings"
   @JsonKey(name: "kana_syllables")
-  final List<int>
-      kanaSyllables; // TODO: To remove once migrated to "kanjiReadings"
+  final List<int> kanaSyllables;
 
   /// List of kanji which are in the vocabulary with their respective reading
   @Default([])
@@ -58,18 +59,19 @@ class Vocabulary {
   final List<ResourceUid> groupList;
 
   const Vocabulary(
-      this.uid,
-      this.kanji,
-      this.kana,
-      this.jlptLevel,
-      this.meanings,
-      this.romaji,
-      this.relatedKanjis,
-      this.version,
-      this.kanaSyllables,
-      this.kanjiReadings,
-      this.examples,
-      this.groupList);
+    this.uid,
+    this.kanji,
+    this.kana,
+    this.jlptLevel,
+    this.meanings,
+    this.romaji,
+    this.relatedKanjis,
+    this.version,
+    this.kanaSyllables,
+    this.kanjiReadings,
+    this.examples,
+    this.groupList,
+  );
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);

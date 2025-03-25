@@ -16,8 +16,11 @@ class Details extends StatelessWidget {
   /// If empty, the meanings section will be hidden
   final List<String> meanings;
 
-  const Details._(
-      {required this.pronunciations, super.key, this.meanings = const []});
+  const Details._({
+    required this.pronunciations,
+    super.key,
+    this.meanings = const [],
+  });
 
   /// Build the details card for a [Kana].
   factory Details.kana({required Kana kana, Key? key}) =>
@@ -25,14 +28,18 @@ class Details extends StatelessWidget {
 
   /// Build the details card for a [Kanji].
   factory Details.kanji({required Kanji kanji, Key? key}) => Details._(
-      key: key, pronunciations: kanji.readings, meanings: kanji.meanings);
+    key: key,
+    pronunciations: kanji.readings,
+    meanings: kanji.meanings,
+  );
 
   /// Build the details card for a [Vocabulary].
   factory Details.vocabulary({required Vocabulary vocabulary, Key? key}) =>
       Details._(
-          key: key,
-          pronunciations: [vocabulary.kana],
-          meanings: vocabulary.meanings);
+        key: key,
+        pronunciations: [vocabulary.kana],
+        meanings: vocabulary.meanings,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +54,13 @@ class Details extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SectionTitle(
-                title:
-                    l10n.glossary_details_pronunciation(pronunciations.length)),
+              title: l10n.glossary_details_pronunciation(pronunciations.length),
+            ),
             WrappedList(
-                children: pronunciations
-                    .map((e) => PronunciationCard(pronunciation: e))
-                    .toList(growable: false)),
+              children: pronunciations
+                  .map((e) => PronunciationCard(pronunciation: e))
+                  .toList(growable: false),
+            ),
           ],
         ),
         if (meanings.isNotEmpty)
@@ -62,11 +70,13 @@ class Details extends StatelessWidget {
             children: [
               AppSpacer.p16(),
               SectionTitle(
-                  title: l10n.glossary_details_meaning(meanings.length)),
+                title: l10n.glossary_details_meaning(meanings.length),
+              ),
               WrappedList(
-                  children: meanings
-                      .map((e) => Chip(label: Text(e)))
-                      .toList(growable: false)),
+                children: meanings
+                    .map((e) => Chip(label: Text(e)))
+                    .toList(growable: false),
+              ),
             ],
           ),
         AppSpacer.p40(),
