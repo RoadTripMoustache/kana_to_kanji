@@ -14,6 +14,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "lib/firebase_options.dart"
+    - "lib/l10n/*.dart"
     - "test/**/*.mocks.dart"
   errors:
     invalid_annotation_target: ignore

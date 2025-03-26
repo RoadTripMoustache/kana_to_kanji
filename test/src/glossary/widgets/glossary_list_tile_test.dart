@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
 
 import "../../../dummies/kanji.dart";

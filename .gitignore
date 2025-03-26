@@ -242,6 +242,8 @@ untranslated-messages.txt
 ## Firebase generated files
 firebase_options.dart
 firebase.json
+## l10n files
+lib/l10n/*
 
 # Envied files
 .env
