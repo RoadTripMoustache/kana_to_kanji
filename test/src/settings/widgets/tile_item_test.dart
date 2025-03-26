@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/settings/widgets/tile_item.dart";
 
@@ -48,7 +49,7 @@ void main() {
           of: widget,
           matching: find.byWidgetPredicate(
             (widget) =>
-                widget is ListTile &&
+                widget is RTMListTile &&
                 widget.contentPadding ==
                     const EdgeInsets.symmetric(horizontal: 16.0),
           ),

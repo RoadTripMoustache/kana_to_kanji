@@ -47,7 +47,7 @@ dependencies:
   flutter_rtm:
     git:
       url: git@github.com:RoadTripMoustache/flutter_rtm.git
-      ref: main # switch to the tag when it will be available
+      ref: 4a2121b # switch to the tag when it will be available
 dev_dependencies:
   flutter_test:
     sdk: flutter

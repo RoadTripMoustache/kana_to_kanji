@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
@@ -24,7 +25,7 @@ class AppNotFoundView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(l10n.page_not_found(uri.path)),
-            ElevatedButton(
+            RTMFilledButton(
               onPressed: () => context.go(goBackUrl),
               child: Text(l10n.go_home_button),
             ),

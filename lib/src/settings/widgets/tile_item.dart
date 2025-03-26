@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 
 class TileItem extends StatelessWidget {
   final Widget title;
@@ -17,7 +18,7 @@ class TileItem extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => ListTile(
+  Widget build(BuildContext context) => RTMListTile(
     leading: leading,
     title: title,
     subtitle: subtitle,

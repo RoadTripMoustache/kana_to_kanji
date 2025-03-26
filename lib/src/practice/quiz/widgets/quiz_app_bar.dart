@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/rounded_linear_progress_indicator.dart";
 
@@ -21,7 +22,7 @@ class QuizAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: Colors.transparent,
-      leading: IconButton(
+      leading: RTMIconButton(
         icon: const Icon(Icons.close_rounded),
         onPressed: onClosePressed,
       ),
@@ -33,7 +34,7 @@ class QuizAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       actions: [
-        TextButton(
+        RTMTextButton(
           onPressed: onSkipPressed,
           child: Text(l10n.quiz_skip_question),
         ),

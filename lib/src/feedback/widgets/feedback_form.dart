@@ -1,6 +1,7 @@
 import "dart:typed_data";
 
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
 import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
@@ -89,10 +90,10 @@ class _FeedbackFormState extends State<FeedbackForm> {
               ),
               Padding(
                 padding: padding,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                  ),
+                child: RTMOutlinedButton(
+                  // style: OutlinedButton.styleFrom(
+                  //   minimumSize: const Size.fromHeight(40),
+                  // ),
                   onPressed:
                       widget.allowScreenshot && !_isLoading
                           ? widget.onScreenshotButtonPressed
@@ -167,7 +168,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                   _isLoading
                       ? SizedBox.fromSize(
                         size: const Size.square(24.0),
-                        child: const CircularProgressIndicator(),
+                        child: const RTMSpinner(),
                       )
                       : Text(l10n.feedback_submit(widget.feedbackType.name)),
             ),

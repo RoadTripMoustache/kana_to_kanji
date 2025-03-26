@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
@@ -67,7 +68,7 @@ class _FilterBy extends State<FilterBy> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
+        leading: RTMIconButton(
           icon: const Icon(Icons.close_rounded),
           onPressed: () {
             Navigator.of(context).pop();
@@ -76,7 +77,7 @@ class _FilterBy extends State<FilterBy> {
         ),
         title: Text(l10n.glossary_filter_by_title),
         actions: [
-          IconButton(
+          RTMIconButton(
             icon: const Icon(Icons.clear_all_rounded),
             onPressed: _clearLists,
           ),

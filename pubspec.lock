@@ -380,8 +380,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: cd2243a423eacc48885ec7a15f1b8799c31ef914
+      ref: "4a2121b"
+      resolved-ref: "4a2121bbd06ebf1f256a9a6dc7a7a1335b10207b"
       url: "git@github.com:RoadTripMoustache/flutter_rtm.git"
     source: git
     version: "0.1.0"

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/authentication/landing_view_model.dart";
@@ -14,12 +15,12 @@ class LandingView extends StatelessWidget {
 
   const LandingView({super.key});
 
-  static const TextStyle _style = TextStyle(
-    // TODO : Change style, it's ugly !
-    fontWeight: FontWeight.w500,
-    // color: Colors.black,
-    fontSize: 18.0,
-  );
+  // static const TextStyle _style = TextStyle(
+  //   // TODO : Change style, it's ugly !
+  //   fontWeight: FontWeight.w500,
+  //   // color: Colors.black,
+  //   fontSize: 18.0,
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -54,33 +55,29 @@ class LandingView extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: double.infinity,
-                                child: OutlinedButton(
+                                child: RTMOutlinedButton(
                                   onPressed: () async {
                                     await GoRouter.of(
                                       context,
                                     ).push(SignInView.routeName);
                                   },
-                                  child: Text(
-                                    l10n.landing_sign_in,
-                                    style: _style,
-                                  ),
+                                  child: Text(l10n.landing_sign_in),
                                 ),
                               ),
                               AppSpacer.p8(),
                               SizedBox(
                                 width: double.infinity,
-                                child: ElevatedButton(
+                                child: RTMFilledButton(
                                   onPressed: () async {
                                     await viewModel.getStarted(
                                       GoRouter.of(context),
                                     );
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue,
-                                  ),
                                   child: Text(
                                     l10n.landing_getting_started,
-                                    style: _style.copyWith(color: Colors.black),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),

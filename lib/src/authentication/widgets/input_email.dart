@@ -1,8 +1,8 @@
 import "dart:async";
 
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
-import "package:kana_to_kanji/src/core/constants/regexp.dart";
 
 class InputEmail extends StatefulWidget {
   final TextEditingController controller;

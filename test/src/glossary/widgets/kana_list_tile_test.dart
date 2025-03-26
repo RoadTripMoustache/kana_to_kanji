@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart";
@@ -21,12 +22,12 @@ void main() {
       ) async {
         final widget = await pump(tester, const KanaListTile(dummyKatakana));
 
-        // Validate that the Card's elevation property is equal to 0
+        // Validate that the RTMCard's elevation property is equal to 0
         final Finder card = find.descendant(
           of: widget,
-          matching: find.byType(Card),
+          matching: find.byType(RTMCard),
         );
-        expect((tester.widget(card) as Card).elevation, equals(1.0));
+        expect((tester.widget(card) as RTMCard).elevation, equals(1.0));
 
         Finder text = find.descendant(
           of: widget,
@@ -66,12 +67,12 @@ void main() {
           const KanaListTile(dummyKatakana, disabled: true),
         );
 
-        // Validate that the Card's elevation property is equal to 0
+        // Validate that the RTMCard's elevation property is equal to 0
         final Finder card = find.descendant(
           of: widget,
-          matching: find.byType(Card),
+          matching: find.byType(RTMCard),
         );
-        expect((tester.widget(card) as Card).elevation, equals(0.0));
+        expect((tester.widget(card) as RTMCard).elevation, equals(0.0));
 
         // Validate that all text style color is equal to theme.disabledColor
         final Finder texts = find.descendant(
