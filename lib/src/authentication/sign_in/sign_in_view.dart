@@ -1,7 +1,7 @@
 import "package:flutter/foundation.dart" show defaultTargetPlatform;
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:go_router/go_router.dart";
+import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view_model.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_email.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";

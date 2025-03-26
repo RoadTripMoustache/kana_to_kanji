@@ -1,5 +1,8 @@
 arb-dir: localization
 template-arb-file: en.arb
+output-dir: lib/l10n
 output-localization-file: app_localizations.dart
+output-class: AppLocalizations
 nullable-getter: false
 untranslated-messages-file: untranslated-messages.txt
+synthetic-package: false
