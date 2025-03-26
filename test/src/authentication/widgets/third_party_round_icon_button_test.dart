@@ -76,7 +76,7 @@ void main() {
       // Validate the image color
       expect(
         tester.widget<Image>(find.byType(Image)).color,
-        AppTheme.light().disabledColor,
+        AppTheme.lightTheme.disabledColor,
         reason: "Image should be grayed out to signify it's disabled",
       );
     });

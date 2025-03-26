@@ -77,8 +77,8 @@ class KanaToKanjiApp extends StatelessWidget {
             locale: _settingsRepository.locale,
 
             // Theme
-            theme: AppTheme.light(),
-            darkTheme: AppTheme.dark(),
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
             themeMode: _settingsRepository.themeMode,
 
             // Router

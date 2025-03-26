@@ -35,7 +35,7 @@ class _FeedbackScreenshotFormState extends State<FeedbackScreenshotForm> {
     return SafeArea(
       top: false,
       child: Theme(
-        data: isDarkModeEnabled ? AppTheme.dark() : AppTheme.light(),
+        data: isDarkModeEnabled ? AppTheme.darkTheme : AppTheme.lightTheme,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: FilledButton(

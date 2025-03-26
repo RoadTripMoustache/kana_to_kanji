@@ -34,7 +34,7 @@ void main() {
         );
         expect(text, findsOneWidget);
         TextStyle? style = (tester.widget(text) as Text).style;
-        TextStyle? expectedStyle = AppTheme.light().textTheme.titleMedium;
+        TextStyle? expectedStyle = AppTheme.lightTheme.textTheme.titleMedium;
         expect(
           style?.fontWeight,
           FontWeight.bold,
@@ -48,7 +48,7 @@ void main() {
         );
         expect(text, findsOneWidget);
         style = (tester.widget(text) as Text).style;
-        expectedStyle = AppTheme.light().textTheme.bodyMedium;
+        expectedStyle = AppTheme.lightTheme.textTheme.bodyMedium;
         expect(
           style?.fontWeight,
           FontWeight.normal,
@@ -81,7 +81,7 @@ void main() {
         for (final Widget text in tester.widgetList(texts)) {
           expect(
             (text as Text).style?.color,
-            equals(AppTheme.light().disabledColor),
+            equals(AppTheme.lightTheme.disabledColor),
           );
         }
       });
