@@ -24,7 +24,7 @@ dependencies:
   stacked: ^3.4.4
   rive: ^0.13.9
   package_info_plus: ^8.0.0
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.5.3
   isar:
     version: ^4.0.3
     hosted: https://pub.isar-community.dev/
