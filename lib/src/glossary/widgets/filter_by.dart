@@ -83,47 +83,49 @@ class _FilterBy extends State<FilterBy> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: titlePadding,
-                child: Text(
-                  l10n.jlpt_level_title,
-                  textAlign: TextAlign.left,
-                  style: styleTitle,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: titlePadding,
+                  child: Text(
+                    l10n.jlpt_level_title,
+                    textAlign: TextAlign.left,
+                    style: styleTitle,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          for (final jlpt in JLPTLevel.values)
-            CheckboxListTile(
-              visualDensity: VisualDensity.compact,
-              title: Text(l10n.jlpt_level_short(jlpt.value)),
-              value: _selectedJlptLevel.contains(jlpt),
-              onChanged: (_) => {_toggleJLPTLevel(jlpt)},
+              ],
             ),
-          Row(
-            children: [
-              Padding(
-                padding: titlePadding,
-                child: Text(
-                  l10n.knowledge_level_title,
-                  textAlign: TextAlign.left,
-                  style: styleTitle,
+            for (final jlpt in JLPTLevel.values)
+              CheckboxListTile(
+                visualDensity: VisualDensity.compact,
+                title: Text(l10n.jlpt_level_short(jlpt.value)),
+                value: _selectedJlptLevel.contains(jlpt),
+                onChanged: (_) => {_toggleJLPTLevel(jlpt)},
+              ),
+            Row(
+              children: [
+                Padding(
+                  padding: titlePadding,
+                  child: Text(
+                    l10n.knowledge_level_title,
+                    textAlign: TextAlign.left,
+                    style: styleTitle,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          for (final knowledgeLevel in KnowledgeLevel.values)
-            CheckboxListTile(
-              visualDensity: VisualDensity.compact,
-              title: Text(l10n.knowledge_level(knowledgeLevel.name)),
-              value: _selectedKnowledgeLevel.contains(knowledgeLevel),
-              onChanged: (_) => {_toggleKnowledgeLevel(knowledgeLevel)},
+              ],
             ),
-        ],
+            for (final knowledgeLevel in KnowledgeLevel.values)
+              CheckboxListTile(
+                visualDensity: VisualDensity.compact,
+                title: Text(l10n.knowledge_level(knowledgeLevel.name)),
+                value: _selectedKnowledgeLevel.contains(knowledgeLevel),
+                onChanged: (_) => {_toggleKnowledgeLevel(knowledgeLevel)},
+              ),
+          ],
+        ),
       ),
     );
   }
