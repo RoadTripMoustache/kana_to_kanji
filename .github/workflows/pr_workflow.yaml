@@ -50,6 +50,10 @@ jobs:
           channel: 'stable'
           cache: true
       - run: flutter doctor
+      # Check the format of the code and commit the formatted files.
+      - name: Format files in lib and test directories
+        run: dart format lib test --set-exit-if-changed
+
       - name: Get dependencies
         run: flutter pub get
       - name: Setup .env
@@ -60,14 +64,6 @@ jobs:
           # flutter pub get # Temporary until https://github.com/flutter/flutter/issues/148333 is solved
 
       ### CHECKS ###
-      # Check the format of the code and commit the formatted files.
-      - name: Format files in lib and test directories
-        run: dart format lib test --set-exit-if-changed
-
-      # Check the format of the code and commit the formatted files.
-      - name: Format files in lib and test directories
-        run: dart format lib test --set-exit-if-changed
-
       # Check if the code has any errors/warnings
       - name: Analyze code
         run: flutter analyze
