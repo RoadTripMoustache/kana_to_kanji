@@ -55,7 +55,12 @@ jobs:
         run: dart format lib test --set-exit-if-changed
 
       - name: Get dependencies
-        run: flutter pub get
+        run: |
+          # Add flutter_rtm private key to the ssh-agent so we can access the depedency
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.FLUTTER_RTM_PRIVATE_KEY }}'
+          
+          flutter pub get
       - name: Setup .env
         run: cp .env.template .env
       - name: Generate files
