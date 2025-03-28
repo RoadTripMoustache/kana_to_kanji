@@ -15,13 +15,6 @@ class LandingView extends StatelessWidget {
 
   const LandingView({super.key});
 
-  // static const TextStyle _style = TextStyle(
-  //   // TODO : Change style, it's ugly !
-  //   fontWeight: FontWeight.w500,
-  //   // color: Colors.black,
-  //   fontSize: 18.0,
-  // );
-
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);

@@ -91,9 +91,6 @@ class _FeedbackFormState extends State<FeedbackForm> {
               Padding(
                 padding: padding,
                 child: RTMOutlinedButton(
-                  // style: OutlinedButton.styleFrom(
-                  //   minimumSize: const Size.fromHeight(40),
-                  // ),
                   onPressed:
                       widget.allowScreenshot && !_isLoading
                           ? widget.onScreenshotButtonPressed
