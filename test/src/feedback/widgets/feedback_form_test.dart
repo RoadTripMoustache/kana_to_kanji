@@ -2,6 +2,7 @@
 import "dart:typed_data";
 
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";
@@ -166,7 +167,7 @@ void main() {
           find.descendant(
             of: widget,
             matching: find.widgetWithText(
-              OutlinedButton,
+              RTMOutlinedButton,
               l10n.feedback_include_screenshot,
             ),
           ),
@@ -277,11 +278,11 @@ void main() {
 
           expect(
             tester
-                .widget<OutlinedButton>(
+                .widget<RTMOutlinedButton>(
                   find.descendant(
                     of: widget,
                     matching: find.widgetWithText(
-                      OutlinedButton,
+                      RTMOutlinedButton,
                       l10n.feedback_include_screenshot,
                     ),
                   ),
@@ -303,11 +304,11 @@ void main() {
 
           expect(
             tester
-                .widget<OutlinedButton>(
+                .widget<RTMOutlinedButton>(
                   find.descendant(
                     of: widget,
                     matching: find.widgetWithText(
-                      OutlinedButton,
+                      RTMOutlinedButton,
                       l10n.feedback_include_screenshot,
                     ),
                   ),

@@ -76,8 +76,8 @@ extension WidgetTesterExtension on WidgetTester {
       MaterialApp.router(
         routerConfig: router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
         themeMode: themeMode,
         locale: Locale(locale),
       ),
@@ -94,8 +94,8 @@ extension WidgetTesterExtension on WidgetTester {
   }) => pumpWidget(
     MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
       locale: Locale(locale),
       home: useScaffold ? Scaffold(body: widget) : widget,

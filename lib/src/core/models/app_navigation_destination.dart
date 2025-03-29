@@ -4,7 +4,7 @@ import "package:freezed_annotation/freezed_annotation.dart";
 part "app_navigation_destination.freezed.dart";
 
 @freezed
-sealed class AppNavigationDestination with _$AppNavigationDestination {
+abstract class AppNavigationDestination with _$AppNavigationDestination {
   const AppNavigationDestination._();
 
   const factory AppNavigationDestination({

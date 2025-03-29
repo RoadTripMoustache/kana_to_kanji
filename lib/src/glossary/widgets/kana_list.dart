@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_list_tile.dart";
@@ -112,7 +113,7 @@ class _KanaListState extends State<KanaList> {
                           disabled: main[index]!.disabled,
                           onPressed: () => _onPressed(main[index]!.kana),
                         )
-                        : const Card(elevation: 0),
+                        : const RTMCard(elevation: 0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 5,
             ),

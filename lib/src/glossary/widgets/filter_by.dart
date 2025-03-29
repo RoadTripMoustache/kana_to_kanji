@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
@@ -67,7 +68,7 @@ class _FilterBy extends State<FilterBy> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
+        leading: RTMIconButton(
           icon: const Icon(Icons.close_rounded),
           onPressed: () {
             Navigator.of(context).pop();
@@ -76,53 +77,55 @@ class _FilterBy extends State<FilterBy> {
         ),
         title: Text(l10n.glossary_filter_by_title),
         actions: [
-          IconButton(
+          RTMIconButton(
             icon: const Icon(Icons.clear_all_rounded),
             onPressed: _clearLists,
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: titlePadding,
-                child: Text(
-                  l10n.jlpt_level_title,
-                  textAlign: TextAlign.left,
-                  style: styleTitle,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: titlePadding,
+                  child: Text(
+                    l10n.jlpt_level_title,
+                    textAlign: TextAlign.left,
+                    style: styleTitle,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          for (final jlpt in JLPTLevel.values)
-            CheckboxListTile(
-              visualDensity: VisualDensity.compact,
-              title: Text(l10n.jlpt_level_short(jlpt.value)),
-              value: _selectedJlptLevel.contains(jlpt),
-              onChanged: (_) => {_toggleJLPTLevel(jlpt)},
+              ],
             ),
-          Row(
-            children: [
-              Padding(
-                padding: titlePadding,
-                child: Text(
-                  l10n.knowledge_level_title,
-                  textAlign: TextAlign.left,
-                  style: styleTitle,
+            for (final jlpt in JLPTLevel.values)
+              CheckboxListTile(
+                visualDensity: VisualDensity.compact,
+                title: Text(l10n.jlpt_level_short(jlpt.value)),
+                value: _selectedJlptLevel.contains(jlpt),
+                onChanged: (_) => {_toggleJLPTLevel(jlpt)},
+              ),
+            Row(
+              children: [
+                Padding(
+                  padding: titlePadding,
+                  child: Text(
+                    l10n.knowledge_level_title,
+                    textAlign: TextAlign.left,
+                    style: styleTitle,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          for (final knowledgeLevel in KnowledgeLevel.values)
-            CheckboxListTile(
-              visualDensity: VisualDensity.compact,
-              title: Text(l10n.knowledge_level(knowledgeLevel.name)),
-              value: _selectedKnowledgeLevel.contains(knowledgeLevel),
-              onChanged: (_) => {_toggleKnowledgeLevel(knowledgeLevel)},
+              ],
             ),
-        ],
+            for (final knowledgeLevel in KnowledgeLevel.values)
+              CheckboxListTile(
+                visualDensity: VisualDensity.compact,
+                title: Text(l10n.knowledge_level(knowledgeLevel.name)),
+                value: _selectedKnowledgeLevel.contains(knowledgeLevel),
+                onChanged: (_) => {_toggleKnowledgeLevel(knowledgeLevel)},
+              ),
+          ],
+        ),
       ),
     );
   }

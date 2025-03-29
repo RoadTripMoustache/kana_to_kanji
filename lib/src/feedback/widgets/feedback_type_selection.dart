@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
 
@@ -36,7 +37,7 @@ class FeedbackTypeSelection extends StatelessWidget {
               Icons.bug_report_rounded,
               size: _kButtonLeadingIconSize,
             ),
-            label: ListTile(
+            label: RTMListTile(
               title: Text(l10n.feedback_report_bug),
               subtitle: Text(l10n.feedback_report_bug_subtitle),
             ),
@@ -50,7 +51,7 @@ class FeedbackTypeSelection extends StatelessWidget {
             size: _kButtonLeadingIconSize,
           ),
           onPressed: () => onPressed(FeedbackType.featureRequest),
-          label: ListTile(
+          label: RTMListTile(
             textColor: Colors.white,
             title: Text(l10n.feedback_request_feature),
             subtitle: Text(l10n.feedback_request_feature_subtitle),

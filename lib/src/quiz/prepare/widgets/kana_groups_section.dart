@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/kana_type.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
@@ -45,9 +46,9 @@ class KanaGroupsSection extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ListTile(
+        RTMListTile(
           title: Text(sectionTitle),
-          trailing: TextButton(
+          trailing: RTMTextButton(
             onPressed: () => onSelectAllTapped(groups, toAdd: !areAllSelected),
             child: Text(areAllSelected ? l10n.unselect_all : l10n.select_all),
           ),

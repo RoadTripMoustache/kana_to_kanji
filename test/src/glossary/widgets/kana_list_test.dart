@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
@@ -55,7 +56,7 @@ void main() {
         find.descendant(
           of: grids.first,
           matching: find.byWidgetPredicate(
-            (widget) => widget is Card && widget.elevation == 0,
+            (widget) => widget is RTMCard && widget.elevation == 0,
           ),
         ),
         findsNWidgets(5),

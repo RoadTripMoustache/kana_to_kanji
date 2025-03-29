@@ -1,6 +1,7 @@
 import "dart:math";
 
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 
 class FlipCard extends StatefulWidget {
   final Widget front;
@@ -111,7 +112,7 @@ class _FlipCardState extends State<FlipCard> {
       borderRadius: BorderRadius.circular(20.0),
       color: backgroundColor,
     ),
-    child: Card(
+    child: RTMCard(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
         child: Center(child: child),

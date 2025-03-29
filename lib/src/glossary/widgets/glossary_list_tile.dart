@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
@@ -87,8 +88,8 @@ class GlossaryListTile extends StatelessWidget {
             )
             : FuriganaText.vocabulary(vocabulary!, style: titleStyle);
 
-    return Card(
-      child: ListTile(
+    return RTMCard(
+      child: RTMListTile(
         title: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,

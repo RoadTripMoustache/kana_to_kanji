@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
 
 class GroupCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
     onTap: () => onChanged(!isChecked),
-    child: Card(
+    child: RTMCard(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
         child: Row(

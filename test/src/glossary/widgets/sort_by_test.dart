@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/glossary/widgets/sort_by.dart";
@@ -57,7 +58,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final buttons = find.byType(IconButton);
+      final buttons = find.byType(RTMIconButton);
       expect(buttons, findsOneWidget);
       expect(isClicked, isFalse);
 

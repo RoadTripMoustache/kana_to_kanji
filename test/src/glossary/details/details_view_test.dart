@@ -31,7 +31,7 @@ void main() {
 
     testWidgets("Kana", (WidgetTester tester) async {
       await pump(tester, const DetailsView(item: dummyHiragana));
-      final theme = AppTheme.light();
+      final theme = AppTheme.lightTheme;
 
       // Check title section
       final title = find.text(dummyHiragana.kana);
@@ -59,7 +59,7 @@ void main() {
     });
 
     testWidgets("Kanji", (WidgetTester tester) async {
-      final theme = AppTheme.light();
+      final theme = AppTheme.lightTheme;
       await pump(tester, const DetailsView(item: dummyKanji));
 
       // Check title section
@@ -91,7 +91,7 @@ void main() {
 
     group("Vocabulary", () {
       testWidgets("With kanji", (WidgetTester tester) async {
-        final theme = AppTheme.light();
+        final theme = AppTheme.lightTheme;
         await pump(tester, const DetailsView(item: dummyVocabulary));
 
         // Check title section
@@ -123,7 +123,7 @@ void main() {
       });
 
       testWidgets("Without kanji", (WidgetTester tester) async {
-        final theme = AppTheme.light();
+        final theme = AppTheme.lightTheme;
         await pump(
           tester,
           const DetailsView(item: dummyVocabularyWithoutKanji),

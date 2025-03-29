@@ -1,5 +1,6 @@
 import "package:flutter/foundation.dart" show defaultTargetPlatform;
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/authentication/create/create_account_view_model.dart";
@@ -32,7 +33,7 @@ class CreateAccountView extends StatelessWidget {
           (context, viewModel, child) => AppScaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
-              leading: IconButton(
+              leading: RTMIconButton(
                 key: const Key("create_account_view_return"),
                 icon: const Icon(Icons.arrow_back_rounded),
                 onPressed: () => context.pop(),
@@ -81,7 +82,7 @@ class CreateAccountView extends StatelessWidget {
                       if (viewModel.busy(
                         viewModel.isCreateAccountButtonEnabled,
                       ))
-                        const CircularProgressIndicator()
+                        const RTMSpinner()
                       else
                         SizedBox(
                           width: double.infinity,
@@ -120,7 +121,7 @@ class CreateAccountView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ThirdPartyRoundIconButton.google(
+                          ThirdPartyRoundRTMIconButton.google(
                             onPressed:
                                 viewModel.isBusy
                                     ? null
@@ -130,7 +131,7 @@ class CreateAccountView extends StatelessWidget {
                           if (defaultTargetPlatform == TargetPlatform.iOS)
                             Padding(
                               padding: const EdgeInsets.only(left: 40.0),
-                              child: ThirdPartyRoundIconButton.apple(
+                              child: ThirdPartyRoundRTMIconButton.apple(
                                 onPressed:
                                     viewModel.isBusy
                                         ? null

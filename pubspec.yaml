@@ -4,7 +4,7 @@ description: A new Flutter project.
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.37.9+1
+version: 0.37.10+1
 
 environment:
   sdk: '>=3.7.0 <4.0.0'
@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  freezed_annotation: ^3.0.0
+  freezed_annotation: ^2.4.4
   get_it: ^8.0.3
   go_router: ^14.2.1
   json_annotation: ^4.9.0
@@ -44,13 +44,16 @@ dependencies:
   intl: ^0.19.0
   infinite_scroll_pagination: ^4.0.0
   upgrader: ^11.3.1
-
+  flutter_rtm:
+    git:
+      url: git@github.com:RoadTripMoustache/flutter_rtm.git
+      ref: 4a2121b # switch to the tag when it will be available
 dev_dependencies:
   flutter_test:
     sdk: flutter
   analyzer: ^6.11.0
   flutter_lints: ^5.0.0
-  freezed: ^3.0.0-0.0.dev
+  freezed: ^2.5.7
   build_runner: ^2.4.11
   json_serializable: ^6.7.0
   mockito: ^5.4.2

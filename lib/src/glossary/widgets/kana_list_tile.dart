@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 
 class KanaListTile extends StatelessWidget {
@@ -27,7 +28,7 @@ class KanaListTile extends StatelessWidget {
       color: disabled ? disabledColor : null,
     );
 
-    return Card(
+    return RTMCard(
       elevation: disabled ? 0 : 1.0,
       child: InkWell(
         onTap: disabled ? null : onPressed,

@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 
 class InputPassword extends StatefulWidget {
@@ -109,7 +110,7 @@ class _InputPasswordState extends State<InputPassword> {
         obscureText: isPasswordObscured,
         decoration: InputDecoration(
           hintText: widget.textHint ?? l10n.input_password_placeholder,
-          suffixIcon: IconButton(
+          suffixIcon: RTMIconButton(
             icon: Icon(
               isPasswordObscured
                   ? Icons.visibility_rounded

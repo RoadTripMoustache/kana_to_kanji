@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
@@ -28,11 +29,11 @@ class PrepareQuizView extends StatelessWidget {
               backgroundColor: Colors.transparent,
               actions: [
                 if (viewModel.selectedGroups.isNotEmpty)
-                  IconButton(
+                  RTMIconButton(
                     onPressed: viewModel.resetSelected,
                     icon: const Icon(Icons.clear_all_rounded),
                   ),
-                IconButton(
+                RTMIconButton(
                   onPressed: viewModel.onSettingsTapped,
                   icon: const Icon(Icons.settings_rounded),
                 ),
@@ -56,7 +57,7 @@ class PrepareQuizView extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Card(
+                    child: RTMCard(
                       child: Column(
                         children: [
                           AlphabetGroupsExpansionTile(

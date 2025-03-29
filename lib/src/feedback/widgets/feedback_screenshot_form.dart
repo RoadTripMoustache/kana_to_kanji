@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
 import "package:kana_to_kanji/src/feedback/constants/feedback_type.dart";
@@ -35,7 +36,7 @@ class _FeedbackScreenshotFormState extends State<FeedbackScreenshotForm> {
     return SafeArea(
       top: false,
       child: Theme(
-        data: isDarkModeEnabled ? AppTheme.dark() : AppTheme.light(),
+        data: isDarkModeEnabled ? AppTheme.darkTheme : AppTheme.lightTheme,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           child: FilledButton(
@@ -47,7 +48,7 @@ class _FeedbackScreenshotFormState extends State<FeedbackScreenshotForm> {
                 _isLoading
                     ? SizedBox.fromSize(
                       size: const Size.square(24.0),
-                      child: const CircularProgressIndicator(),
+                      child: const RTMSpinner(),
                     )
                     : Text(l10n.feedback_submit(FeedbackType.bug.name)),
           ),

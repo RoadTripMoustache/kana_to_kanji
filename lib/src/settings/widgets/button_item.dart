@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 
 class ButtonItem extends StatelessWidget {
   final VoidCallback onPressed;
@@ -9,8 +10,8 @@ class ButtonItem extends StatelessWidget {
   const ButtonItem({required this.onPressed, required this.child, super.key});
 
   @override
-  Widget build(BuildContext context) => ListTile(
+  Widget build(BuildContext context) => RTMListTile(
     contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-    title: ElevatedButton(onPressed: onPressed, child: child),
+    title: RTMFilledButton(onPressed: onPressed, child: child),
   );
 }

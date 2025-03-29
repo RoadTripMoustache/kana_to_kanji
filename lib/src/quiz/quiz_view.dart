@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
@@ -31,7 +32,7 @@ class QuizView extends StatelessWidget {
               ),
               body:
                   viewModel.isBusy
-                      ? const CircularProgressIndicator()
+                      ? const RTMSpinner()
                       : Column(
                         children: [
                           Expanded(
