@@ -1,5 +1,6 @@
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/quiz/models/question.dart";
 import "package:kana_to_kanji/src/quiz/widgets/animated_dot.dart";
@@ -75,11 +76,11 @@ class _QuestionTileState extends State<QuestionTile> {
 
     final nextButton =
         widget.question.remainingAttempt > 0
-            ? TextButton(
+            ? RTMTextButton(
               onPressed: widget.skipQuestion,
               child: Text(l10n.quiz_skip_question),
             )
-            : ElevatedButton(
+            : RTMFilledButton(
               onPressed: widget.nextQuestion,
               child: Text(l10n.button_continue),
             );

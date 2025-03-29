@@ -1,5 +1,6 @@
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
@@ -39,7 +40,10 @@ void main() {
         expect(
           find.descendant(
             of: find.byType(AppBar),
-            matching: find.widgetWithIcon(IconButton, Icons.arrow_back_rounded),
+            matching: find.widgetWithIcon(
+              RTMIconButton,
+              Icons.arrow_back_rounded,
+            ),
           ),
           findsOneWidget,
           reason: "The back button should be available in the AppBar",
@@ -49,7 +53,7 @@ void main() {
         expect(find.byType(InputEmail), findsOneWidget);
         expect(find.byType(InputPassword), findsOneWidget);
         expect(
-          find.widgetWithText(TextButton, l10n.sign_in_view_forgot_password),
+          find.widgetWithText(RTMTextButton, l10n.sign_in_view_forgot_password),
           findsOneWidget,
         );
         final signInButton = find.widgetWithText(
@@ -64,7 +68,7 @@ void main() {
         );
 
         // Validate both sign in with ... buttons are there
-        expect(find.byType(ThirdPartyRoundIconButton), findsNWidgets(2));
+        expect(find.byType(ThirdPartyRoundRTMIconButton), findsNWidgets(2));
 
         debugDefaultTargetPlatformOverride = null;
       });
@@ -76,7 +80,10 @@ void main() {
         expect(
           find.descendant(
             of: find.byType(AppBar),
-            matching: find.widgetWithIcon(IconButton, Icons.arrow_back_rounded),
+            matching: find.widgetWithIcon(
+              RTMIconButton,
+              Icons.arrow_back_rounded,
+            ),
           ),
           findsOneWidget,
           reason: "The back button should be available in the AppBar",
@@ -86,7 +93,7 @@ void main() {
         expect(find.byType(InputEmail), findsOneWidget);
         expect(find.byType(InputPassword), findsOneWidget);
         expect(
-          find.widgetWithText(TextButton, l10n.sign_in_view_forgot_password),
+          find.widgetWithText(RTMTextButton, l10n.sign_in_view_forgot_password),
           findsOneWidget,
         );
         final signInButton = find.widgetWithText(
@@ -101,7 +108,7 @@ void main() {
         );
 
         // Validate only one sign in with ... button is there.
-        expect(find.byType(ThirdPartyRoundIconButton), findsOneWidget);
+        expect(find.byType(ThirdPartyRoundRTMIconButton), findsOneWidget);
 
         debugDefaultTargetPlatformOverride = null;
       });
@@ -202,23 +209,23 @@ void main() {
         // Validate all buttons are disabled.
         expect(
           tester
-              .widget<TextButton>(
+              .widget<RTMTextButton>(
                 find.widgetWithText(
-                  TextButton,
+                  RTMTextButton,
                   l10n.sign_in_view_forgot_password,
                 ),
               )
               .enabled,
           isFalse,
         );
-        for (final ThirdPartyRoundIconButton button in tester
-            .widgetList<ThirdPartyRoundIconButton>(
-              find.byType(ThirdPartyRoundIconButton),
+        for (final ThirdPartyRoundRTMIconButton button in tester
+            .widgetList<ThirdPartyRoundRTMIconButton>(
+              find.byType(ThirdPartyRoundRTMIconButton),
             )) {
           expect(button.onPressed, isNull);
         }
 
-        // Validate Sign in button is a CircularProgressIndicator
+        // Validate Sign in button is a RTMSpinner
         expect(
           find.widgetWithText(FilledButton, l10n.sign_in_view_sign_in),
           findsNothing,
@@ -227,10 +234,10 @@ void main() {
               " button should not be visible",
         );
         expect(
-          find.byType(CircularProgressIndicator),
+          find.byType(RTMSpinner),
           findsOneWidget,
           reason:
-              "During the sign in process, a CircularProgressIndicator "
+              "During the sign in process, a RTMSpinner "
               "should be displayed instead of the sign in button",
         );
 

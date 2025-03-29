@@ -36,7 +36,7 @@ void main() {
         );
         expect(createAccountButton, findsOneWidget);
 
-        final logoButtons = find.byType(ThirdPartyRoundIconButton);
+        final logoButtons = find.byType(ThirdPartyRoundRTMIconButton);
         expect(logoButtons, findsNWidgets(2));
 
         debugDefaultTargetPlatformOverride = null;
@@ -68,7 +68,7 @@ void main() {
         );
         expect(createAccountButton, findsOneWidget);
 
-        final logoButton = find.byType(ThirdPartyRoundIconButton);
+        final logoButton = find.byType(ThirdPartyRoundRTMIconButton);
         expect(logoButton, findsNWidgets(1));
         debugDefaultTargetPlatformOverride = null;
       });

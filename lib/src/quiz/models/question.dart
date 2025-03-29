@@ -8,7 +8,7 @@ import "package:kana_to_kanji/src/quiz/constants/question_types.dart";
 part "question.freezed.dart";
 
 @unfreezed
-class Question with _$Question {
+abstract class Question with _$Question {
   Question._();
 
   factory Question({

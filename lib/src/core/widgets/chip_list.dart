@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 
 class ChipList extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ChipListState extends State<ChipList> {
                   ),
         ),
         if (widget.children.isNotEmpty)
-          TextButton.icon(
+          RTMTextButton.icon(
             icon: Icon(
               showAll
                   ? Icons.keyboard_arrow_up_rounded

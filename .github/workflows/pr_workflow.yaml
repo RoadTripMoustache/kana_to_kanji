@@ -144,7 +144,12 @@ jobs:
           echo -e "${{ vars.CONFIGURATION }}" >> .env
           echo -e "\n${{ secrets.CONFIGURATION }}" >> .env
       - name: Get dependencies
-        run: flutter pub get
+        run: |
+          # Add flutter_rtm private key to the ssh-agent so we can access the depedency
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.FLUTTER_RTM_PRIVATE_KEY }}'
+          
+          flutter pub get
       - name: Generate files
         run: |
           flutter pub run build_runner build

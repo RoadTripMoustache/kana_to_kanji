@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/widgets/rounded_linear_progress_indicator.dart";
 import "package:kana_to_kanji/src/practice/quiz/widgets/quiz_app_bar.dart";
@@ -33,8 +33,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(RoundedLinearProgressIndicator), findsOneWidget);
-      expect(find.byType(IconButton), findsNWidgets(1));
-      expect(find.byType(TextButton), findsNWidgets(1));
+      expect(find.byType(RTMIconButton), findsNWidgets(1));
+      expect(find.byType(RTMTextButton), findsNWidgets(1));
       expect(onClosePressedCalled, false);
       expect(onSkipPressedCalled, false);
     });
@@ -54,7 +54,7 @@ void main() {
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
 
-      final closeButtonWidget = find.byType(IconButton);
+      final closeButtonWidget = find.byType(RTMIconButton);
       await tester.tap(closeButtonWidget.first);
 
       expect(onClosePressedCalled, true);
@@ -76,7 +76,7 @@ void main() {
       await tester.pumpLocalizedWidget(widget);
       await tester.pumpAndSettle();
 
-      final skipButtonWidget = find.byType(TextButton);
+      final skipButtonWidget = find.byType(RTMTextButton);
       await tester.tap(skipButtonWidget.first);
 
       expect(onClosePressedCalled, false);

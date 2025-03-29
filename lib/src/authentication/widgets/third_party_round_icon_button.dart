@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-class ThirdPartyRoundIconButton extends StatelessWidget {
+class ThirdPartyRoundRTMIconButton extends StatelessWidget {
   /// Neutral version of the logo. The path must be an image supported
   /// by [Image.asset].
   final String? logoPath;
@@ -20,12 +20,12 @@ class ThirdPartyRoundIconButton extends StatelessWidget {
   /// Function called when the button is pressed.
   final VoidCallback? onPressed;
 
-  const ThirdPartyRoundIconButton.google({this.onPressed, super.key})
+  const ThirdPartyRoundRTMIconButton.google({this.onPressed, super.key})
     : lightLogoPath = "assets/images/logos/google_light.png",
       darkLogoPath = "assets/images/logos/google_dark.png",
       logoPath = null;
 
-  const ThirdPartyRoundIconButton.apple({this.onPressed, super.key})
+  const ThirdPartyRoundRTMIconButton.apple({this.onPressed, super.key})
     : lightLogoPath = "assets/images/logos/apple_light.png",
       darkLogoPath = "assets/images/logos/apple_dark.png",
       logoPath = null;

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/utils/extensions.dart";
 import "package:kana_to_kanji/src/quiz/models/question.dart";
@@ -22,7 +23,7 @@ class QuestionReviewTile extends StatelessWidget {
             ? const Icon(Icons.close_rounded, color: Colors.red)
             : const Icon(Icons.warning_rounded, color: Colors.orange);
 
-    return Card(
+    return RTMCard(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: ColoredBox(

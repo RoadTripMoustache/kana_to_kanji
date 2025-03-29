@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
@@ -98,7 +99,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final buttons = find.byType(IconButton);
+      final buttons = find.byType(RTMIconButton);
       expect(buttons, findsNWidgets(2));
       expect(isClicked, isFalse);
 
@@ -122,7 +123,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final buttons = find.byType(IconButton);
+      final buttons = find.byType(RTMIconButton);
       expect(buttons, findsNWidgets(2));
       expect(isClicked, isFalse);
 

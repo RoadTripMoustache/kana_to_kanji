@@ -2,10 +2,10 @@ import "dart:typed_data";
 
 import "package:feedback/feedback.dart";
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:image/image.dart" as image;
 import "package:kana_to_kanji/l10n/app_localizations.dart";
-import "package:kana_to_kanji/src/core/constants/regexp.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/widgets/app_config.dart";
 import "package:kana_to_kanji/src/feedback/constants/feedback_form_fields.dart";

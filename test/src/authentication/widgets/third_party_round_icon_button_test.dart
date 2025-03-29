@@ -6,12 +6,12 @@ import "package:kana_to_kanji/src/core/constants/app_theme.dart";
 import "../../../helpers.dart";
 
 void main() {
-  group("ThirdPartyRoundIconButton", () {
+  group("ThirdPartyRoundRTMIconButton", () {
     testWidgets("It should have an rounded InkWell and Image", (
       WidgetTester tester,
     ) async {
       await tester.pumpLocalizedWidget(
-        const ThirdPartyRoundIconButton.google(),
+        const ThirdPartyRoundRTMIconButton.google(),
       );
       await tester.pumpAndSettle();
 
@@ -40,11 +40,11 @@ void main() {
     ) async {
       var pressed = 0;
       await tester.pumpLocalizedWidget(
-        ThirdPartyRoundIconButton.google(onPressed: () => pressed++),
+        ThirdPartyRoundRTMIconButton.google(onPressed: () => pressed++),
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(ThirdPartyRoundIconButton));
+      await tester.tap(find.byType(ThirdPartyRoundRTMIconButton));
 
       expect(pressed, 1, reason: "Should have been pressed");
 
@@ -59,7 +59,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpLocalizedWidget(
-        const ThirdPartyRoundIconButton.google(),
+        const ThirdPartyRoundRTMIconButton.google(),
       );
       await tester.pumpAndSettle();
 
@@ -76,14 +76,14 @@ void main() {
       // Validate the image color
       expect(
         tester.widget<Image>(find.byType(Image)).color,
-        AppTheme.light().disabledColor,
+        AppTheme.lightTheme.disabledColor,
         reason: "Image should be grayed out to signify it's disabled",
       );
     });
 
     const brands = [
-      {"brand": "Google", "widget": ThirdPartyRoundIconButton.google()},
-      {"brand": "Apple", "widget": ThirdPartyRoundIconButton.apple()},
+      {"brand": "Google", "widget": ThirdPartyRoundRTMIconButton.google()},
+      {"brand": "Apple", "widget": ThirdPartyRoundRTMIconButton.apple()},
     ];
 
     for (final Map<String, dynamic> brand in brands) {

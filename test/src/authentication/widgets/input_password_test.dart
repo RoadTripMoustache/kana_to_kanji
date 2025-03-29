@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";
@@ -23,7 +24,7 @@ void main() {
     });
 
     testWidgets(
-      "It should have a TextFormField, obscured text, and an IconButton",
+      "It should have a TextFormField, obscured text, and an RTMIconButton",
       (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(
           InputPassword(
@@ -54,12 +55,12 @@ void main() {
         expect(textField.obscureText, isTrue);
         expect(
           textField.decoration?.suffixIcon,
-          isA<IconButton>(),
-          reason: "At the end of the input, we should have an IconButton",
+          isA<RTMIconButton>(),
+          reason: "At the end of the input, we should have an RTMIconButton",
         );
-        expect(find.byType(IconButton), findsOneWidget);
+        expect(find.byType(RTMIconButton), findsOneWidget);
         expect(
-          find.widgetWithIcon(IconButton, Icons.visibility_rounded),
+          find.widgetWithIcon(RTMIconButton, Icons.visibility_rounded),
           findsOneWidget,
           reason: "If the text is obscured, should be visibility_rounded",
         );
@@ -67,7 +68,7 @@ void main() {
     );
 
     testWidgets(
-      "It should obscure and reveal the password when IconButton is tapped",
+      "It should obscure and reveal the password when RTMIconButton is tapped",
       (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(
           InputPassword(
@@ -83,12 +84,12 @@ void main() {
         // Validate icon and text is obscured.
         expect(textField.obscureText, isTrue);
         expect(
-          find.widgetWithIcon(IconButton, Icons.visibility_rounded),
+          find.widgetWithIcon(RTMIconButton, Icons.visibility_rounded),
           findsOneWidget,
           reason: "If the text is obscured, should be visibility_rounded",
         );
 
-        await tester.tap(find.byType(IconButton));
+        await tester.tap(find.byType(RTMIconButton));
         await tester.pump();
 
         // Validate the text is now visible and the icon changed
@@ -97,13 +98,13 @@ void main() {
           isFalse,
         );
         expect(
-          find.widgetWithIcon(IconButton, Icons.visibility_off_rounded),
+          find.widgetWithIcon(RTMIconButton, Icons.visibility_off_rounded),
           findsOneWidget,
           reason:
               "If the text is not obscured, should be visibility_off_rounded",
         );
 
-        await tester.tap(find.byType(IconButton));
+        await tester.tap(find.byType(RTMIconButton));
         await tester.pump();
 
         // Validate the text and icon are back to the default settings
@@ -112,7 +113,7 @@ void main() {
           isTrue,
         );
         expect(
-          find.widgetWithIcon(IconButton, Icons.visibility_rounded),
+          find.widgetWithIcon(RTMIconButton, Icons.visibility_rounded),
           findsOneWidget,
           reason: "If the text is obscured, should be visibility_rounded",
         );

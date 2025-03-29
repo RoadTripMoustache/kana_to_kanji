@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
@@ -237,13 +238,13 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
+                    RTMIconButton(
                       onPressed: () async {
                         await Navigator.of(context).push(_createRouteSortBy());
                       },
                       icon: const Icon(Icons.filter_list_rounded),
                     ),
-                    IconButton(
+                    RTMIconButton(
                       onPressed: () async {
                         await Navigator.of(
                           context,
