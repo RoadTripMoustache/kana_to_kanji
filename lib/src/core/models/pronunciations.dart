@@ -1,20 +1,15 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:isar/isar.dart";
 
+part "pronunciations.freezed.dart";
 part "pronunciations.g.dart";
 
-@JsonSerializable()
-@embedded
-/// Pronunciation of a kanji with all the meanings matching the readings
-class Pronunciation {
-  @JsonKey(name: "index")
-  final int pronounciationIndex;
-  @Default([])
-  final List<String> meanings;
-  @Default([])
-  final List<String> readings;
-
-  const Pronunciation(this.pronounciationIndex, this.meanings, this.readings);
+@freezed
+class Pronunciation with _$Pronunciation {
+  const factory Pronunciation({
+    @JsonKey(name: "index") required int pronounciationIndex,
+    @Default([]) List<String> meanings,
+    @Default([]) List<String> readings,
+  }) = _Pronunciation;
 
   factory Pronunciation.fromJson(Map<String, dynamic> json) =>
       _$PronunciationFromJson(json);
