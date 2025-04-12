@@ -16,3 +16,6 @@ CHANGED_FILES=$(git diff --cached --name-status | awk '/^[^D].+\.dart$/{ print $
 
 # Format the files
 dart format $CHANGED_FILES
+
+# Add the formatted files to the commit
+git add $CHANGED_FILES

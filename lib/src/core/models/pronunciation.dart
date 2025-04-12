@@ -1,12 +1,12 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 
-part "pronunciations.freezed.dart";
-part "pronunciations.g.dart";
+part "pronunciation.freezed.dart";
+part "pronunciation.g.dart";
 
 @freezed
 class Pronunciation with _$Pronunciation {
   const factory Pronunciation({
-    @JsonKey(name: "index") required int pronounciationIndex,
+    @JsonKey(name: "index") required int pronunciationIndex,
     @Default([]) List<String> meanings,
     @Default([]) List<String> readings,
   }) = _Pronunciation;
