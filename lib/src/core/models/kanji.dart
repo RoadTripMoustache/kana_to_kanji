@@ -1,13 +1,14 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:kana_to_kanji/src/core/models/example.dart";
-import "package:kana_to_kanji/src/core/models/pronunciations.dart";
+import "package:kana_to_kanji/src/core/models/pronunciation.dart";
+import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
 part "kanji.freezed.dart";
 part "kanji.g.dart";
 
 @freezed
-class Kanji with _$Kanji {
+class Kanji extends Resource with _$Kanji {
   const factory Kanji({
     required ResourceUid uid,
     required String kanji,
@@ -19,7 +20,8 @@ class Kanji with _$Kanji {
     /// Class in which kanji is taught
     int? grade,
 
-    @Default([]) List<String> meanings, // TODO : To delete
+    /// TODO :  To delete once migrated to "pronunciations"
+    @Default([]) List<String> meanings,
     /// Pronunciations in sino-Japanese
     ///
     /// TODO : To delete once migrated to "pronunciations"
@@ -35,13 +37,8 @@ class Kanji with _$Kanji {
 
     required String version,
 
-    /// List of vocabulary word ids that use the kanji
-    ///
-    /// TODO : To delete once migrated to "relatedVocabulary"
-    @Default([]) List<int>? vocabularyIds,
-
     /// List of vocabulary words that use the kanji
-    @Default([]) List<int>? relatedVocabulary,
+    @Default([]) List<ResourceUid>? relatedVocabulary,
 
     /// List of syllables of the first kanji Kun reading
     /// to facilitate the kanji sorting

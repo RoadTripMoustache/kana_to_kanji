@@ -2,34 +2,23 @@ import "package:freezed_annotation/freezed_annotation.dart";
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/example.dart";
 import "package:kana_to_kanji/src/core/models/kanji_reading.dart";
+import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
 part "vocabulary.freezed.dart";
 part "vocabulary.g.dart";
 
 @freezed
-class Vocabulary with _$Vocabulary {
+class Vocabulary extends Resource with _$Vocabulary {
   const factory Vocabulary({
-    @Default(ResourceUid("", ResourceType.kanji)) ResourceUid uid,
-
     /// Contains the vocabulary word entirely even
     /// if it is a mix of kana and kanji.
     required String kanji,
 
     /// Full kana version of the word
     required String kana,
-
     required int jlptLevel,
-
-    /// Translations and meaning of the word
-    @Default([]) List<String> meanings,
-
     required String romaji,
-
-    /// List the IDs of the kanji present in the vocabulary.
-    /// Present when [kanji] isn't empty.
-    @Default([]) List<ResourceUid>? relatedKanjis,
-
     required String version,
 
     /// List of syllables forming the word in kana.
@@ -37,6 +26,14 @@ class Vocabulary with _$Vocabulary {
     ///
     /// TODO: To remove once migrated to "kanjiReadings"
     required List<int> kanaSyllables,
+    @Default(ResourceUid("", ResourceType.kanji)) ResourceUid uid,
+
+    /// Translations and meaning of the word
+    @Default([]) List<String> meanings,
+
+    /// List the IDs of the kanji present in the vocabulary.
+    /// Present when [kanji] isn't empty.
+    @Default([]) List<ResourceUid>? relatedKanjis,
 
     /// List of kanji which are in the vocabulary with their respective reading
     @Default([]) List<KanjiReading> kanjiReadings,
