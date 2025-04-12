@@ -9,26 +9,16 @@ part "user.g.dart";
 @freezed
 class User with _$User {
   const factory User({
-    @Default("") String uuid,
-
     required String externalId,
-
     required String createdAt,
-
     required String lastUpdate,
-
     required String displayName,
-
-    String? avatar,
-
     required UserPreferences preferences,
-
+    @Default("") String uuid,
+    String? avatar,
     String? streakStartDate,
-
     String? streakLastUpdate,
-
     UserLearning? learning,
-
     @Default([]) List<UserAchievement> achievements,
   }) = _User;
 
