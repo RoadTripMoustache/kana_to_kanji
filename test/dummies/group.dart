@@ -5,10 +5,10 @@ import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
 final Group dummyGroup = Group(
-  const ResourceUid("group-1", ResourceType.group),
-  Alphabets.katakana,
-  "Group name",
-  KanaTypes.main,
-  "Group name",
-  "v1",
+  uid: const ResourceUid("group-1", ResourceType.group),
+  alphabet: Alphabets.katakana,
+  name: "Group name",
+  kanaType: KanaTypes.main,
+  localizedName: "Group name",
+  version: "v1",
 );

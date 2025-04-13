@@ -5,6 +5,7 @@ import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
 part "group.freezed.dart";
+
 part "group.g.dart";
 
 @freezed

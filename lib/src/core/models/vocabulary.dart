@@ -11,6 +11,8 @@ part "vocabulary.g.dart";
 @freezed
 class Vocabulary extends Resource with _$Vocabulary {
   const factory Vocabulary({
+    required ResourceUid uid,
+
     /// Contains the vocabulary word entirely even
     /// if it is a mix of kana and kanji.
     required String kanji,
@@ -26,7 +28,6 @@ class Vocabulary extends Resource with _$Vocabulary {
     ///
     /// TODO: To remove once migrated to "kanjiReadings"
     required List<int> kanaSyllables,
-    @Default(ResourceUid("", ResourceType.kanji)) ResourceUid uid,
 
     /// Translations and meaning of the word
     @Default([]) List<String> meanings,
