@@ -1,0 +1,36 @@
+import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+
+const sqlAlphabetColumn = "alphabet";
+const sqlNameColumn = "name";
+const sqlKanaTypeColumn = "kanaType";
+const sqlVersionColumn = "version";
+const sqlLocalizedNameColumn = "localized_name";
+
+class GroupService extends ResourceDataService<Group> {
+  final DatabaseService _databaseService = locator<DatabaseService>();
+
+  GroupService()
+    : super(
+        tableName: "groups",
+        resourceColumns: [
+          sqlAlphabetColumn,
+          sqlNameColumn,
+          sqlKanaTypeColumn,
+          sqlLocalizedNameColumn,
+        ],
+        transformer: Group.fromJson,
+      );
+
+  /// Get all the groups related to the alphabet given in parameter.
+  Future<List<Group>> getGroups(Alphabets alphabet) => _databaseService.query(
+    tableName,
+    transformer: Group.fromJson,
+    columns: columns,
+    where: "$sqlAlphabetColumn = ?",
+    whereArgs: [alphabet.name],
+  );
+}

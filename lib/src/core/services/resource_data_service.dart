@@ -47,10 +47,12 @@ abstract class ResourceDataService<T extends Resource> {
           whereArgs: [item.uid.uid],
         ),
       ) ==
-          1;
+      1;
 
-  Future<List<ResourceUid>> _existsAll(List<T> items,
-      Transaction transaction,) async {
+  Future<List<ResourceUid>> _existsAll(
+    List<T> items,
+    Transaction transaction,
+  ) async {
     final result = await transaction.query(
       tableName,
       columns: [sqlUidColumn],
@@ -63,23 +65,21 @@ abstract class ResourceDataService<T extends Resource> {
         .toList();
   }
 
-  Future<List<T>> getAll() =>
-      _databaseService.query(
-        tableName,
-        transformer: transformer,
-        columns: columns,
-      );
+  Future<List<T>> getAll() => _databaseService.query(
+    tableName,
+    transformer: transformer,
+    columns: columns,
+  );
 
-  Future<T> get(ResourceUid uid) =>
-      _databaseService
-          .query(
+  Future<T> get(ResourceUid uid) => _databaseService
+      .query(
         tableName,
         transformer: transformer,
         columns: columns,
         where: sqlWhereUidColumn,
         whereArgs: [uid.uid],
       )
-          .then((result) => result.first);
+      .then((result) => result.first);
 
   /// Upsert (insert with replace on conflict) an item in the database.
   ///
@@ -112,9 +112,12 @@ abstract class ResourceDataService<T extends Resource> {
   ///
   /// Note that this method only works for simple resource that are contained in
   /// a single table (no join or secondary table).
-  Future<void> upsertAll(List<T> items,
-      {bool forceReload = false, Transaction? transaction}) async {
-    if(transaction != null) {
+  Future<void> upsertAll(
+    List<T> items, {
+    bool forceReload = false,
+    Transaction? transaction,
+  }) async {
+    if (transaction != null) {
       await _upsertAll(items, transaction, forceReload);
     } else {
       await _databaseService.transaction((Transaction txn) async {
@@ -123,8 +126,11 @@ abstract class ResourceDataService<T extends Resource> {
     }
   }
 
-  Future<void> _upsertAll(List<T> items, Transaction transaction,
-      bool forceReload) async {
+  Future<void> _upsertAll(
+    List<T> items,
+    Transaction transaction,
+    bool forceReload,
+  ) async {
     final existingUids = [];
     final batch = transaction.batch();
 
@@ -135,7 +141,7 @@ abstract class ResourceDataService<T extends Resource> {
     }
 
     final List<T> itemsToInsert =
-    items.where((item) => !existingUids.contains(item.uid)).toList();
+        items.where((item) => !existingUids.contains(item.uid)).toList();
 
     for (final item in itemsToInsert) {
       if (existingUids.contains(item.uid)) {
@@ -153,7 +159,8 @@ abstract class ResourceDataService<T extends Resource> {
 
     await batch.commit(noResult: true);
 
-    Future<void> delete(ResourceUid resourceUid, {
+    Future<void> delete(
+      ResourceUid resourceUid, {
       Transaction? transaction,
     }) async {
       if (transaction != null) {
@@ -171,3 +178,4 @@ abstract class ResourceDataService<T extends Resource> {
       );
     }
   }
+}
