@@ -158,24 +158,24 @@ abstract class ResourceDataService<T extends Resource> {
     }
 
     await batch.commit(noResult: true);
+  }
 
-    Future<void> delete(
-      ResourceUid resourceUid, {
-      Transaction? transaction,
-    }) async {
-      if (transaction != null) {
-        await transaction.delete(
-          tableName,
-          where: sqlWhereUidColumn,
-          whereArgs: [resourceUid.uid],
-        );
-        return;
-      }
-      await _databaseService.delete(
+  Future<void> delete(
+    ResourceUid resourceUid, {
+    Transaction? transaction,
+  }) async {
+    if (transaction != null) {
+      await transaction.delete(
         tableName,
         where: sqlWhereUidColumn,
         whereArgs: [resourceUid.uid],
       );
+      return;
     }
+    await _databaseService.delete(
+      tableName,
+      where: sqlWhereUidColumn,
+      whereArgs: [resourceUid.uid],
+    );
   }
 }
