@@ -48,7 +48,7 @@ class Kanji extends Resource with _$Kanji {
     @Default([]) List<Example>? examples,
 
     /// Groups related to the kanji
-    @Default([]) @JsonKey(name: "groups") List<ResourceUid> groupList,
+    @Default([]) List<ResourceUid> groups,
 
     String? mainMeaning,
   }) = _Kanji;
