@@ -6,7 +6,7 @@ part "pronunciation.g.dart";
 @freezed
 class Pronunciation with _$Pronunciation {
   const factory Pronunciation({
-    @JsonKey(name: "index") required int pronunciationIndex,
+    required int index,
     @Default([]) List<String> meanings,
     @Default([]) List<String> readings,
   }) = _Pronunciation;
