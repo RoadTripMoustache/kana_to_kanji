@@ -3,29 +3,33 @@ import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
-const Kana dummyHiragana = Kana(
-  uid: ResourceUid("0", ResourceType.kana),
+import "group.dart";
+
+final Kana dummyHiragana = Kana(
+  uid: ResourceUid.fromJson("kana-0"),
   alphabet: Alphabets.hiragana,
-  groupUid: ResourceUid("0", ResourceType.group),
+  groupUid: dummyHiraganaGroup.uid,
   kana: "あ",
   romaji: "a",
   version: "2023-12-01",
   position: 1,
 );
 
-const Kana dummyKatakana = Kana(
-  uid: ResourceUid("1", ResourceType.kana),
+final Kana dummyKatakana = Kana(
+  uid: ResourceUid.fromJson("kana-1"),
   alphabet: Alphabets.katakana,
-  groupUid: ResourceUid("1", ResourceType.group),
+  groupUid: dummyKatakanaGroup.uid,
   kana: "ア",
   romaji: "a",
   version: "2023-12-01",
   position: 2,
 );
 
+final List<Kana> dummiesKana = [dummyHiragana, dummyKatakana];
+
 /// Generates a dummy kana with the index given in parameter.
 Kana generateDummyKana(int index) => Kana(
-  uid: const ResourceUid("kana-1", ResourceType.kana),
+  uid: ResourceUid.fromJson("kana-$index"),
   alphabet: Alphabets.hiragana,
   groupUid: const ResourceUid("group-1", ResourceType.group),
   kana: "あ",

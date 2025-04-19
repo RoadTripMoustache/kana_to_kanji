@@ -16,7 +16,7 @@ class KanaService extends ResourceDataService<Kana> {
 
   KanaService()
     : super(
-        tableName: "kanas",
+        tableName: "kana",
         resourceColumns: [
           sqlAlphabetColumn,
           sqlGroupUidColumn,
