@@ -8,11 +8,12 @@ import "package:sqflite/sqflite.dart";
 class DatabaseService {
   late final Database _db;
 
-  Future<void> initialize() async {
+  /// [path] is the database path and should only be used for testing
+  Future<void> initialize({String? path}) async {
     // get the application documents directory
     final dir = await getDatabasesPath();
     // build the database path
-    final dbPath = join(dir, "kana_to_kanji_local.db");
+    final dbPath = path ?? join(dir, "kana_to_kanji_local.db");
 
     // Make sure the directory exists
     await Directory(dir).create(recursive: true);
@@ -123,4 +124,8 @@ class DatabaseService {
 
   Future<int> delete(String table, {String? where, List<Object?>? whereArgs}) =>
       _db.delete(table, where: where, whereArgs: whereArgs);
+
+  Future<void> dispose() async {
+    await _db.close();
+  }
 }
