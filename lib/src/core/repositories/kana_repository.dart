@@ -16,27 +16,32 @@ class KanaRepository {
     _kanaService = kanaService ?? KanaService();
   }
 
-  void loadKana() {
+  /// Loads kana data asynchronously
+  Future<void> loadKana() async {
     if (kana.isEmpty) {
       kana.addAll([
-        ..._kanaService.getHiragana(),
-        ..._kanaService.getKatakana(),
+        ...await _kanaService.getHiragana(),
+        ...await _kanaService.getKatakana(),
       ]);
     }
   }
 
-  List<Kana> getByGroupIds(List<ResourceUid> groupIds) {
-    loadKana();
+  /// Gets kana by group IDs asynchronously
+  Future<List<Kana>> getByGroupIds(List<ResourceUid> groupIds) async {
+    await loadKana();
     final kanaFiltered =
         kana.where((element) => groupIds.contains(element.groupUid)).toList();
 
     return kanaFiltered;
   }
 
-  List<Kana> getByGroupId(ResourceUid groupId) => getByGroupIds([groupId]);
+  /// Gets kana by a single group ID asynchronously
+  Future<List<Kana>> getByGroupId(ResourceUid groupId) async =>
+      getByGroupIds([groupId]);
 
-  List<Kana> getHiragana() {
-    loadKana();
+  /// Gets all hiragana characters asynchronously
+  Future<List<Kana>> getHiragana() async {
+    await loadKana();
     final listKana =
         kana
             .where((element) => Alphabets.hiragana == element.alphabet)
@@ -48,17 +53,18 @@ class KanaRepository {
     return listKana;
   }
 
-  List<Kana> searchHiragana(
+  /// Searches hiragana characters asynchronously
+  Future<List<Kana>> searchHiragana(
     String searchTxt,
     List<KnowledgeLevel> selectedKnowledgeLevel,
-  ) {
+  ) async {
     /// If is there more than 3 characters in the searchTxt,
     /// return directly an empty list as anything will match.
     if (searchTxt.length > 3) {
       return List.empty();
     }
 
-    loadKana();
+    await loadKana();
     bool Function(Kana) txtFilter = (Kana element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (Kana element) => element.romaji.contains(searchTxt);
@@ -84,8 +90,9 @@ class KanaRepository {
     return listKana;
   }
 
-  List<Kana> getKatakana() {
-    loadKana();
+  /// Gets all katakana characters asynchronously
+  Future<List<Kana>> getKatakana() async {
+    await loadKana();
     final listKana =
         kana
             .where((element) => Alphabets.katakana == element.alphabet)
@@ -97,17 +104,18 @@ class KanaRepository {
     return listKana;
   }
 
-  List<Kana> searchKatakana(
+  /// Searches katakana characters asynchronously
+  Future<List<Kana>> searchKatakana(
     String searchTxt,
     List<KnowledgeLevel> selectedKnowledgeLevel,
-  ) {
+  ) async {
     /// If is there more than 3 characters in the searchTxt,
     /// return directly an empty list as anything will match.
     if (searchTxt.length > 3) {
       return List.empty();
     }
 
-    loadKana();
+    await loadKana();
     bool Function(Kana) txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (element) => element.romaji.contains(searchTxt);
@@ -134,7 +142,8 @@ class KanaRepository {
     return listKana;
   }
 
-  Future delete(ResourceUid uid) async {
+  /// Deletes a kana by its UID asynchronously
+  Future<void> delete(ResourceUid uid) async {
     kana.removeWhere((element) => element.uid == uid);
     await _kanaService.delete(uid);
   }
