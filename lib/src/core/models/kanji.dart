@@ -16,6 +16,12 @@ abstract class Kanji extends Resource with _$Kanji {
     required String kanji,
     required int jlptLevel,
 
+    required String version,
+
+    /// List of syllables of the first kanji Kun reading
+    /// to facilitate the kanji sorting
+    required List<int> jpSortSyllables,
+
     /// Number of strokes necessary to draw the kanji
     int? numberOfStrokes,
 
@@ -38,14 +44,8 @@ abstract class Kanji extends Resource with _$Kanji {
     /// Pronunciations of the kanji
     @Default([]) List<Pronunciation> pronunciations,
 
-    required String version,
-
     /// List of vocabulary words that use the kanji
     @Default([]) List<ResourceUid>? relatedVocabulary,
-
-    /// List of syllables of the first kanji Kun reading
-    /// to facilitate the kanji sorting
-    required List<int> jpSortSyllables,
 
     /// Usage examples of the kanji
     @Default([]) List<Example>? examples,
@@ -57,8 +57,6 @@ abstract class Kanji extends Resource with _$Kanji {
   }) = _Kanji;
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
-
-  const Kanji._();
 
   List<String> get readings => [
     ...kunReadings,

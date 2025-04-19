@@ -61,7 +61,7 @@ abstract class ResourceDataService<T extends Resource> {
     );
 
     return result
-        .map((e) => ResourceUid.fromString(e[sqlUidColumn]! as String))
+        .map((e) => ResourceUid.fromJson(e[sqlUidColumn]! as String))
         .toList();
   }
 
@@ -71,6 +71,9 @@ abstract class ResourceDataService<T extends Resource> {
     columns: columns,
   );
 
+  /// Retrieve a specific item from the database.
+  ///
+  /// @throws Exception if the item is not found.
   Future<T> get(ResourceUid uid) => _databaseService
       .query(
         tableName,
@@ -80,7 +83,13 @@ abstract class ResourceDataService<T extends Resource> {
         whereArgs: [uid.uid],
         limit: 1,
       )
-      .then((result) => result.first);
+      .then((result) => result.first)
+      .catchError((error) {
+        if (error is StateError) {
+          throw Exception("Item not found");
+        }
+        throw error;
+      });
 
   /// Upsert (insert with replace on conflict) an item in the database.
   ///
@@ -179,12 +188,4 @@ abstract class ResourceDataService<T extends Resource> {
       whereArgs: [resourceUid.uid],
     );
   }
-}
-
-abstract class ResourceDataServiceWithExamples<T extends Resource>
-    extends ResourceDataService<T> {
-  ResourceDataServiceWithExamples({
-    required super.tableName,
-    required super.transformer,
-  });
 }
