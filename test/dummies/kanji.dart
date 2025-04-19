@@ -17,7 +17,7 @@ const Kanji dummyKanji = Kanji(
 );
 
 const Kanji dummyKanjiWithoutOnMeaning = Kanji(
-  uid: ResourceUid("kanji-1", ResourceType.kanji),
+  uid: ResourceUid("kanji-2", ResourceType.kanji),
   kanji: "本",
   jlptLevel: 5,
   grade: 1,
@@ -28,3 +28,5 @@ const Kanji dummyKanjiWithoutOnMeaning = Kanji(
   jpSortSyllables: [],
   mainMeaning: "book",
 );
+
+final List<Kanji> dummiesKanji = [dummyKanji, dummyKanjiWithoutOnMeaning];

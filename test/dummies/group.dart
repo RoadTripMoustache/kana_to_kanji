@@ -28,3 +28,9 @@ final Group dummyKanjiGroup = Group(
   localizedName: "Group name - Kanji",
   version: "v1",
 );
+
+final List<Group> dummyGroups = [
+  dummyKatakanaGroup,
+  dummyHiraganaGroup,
+  dummyKanjiGroup,
+];

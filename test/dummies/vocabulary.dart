@@ -14,7 +14,7 @@ const Vocabulary dummyVocabulary = Vocabulary(
 );
 
 const Vocabulary dummyVocabularyWithoutKanji = Vocabulary(
-  uid: ResourceUid("vocabulary-1", ResourceType.vocabulary),
+  uid: ResourceUid("vocabulary-2", ResourceType.vocabulary),
   kanji: "",
   kana: "あ",
   jlptLevel: 1,
@@ -23,3 +23,8 @@ const Vocabulary dummyVocabularyWithoutKanji = Vocabulary(
   kanaSyllables: [],
   version: "2023-12-1",
 );
+
+final List<Vocabulary> dummiesVocabulary = [
+  dummyVocabulary,
+  dummyVocabularyWithoutKanji,
+];

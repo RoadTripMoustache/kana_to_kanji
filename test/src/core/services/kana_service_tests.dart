@@ -5,8 +5,7 @@ import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/kana_service.dart";
 import "package:sqflite/sqflite.dart";
 
-import "../../../dummies/group.dart";
-import "../../../dummies/kana.dart";
+import "../../../dummies/dummies.dart";
 import "../../../helpers.dart";
 
 void main() {
