@@ -3,13 +3,6 @@
 
 
 -- RESOURCES
--- Base table
-CREATE TABLE examples
-(
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    japanese    TEXT NOT NULL,
-    translation TEXT NOT NULL
-);
 -- Groups
 CREATE TABLE groups
 (
@@ -42,12 +35,13 @@ CREATE TABLE kanji
     number_of_strokes INTEGER,
     grade             INTEGER,
     version           TEXT    NOT NULL,
+    examples          TEXT    NOT NULL, -- Stored as JSON array
     jp_sort_syllables TEXT    NOT NULL, -- Stored as JSON array
+    pronunciations    TEXT    NOT NULL, -- Stored as JSON array
     main_meaning      TEXT,
     meanings          TEXT,             -- Stored as JSON array, to be deprecated
     on_readings       TEXT,             -- Stored as JSON array, to be deprecated
-    kun_readings      TEXT,             -- Stored as JSON array, to be deprecated
-    pronunciations    TEXT    NOT NULL  -- Stored as JSON array
+    kun_readings      TEXT              -- Stored as JSON array, to be deprecated
 );
 
 -- Vocabulary
@@ -59,22 +53,12 @@ CREATE TABLE vocabulary
     jlpt_level     INTEGER NOT NULL,
     romaji         TEXT    NOT NULL,
     version        TEXT    NOT NULL,
+    examples       TEXT    NOT NULL, -- Stored as JSON array
     kana_syllables TEXT    NOT NULL, -- Stored as JSON array
     meanings       TEXT    NOT NULL  -- Stored as JSON array
 );
 
 -- Kanji Join tables
-CREATE TABLE kanji_examples
-(
-    kanji_uid  TEXT    NOT NULL,
-    example_id INTEGER NOT NULL,
-    PRIMARY KEY (kanji_uid, example_id),
-    FOREIGN KEY (kanji_uid) REFERENCES kanji (uid)
-        ON DELETE CASCADE,
-    FOREIGN KEY (example_id) REFERENCES examples (id)
-        ON DELETE CASCADE
-);
-
 CREATE TABLE kanji_related_vocabulary
 (
     kanji_uid      TEXT NOT NULL,
@@ -119,17 +103,6 @@ CREATE TABLE vocabulary_kanji_readings
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (kanji_uid) REFERENCES kanji (uid)
-        ON DELETE CASCADE
-);
-
-CREATE TABLE vocabulary_examples
-(
-    vocabulary_uid TEXT    NOT NULL,
-    example_id     INTEGER NOT NULL,
-    PRIMARY KEY (vocabulary_uid, example_id),
-    FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
-        ON DELETE CASCADE,
-    FOREIGN KEY (example_id) REFERENCES examples (id)
         ON DELETE CASCADE
 );
 

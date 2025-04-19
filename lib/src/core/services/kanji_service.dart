@@ -1,6 +1,7 @@
 import "dart:convert";
 
 import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -18,6 +19,7 @@ const sqlMeaningsColumn = "meanings";
 const sqlOnReadingsColumn = "on_readings";
 const sqlKunReadingsColumn = "kun_readings";
 const sqlPronunciationsColumn = "pronunciations";
+const sqlExamplesColumn = "examples";
 
 /// Related vocabulary table and columns
 const sqlRelatedVocabularyTable = "kanji_related_vocabulary";
@@ -29,14 +31,6 @@ const sqlVocabularyUidColumn = "vocabulary_uid";
 const sqlKanjiGroupsTable = "kanji_groups";
 const sqlKanjiGroups = "groups";
 const sqlGroupUidColumn = "group_uid";
-
-/// Examples table and columns
-const sqlExamplesTable = "examples";
-const sqlExampleIdColumn = "id";
-const sqlExampleJapaneseColumn = "japanese";
-const sqlExampleTranslationColumn = "translation";
-const sqlKanjiExamplesTable = "kanji_examples";
-const sqlKanjiExampleIdColumn = "example_id";
 
 class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
@@ -57,6 +51,7 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlOnReadingsColumn,
           sqlKunReadingsColumn,
           sqlPronunciationsColumn,
+          sqlExamplesColumn,
         ],
       );
 
@@ -65,14 +60,9 @@ class KanjiService extends ResourceDataService<Kanji> {
   Future<List<Kanji>> getAll() => _databaseService.rawQueryTrans("""
         SELECT
             ${columns.map((c) => 'k.$c').join(",")},
-            json_group_array(DISTINCT json_object('$sqlExampleJapaneseColumn', e.$sqlExampleJapaneseColumn, '$sqlExampleTranslationColumn', e.$sqlExampleTranslationColumn)) AS $sqlExamplesTable,
             json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
             json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
         FROM $tableName AS k
-                 LEFT JOIN $sqlKanjiExamplesTable AS ke
-                           ON k.$sqlUidColumn = ke.$sqlKanjiUidColumn
-                 LEFT JOIN $sqlExamplesTable AS e
-                           ON ke.$sqlKanjiExampleIdColumn = e.$sqlExampleIdColumn
                  LEFT JOIN $sqlRelatedVocabularyTable AS krv
                            ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
                  LEFT JOIN $sqlKanjiGroupsTable AS kg
@@ -80,6 +70,30 @@ class KanjiService extends ResourceDataService<Kanji> {
         GROUP BY
             k.$sqlUidColumn, k.$sqlKanjiColumn
       """, transformer: _transformer);
+
+  /// Retrieve all the kanji
+  @override
+  Future<Kanji> get(ResourceUid uid) => _databaseService
+      .rawQueryTrans(
+        """
+        SELECT
+            ${columns.map((c) => 'k.$c').join(",")},
+            json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
+            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
+        FROM $tableName AS k
+                 LEFT JOIN $sqlRelatedVocabularyTable AS krv
+                           ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
+                 LEFT JOIN $sqlKanjiGroupsTable AS kg
+                           ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
+        WHERE k.$sqlUidColumn = ?
+        LIMIT 1
+        GROUP BY
+            k.$sqlUidColumn, k.$sqlKanjiColumn
+      """,
+        transformer: _transformer,
+        arguments: [uid.uid],
+      )
+      .then((result) => result.first);
 
   @override
   Future<void> upsertAll(
@@ -154,36 +168,21 @@ class KanjiService extends ResourceDataService<Kanji> {
         sqlGroupUidColumn: groupUid.uid,
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     }
-
-    // Examples
-    if (item.examples != null) {
-      for (final example in item.examples!) {
-        batch.rawInsert(
-          """
-              INSERT INTO $sqlExamplesTable ($sqlExampleJapaneseColumn, $sqlExampleTranslationColumn)
-              VALUES (?, ?);
-              INSERT INTO $sqlKanjiExamplesTable ($sqlKanjiUidColumn, $sqlKanjiExampleIdColumn)
-              VALUES (?, last_insert_rowid());
-              """,
-          [example.japanese, example.translation, item.uid.uid],
-        );
-      }
-    }
   }
 
   Kanji _transformer(Map<String, dynamic> row) {
     _logger.d("KanjiService - _transformer - received: $row");
     final pronunciations = jsonDecode(row[sqlPronunciationsColumn]);
-    final examples = jsonDecode(row[sqlExamplesTable]);
+    final examples = jsonDecode(row[sqlExamplesColumn]);
     final relatedVocabulary = jsonDecode(row[sqlRelatedVocabularyColumn]);
     final groups = jsonDecode(row[sqlKanjiGroups]);
 
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
+      sqlExamplesColumn: examples ?? [],
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
-      sqlExamplesTable: examples,
     });
   }
 }

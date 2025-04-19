@@ -78,6 +78,7 @@ abstract class ResourceDataService<T extends Resource> {
         columns: columns,
         where: sqlWhereUidColumn,
         whereArgs: [uid.uid],
+        limit: 1,
       )
       .then((result) => result.first);
 
@@ -178,4 +179,12 @@ abstract class ResourceDataService<T extends Resource> {
       whereArgs: [resourceUid.uid],
     );
   }
+}
+
+abstract class ResourceDataServiceWithExamples<T extends Resource>
+    extends ResourceDataService<T> {
+  ResourceDataServiceWithExamples({
+    required super.tableName,
+    required super.transformer,
+  });
 }

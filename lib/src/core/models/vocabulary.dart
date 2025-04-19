@@ -1,5 +1,4 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/example.dart";
 import "package:kana_to_kanji/src/core/models/kanji_reading.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
@@ -43,7 +42,7 @@ class Vocabulary extends Resource with _$Vocabulary {
     @Default([]) List<Example>? examples,
 
     /// Groups related to the vocabulary
-    @Default([]) @JsonKey(name: "groups") List<ResourceUid> groupList,
+    @Default([]) List<ResourceUid> groups,
   }) = _Vocabulary;
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
