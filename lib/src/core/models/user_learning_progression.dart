@@ -6,7 +6,7 @@ part "user_learning_progression.freezed.dart";
 part "user_learning_progression.g.dart";
 
 @freezed
-class UserLearningProgression with _$UserLearningProgression {
+abstract class UserLearningProgression with _$UserLearningProgression {
   const factory UserLearningProgression({
     /// Uid of the current learning stage
     @Default(ResourceUid("", ResourceType.stage)) ResourceUid stage,

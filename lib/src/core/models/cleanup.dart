@@ -6,7 +6,7 @@ part "cleanup.freezed.dart";
 part "cleanup.g.dart";
 
 @freezed
-class CleanUpData with _$CleanUpData {
+abstract class CleanUpData with _$CleanUpData {
   const factory CleanUpData({@Default([]) List<ResourceUid> deletedResources}) =
       _CleanUpData;
 

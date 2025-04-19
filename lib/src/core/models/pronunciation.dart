@@ -4,7 +4,7 @@ part "pronunciation.freezed.dart";
 part "pronunciation.g.dart";
 
 @freezed
-class Pronunciation with _$Pronunciation {
+abstract class Pronunciation with _$Pronunciation {
   const factory Pronunciation({
     required int index,
     @Default([]) List<String> meanings,

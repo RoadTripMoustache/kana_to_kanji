@@ -6,7 +6,7 @@ part "user_learning.freezed.dart";
 part "user_learning.g.dart";
 
 @freezed
-class UserLearning with _$UserLearning {
+abstract class UserLearning with _$UserLearning {
   const factory UserLearning({
     required LearningMode mode,
     required String modeLastUpdate,

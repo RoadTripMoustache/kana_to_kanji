@@ -5,7 +5,7 @@ part "user_achievement.freezed.dart";
 part "user_achievement.g.dart";
 
 @freezed
-class UserAchievement with _$UserAchievement {
+abstract class UserAchievement with _$UserAchievement {
   const factory UserAchievement({
     required int id,
     required double currentProgress,

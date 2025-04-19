@@ -4,7 +4,7 @@ part "example.freezed.dart";
 part "example.g.dart";
 
 @freezed
-class Example with _$Example {
+abstract class Example with _$Example {
   const factory Example({
     required String japanese,
     required String translation,

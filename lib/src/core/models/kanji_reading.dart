@@ -7,7 +7,7 @@ part "kanji_reading.freezed.dart";
 part "kanji_reading.g.dart";
 
 @freezed
-class KanjiReading with _$KanjiReading {
+abstract class KanjiReading with _$KanjiReading {
   const factory KanjiReading({
     required String kanji,
     required String reading,

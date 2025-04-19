@@ -7,7 +7,9 @@ part "kana.freezed.dart";
 part "kana.g.dart";
 
 @freezed
-class Kana extends Resource with _$Kana {
+abstract class Kana extends Resource with _$Kana {
+  const Kana._() : super();
+
   const factory Kana({
     required ResourceUid uid,
     required Alphabets alphabet,

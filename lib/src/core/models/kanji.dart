@@ -8,7 +8,9 @@ part "kanji.freezed.dart";
 part "kanji.g.dart";
 
 @freezed
-class Kanji extends Resource with _$Kanji {
+abstract class Kanji extends Resource with _$Kanji {
+  const Kanji._() : super();
+
   const factory Kanji({
     required ResourceUid uid,
     required String kanji,
@@ -22,6 +24,7 @@ class Kanji extends Resource with _$Kanji {
 
     /// TODO :  To delete once migrated to "pronunciations"
     @Default([]) List<String> meanings,
+
     /// Pronunciations in sino-Japanese
     ///
     /// TODO : To delete once migrated to "pronunciations"

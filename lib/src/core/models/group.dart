@@ -9,7 +9,9 @@ part "group.freezed.dart";
 part "group.g.dart";
 
 @freezed
-class Group extends Resource with _$Group {
+abstract class Group extends Resource with _$Group {
+  const Group._() : super();
+
   const factory Group({
     required ResourceUid uid,
     required Alphabets alphabet,

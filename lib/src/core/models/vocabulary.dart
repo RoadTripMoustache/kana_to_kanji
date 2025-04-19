@@ -8,7 +8,9 @@ part "vocabulary.freezed.dart";
 part "vocabulary.g.dart";
 
 @freezed
-class Vocabulary extends Resource with _$Vocabulary {
+abstract class Vocabulary extends Resource with _$Vocabulary {
+  const Vocabulary._() : super();
+
   const factory Vocabulary({
     required ResourceUid uid,
 
