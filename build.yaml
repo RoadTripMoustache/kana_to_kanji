@@ -4,3 +4,4 @@ targets:
       json_serializable:
         options:
           field_rename: snake
+          explicit_to_json: true

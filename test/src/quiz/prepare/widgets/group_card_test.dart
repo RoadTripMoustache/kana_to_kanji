@@ -11,14 +11,17 @@ void main() {
     group("UI", () {
       testWidgets("Default", (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(
-          GroupCard(group: dummyGroup, onTap: (Group group) {}),
+          GroupCard(group: dummyKatakanaGroup, onTap: (Group group) {}),
         );
 
         final widget = find.byType(GroupCard);
 
         expect(widget, findsOneWidget);
         expect(
-          find.descendant(of: widget, matching: find.text(dummyGroup.name)),
+          find.descendant(
+            of: widget,
+            matching: find.text(dummyKatakanaGroup.name),
+          ),
           findsOneWidget,
         );
         expect(
@@ -38,7 +41,7 @@ void main() {
       testWidgets("Checked", (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(
           GroupCard(
-            group: dummyGroup,
+            group: dummyKatakanaGroup,
             onTap: (Group group) {},
             isChecked: true,
           ),
@@ -48,7 +51,10 @@ void main() {
 
         expect(widget, findsOneWidget);
         expect(
-          find.descendant(of: widget, matching: find.text(dummyGroup.name)),
+          find.descendant(
+            of: widget,
+            matching: find.text(dummyKatakanaGroup.name),
+          ),
           findsOneWidget,
         );
         expect(
@@ -67,7 +73,7 @@ void main() {
 
       testWidgets("Localized name", (WidgetTester tester) async {
         await tester.pumpLocalizedWidget(
-          GroupCard(group: dummyGroup, onTap: (Group group) {}),
+          GroupCard(group: dummyKatakanaGroup, onTap: (Group group) {}),
         );
 
         final widget = find.byType(GroupCard);
@@ -76,7 +82,7 @@ void main() {
         expect(
           find.descendant(
             of: widget,
-            matching: find.text(dummyGroup.localizedName!),
+            matching: find.text(dummyKatakanaGroup.localizedName!),
           ),
           findsOneWidget,
         );
@@ -84,7 +90,7 @@ void main() {
     });
 
     group("Interactions", () {
-      final List<int> log = [];
+      final List<String> log = [];
 
       setUp(log.clear);
 
@@ -93,16 +99,16 @@ void main() {
       ) async {
         await tester.pumpLocalizedWidget(
           GroupCard(
-            group: dummyGroup,
+            group: dummyKatakanaGroup,
             onTap: (Group group) {
-              log.add(group.id);
+              log.add(group.uid.uid);
             },
           ),
         );
 
         await tester.tap(find.byType(Checkbox));
 
-        expect(log, equals([dummyGroup.id]));
+        expect(log, equals([dummyKatakanaGroup.uid.uid]));
       });
 
       testWidgets("Tapping on the text should call onTap", (
@@ -110,16 +116,16 @@ void main() {
       ) async {
         await tester.pumpLocalizedWidget(
           GroupCard(
-            group: dummyGroup,
+            group: dummyKatakanaGroup,
             onTap: (Group group) {
-              log.add(group.id);
+              log.add(group.uid.uid);
             },
           ),
         );
 
-        await tester.tap(find.text(dummyGroup.name));
+        await tester.tap(find.text(dummyKatakanaGroup.name));
 
-        expect(log, equals([dummyGroup.id]));
+        expect(log, equals([dummyKatakanaGroup.uid.uid]));
       });
 
       testWidgets("Tapping on the card should call onTap", (
@@ -127,16 +133,16 @@ void main() {
       ) async {
         await tester.pumpLocalizedWidget(
           GroupCard(
-            group: dummyGroup,
+            group: dummyKatakanaGroup,
             onTap: (Group group) {
-              log.add(group.id);
+              log.add(group.uid.uid);
             },
           ),
         );
 
         await tester.tap(find.byType(Card));
 
-        expect(log, equals([dummyGroup.id]));
+        expect(log, equals([dummyKatakanaGroup.uid.uid]));
       });
     });
   });

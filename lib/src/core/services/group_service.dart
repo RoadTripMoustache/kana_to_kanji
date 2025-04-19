@@ -6,7 +6,7 @@ import "package:kana_to_kanji/src/locator.dart";
 
 const sqlAlphabetColumn = "alphabet";
 const sqlNameColumn = "name";
-const sqlKanaTypeColumn = "kanaType";
+const sqlKanaTypeColumn = "kana_type";
 const sqlVersionColumn = "version";
 const sqlLocalizedNameColumn = "localized_name";
 
