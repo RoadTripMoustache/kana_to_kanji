@@ -38,7 +38,7 @@ abstract class ResourceDataService<T extends Resource> {
         : null;
   }
 
-  Future<bool> _exists(Transaction txn, T item) async =>
+  Future<bool> exists(Transaction txn, T item) async =>
       firstIntValue(
         await txn.query(
           tableName,
@@ -49,15 +49,15 @@ abstract class ResourceDataService<T extends Resource> {
       ) ==
       1;
 
-  Future<List<ResourceUid>> _existsAll(
+  Future<List<ResourceUid>> existsAll(
     List<T> items,
     Transaction transaction,
   ) async {
     final result = await transaction.query(
       tableName,
       columns: [sqlUidColumn],
-      where: "$sqlUidColumn IN ?",
-      whereArgs: [items.map((e) => e.uid.uid).toList()],
+      where: "$sqlUidColumn IN (${items.map((e) => "?").join(",")})",
+      whereArgs: items.map((e) => e.uid.uid).toList(),
     );
 
     return result
@@ -106,7 +106,7 @@ abstract class ResourceDataService<T extends Resource> {
   }
 
   Future<void> _upsert(T item, Transaction transaction) async {
-    if (await _exists(transaction, item)) {
+    if (await exists(transaction, item)) {
       await transaction.update(
         tableName,
         item.toJson(),
@@ -147,13 +147,10 @@ abstract class ResourceDataService<T extends Resource> {
     if (forceReload) {
       batch.delete(tableName);
     } else {
-      existingUids.addAll(await _existsAll(items, transaction));
+      existingUids.addAll(await existsAll(items, transaction));
     }
 
-    final List<T> itemsToInsert =
-        items.where((item) => !existingUids.contains(item.uid)).toList();
-
-    for (final item in itemsToInsert) {
+    for (final item in items) {
       if (existingUids.contains(item.uid)) {
         batch.update(
           tableName,

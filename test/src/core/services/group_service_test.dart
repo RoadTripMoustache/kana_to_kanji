@@ -12,29 +12,33 @@ void main() {
   late final DatabaseService databaseService;
   late GroupService groupService;
 
-  setUpAll(() async {
-    databaseService = await setupDatabaseService();
-  });
-
-  setUp(() async {
-    // Create the service to test
-    groupService = GroupService();
-    await databaseService.transaction((txn) async {
-      final batch =
-          txn.batch()
-            ..insert(groupService.tableName, dummyKatakanaGroup.toJson())
-            ..insert(groupService.tableName, dummyHiraganaGroup.toJson())
-            ..insert(groupService.tableName, dummyKanjiGroup.toJson());
-
-      await batch.commit(noResult: true);
-    });
-  });
-
-  tearDown(() async {
-    await databaseService.rawQuery("DELETE FROM ${groupService.tableName};");
-  });
-
   group("GroupService", () {
+    setUpAll(() async {
+      databaseService = await setupDatabaseService();
+    });
+
+    setUp(() async {
+      // Create the service to test
+      groupService = GroupService();
+      await databaseService.transaction((txn) async {
+        final batch = txn.batch();
+
+        for (final group in dummyGroups) {
+          batch.insert(groupService.tableName, group.toJson());
+        }
+
+        await batch.commit(noResult: true);
+      });
+    });
+
+    tearDown(() async {
+      await databaseService.rawQuery("DELETE FROM ${groupService.tableName};");
+    });
+
+    tearDownAll(() async {
+      await unregister<DatabaseService>();
+    });
+
     group("getAll", () {
       test("should return all groups", () async {
         final groups = await groupService.getAll();
@@ -135,6 +139,48 @@ void main() {
         expect(
           retrievedGroup.localizedName,
           equals(updatedGroup.localizedName),
+        );
+      });
+    });
+
+    group("upsertAll", () {
+      test("should insert multiple new groups", () async {
+        // Arrange
+        final newGroups = [
+          dummyHiraganaGroup.copyWith(uid: ResourceUid.fromJson("group-new1")),
+          dummyKatakanaGroup.copyWith(uid: ResourceUid.fromJson("group-new2")),
+        ];
+
+        // Act
+        await groupService.upsertAll(newGroups);
+        final retrievedGroups = await groupService.getAll();
+
+        // Assert
+        expect(retrievedGroups.length, 5); // 3 initial + 2 new
+        expect(retrievedGroups.any((g) => g.uid.uid == "group-new1"), isTrue);
+        expect(retrievedGroups.any((g) => g.uid.uid == "group-new2"), isTrue);
+      });
+
+      test("should update existing groups", () async {
+        // Arrange
+        final updatedGroups = [
+          dummyHiraganaGroup.copyWith(name: "Updated Hiragana Group"),
+          dummyKatakanaGroup.copyWith(name: "Updated Katakana Group"),
+        ];
+
+        // Act
+        await groupService.upsertAll(updatedGroups);
+        final retrievedGroups = await groupService.getAll();
+
+        // Assert
+        expect(retrievedGroups.length, 3); // No new groups added
+        expect(
+          retrievedGroups.any((g) => g.name == "Updated Hiragana Group"),
+          isTrue,
+        );
+        expect(
+          retrievedGroups.any((g) => g.name == "Updated Katakana Group"),
+          isTrue,
         );
       });
     });

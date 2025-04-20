@@ -13,38 +13,42 @@ void main() {
   late final DatabaseService databaseService;
   late KanaService service;
 
-  setUpAll(() async {
-    databaseService = await setupDatabaseService();
-  });
-
-  setUp(() async {
-    // Create the service to test
-    service = KanaService();
-    await databaseService.transaction((txn) async {
-      final batch =
-          txn.batch()
-            ..insert(
-              "groups",
-              dummyHiraganaGroup.toJson(),
-              conflictAlgorithm: ConflictAlgorithm.ignore,
-            )
-            ..insert(
-              "groups",
-              dummyKatakanaGroup.toJson(),
-              conflictAlgorithm: ConflictAlgorithm.ignore,
-            )
-            ..insert(service.tableName, dummyHiragana.toJson())
-            ..insert(service.tableName, dummyKatakana.toJson());
-
-      await batch.commit(noResult: true);
-    });
-  });
-
-  tearDown(() async {
-    await databaseService.rawQuery("DELETE FROM ${service.tableName};");
-  });
-
   group("KanaService", () {
+    setUpAll(() async {
+      databaseService = await setupDatabaseService();
+    });
+
+    setUp(() async {
+      // Create the service to test
+      service = KanaService();
+      await databaseService.transaction((txn) async {
+        final batch =
+            txn.batch()
+              ..insert(
+                "groups",
+                dummyHiraganaGroup.toJson(),
+                conflictAlgorithm: ConflictAlgorithm.ignore,
+              )
+              ..insert(
+                "groups",
+                dummyKatakanaGroup.toJson(),
+                conflictAlgorithm: ConflictAlgorithm.ignore,
+              )
+              ..insert(service.tableName, dummyHiragana.toJson())
+              ..insert(service.tableName, dummyKatakana.toJson());
+
+        await batch.commit(noResult: true);
+      });
+    });
+
+    tearDown(() async {
+      await databaseService.rawQuery("DELETE FROM ${service.tableName};");
+    });
+
+    tearDownAll(() async {
+      await unregister<DatabaseService>();
+    });
+
     group("getByGroupIds", () {
       test("should return all kanas when given empty list", () async {
         final kanas = await service.getByGroupIds([]);
@@ -149,13 +153,11 @@ void main() {
 
     group("upsert", () {
       test("should insert a new kana", () async {
-        // Arrange
         final uid = dummyHiragana.uid.copyWith(uid: "kana-new");
         final newKana = dummyHiragana.copyWith(uid: uid);
 
         await service.upsert(newKana);
 
-        // Get all kanas to check if the new one was added
         final kanas = await service.getByGroupIds([]);
 
         expect(kanas.length, 3); // 2 initial + 1 new
@@ -163,17 +165,52 @@ void main() {
       });
 
       test("should update an existing kana", () async {
-        // Arrange
         final updatedKana = dummyHiragana.copyWith(romaji: "updated-romaji");
 
         await service.upsert(updatedKana);
 
-        // Get the updated kana
         final kanas = await service.getByGroupIds([dummyHiragana.groupUid]);
 
         expect(kanas.length, 1);
         expect(kanas[0].uid, equals(dummyHiragana.uid));
         expect(kanas[0].romaji, equals("updated-romaji"));
+      });
+    });
+
+    group("upsertAll", () {
+      test("should insert multiple kanas", () async {
+        final newKana1 = dummyHiragana.copyWith(
+          uid: ResourceUid.fromJson("kana-new1"),
+        );
+        final newKana2 = dummyKatakana.copyWith(
+          uid: ResourceUid.fromJson("kana-new2"),
+        );
+
+        await service.upsertAll([newKana1, newKana2]);
+
+        final kanas = await service.getByGroupIds([]);
+
+        expect(kanas.length, 4); // 2 initial + 2 new
+        expect(kanas.any((k) => k.uid.uid == "kana-new1"), isTrue);
+        expect(kanas.any((k) => k.uid.uid == "kana-new2"), isTrue);
+      });
+
+      test("should update existing kanas", () async {
+        final updatedKana1 = dummyHiragana.copyWith(romaji: "updated-romaji1");
+        final updatedKana2 = dummyKatakana.copyWith(romaji: "updated-romaji2");
+
+        await service.upsertAll([updatedKana1, updatedKana2]);
+
+        final kanas = await service.getByGroupIds([
+          dummyHiragana.groupUid,
+          dummyKatakana.groupUid,
+        ]);
+
+        expect(kanas.length, 2);
+        expect(kanas[0].uid, equals(dummyHiragana.uid));
+        expect(kanas[0].romaji, equals("updated-romaji1"));
+        expect(kanas[1].uid, equals(dummyKatakana.uid));
+        expect(kanas[1].romaji, equals("updated-romaji2"));
       });
     });
 

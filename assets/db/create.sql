@@ -17,7 +17,6 @@ CREATE TABLE groups
 CREATE TABLE kana
 (
     uid           TEXT PRIMARY KEY,
-    resource_type TEXT    NOT NULL,
     alphabet      TEXT    NOT NULL,
     group_uid     TEXT    NOT NULL,
     kana          TEXT    NOT NULL,
