@@ -128,18 +128,7 @@ class KanjiService extends ResourceDataService<Kanji> {
     }
 
     for (final item in items) {
-      if (existingUids.contains(item.uid)) {
-        batch.update(
-          tableName,
-          _buildMainColumns(item),
-          where: sqlWhereUidColumn,
-          whereArgs: [item.uid.uid],
-        );
-        existingUids.remove(item.uid);
-        continue;
-      }
-      batch.insert(tableName, _buildMainColumns(item));
-      _upsertJoinTables(item, batch);
+      _upsertBatch(item, batch, existingUids.contains(item.uid));
     }
 
     await batch.commit(noResult: true);
@@ -157,10 +146,18 @@ class KanjiService extends ResourceDataService<Kanji> {
     }
   }
 
+  /// Upsert item from a transaction
   Future<void> _upsert(Kanji item, Transaction transaction) async {
     final batch = transaction.batch();
 
-    if (await exists(transaction, item)) {
+    _upsertBatch(item, batch, await exists(transaction, item));
+
+    await batch.commit(noResult: true);
+  }
+
+  /// Upsert kanji and related data into the batch
+  void _upsertBatch(Kanji item, Batch batch, bool exists) {
+    if (exists) {
       batch.update(
         tableName,
         _buildMainColumns(item),
@@ -170,13 +167,7 @@ class KanjiService extends ResourceDataService<Kanji> {
     } else {
       batch.insert(tableName, _buildMainColumns(item));
     }
-    _upsertJoinTables(item, batch);
 
-    await batch.commit(noResult: true);
-  }
-
-  /// Upsert data related to a kanji but not in the kanji table
-  void _upsertJoinTables(Kanji item, Batch batch) {
     if (item.relatedVocabulary != null) {
       for (final relatedVocabularyUid in item.relatedVocabulary!) {
         batch.insert(sqlRelatedVocabularyTable, {
