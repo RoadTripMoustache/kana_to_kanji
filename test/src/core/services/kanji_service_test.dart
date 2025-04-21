@@ -1,0 +1,184 @@
+import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:sqflite/sqflite.dart";
+import "package:sqflite/utils/utils.dart";
+
+import "../../../dummies/dummies.dart";
+import "../../../helpers.dart";
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  late final DatabaseService databaseService;
+  late KanjiService service;
+
+  group("KanjiService", () {
+    setUpAll(() async {
+      databaseService = await setupDatabaseService();
+    });
+
+    setUp(() async {
+      // Create the service to test
+      service = KanjiService();
+
+      await databaseService.transaction((txn) async {
+        final Batch batch = txn.batch();
+
+        sqlInsertDummiesKanji.split(";").forEach((sql) {
+          batch.execute(sql.trim());
+        });
+
+        await batch.commit(noResult: true);
+      });
+    });
+
+    tearDown(() async {
+      await databaseService.rawQuery("DELETE FROM ${service.tableName};");
+    });
+
+    tearDownAll(() async {
+      await unregister<DatabaseService>();
+    });
+
+    group("getAll", () {
+      test("should return all kanji", () async {
+        final kanjis = await service.getAll();
+
+        expect(kanjis, isNotEmpty);
+        expect(kanjis.length, 3);
+
+        expect(kanjis, containsAll(dummiesKanji));
+      });
+    });
+
+    group("get", () {
+      test("should return a specific kanji by uid", () async {
+        final kanji = await service.get(dummyKanji.uid);
+
+        expect(kanji, isNotNull);
+        expect(kanji, dummyKanji);
+      });
+
+      test("should throw an error if not found", () async {
+        expect(
+          () async => await service.get(ResourceUid.fromJson("kanji-notFound")),
+          throwsException,
+        );
+      });
+    });
+
+    group("upsert", () {
+      test("should insert a new kanji", () async {
+        final uid = dummyKanji.uid.copyWith(uid: "kanji-new");
+        final newKanji = dummyKanji.copyWith(uid: uid);
+
+        await service.upsert(newKanji);
+
+        // Get all kanji to check if the new one was added
+        final kanjis = await service.getAll();
+
+        expect(kanjis.length, dummiesKanji.length + 1);
+        expect(kanjis.any((k) => k.uid.uid == "kanji-new"), isTrue);
+      });
+
+      test("should update an existing kanji", () async {
+        final updatedKanji = dummyKanji.copyWith(
+          mainMeaning: "updated-meaning",
+          meanings: ["updated-meaning", "origin"],
+        );
+
+        await service.upsert(updatedKanji);
+
+        // Get the updated kanji
+        final kanji = await service.get(dummyKanji.uid);
+
+        expect(kanji, updatedKanji);
+      });
+
+      test("should update related vocabulary and groups", () async {
+        final kanjiWithRelations = dummyKanji.copyWith(
+          relatedVocabulary: dummyKanjiWithRelatedData.relatedVocabulary,
+          groups: dummyKanjiWithRelatedData.groups,
+        );
+
+        await service.upsert(kanjiWithRelations);
+
+        // Get the updated kanji with relations
+        final kanji = await service.get(dummyKanji.uid);
+
+        expect(kanji, kanjiWithRelations);
+      });
+    });
+
+    group("upsertAll", () {
+      test("should insert multiple new kanji", () async {
+        final uid1 = ResourceUid.fromJson("kanji-batch1");
+        final uid2 = ResourceUid.fromJson("kanji-batch2");
+
+        final newKanjis = [
+          dummyKanji.copyWith(uid: uid1, kanji: "新"),
+          dummyKanji.copyWith(uid: uid2, kanji: "語"),
+        ];
+
+        await service.upsertAll(newKanjis);
+
+        // Get all kanji to check if the new ones were added
+        final kanjis = await service.getAll();
+
+        expect(kanjis.length, dummiesKanji.length + newKanjis.length);
+        expect(kanjis, containsAll(newKanjis));
+      });
+
+      test("should update multiple existing kanji", () async {
+        final updatedKanjis = [
+          dummyKanji.copyWith(mainMeaning: "book-updated"),
+          dummyKanjiWithoutOnMeaning.copyWith(mainMeaning: "origin-updated"),
+        ];
+
+        await service.upsertAll(updatedKanjis);
+
+        // Get updated kanji
+        final kanji1 = await service.get(dummyKanji.uid);
+        final kanji2 = await service.get(dummyKanjiWithoutOnMeaning.uid);
+
+        expect(kanji1, updatedKanjis[0]);
+        expect(kanji2, updatedKanjis[1]);
+      });
+    });
+
+    group("delete", () {
+      test("should remove a kanji", () async {
+        await service.delete(dummyKanji.uid);
+
+        // Get all kanji to verify deletion
+        final kanjis = await service.getAll();
+
+        expect(kanjis.length, dummiesKanji.length - 1);
+        expect(kanjis, isNot(contains(dummyKanji)));
+      });
+
+      test("should remove related data when kanji is deleted", () async {
+        await service.delete(dummyKanjiWithRelatedData.uid);
+
+        // Check if related data is removed
+        final relatedVocabularyCount = await databaseService.query(
+          sqlRelatedVocabularyTable,
+          columns: [sqlCountColumn],
+          where: "$sqlKanjiUidColumn = ?",
+          whereArgs: [dummyKanjiWithRelatedData.uid.uid],
+        );
+
+        final groupsCount = await databaseService.query(
+          sqlKanjiGroupsTable,
+          columns: [sqlCountColumn],
+          where: "$sqlKanjiUidColumn = ?",
+          whereArgs: [dummyKanjiWithRelatedData.uid.uid],
+        );
+
+        expect(relatedVocabularyCount.first[sqlCountColumn], 0);
+        expect(groupsCount.first[sqlCountColumn], 0);
+      });
+    });
+  });
+}

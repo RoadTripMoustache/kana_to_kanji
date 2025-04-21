@@ -45,10 +45,10 @@ abstract class Kanji extends Resource with _$Kanji {
     @Default([]) List<Pronunciation> pronunciations,
 
     /// List of vocabulary words that use the kanji
-    @Default([]) List<ResourceUid>? relatedVocabulary,
+    @Default([]) List<ResourceUid> relatedVocabulary,
 
     /// Usage examples of the kanji
-    @Default([]) List<Example>? examples,
+    @Default([]) List<Example> examples,
 
     /// Groups related to the kanji
     @Default([]) List<ResourceUid> groups,

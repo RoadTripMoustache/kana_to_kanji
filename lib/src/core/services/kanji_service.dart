@@ -5,7 +5,6 @@ import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
-import "package:logger/logger.dart";
 import "package:sqflite/sqflite.dart";
 
 /// Main table columns
@@ -34,11 +33,10 @@ const sqlGroupUidColumn = "group_uid";
 
 class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
-  final Logger _logger = locator<Logger>();
 
   KanjiService()
     : super(
-        tableName: "kanjis",
+        tableName: "kanji",
         transformer: Kanji.fromJson,
         resourceColumns: [
           sqlKanjiColumn,
@@ -86,14 +84,19 @@ class KanjiService extends ResourceDataService<Kanji> {
                  LEFT JOIN $sqlKanjiGroupsTable AS kg
                            ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
         WHERE k.$sqlUidColumn = ?
+        GROUP BY k.$sqlUidColumn, k.$sqlKanjiColumn
         LIMIT 1
-        GROUP BY
-            k.$sqlUidColumn, k.$sqlKanjiColumn
       """,
         transformer: _transformer,
         arguments: [uid.uid],
       )
-      .then((result) => result.first);
+      .then((result) => result.first)
+      .catchError((error) {
+        if (error is StateError) {
+          throw Exception("Item not found");
+        }
+        throw error;
+      });
 
   @override
   Future<void> upsertAll(
@@ -115,14 +118,27 @@ class KanjiService extends ResourceDataService<Kanji> {
     bool forceReload,
     Transaction transaction,
   ) async {
-    await super.upsertAll(
-      items,
-      forceReload: forceReload,
-      transaction: transaction,
-    );
+    final existingUids = [];
     final batch = transaction.batch();
 
+    if (forceReload) {
+      batch.delete(tableName);
+    } else {
+      existingUids.addAll(await existsAll(items, transaction));
+    }
+
     for (final item in items) {
+      if (existingUids.contains(item.uid)) {
+        batch.update(
+          tableName,
+          _buildMainColumns(item),
+          where: sqlWhereUidColumn,
+          whereArgs: [item.uid.uid],
+        );
+        existingUids.remove(item.uid);
+        continue;
+      }
+      batch.insert(tableName, _buildMainColumns(item));
       _upsertJoinTables(item, batch);
     }
 
@@ -142,9 +158,18 @@ class KanjiService extends ResourceDataService<Kanji> {
   }
 
   Future<void> _upsert(Kanji item, Transaction transaction) async {
-    await super.upsert(item, transaction: transaction);
-
     final batch = transaction.batch();
+
+    if (await exists(transaction, item)) {
+      batch.update(
+        tableName,
+        _buildMainColumns(item),
+        where: sqlWhereUidColumn,
+        whereArgs: [item.uid.uid],
+      );
+    } else {
+      batch.insert(tableName, _buildMainColumns(item));
+    }
     _upsertJoinTables(item, batch);
 
     await batch.commit(noResult: true);
@@ -170,19 +195,49 @@ class KanjiService extends ResourceDataService<Kanji> {
     }
   }
 
+  Map<String, dynamic> _buildMainColumns(Kanji item) =>
+      item.toJson()
+        ..removeWhere(
+          (key, _) =>
+              [sqlRelatedVocabularyColumn, sqlKanjiGroups].contains(key),
+        )
+        ..update(
+          sqlPronunciationsColumn,
+          (_) => jsonEncode(item.pronunciations),
+        )
+        ..update(sqlExamplesColumn, (_) => jsonEncode(item.examples))
+        ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings))
+        ..update(sqlOnReadingsColumn, (_) => jsonEncode(item.onReadings))
+        ..update(sqlKunReadingsColumn, (_) => jsonEncode(item.kunReadings))
+        ..update(
+          sqlJpSortSyllablesColumn,
+          (_) => jsonEncode(item.jpSortSyllables),
+        );
+
   Kanji _transformer(Map<String, dynamic> row) {
-    _logger.d("KanjiService - _transformer - received: $row");
     final pronunciations = jsonDecode(row[sqlPronunciationsColumn]);
     final examples = jsonDecode(row[sqlExamplesColumn]);
-    final relatedVocabulary = jsonDecode(row[sqlRelatedVocabularyColumn]);
-    final groups = jsonDecode(row[sqlKanjiGroups]);
+    final meanings = jsonDecode(row[sqlMeaningsColumn]);
+    final relatedVocabulary =
+        jsonDecode(row[sqlRelatedVocabularyColumn]) as List<dynamic>
+          ..remove(null);
+    final groups =
+        jsonDecode(row[sqlKanjiGroups]) as List<dynamic>..remove(null);
+    final sortSyllables = jsonDecode(row[sqlJpSortSyllablesColumn]);
+    // TODO delete once migrated to "pronunciations"
+    final onReadings = jsonDecode(row[sqlOnReadingsColumn]);
+    final kunReadings = jsonDecode(row[sqlKunReadingsColumn]);
 
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
       sqlExamplesColumn: examples ?? [],
+      sqlMeaningsColumn: meanings,
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
+      sqlJpSortSyllablesColumn: sortSyllables,
+      sqlOnReadingsColumn: onReadings,
+      sqlKunReadingsColumn: kunReadings,
     });
   }
 }
