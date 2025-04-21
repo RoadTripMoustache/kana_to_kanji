@@ -33,30 +33,30 @@ final VocabularyRepository vocabularyRepositoryMock =
 final DialogService dialogServiceMock = MockDialogService();
 
 void main() {
-  group("GlossaryViewModel", () {
+  group("GlossaryViewModel", () async {
     when(
       kanaRepositoryMock.getHiragana(),
-    ).thenAnswer((_) => [dummyHiragana, dummyHiragana]);
+    ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
     when(
       kanaRepositoryMock.searchHiragana("", []),
-    ).thenAnswer((_) => [dummyHiragana, dummyHiragana]);
+    ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
     when(
       kanaRepositoryMock.searchHiragana("toto", []),
-    ).thenAnswer((_) => [dummyHiragana, dummyHiragana]);
+    ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
 
-    when(
-      kanaRepositoryMock.getKatakana(),
-    ).thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
-    when(
-      kanaRepositoryMock.searchKatakana("", []),
-    ).thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
-    when(
-      kanaRepositoryMock.searchKatakana("toto", []),
-    ).thenAnswer((_) => [dummyKatakana, dummyKatakana, dummyKatakana]);
+    when(kanaRepositoryMock.getKatakana()).thenAnswer(
+      (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
+    );
+    when(kanaRepositoryMock.searchKatakana("", [])).thenAnswer(
+      (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
+    );
+    when(kanaRepositoryMock.searchKatakana("toto", [])).thenAnswer(
+      (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
+    );
 
     when(
       vocabularyRepositoryMock.searchVocabulary("", [], [], SortOrder.japanese),
-    ).thenAnswer((_) => [dummyVocabulary]);
+    ).thenAnswer((_) => Future.value([dummyVocabulary]));
     when(
       vocabularyRepositoryMock.searchVocabulary(
         "toto",
@@ -64,14 +64,18 @@ void main() {
         [],
         SortOrder.japanese,
       ),
-    ).thenAnswer((_) => [dummyVocabulary, dummyVocabulary, dummyVocabulary]);
+    ).thenAnswer(
+      (_) => Future.value([dummyVocabulary, dummyVocabulary, dummyVocabulary]),
+    );
 
     when(
       kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
-    ).thenAnswer((_) => [dummyKanji, dummyKanji, dummyKanji, dummyKanji]);
+    ).thenAnswer(
+      (_) => Future.value([dummyKanji, dummyKanji, dummyKanji, dummyKanji]),
+    );
     when(
       kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
-    ).thenAnswer((_) => [dummyKanji]);
+    ).thenAnswer((_) => Future.value([dummyKanji]));
 
     setUpAll(() async {
       locator

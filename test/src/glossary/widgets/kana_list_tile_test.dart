@@ -20,7 +20,7 @@ void main() {
       testWidgets("It should display the kana and its pronunciation", (
         WidgetTester tester,
       ) async {
-        final widget = await pump(tester, const KanaListTile(dummyKatakana));
+        final widget = await pump(tester, KanaListTile(dummyKatakana));
 
         // Validate that the RTMCard's elevation property is equal to 0
         final Finder card = find.descendant(
@@ -64,7 +64,7 @@ void main() {
       ) async {
         final widget = await pump(
           tester,
-          const KanaListTile(dummyKatakana, disabled: true),
+          KanaListTile(dummyKatakana, disabled: true),
         );
 
         // Validate that the RTMCard's elevation property is equal to 0
@@ -89,7 +89,7 @@ void main() {
     });
 
     group("Interactions", () {
-      final List<int> log = [];
+      final List<String> log = [];
 
       setUp(log.clear);
 
@@ -101,7 +101,7 @@ void main() {
           KanaListTile(
             dummyKatakana,
             onPressed: () {
-              log.add(dummyKatakana.id);
+              log.add(dummyKatakana.uid.uid);
             },
           ),
         );
@@ -113,7 +113,7 @@ void main() {
 
         expect(
           log,
-          containsOnce(dummyKatakana.id),
+          containsOnce(dummyKatakana.uid.uid),
           reason: "proof that onPressed was called one time",
         );
       });
@@ -126,7 +126,7 @@ void main() {
           KanaListTile(
             dummyKatakana,
             onPressed: () {
-              log.add(dummyKatakana.id);
+              log.add(dummyKatakana.uid.uid);
             },
             disabled: true,
           ),
@@ -139,7 +139,7 @@ void main() {
 
         expect(
           log,
-          isNot(contains(dummyKatakana.id)),
+          isNot(contains(dummyKatakana.uid.uid)),
           reason: "proof that onPressed wasn't called",
         );
       });

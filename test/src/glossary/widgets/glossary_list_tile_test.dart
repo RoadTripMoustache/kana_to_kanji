@@ -112,7 +112,7 @@ void main() {
     });
 
     group("Interactions", () {
-      final List<int> log = [];
+      final List<String> log = [];
 
       setUp(log.clear);
 
@@ -124,7 +124,7 @@ void main() {
             jlptLevel: 1,
             kanji: dummyKanji,
             onTap: () {
-              log.add(dummyKanji.id);
+              log.add(dummyKanji.uid.uid);
             },
           ),
         );
