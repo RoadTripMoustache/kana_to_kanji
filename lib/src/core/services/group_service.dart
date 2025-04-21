@@ -4,6 +4,7 @@ import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 
+const sqlGroupsTable = "groups";
 const sqlAlphabetColumn = "alphabet";
 const sqlNameColumn = "name";
 const sqlKanaTypeColumn = "kana_type";
@@ -15,7 +16,7 @@ class GroupService extends ResourceDataService<Group> {
 
   GroupService()
     : super(
-        tableName: "groups",
+        tableName: sqlGroupsTable,
         resourceColumns: [
           sqlAlphabetColumn,
           sqlNameColumn,

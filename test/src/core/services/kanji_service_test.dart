@@ -1,7 +1,10 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/group_service.dart" as groups;
 import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/vocabulary_service.dart"
+    as vocab;
 import "package:sqflite/sqflite.dart";
 import "package:sqflite/utils/utils.dart";
 
@@ -34,7 +37,17 @@ void main() {
     });
 
     tearDown(() async {
-      await databaseService.rawQuery("DELETE FROM ${service.tableName};");
+      await databaseService.transaction((txn) async {
+        final Batch batch =
+            txn.batch()
+              ..delete(service.tableName)
+              ..delete(groups.sqlGroupsTable)
+              ..delete(vocab.sqlVocabularyTable)
+              ..delete(sqlKanjiGroupsTable)
+              ..delete(sqlRelatedVocabularyTable);
+
+        await batch.commit(noResult: true);
+      });
     });
 
     tearDownAll(() async {

@@ -35,13 +35,13 @@ abstract class Vocabulary extends Resource with _$Vocabulary {
 
     /// List the IDs of the kanji present in the vocabulary.
     /// Present when [kanji] isn't empty.
-    @Default([]) List<ResourceUid>? relatedKanjis,
+    @Default([]) List<ResourceUid> relatedKanjis,
 
     /// List of kanji which are in the vocabulary with their respective reading
     @Default([]) List<KanjiReading> kanjiReadings,
 
     /// Usage examples of the vocabulary
-    @Default([]) List<Example>? examples,
+    @Default([]) List<Example> examples,
 
     /// Groups related to the vocabulary
     @Default([]) List<ResourceUid> groups,

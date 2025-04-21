@@ -8,6 +8,7 @@ import "package:kana_to_kanji/src/locator.dart";
 import "package:sqflite/sqflite.dart";
 
 /// Main table columns
+const sqlKanjiTable = "kanji";
 const sqlKanjiColumn = "kanji";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlNumberOfStrokesColumn = "number_of_strokes";
@@ -36,7 +37,7 @@ class KanjiService extends ResourceDataService<Kanji> {
 
   KanjiService()
     : super(
-        tableName: "kanji",
+        tableName: sqlKanjiTable,
         transformer: Kanji.fromJson,
         resourceColumns: [
           sqlKanjiColumn,
@@ -112,13 +113,11 @@ class KanjiService extends ResourceDataService<Kanji> {
       batch.insert(tableName, _buildMainColumns(item));
     }
 
-    if (item.relatedVocabulary != null) {
-      for (final relatedVocabularyUid in item.relatedVocabulary!) {
-        batch.insert(sqlRelatedVocabularyTable, {
-          sqlKanjiUidColumn: item.uid.uid,
-          sqlVocabularyUidColumn: relatedVocabularyUid.uid,
-        }, conflictAlgorithm: ConflictAlgorithm.replace);
-      }
+    for (final relatedVocabularyUid in item.relatedVocabulary) {
+      batch.insert(sqlRelatedVocabularyTable, {
+        sqlKanjiUidColumn: item.uid.uid,
+        sqlVocabularyUidColumn: relatedVocabularyUid.uid,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
     // Groups

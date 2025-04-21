@@ -43,21 +43,7 @@ CREATE TABLE kanji
     kun_readings      TEXT              -- Stored as JSON array, to be deprecated
 );
 
--- Vocabulary
-CREATE TABLE vocabulary
-(
-    uid            TEXT PRIMARY KEY,
-    kanji          TEXT    NOT NULL,
-    kana           TEXT    NOT NULL,
-    jlpt_level     INTEGER NOT NULL,
-    romaji         TEXT    NOT NULL,
-    version        TEXT    NOT NULL,
-    examples       TEXT    NOT NULL, -- Stored as JSON array
-    kana_syllables TEXT    NOT NULL, -- Stored as JSON array
-    meanings       TEXT    NOT NULL  -- Stored as JSON array
-);
-
--- Kanji Join tables
+--   Kanji Join tables
 CREATE TABLE kanji_related_vocabulary
 (
     kanji_uid      TEXT NOT NULL,
@@ -80,8 +66,21 @@ CREATE TABLE kanji_groups
         ON DELETE CASCADE
 );
 
+-- Vocabulary
+CREATE TABLE vocabulary
+(
+    uid            TEXT PRIMARY KEY,
+    kanji          TEXT    NOT NULL,
+    kana           TEXT    NOT NULL,
+    jlpt_level     INTEGER NOT NULL,
+    romaji         TEXT    NOT NULL,
+    version        TEXT    NOT NULL,
+    examples       TEXT    NOT NULL, -- Stored as JSON array
+    kana_syllables TEXT    NOT NULL, -- Stored as JSON array
+    meanings       TEXT    NOT NULL  -- Stored as JSON array
+);
 
--- Vocabulary Join tables
+--  Vocabulary Join tables
 CREATE TABLE vocabulary_related_kanji
 (
     vocabulary_uid TEXT NOT NULL,
