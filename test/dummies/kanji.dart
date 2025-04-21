@@ -53,7 +53,7 @@ VALUES
 INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings, examples) VALUES
 ('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["に","ほ","ん","ご"]', '["Japanese language"]', '[2]');
 
-INSERT OR IGNORE INTO kanji (uid, kanji, jlpt_level, version, jp_sort_syllables, number_of_strokes, grade, meanings, on_readings, kun_readings, pronunciations, examples, main_meaning)
+INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables, number_of_strokes, grade, meanings, on_readings, kun_readings, pronunciations, examples, main_meaning)
 VALUES
   ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', '[]', 5, 1, '["book"]', '["ほん"]', '["ほん"]', '[]', '[]', 'book'),
   ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', '[]', 5, 1, '["book"]', '["ほん"]', '["ほん"]', '[]', '[]', 'book'),

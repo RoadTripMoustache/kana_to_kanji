@@ -26,7 +26,7 @@ CREATE TABLE kana
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
 );
 -- Kanji
-CREATE TABLE kanji
+CREATE TABLE kanjis
 (
     uid               TEXT PRIMARY KEY,
     kanji             TEXT    NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE kanji_related_vocabulary
     kanji_uid      TEXT NOT NULL,
     vocabulary_uid TEXT NOT NULL,
     PRIMARY KEY (kanji_uid, vocabulary_uid),
-    FOREIGN KEY (kanji_uid) REFERENCES kanji (uid)
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE
@@ -60,7 +60,7 @@ CREATE TABLE kanji_groups
     kanji_uid TEXT NOT NULL,
     group_uid TEXT NOT NULL,
     PRIMARY KEY (kanji_uid, group_uid),
-    FOREIGN KEY (kanji_uid) REFERENCES kanji (uid)
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
         ON DELETE CASCADE
@@ -81,14 +81,14 @@ CREATE TABLE vocabulary
 );
 
 --  Vocabulary Join tables
-CREATE TABLE vocabulary_related_kanji
+CREATE TABLE vocabulary_related_kanjis
 (
     vocabulary_uid TEXT NOT NULL,
     kanji_uid      TEXT NOT NULL,
     PRIMARY KEY (vocabulary_uid, kanji_uid),
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
-    FOREIGN KEY (kanji_uid) REFERENCES kanji (uid)
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
         ON DELETE CASCADE
 );
 
@@ -100,7 +100,7 @@ CREATE TABLE vocabulary_kanji_readings
     reading        TEXT NOT NULL,
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
-    FOREIGN KEY (kanji_uid) REFERENCES kanji (uid)
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
         ON DELETE CASCADE
 );
 

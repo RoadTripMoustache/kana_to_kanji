@@ -8,7 +8,7 @@ import "package:kana_to_kanji/src/locator.dart";
 import "package:sqflite/sqflite.dart";
 
 /// Main table columns
-const sqlKanjiTable = "kanji";
+const sqlKanjiTable = "kanjis";
 const sqlKanjiColumn = "kanji";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlNumberOfStrokesColumn = "number_of_strokes";
