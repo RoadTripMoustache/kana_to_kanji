@@ -23,18 +23,20 @@ void main() {
     });
 
     group("getAll", () {
-      test("it should load all the kanji from the service", () {
-        when(kanjiServiceMock.getAll()).thenReturn([dummyKanji]);
+      test("it should load all the kanji from the service", () async {
+        when(
+          kanjiServiceMock.getAll(),
+        ).thenAnswer((_) => Future.value([dummyKanji]));
 
-        expect(repository.getAll(), [dummyKanji]);
+        expect(await repository.getAll(), [dummyKanji]);
         verify(kanjiServiceMock.getAll());
         verifyNoMoreInteractions(kanjiServiceMock);
       });
 
-      test("it should not call the service", () {
+      test("it should not call the service", () async {
         repository.kanjis.add(dummyKanji);
 
-        expect(repository.getAll(), [dummyKanji]);
+        expect(await repository.getAll(), [dummyKanji]);
         verifyZeroInteractions(kanjiServiceMock);
       });
     });
