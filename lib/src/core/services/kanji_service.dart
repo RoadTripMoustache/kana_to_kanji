@@ -98,65 +98,9 @@ class KanjiService extends ResourceDataService<Kanji> {
         throw error;
       });
 
+  /// Upsert kanji and related data into the [batch]
   @override
-  Future<void> upsertAll(
-    List<Kanji> items, {
-    bool forceReload = false,
-    Transaction? transaction,
-  }) async {
-    if (transaction != null) {
-      await _upsertAll(items, forceReload, transaction);
-    } else {
-      await _databaseService.transaction((Transaction txn) async {
-        await _upsertAll(items, forceReload, txn);
-      });
-    }
-  }
-
-  Future<void> _upsertAll(
-    List<Kanji> items,
-    bool forceReload,
-    Transaction transaction,
-  ) async {
-    final existingUids = [];
-    final batch = transaction.batch();
-
-    if (forceReload) {
-      batch.delete(tableName);
-    } else {
-      existingUids.addAll(await existsAll(items, transaction));
-    }
-
-    for (final item in items) {
-      _upsertBatch(item, batch, existingUids.contains(item.uid));
-    }
-
-    await batch.commit(noResult: true);
-  }
-
-  /// Upsert (insert with update on conflict) a kanji in the database.
-  @override
-  Future<void> upsert(Kanji item, {Transaction? transaction}) async {
-    if (transaction != null) {
-      await _upsert(item, transaction);
-    } else {
-      await _databaseService.transaction((Transaction txn) async {
-        await _upsert(item, txn);
-      });
-    }
-  }
-
-  /// Upsert item from a transaction
-  Future<void> _upsert(Kanji item, Transaction transaction) async {
-    final batch = transaction.batch();
-
-    _upsertBatch(item, batch, await exists(transaction, item));
-
-    await batch.commit(noResult: true);
-  }
-
-  /// Upsert kanji and related data into the batch
-  void _upsertBatch(Kanji item, Batch batch, bool exists) {
+  void upsertData(Kanji item, Batch batch, {required bool exists}) {
     if (exists) {
       batch.update(
         tableName,

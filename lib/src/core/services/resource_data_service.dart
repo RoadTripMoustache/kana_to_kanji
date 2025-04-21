@@ -1,3 +1,4 @@
+import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -25,7 +26,7 @@ abstract class ResourceDataService<T extends Resource> {
   }) : columns = [sqlUidColumn, ...resourceColumns, sqlVersionColumn];
 
   Future<String?> get latestVersion async {
-    final snapshot = await _databaseService.query(
+    final snapshot = await _databaseService.queryTrans(
       tableName,
       transformer: (Map<String, Object?> map) => map,
       columns: [sqlVersionColumn],
@@ -65,7 +66,7 @@ abstract class ResourceDataService<T extends Resource> {
         .toList();
   }
 
-  Future<List<T>> getAll() => _databaseService.query(
+  Future<List<T>> getAll() => _databaseService.queryTrans(
     tableName,
     transformer: transformer,
     columns: columns,
@@ -75,7 +76,7 @@ abstract class ResourceDataService<T extends Resource> {
   ///
   /// @throws Exception if the item is not found.
   Future<T> get(ResourceUid uid) => _databaseService
-      .query(
+      .queryTrans(
         tableName,
         transformer: transformer,
         columns: columns,
@@ -106,16 +107,9 @@ abstract class ResourceDataService<T extends Resource> {
   }
 
   Future<void> _upsert(T item, Transaction transaction) async {
-    if (await exists(transaction, item)) {
-      await transaction.update(
-        tableName,
-        item.toJson(),
-        where: sqlWhereUidColumn,
-        whereArgs: [item.uid.uid],
-      );
-    } else {
-      await transaction.insert(tableName, item.toJson());
-    }
+    final batch = transaction.batch();
+    upsertData(item, batch, exists: await exists(transaction, item));
+    await batch.commit(noResult: true);
   }
 
   /// Upsert a batch of items in the storage.
@@ -151,20 +145,25 @@ abstract class ResourceDataService<T extends Resource> {
     }
 
     for (final item in items) {
-      if (existingUids.contains(item.uid)) {
-        batch.update(
-          tableName,
-          item.toJson(),
-          where: sqlWhereUidColumn,
-          whereArgs: [item.uid.uid],
-        );
-        existingUids.remove(item.uid);
-      } else {
-        batch.insert(tableName, item.toJson());
-      }
+      upsertData(item, batch, exists: existingUids.contains(item.uid));
     }
 
     await batch.commit(noResult: true);
+  }
+
+  /// Upsert item and related data into the [batch]
+  @protected
+  void upsertData(T item, Batch batch, {required bool exists}) {
+    if (exists) {
+      batch.update(
+        tableName,
+        item.toJson(),
+        where: sqlWhereUidColumn,
+        whereArgs: [item.uid.uid],
+      );
+    } else {
+      batch.insert(tableName, item.toJson());
+    }
   }
 
   Future<void> delete(
