@@ -10,7 +10,7 @@ import "../../../helpers.dart";
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late final DatabaseService databaseService;
-  late GroupService groupService;
+  late GroupService service;
 
   group("GroupService", () {
     setUpAll(() async {
@@ -19,13 +19,13 @@ void main() {
 
     setUp(() async {
       // Create the service to test
-      groupService = GroupService();
+      service = GroupService();
 
       await databaseService.rawQuery(sqlInsertDummiesGroups);
     });
 
     tearDown(() async {
-      await databaseService.rawQuery("DELETE FROM ${groupService.tableName};");
+      await databaseService.rawQuery("DELETE FROM ${service.tableName};");
     });
 
     tearDownAll(() async {
@@ -34,7 +34,7 @@ void main() {
 
     group("getAll", () {
       test("should return all groups", () async {
-        final groups = await groupService.getAll();
+        final groups = await service.getAll();
 
         expect(groups, isNotEmpty);
         expect(groups.length, 3);
@@ -56,7 +56,7 @@ void main() {
     group("getGroups", () {
       test("should return only hiragana groups", () async {
         // Act
-        final groups = await groupService.getGroups(Alphabets.hiragana);
+        final groups = await service.getGroups(Alphabets.hiragana);
 
         // Assert
         expect(groups, isNotEmpty);
@@ -66,7 +66,7 @@ void main() {
 
       test("should return only katakana groups", () async {
         // Act
-        final groups = await groupService.getGroups(Alphabets.katakana);
+        final groups = await service.getGroups(Alphabets.katakana);
 
         // Assert
         expect(groups, isNotEmpty);
@@ -76,7 +76,7 @@ void main() {
 
       test("should return only kanji groups", () async {
         // Act
-        final groups = await groupService.getGroups(Alphabets.kanji);
+        final groups = await service.getGroups(Alphabets.kanji);
 
         // Assert
         expect(groups, isNotEmpty);
@@ -87,7 +87,7 @@ void main() {
 
     group("get", () {
       test("should return a specific group by uid", () async {
-        final group = await groupService.get(dummyHiraganaGroup.uid);
+        final group = await service.get(dummyHiraganaGroup.uid);
 
         expect(group, isNotNull);
         expect(group, dummyHiraganaGroup);
@@ -95,8 +95,7 @@ void main() {
 
       test("should throw an error if not found", () async {
         expect(
-          () async =>
-              await groupService.get(ResourceUid.fromJson("group-notFound")),
+          () async => await service.get(ResourceUid.fromJson("group-notFound")),
           throwsException,
         );
       });
@@ -107,8 +106,8 @@ void main() {
         final uid = dummyKatakanaGroup.uid.copyWith(uid: "group-new");
         final newGroup = dummyKatakanaGroup.copyWith(uid: uid);
 
-        await groupService.upsert(newGroup);
-        final retrievedGroup = await groupService.get(newGroup.uid);
+        await service.upsert(newGroup);
+        final retrievedGroup = await service.get(newGroup.uid);
 
         expect(retrievedGroup, isNotNull);
         expect(retrievedGroup.uid.uid, equals(newGroup.uid.uid));
@@ -121,8 +120,8 @@ void main() {
           localizedName: "Updated Localized Name",
         );
 
-        await groupService.upsert(updatedGroup);
-        final retrievedGroup = await groupService.get(dummyHiraganaGroup.uid);
+        await service.upsert(updatedGroup);
+        final retrievedGroup = await service.get(dummyHiraganaGroup.uid);
 
         expect(retrievedGroup, isNotNull);
         expect(retrievedGroup.name, equals(updatedGroup.name));
@@ -142,8 +141,8 @@ void main() {
         ];
 
         // Act
-        await groupService.upsertAll(newGroups);
-        final retrievedGroups = await groupService.getAll();
+        await service.upsertAll(newGroups);
+        final retrievedGroups = await service.getAll();
 
         // Assert
         expect(retrievedGroups.length, 5); // 3 initial + 2 new
@@ -159,8 +158,8 @@ void main() {
         ];
 
         // Act
-        await groupService.upsertAll(updatedGroups);
-        final retrievedGroups = await groupService.getAll();
+        await service.upsertAll(updatedGroups);
+        final retrievedGroups = await service.getAll();
 
         // Assert
         expect(retrievedGroups.length, 3); // No new groups added
@@ -173,20 +172,38 @@ void main() {
           isTrue,
         );
       });
+
+      test("should handle force reload parameter", () async {
+        final uid1 = ResourceUid.fromJson("group-reload1");
+        final uid2 = ResourceUid.fromJson("group-reload2");
+
+        final newGroups = [
+          dummyHiraganaGroup.copyWith(uid: uid1, name: "Reload 1"),
+          dummyHiraganaGroup.copyWith(uid: uid2, name: "Reload 2"),
+        ];
+
+        await service.upsertAll(newGroups, forceReload: true);
+
+        // Get all groups to check if only new ones exist
+        final groups = await service.getAll();
+
+        expect(groups.length, 2);
+        expect(groups, containsAll(newGroups));
+      });
     });
 
     group("delete", () {
       test("should remove a group", () async {
-        await groupService.delete(dummyKatakanaGroup.uid);
+        await service.delete(dummyKatakanaGroup.uid);
 
         expect(
-          () async => await groupService.get(dummyKatakanaGroup.uid),
+          () async => await service.get(dummyKatakanaGroup.uid),
           throwsException,
           reason: "should throw an exception when trying to get deleted group",
         );
 
         // Verify other groups still exist
-        final remainingGroups = await groupService.getAll();
+        final remainingGroups = await service.getAll();
         expect(remainingGroups.length, 2); // One less than seed data (3)
         expect(
           remainingGroups.where((g) => g.uid == dummyKatakanaGroup.uid).isEmpty,

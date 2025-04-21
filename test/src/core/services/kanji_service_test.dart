@@ -92,7 +92,7 @@ void main() {
         final kanjis = await service.getAll();
 
         expect(kanjis.length, dummiesKanji.length + 1);
-        expect(kanjis.any((k) => k.uid.uid == "kanji-new"), isTrue);
+        expect(kanjis, contains(newKanji));
       });
 
       test("should update an existing kanji", () async {
@@ -157,6 +157,24 @@ void main() {
 
         expect(kanji1, updatedKanjis[0]);
         expect(kanji2, updatedKanjis[1]);
+      });
+
+      test("should handle force reload parameter", () async {
+        final uid1 = ResourceUid.fromJson("kanji-reload1");
+        final uid2 = ResourceUid.fromJson("kanji-reload2");
+
+        final newKanji = [
+          dummyKanji.copyWith(uid: uid1, kanji: "天"),
+          dummyKanji.copyWith(uid: uid2, kanji: "地"),
+        ];
+
+        await service.upsertAll(newKanji, forceReload: true);
+
+        // Get all kanji to check if only new ones exist
+        final kanji = await service.getAll();
+
+        expect(kanji.length, 2);
+        expect(kanji, containsAll(newKanji));
       });
     });
 

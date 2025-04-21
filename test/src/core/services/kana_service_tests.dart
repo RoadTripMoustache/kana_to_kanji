@@ -207,6 +207,24 @@ void main() {
         expect(kanas[1].uid, equals(dummyKatakana.uid));
         expect(kanas[1].romaji, equals("updated-romaji2"));
       });
+
+      test("should handle force reload parameter", () async {
+        final uid1 = ResourceUid.fromJson("kana-reload1");
+        final uid2 = ResourceUid.fromJson("kana-reload2");
+
+        final newKana = [
+          dummyHiragana.copyWith(uid: uid1),
+          dummyHiragana.copyWith(uid: uid2),
+        ];
+
+        await service.upsertAll(newKana, forceReload: true);
+
+        // Get all kana to check if only new ones exist
+        final kana = await service.getAll();
+
+        expect(kana.length, 2);
+        expect(kana, containsAll(newKana));
+      });
     });
 
     group("delete", () {
