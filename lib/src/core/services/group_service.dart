@@ -26,11 +26,12 @@ class GroupService extends ResourceDataService<Group> {
       );
 
   /// Get all the groups related to the alphabet given in parameter.
-  Future<List<Group>> getGroups(Alphabets alphabet) => _databaseService.query(
-    tableName,
-    transformer: Group.fromJson,
-    columns: columns,
-    where: "$sqlAlphabetColumn = ?",
-    whereArgs: [alphabet.name],
-  );
+  Future<List<Group>> getGroups(Alphabets alphabet) =>
+      _databaseService.queryTrans(
+        tableName,
+        transformer: Group.fromJson,
+        columns: columns,
+        where: "$sqlAlphabetColumn = ?",
+        whereArgs: [alphabet.name],
+      );
 }

@@ -50,7 +50,7 @@ class DatabaseService {
     Future<T> Function(Transaction transaction) action,
   ) => _db.transaction<T>(action);
 
-  Future<List<T>> query<T>(
+  Future<List<T>> queryTrans<T>(
     String table, {
     required T Function(Map<String, Object?>) transformer,
     bool? distinct,
@@ -77,6 +77,29 @@ class DatabaseService {
 
     return result.map<T>(transformer).toList();
   }
+
+  Future<List<Map<String, dynamic>>> query(
+    String table, {
+    bool? distinct,
+    List<String>? columns,
+    String? where,
+    List<Object?>? whereArgs,
+    String? groupBy,
+    String? having,
+    String? orderBy,
+    int? limit,
+    int? offset,
+  }) => _db.query(
+    table,
+    columns: columns,
+    where: where,
+    whereArgs: whereArgs,
+    groupBy: groupBy,
+    having: having,
+    orderBy: orderBy,
+    limit: limit,
+    offset: offset,
+  );
 
   Future<List<T>> rawQueryTrans<T>(
     String query, {

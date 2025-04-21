@@ -20,15 +20,8 @@ void main() {
     setUp(() async {
       // Create the service to test
       groupService = GroupService();
-      await databaseService.transaction((txn) async {
-        final batch = txn.batch();
 
-        for (final group in dummyGroups) {
-          batch.insert(groupService.tableName, group.toJson());
-        }
-
-        await batch.commit(noResult: true);
-      });
+      await databaseService.rawQuery(sqlInsertDummiesGroups);
     });
 
     tearDown(() async {
@@ -111,15 +104,12 @@ void main() {
 
     group("upsert", () {
       test("should insert a new group", () async {
-        // Arrange
         final uid = dummyKatakanaGroup.uid.copyWith(uid: "group-new");
         final newGroup = dummyKatakanaGroup.copyWith(uid: uid);
 
-        // Act
         await groupService.upsert(newGroup);
         final retrievedGroup = await groupService.get(newGroup.uid);
 
-        // Assert
         expect(retrievedGroup, isNotNull);
         expect(retrievedGroup.uid.uid, equals(newGroup.uid.uid));
         expect(retrievedGroup.name, equals(newGroup.name));

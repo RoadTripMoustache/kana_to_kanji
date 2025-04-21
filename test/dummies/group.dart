@@ -10,7 +10,7 @@ final Group dummyKatakanaGroup = Group(
   name: "Group name - Katakana",
   kanaType: KanaTypes.main,
   localizedName: "Group name - Katakana",
-  version: "v1",
+  version: "2025_01_01",
 );
 final Group dummyHiraganaGroup = Group(
   uid: const ResourceUid("group-2", ResourceType.group),
@@ -18,7 +18,7 @@ final Group dummyHiraganaGroup = Group(
   name: "Group name - Hiragana",
   kanaType: KanaTypes.main,
   localizedName: "Group name - Hiragana",
-  version: "v1",
+  version: "2025_01_01",
 );
 final Group dummyKanjiGroup = Group(
   uid: const ResourceUid("group-3", ResourceType.group),
@@ -26,8 +26,16 @@ final Group dummyKanjiGroup = Group(
   name: "Group name - Kanji",
   kanaType: KanaTypes.main,
   localizedName: "Group name - Kanji",
-  version: "v1",
+  version: "2025_01_01",
 );
+
+final String sqlInsertDummiesGroups = """
+INSERT INTO groups (uid, alphabet, name, localized_name, kana_type, version)
+VALUES
+  ("${dummyKatakanaGroup.uid.uid}", "katakana", "Group name - Katakana", "Group name - Katakana", "main", "2025_01_01"),
+  ("${dummyHiraganaGroup.uid.uid}", "hiragana", "Group name - Hiragana", "Group name - Hiragana", "main", "2025_01_01"),
+  ("${dummyKanjiGroup.uid.uid}", "kanji", "Group name - Kanji", "Group name - Kanji", "main", "2025_01_01");
+""";
 
 final List<Group> dummyGroups = [
   dummyKatakanaGroup,

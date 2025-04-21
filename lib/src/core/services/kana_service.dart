@@ -30,7 +30,7 @@ class KanaService extends ResourceDataService<Kana> {
   /// Get all the kana related to the group ids given in parameter.
   Future<List<Kana>> getByGroupIds(List<ResourceUid> groupIds) async {
     if (groupIds.isEmpty) {
-      return _databaseService.query(
+      return _databaseService.queryTrans(
         tableName,
         columns: columns,
         transformer: Kana.fromJson,
@@ -40,7 +40,7 @@ class KanaService extends ResourceDataService<Kana> {
     final List<String> groupUids =
         groupIds.map((groupId) => groupId.uid).toList();
 
-    return _databaseService.query(
+    return _databaseService.queryTrans(
       tableName,
       transformer: Kana.fromJson,
       columns: columns,
@@ -54,7 +54,7 @@ class KanaService extends ResourceDataService<Kana> {
       getByGroupIds([groupId]);
 
   Future<List<Kana>> getKana(Alphabets alphabet) async =>
-      _databaseService.query(
+      _databaseService.queryTrans(
         tableName,
         transformer: Kana.fromJson,
         columns: columns,

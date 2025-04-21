@@ -22,20 +22,11 @@ void main() {
       // Create the service to test
       service = KanaService();
       await databaseService.transaction((txn) async {
-        final batch =
-            txn.batch()
-              ..insert(
-                "groups",
-                dummyHiraganaGroup.toJson(),
-                conflictAlgorithm: ConflictAlgorithm.ignore,
-              )
-              ..insert(
-                "groups",
-                dummyKatakanaGroup.toJson(),
-                conflictAlgorithm: ConflictAlgorithm.ignore,
-              )
-              ..insert(service.tableName, dummyHiragana.toJson())
-              ..insert(service.tableName, dummyKatakana.toJson());
+        final Batch batch = txn.batch();
+
+        sqlInsertDummiesKana.split(";").forEach((sql) {
+          batch.execute(sql.trim());
+        });
 
         await batch.commit(noResult: true);
       });
