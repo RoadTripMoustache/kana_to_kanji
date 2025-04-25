@@ -32,13 +32,12 @@ class ResourceDataLoader<T extends Resource> {
 
     return _apiService
         .get("/v1/$apiResourceType$versionQueryParam")
-        .then(_extractItems)
+        .then(extractItems)
         .then((items) => service.upsertAll(items, forceReload: forceReload));
   }
 
-  /// Extract all the groups
-  /// from the API Response.
-  List<T> _extractItems(http.Response response) {
+  /// Extract all the item from the API Response.
+  List<T> extractItems(http.Response response) {
     if (response.statusCode == 200) {
       final List<T> items = [];
       final rawItems = jsonDecode(response.body);
