@@ -3,7 +3,7 @@ import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 
 part "resource_uid.freezed.dart";
 
-@Freezed(fromJson: false, toJson: false)
+@Freezed(fromJson: false, toJson: false, toStringOverride: false)
 abstract class ResourceUid with _$ResourceUid {
   const ResourceUid._();
 
@@ -18,4 +18,7 @@ abstract class ResourceUid with _$ResourceUid {
   );
 
   String toJson() => uid;
+
+  @override
+  String toString() => uid;
 }
