@@ -4,11 +4,11 @@ part "sync.freezed.dart";
 part "sync.g.dart";
 
 @freezed
-class Sync with _$Sync {
+abstract class Sync with _$Sync {
   const factory Sync({
     required bool achievements,
     required bool cleanup,
-    @JsonKey(name: "groups") required bool groupsFlag,
+    required bool groups,
     required bool kana,
     required bool kanji,
     required LearningSync learning,
@@ -71,7 +71,7 @@ class SyncConfiguration {
 }
 
 @freezed
-class LearningSync with _$LearningSync {
+abstract class LearningSync with _$LearningSync {
   const factory LearningSync({required bool stages}) = _LearningSync;
 
   factory LearningSync.fromJson(Map<String, dynamic> json) =>

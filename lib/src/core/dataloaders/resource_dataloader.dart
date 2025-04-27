@@ -18,6 +18,8 @@ class ResourceDataLoader<T extends Resource> {
     required this.apiResourceType,
   });
 
+  Future<String?> get latestVersion => service.latestVersion;
+
   /// Load all the resource from the API.
   /// If [forceReload] is true, the collection is cleared and populated again
   Future loadCollection({
