@@ -222,5 +222,79 @@ void main() {
         expect(kanjiReadingsCount.first[sqlCountColumn], 0);
       });
     });
+
+    group("deleteAll", () {
+      test("should remove multiple vocabulary items", () async {
+        final vocabulariesToDelete = [
+          dummyVocabulary.uid,
+          dummyVocabularyWithoutKanji.uid,
+        ];
+
+        await service.deleteAll(vocabulariesToDelete);
+
+        // Get all vocabulary to verify deletion
+        final vocabularies = await service.getAll();
+        expect(vocabularies.length, dummiesVocabulary.length - 2);
+
+        // Verify each vocabulary no longer exists
+        for (final uid in vocabulariesToDelete) {
+          expect(
+            () async => await service.get(uid),
+            throwsException,
+            reason:
+                "should throw an exception when trying to get deleted vocabulary",
+          );
+        }
+
+        // Verify the remaining vocabulary is still there
+        expect(vocabularies, contains(dummyVocabularyWithRelatedData));
+      });
+
+      test(
+        "should remove related data when multiple vocabulary items are deleted",
+        () async {
+          final vocabulariesToDelete = [dummyVocabularyWithRelatedData.uid];
+
+          await service.deleteAll(vocabulariesToDelete);
+
+          // Check if related data is removed
+          final relatedKanjiCount = await databaseService.query(
+            sqlRelatedKanjiTable,
+            columns: [sqlCountColumn],
+            where: "$sqlVocabularyUidColumn = ?",
+            whereArgs: [dummyVocabularyWithRelatedData.uid.uid],
+          );
+
+          final groupsCount = await databaseService.query(
+            sqlVocabularyGroupsTable,
+            columns: [sqlCountColumn],
+            where: "$sqlVocabularyUidColumn = ?",
+            whereArgs: [dummyVocabularyWithRelatedData.uid.uid],
+          );
+
+          final kanjiReadingsCount = await databaseService.query(
+            sqlKanjiReadingsTable,
+            columns: [sqlCountColumn],
+            where: "$sqlVocabularyUidColumn = ?",
+            whereArgs: [dummyVocabularyWithRelatedData.uid.uid],
+          );
+
+          expect(relatedKanjiCount.first[sqlCountColumn], 0);
+          expect(groupsCount.first[sqlCountColumn], 0);
+          expect(kanjiReadingsCount.first[sqlCountColumn], 0);
+        },
+      );
+
+      test("should handle empty list", () async {
+        await service.deleteAll([]);
+
+        // Verify all vocabulary items still exist
+        final vocabularies = await service.getAll();
+        expect(
+          vocabularies.length,
+          dummiesVocabulary.length,
+        ); // All vocabulary should remain
+      });
+    });
   });
 }

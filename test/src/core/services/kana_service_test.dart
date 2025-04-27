@@ -239,5 +239,45 @@ void main() {
         expect(kanas[0], dummyKatakana);
       });
     });
+
+    group("deleteAll", () {
+      test("should remove multiple kanas", () async {
+        final kanasToDelete = [dummyHiragana.uid, dummyKatakana.uid];
+
+        await service.deleteAll(kanasToDelete);
+
+        // Get all kanas to verify deletion
+        final kanas = await service.getByGroupIds([]);
+        expect(kanas.length, 0); // All kanas should be deleted
+
+        // Verify each kana no longer exists
+        for (final uid in kanasToDelete) {
+          expect(
+            () async => await service.get(uid),
+            throwsException,
+            reason: "should throw an exception when trying to get deleted kana",
+          );
+        }
+      });
+
+      test("should handle empty list", () async {
+        await service.deleteAll([]);
+
+        // Verify all kanas still exist
+        final kanas = await service.getByGroupIds([]);
+        expect(kanas.length, 2); // All kanas should remain
+      });
+
+      test("should delete only specified kanas", () async {
+        final kanasToDelete = [dummyHiragana.uid];
+
+        await service.deleteAll(kanasToDelete);
+
+        // Get all kanas to verify deletion
+        final kanas = await service.getByGroupIds([]);
+        expect(kanas.length, 1); // Only one kana should remain
+        expect(kanas[0], dummyKatakana);
+      });
+    });
   });
 }

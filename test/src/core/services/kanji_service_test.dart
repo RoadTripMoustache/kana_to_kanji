@@ -211,5 +211,65 @@ void main() {
         expect(groupsCount.first[sqlCountColumn], 0);
       });
     });
+
+    group("deleteAll", () {
+      test("should remove multiple kanji", () async {
+        final kanjiToDelete = [dummyKanji.uid, dummyKanjiWithoutOnMeaning.uid];
+
+        await service.deleteAll(kanjiToDelete);
+
+        // Get all kanji to verify deletion
+        final kanjis = await service.getAll();
+        expect(kanjis.length, dummiesKanji.length - 2);
+
+        // Verify each kanji no longer exists
+        for (final uid in kanjiToDelete) {
+          expect(
+            () async => await service.get(uid),
+            throwsException,
+            reason:
+                "should throw an exception when trying to get deleted kanji",
+          );
+        }
+
+        // Verify the remaining kanji is still there
+        expect(kanjis, contains(dummyKanjiWithRelatedData));
+      });
+
+      test(
+        "should remove related data when multiple kanji are deleted",
+        () async {
+          final kanjiToDelete = [dummyKanjiWithRelatedData.uid];
+
+          await service.deleteAll(kanjiToDelete);
+
+          // Check if related data is removed
+          final relatedVocabularyCount = await databaseService.query(
+            sqlRelatedVocabularyTable,
+            columns: [sqlCountColumn],
+            where: "$sqlKanjiUidColumn = ?",
+            whereArgs: [dummyKanjiWithRelatedData.uid.uid],
+          );
+
+          final groupsCount = await databaseService.query(
+            sqlKanjiGroupsTable,
+            columns: [sqlCountColumn],
+            where: "$sqlKanjiUidColumn = ?",
+            whereArgs: [dummyKanjiWithRelatedData.uid.uid],
+          );
+
+          expect(relatedVocabularyCount.first[sqlCountColumn], 0);
+          expect(groupsCount.first[sqlCountColumn], 0);
+        },
+      );
+
+      test("should handle empty list", () async {
+        await service.deleteAll([]);
+
+        // Verify all kanji still exist
+        final kanjis = await service.getAll();
+        expect(kanjis.length, dummiesKanji.length); // All kanji should remain
+      });
+    });
   });
 }

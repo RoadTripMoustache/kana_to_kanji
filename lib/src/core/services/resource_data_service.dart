@@ -184,4 +184,22 @@ abstract class ResourceDataService<T extends Resource> {
       whereArgs: [resourceUid.uid],
     );
   }
+
+  Future<void> deleteAll(List<ResourceUid> resourceUids, {Batch? batch}) async {
+    if (batch != null) {
+      batch.delete(
+        tableName,
+        where: "$sqlUidColumn IN (${resourceUids.map((e) => "?").join(",")})",
+        whereArgs: resourceUids.map((e) => e.uid).toList(),
+      );
+    } else {
+      await _databaseService.transaction((Transaction txn) async {
+        await txn.delete(
+          tableName,
+          where: "$sqlUidColumn IN (${resourceUids.map((e) => "?").join(",")})",
+          whereArgs: resourceUids.map((e) => e.uid).toList(),
+        );
+      });
+    }
+  }
 }

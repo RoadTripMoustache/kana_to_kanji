@@ -211,5 +211,36 @@ void main() {
         );
       });
     });
+
+    group("deleteAll", () {
+      test("should remove multiple groups", () async {
+        final groupsToDelete = [dummyHiraganaGroup.uid, dummyKatakanaGroup.uid];
+
+        await service.deleteAll(groupsToDelete);
+
+        // Verify the deleted groups no longer exist
+        for (final uid in groupsToDelete) {
+          expect(
+            () async => await service.get(uid),
+            throwsException,
+            reason:
+                "should throw an exception when trying to get deleted group",
+          );
+        }
+
+        // Verify only the non-deleted group still exists
+        final remainingGroups = await service.getAll();
+        expect(remainingGroups.length, 1); // Only kanji group should remain
+        expect(remainingGroups[0], dummyKanjiGroup);
+      });
+
+      test("should handle empty list", () async {
+        await service.deleteAll([]);
+
+        // Verify all groups still exist
+        final remainingGroups = await service.getAll();
+        expect(remainingGroups.length, 3); // All groups should remain
+      });
+    });
   });
 }
