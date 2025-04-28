@@ -43,7 +43,7 @@ void main() {
       dataLoader = VocabularyDataLoader(service: vocabularyService);
 
       mockResponse = http.Response(
-        jsonEncode(testVocabularyData),
+        jsonEncode({"data": testVocabularyData}),
         HttpStatus.ok,
         headers: {"content-type": "application/json;charset=utf-8"},
       );
@@ -102,7 +102,10 @@ void main() {
       });
 
       test("should handle empty response", () {
-        final emptyResponse = http.Response("[]", HttpStatus.ok);
+        final emptyResponse = http.Response(
+          jsonEncode({"data": []}),
+          HttpStatus.ok,
+        );
 
         final result = dataLoader.extractItems(emptyResponse);
 

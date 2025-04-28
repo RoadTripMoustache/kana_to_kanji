@@ -45,7 +45,7 @@ void main() {
 
       // Set up default mock response
       mockResponse = http.Response(
-        jsonEncode(testKanjiData),
+        jsonEncode({"data": testKanjiData}),
         HttpStatus.ok,
         headers: {
           // TODO Necessary until http 1.4.0
@@ -53,14 +53,9 @@ void main() {
         },
       );
 
-      // Set up the API service response for default kanji endpoint
+      // Set up the API service response for kanji endpoint
       when(
-        apiService.get("/v1/kanji"),
-      ).thenAnswer((_) async => Future.value(mockResponse));
-
-      // Set up response for version-specific endpoint
-      when(
-        apiService.get("/v1/kanji?version[current]=2025_01_01"),
+        apiService.get(argThat(startsWith("/v1/kanjis"))),
       ).thenAnswer((_) async => Future.value(mockResponse));
     });
 
@@ -104,7 +99,7 @@ void main() {
           ];
 
           final response = http.Response(
-            jsonEncode(kanjiWithoutKun),
+            jsonEncode({"data": kanjiWithoutKun}),
             HttpStatus.ok,
             headers: {
               // TODO Necessary until http 1.4.0
@@ -143,7 +138,7 @@ void main() {
 
         final result = dataLoader.extractItems(
           http.Response(
-            jsonEncode(kanji),
+            jsonEncode({"data": kanji}),
             HttpStatus.ok,
             headers: {
               // TODO Necessary until http 1.4.0
@@ -169,13 +164,13 @@ void main() {
       });
 
       test("should handle empty response", () {
-        // Arrange
-        final emptyResponse = http.Response("[]", HttpStatus.ok);
+        final emptyResponse = http.Response(
+          jsonEncode({"data": []}),
+          HttpStatus.ok,
+        );
 
-        // Act
         final result = dataLoader.extractItems(emptyResponse);
 
-        // Assert
         expect(result, isEmpty);
       });
     });
@@ -193,7 +188,7 @@ void main() {
             forceReload: true,
           );
 
-          verify(apiService.get("/v1/kanji")).called(1);
+          verify(apiService.get("/v1/kanjis")).called(1);
           verify(kanjiService.upsertAll(any, forceReload: true)).called(1);
         },
       );
@@ -213,7 +208,7 @@ void main() {
           );
 
           verify(
-            apiService.get("/v1/kanji?version[current]=2025_01_01"),
+            apiService.get("/v1/kanjis?version[current]=2025_01_01"),
           ).called(1);
           // ignore: avoid_redundant_argument_values
           verify(kanjiService.upsertAll(any, forceReload: false)).called(1);
@@ -224,7 +219,7 @@ void main() {
         final errorResponse = http.Response("", HttpStatus.internalServerError);
 
         when(
-          apiService.get("/v1/kanji?version[current]=2025_01_01"),
+          apiService.get("/v1/kanjis?version[current]=2025_01_01"),
         ).thenAnswer((_) async => Future.value(errorResponse));
 
         when(
@@ -239,7 +234,7 @@ void main() {
         );
 
         verify(
-          apiService.get("/v1/kanji?version[current]=2025_01_01"),
+          apiService.get("/v1/kanjis?version[current]=2025_01_01"),
         ).called(1);
         // ignore: avoid_redundant_argument_values
         verify(kanjiService.upsertAll([], forceReload: false)).called(1);
@@ -254,7 +249,9 @@ void main() {
 
       await dataLoader.loadCollection(latestVersion: "2025_01_01");
 
-      verify(apiService.get("/v1/kanji?version[current]=2025_01_01")).called(1);
+      verify(
+        apiService.get("/v1/kanjis?version[current]=2025_01_01"),
+      ).called(1);
 
       // Capture the actual list passed to upsertAll
       final captured =
