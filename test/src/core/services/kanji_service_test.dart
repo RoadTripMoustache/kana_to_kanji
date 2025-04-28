@@ -271,5 +271,25 @@ void main() {
         expect(kanjis.length, dummiesKanji.length); // All kanji should remain
       });
     });
+
+    group("latestVersion", () {
+      test("should return the latest version from the database", () async {
+        // The test data already has kanji with versions
+        final latestVersion = await service.latestVersion;
+
+        // Verify that a version is returned
+        expect(latestVersion, isNotNull);
+        expect(latestVersion, isA<String>());
+      });
+
+      test("should return null when no kanji exist", () async {
+        // Delete all kanji
+        await databaseService.delete(service.tableName);
+
+        // Check that latestVersion returns null
+        final latestVersion = await service.latestVersion;
+        expect(latestVersion, isNull);
+      });
+    });
   });
 }

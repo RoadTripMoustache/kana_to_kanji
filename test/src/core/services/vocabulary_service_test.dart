@@ -296,5 +296,25 @@ void main() {
         ); // All vocabulary should remain
       });
     });
+
+    group("latestVersion", () {
+      test("should return the latest version from the database", () async {
+        // The test data already has vocabulary items with versions
+        final latestVersion = await service.latestVersion;
+
+        // Verify that a version is returned
+        expect(latestVersion, isNotNull);
+        expect(latestVersion, isA<String>());
+      });
+
+      test("should return null when no vocabulary items exist", () async {
+        // Delete all vocabulary items
+        await databaseService.delete(service.tableName);
+
+        // Check that latestVersion returns null
+        final latestVersion = await service.latestVersion;
+        expect(latestVersion, isNull);
+      });
+    });
   });
 }

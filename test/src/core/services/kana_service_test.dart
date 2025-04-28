@@ -279,5 +279,25 @@ void main() {
         expect(kanas[0], dummyKatakana);
       });
     });
+
+    group("latestVersion", () {
+      test("should return the latest version from the database", () async {
+        // The test data already has kanas with versions
+        final latestVersion = await service.latestVersion;
+
+        // Verify that a version is returned
+        expect(latestVersion, isNotNull);
+        expect(latestVersion, isA<String>());
+      });
+
+      test("should return null when no kanas exist", () async {
+        // Delete all kanas
+        await databaseService.delete(service.tableName);
+
+        // Check that latestVersion returns null
+        final latestVersion = await service.latestVersion;
+        expect(latestVersion, isNull);
+      });
+    });
   });
 }

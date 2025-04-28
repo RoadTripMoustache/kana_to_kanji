@@ -242,5 +242,25 @@ void main() {
         expect(remainingGroups.length, 3); // All groups should remain
       });
     });
+
+    group("latestVersion", () {
+      test("should return the latest version from the database", () async {
+        // The test data already has groups with versions
+        final latestVersion = await service.latestVersion;
+
+        // Verify that a version is returned
+        expect(latestVersion, isNotNull);
+        expect(latestVersion, isA<String>());
+      });
+
+      test("should return null when no groups exist", () async {
+        // Delete all groups
+        await databaseService.rawQuery("DELETE FROM ${service.tableName};");
+
+        // Check that latestVersion returns null
+        final latestVersion = await service.latestVersion;
+        expect(latestVersion, isNull);
+      });
+    });
   });
 }
