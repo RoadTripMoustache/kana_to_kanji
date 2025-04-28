@@ -45,9 +45,6 @@ abstract class Kanji extends Resource with _$Kanji {
     /// List of vocabulary words that use the kanji
     @Default([]) List<ResourceUid> relatedVocabulary,
 
-    /// List of [Example] that use the kanji
-    @Default([]) List<ResourceUid> examples,
-
     /// Groups related to the kanji
     @Default([]) List<ResourceUid> groups,
 
@@ -56,7 +53,7 @@ abstract class Kanji extends Resource with _$Kanji {
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 
-  // TODO : Clean up
+  // TODO : Clean up when glossary is refactored
   List<String> get meanings => pronunciations
       .map((p) => p.meanings)
       .fold<List<String>>([], (prev, element) {
@@ -64,7 +61,7 @@ abstract class Kanji extends Resource with _$Kanji {
         return prev;
       });
 
-  // TODO : Clean up
+  // TODO : Clean up when glossary is refactored
   List<String> get readings => pronunciations
       .map((p) => p.readings)
       .fold<List<String>>([], (prev, element) {

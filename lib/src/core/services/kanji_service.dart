@@ -63,15 +63,12 @@ class KanjiService extends ResourceDataService<Kanji> {
         SELECT
             ${columns.map((c) => 'k.$c').join(",")},
             json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
-            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups,
-            json_group_array(DISTINCT ke.$sqlExampleUidColumn) AS $sqlKanjiExamples
+            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
         FROM $tableName AS k
                  LEFT JOIN $sqlRelatedVocabularyTable AS krv
                            ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
                  LEFT JOIN $sqlKanjiGroupsTable AS kg
                            ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
-                 LEFT JOIN $sqlKanjiExamplesTable AS ke
-                           ON k.$sqlUidColumn = ke.$sqlKanjiUidColumn
         GROUP BY
             k.$sqlUidColumn, k.$sqlKanjiColumn
       """, transformer: _transformer);
@@ -84,15 +81,12 @@ class KanjiService extends ResourceDataService<Kanji> {
         SELECT
             ${columns.map((c) => 'k.$c').join(",")},
             json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
-            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups,
-            json_group_array(DISTINCT ke.$sqlExampleUidColumn) AS $sqlKanjiExamples
+            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
         FROM $tableName AS k
                  LEFT JOIN $sqlRelatedVocabularyTable AS krv
                            ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
                  LEFT JOIN $sqlKanjiGroupsTable AS kg
                            ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
-                 LEFT JOIN $sqlKanjiExamplesTable AS ke
-                           ON k.$sqlUidColumn = ke.$sqlKanjiUidColumn
         WHERE k.$sqlUidColumn = ?
         GROUP BY k.$sqlUidColumn, k.$sqlKanjiColumn
         LIMIT 1
@@ -137,14 +131,6 @@ class KanjiService extends ResourceDataService<Kanji> {
         sqlGroupUidColumn: groupUid.uid,
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     }
-
-    // Examples
-    for (final exampleUid in item.examples) {
-      batch.insert(sqlKanjiExamplesTable, {
-        sqlKanjiUidColumn: item.uid.uid,
-        sqlExampleUidColumn: exampleUid.uid,
-      }, conflictAlgorithm: ConflictAlgorithm.replace);
-    }
   }
 
   Map<String, dynamic> _buildMainColumns(Kanji item) =>
@@ -176,8 +162,6 @@ class KanjiService extends ResourceDataService<Kanji> {
           ..remove(null);
     final groups =
         jsonDecode(row[sqlKanjiGroups]) as List<dynamic>..remove(null);
-    final examples =
-        jsonDecode(row[sqlKanjiExamples]) as List<dynamic>..remove(null);
     final sortSyllables = jsonDecode(row[sqlJpSortSyllablesColumn]);
     // TODO delete once migrated to "pronunciations"
     final onReadings = jsonDecode(row[sqlOnReadingsColumn]);
@@ -186,7 +170,6 @@ class KanjiService extends ResourceDataService<Kanji> {
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
-      sqlKanjiExamples: examples,
       sqlMeaningsColumn: meanings,
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,

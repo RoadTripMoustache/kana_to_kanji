@@ -3,6 +3,7 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/paginated_response.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -61,6 +62,11 @@ class ResourceDataLoader<T extends Resource> {
     );
 
     return service.upsertAll(items, forceReload: forceReload);
+  }
+
+  /// Fetch a specific kanji in full details
+  Future<T> fetch(ResourceUid uid) async {
+    throw UnimplementedError();
   }
 
   /// Extract the paginated response from the API Response.
