@@ -241,8 +241,7 @@ void main() {
           expect(
             () async => await service.get(uid),
             throwsException,
-            reason:
-                "should throw an exception when trying to get deleted vocabulary",
+            reason: "should throw an exception if vocabulary doesn't exists",
           );
         }
 

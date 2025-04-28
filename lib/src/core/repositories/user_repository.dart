@@ -10,11 +10,13 @@ import "package:stacked/stacked.dart";
 
 class UserRepository with ListenableServiceMixin {
   final Logger _logger = locator<Logger>();
-  final UserService _userService = UserService();
   final AuthService _authService = locator<AuthService>();
   final TokenService _tokenService = locator<TokenService>();
+  late final UserService _userService;
 
-  UserRepository() {
+  /// [userService] is visible for testing purpose.
+  UserRepository({UserService? userService}) {
+    _userService = userService ?? UserService();
     listenToReactiveValues([_self]);
   }
 

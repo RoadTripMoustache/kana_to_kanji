@@ -33,56 +33,63 @@ final VocabularyRepository vocabularyRepositoryMock =
 final DialogService dialogServiceMock = MockDialogService();
 
 void main() {
-  group("GlossaryViewModel", () async {
-    when(
-      kanaRepositoryMock.getHiragana(),
-    ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
-    when(
-      kanaRepositoryMock.searchHiragana("", []),
-    ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
-    when(
-      kanaRepositoryMock.searchHiragana("toto", []),
-    ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
-
-    when(kanaRepositoryMock.getKatakana()).thenAnswer(
-      (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
-    );
-    when(kanaRepositoryMock.searchKatakana("", [])).thenAnswer(
-      (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
-    );
-    when(kanaRepositoryMock.searchKatakana("toto", [])).thenAnswer(
-      (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
-    );
-
-    when(
-      vocabularyRepositoryMock.searchVocabulary("", [], [], SortOrder.japanese),
-    ).thenAnswer((_) => Future.value([dummyVocabulary]));
-    when(
-      vocabularyRepositoryMock.searchVocabulary(
-        "toto",
-        [],
-        [],
-        SortOrder.japanese,
-      ),
-    ).thenAnswer(
-      (_) => Future.value([dummyVocabulary, dummyVocabulary, dummyVocabulary]),
-    );
-
-    when(
-      kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
-    ).thenAnswer(
-      (_) => Future.value([dummyKanji, dummyKanji, dummyKanji, dummyKanji]),
-    );
-    when(
-      kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
-    ).thenAnswer((_) => Future.value([dummyKanji]));
-
+  group("GlossaryViewModel", () {
     setUpAll(() async {
       locator
         ..registerSingleton<DialogService>(dialogServiceMock)
         ..registerSingleton<KanaRepository>(kanaRepositoryMock)
         ..registerSingleton<KanjiRepository>(kanjiRepositoryMock)
         ..registerSingleton<VocabularyRepository>(vocabularyRepositoryMock);
+    });
+
+    setUp(() async {
+      when(
+        kanaRepositoryMock.getHiragana(),
+      ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
+      when(
+        kanaRepositoryMock.searchHiragana("", []),
+      ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
+      when(
+        kanaRepositoryMock.searchHiragana("toto", []),
+      ).thenAnswer((_) => Future.value([dummyHiragana, dummyHiragana]));
+
+      when(kanaRepositoryMock.getKatakana()).thenAnswer(
+        (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
+      );
+      when(kanaRepositoryMock.searchKatakana("", [])).thenAnswer(
+        (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
+      );
+      when(kanaRepositoryMock.searchKatakana("toto", [])).thenAnswer(
+        (_) => Future.value([dummyKatakana, dummyKatakana, dummyKatakana]),
+      );
+      when(
+        vocabularyRepositoryMock.searchVocabulary(
+          "",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      ).thenAnswer((_) => Future.value([dummyVocabulary]));
+      when(
+        vocabularyRepositoryMock.searchVocabulary(
+          "toto",
+          [],
+          [],
+          SortOrder.japanese,
+        ),
+      ).thenAnswer(
+        (_) =>
+            Future.value([dummyVocabulary, dummyVocabulary, dummyVocabulary]),
+      );
+
+      when(
+        kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
+      ).thenAnswer(
+        (_) => Future.value([dummyKanji, dummyKanji, dummyKanji, dummyKanji]),
+      );
+      when(
+        kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
+      ).thenAnswer((_) => Future.value([dummyKanji]));
     });
 
     testWidgets("New GlossaryViewModel open nothing", (
