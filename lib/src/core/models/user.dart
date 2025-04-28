@@ -18,7 +18,7 @@ abstract class User with _$User {
     String? avatar,
     String? streakStartDate,
     String? streakLastUpdate,
-    UserLearning? learning,
+    // UserLearning? learning,
     @Default([]) List<UserAchievement> achievements,
   }) = _User;
 
