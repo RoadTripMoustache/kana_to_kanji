@@ -20,6 +20,7 @@ class KanjiDataLoader extends ResourceDataLoader<Kanji> {
     if (response.statusCode == 200) {
       final List<Kanji> items = [];
       final rawItems = jsonDecode(response.body);
+      // ignore: avoid_dynamic_calls
       for (final g in rawItems["data"]) {
         items.add(
           fromJson({...g, sqlJpSortSyllablesColumn: _buildSortSyllables(g)}),

@@ -305,6 +305,7 @@ void main() {
           kanji: true,
           vocabulary: false,
           cleanup: true,
+          // ignore: avoid_redundant_argument_values
           forceReload: false,
           achievements: true,
           learning: LearningSync(stages: true),
@@ -320,18 +321,21 @@ void main() {
         // Verify that only the services with true flags were called
         verify(
           groupDataLoaderMock.loadCollection(
+            // ignore: avoid_redundant_argument_values
             forceReload: false,
             latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
           kanjiDataLoaderMock.loadCollection(
+            // ignore: avoid_redundant_argument_values
             forceReload: false,
             latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
           cleanUpServiceMock.executeCleanUp(
+            // ignore: avoid_redundant_argument_values
             forceReload: false,
             version: anyNamed("version"),
           ),

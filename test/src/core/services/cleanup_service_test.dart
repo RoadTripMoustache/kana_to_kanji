@@ -164,6 +164,7 @@ void main() {
           final version = "2025_01_01";
 
           // Execute with version parameter
+          // ignore: avoid_redundant_argument_values
           await service.executeCleanUp(forceReload: false, version: version);
 
           // Verify API was called with correct version parameter
@@ -188,6 +189,7 @@ void main() {
 
       test("should not include version query when version is null", () async {
         // Execute without version
+        // ignore: avoid_redundant_argument_values
         await service.executeCleanUp(forceReload: false, version: null);
 
         // Verify API was called without version parameter
@@ -213,7 +215,8 @@ void main() {
         // Execute the cleanup
         await service.executeCleanUp();
 
-        // Verify the deletion methods were called with correctly categorized resources
+        // Verify the deletion methods were called with correctly categorized
+        // resources
         verify(
           groupServiceMock.deleteAll([
             mixedResources[0],
