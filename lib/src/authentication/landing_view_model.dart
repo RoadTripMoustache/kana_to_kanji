@@ -2,6 +2,7 @@ import "dart:ui";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
+import "package:kana_to_kanji/src/core/services/sync_service.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:rive/rive.dart";
@@ -42,6 +43,7 @@ class LandingViewModel extends BaseViewModel {
   /// if everything goes well.
   Future<void> getStarted(GoRouter router) async {
     if (await _userRepository.register(AuthenticationMethod.anonymous)) {
+      await locator<SyncService>().sync();
       await router.replace(GlossaryView.routeName);
     }
   }
