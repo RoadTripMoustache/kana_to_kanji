@@ -31,7 +31,7 @@ abstract class ResourceDataService<T extends Resource> {
       transformer: (Map<String, Object?> map) => map,
       columns: [sqlVersionColumn],
       limit: 1,
-      orderBy: "DESC",
+      orderBy: "$sqlVersionColumn DESC",
     );
 
     return snapshot.isNotEmpty

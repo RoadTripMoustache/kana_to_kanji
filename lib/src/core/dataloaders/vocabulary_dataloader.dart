@@ -20,7 +20,7 @@ class VocabularyDataLoader extends ResourceDataLoader<Vocabulary> {
     if (response.statusCode == 200) {
       final List<Vocabulary> items = [];
       final rawItems = jsonDecode(response.body);
-      for (final g in rawItems) {
+      for (final g in rawItems["data"]) {
         items.add(
           fromJson({
             ...g,

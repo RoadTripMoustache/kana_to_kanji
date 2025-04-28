@@ -12,7 +12,7 @@ class KanjiDataLoader extends ResourceDataLoader<Kanji> {
     : super(
         service: service ?? KanjiService(),
         fromJson: Kanji.fromJson,
-        apiResourceType: "kanji",
+        apiResourceType: "kanjis",
       );
 
   @override
@@ -20,7 +20,7 @@ class KanjiDataLoader extends ResourceDataLoader<Kanji> {
     if (response.statusCode == 200) {
       final List<Kanji> items = [];
       final rawItems = jsonDecode(response.body);
-      for (final g in rawItems) {
+      for (final g in rawItems["data"]) {
         items.add(
           fromJson({...g, sqlJpSortSyllablesColumn: _buildSortSyllables(g)}),
         );
