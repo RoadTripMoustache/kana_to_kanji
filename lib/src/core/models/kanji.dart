@@ -5,6 +5,7 @@ import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
 part "kanji.freezed.dart";
+
 part "kanji.g.dart";
 
 @freezed
@@ -28,9 +29,6 @@ abstract class Kanji extends Resource with _$Kanji {
     /// Class in which kanji is taught
     int? grade,
 
-    /// TODO :  To delete once migrated to "pronunciations"
-    @Default([]) List<String> meanings,
-
     /// Pronunciations in sino-Japanese
     ///
     /// TODO : To delete once migrated to "pronunciations"
@@ -47,8 +45,8 @@ abstract class Kanji extends Resource with _$Kanji {
     /// List of vocabulary words that use the kanji
     @Default([]) List<ResourceUid> relatedVocabulary,
 
-    /// Usage examples of the kanji
-    @Default([]) List<Example> examples,
+    /// List of [Example] that use the kanji
+    @Default([]) List<ResourceUid> examples,
 
     /// Groups related to the kanji
     @Default([]) List<ResourceUid> groups,
@@ -58,8 +56,19 @@ abstract class Kanji extends Resource with _$Kanji {
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 
-  List<String> get readings => [
-    ...kunReadings,
-    ...onReadings,
-  ]; // TODO : To delete
+  // TODO : Clean up
+  List<String> get meanings => pronunciations
+      .map((p) => p.meanings)
+      .fold<List<String>>([], (prev, element) {
+        prev.addAll(element);
+        return prev;
+      });
+
+  // TODO : Clean up
+  List<String> get readings => pronunciations
+      .map((p) => p.readings)
+      .fold<List<String>>([], (prev, element) {
+        prev.addAll(element);
+        return prev;
+      });
 }

@@ -29,11 +29,7 @@ class FuriganaText extends StatelessWidget {
     bool showFurigana = false,
   }) => FuriganaText(
     text: kanji.kanji,
-    furigana:
-        furigana ??
-        (kanji.kunReadings.isNotEmpty
-            ? kanji.kunReadings[0]
-            : kanji.onReadings[0]),
+    furigana: furigana ?? (kanji.pronunciations.first.readings.first),
     showFurigana: showFurigana,
     style: style,
   );

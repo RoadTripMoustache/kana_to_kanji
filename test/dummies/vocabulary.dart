@@ -31,6 +31,7 @@ final Vocabulary dummyVocabularyWithRelatedData = Vocabulary(
     ),
   ],
   relatedKanjis: [ResourceUid.fromJson("kanji-vocabulary_related")],
+  examples: [ResourceUid.fromJson("example-vocabulary_related")],
   groups: [ResourceUid.fromJson("group-vocabulary_related")],
 );
 
@@ -64,6 +65,9 @@ INSERT OR IGNORE INTO vocabulary_kanji_readings (vocabulary_uid, kanji_uid, kanj
 
 INSERT OR IGNORE INTO vocabulary_groups (vocabulary_uid, group_uid) VALUES
 ('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.groups.first.uid}');
+
+INSERT OR IGNORE INTO vocabulary_examples (vocabulary_uid, example_uid) VALUES
+('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.examples.first.uid}');
 
 INSERT OR IGNORE INTO vocabulary_related_kanjis (vocabulary_uid, kanji_uid) VALUES
 ('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.relatedKanjis.first.uid}');

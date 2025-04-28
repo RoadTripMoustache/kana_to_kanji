@@ -16,7 +16,6 @@ const sqlRomajiColumn = "romaji";
 const sqlVersionColumn = "version";
 const sqlKanaSyllablesColumn = "kana_syllables";
 const sqlMeaningsColumn = "meanings";
-const sqlExamplesColumn = "examples";
 
 /// Kanji related table and columns
 const sqlRelatedKanjiColumn = "related_kanjis";
@@ -40,6 +39,11 @@ const sqlVocabularyGroups = "groups";
 const sqlVocabularyGroupsTable = "vocabulary_groups";
 const sqlGroupUidColumn = "group_uid";
 
+/// Vocabulary groups table and columns
+const sqlVocabularyExamples = "examples";
+const sqlVocabularyExamplesTable = "vocabulary_examples";
+const sqlExampleUidColumn = "example_uid";
+
 class VocabularyService extends ResourceDataService<Vocabulary> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
@@ -55,7 +59,6 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlVersionColumn,
           sqlKanaSyllablesColumn,
           sqlMeaningsColumn,
-          sqlExamplesColumn,
         ],
       );
 
@@ -66,13 +69,16 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
             ${columns.map((c) => 'v.$c').join(",")},
             json_group_array(DISTINCT json_object(${sqlReadingsColumns.map((c) => "'$c', kr.$c").join(",")})) AS $sqlKanjiReadings,
             json_group_array(DISTINCT vrk.$sqlKanjiUidColumn) AS $sqlRelatedKanjiColumn,
-            json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups
+            json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups,
+            json_group_array(DISTINCT ve.$sqlExampleUidColumn) AS $sqlVocabularyExamples
         FROM $tableName AS v
                  LEFT JOIN $sqlKanjiReadingsTable AS kr
                            ON v.$sqlUidColumn = kr.$sqlVocabularyUidColumn
                  LEFT JOIN $sqlRelatedKanjiTable AS vrk
                            ON v.$sqlUidColumn = vrk.$sqlVocabularyUidColumn
                  LEFT JOIN $sqlVocabularyGroupsTable AS vg
+                           ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
+                 LEFT JOIN $sqlVocabularyExamplesTable AS ve
                            ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
         GROUP BY v.$sqlUidColumn
       """, transformer: _transformer);
@@ -85,13 +91,16 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
             ${columns.map((c) => 'v.$c').join(",")},
             json_group_array(DISTINCT json_object(${sqlReadingsColumns.map((c) => "'$c', kr.$c").join(",")})) AS $sqlKanjiReadings,
             json_group_array(DISTINCT vrk.$sqlKanjiUidColumn) AS $sqlRelatedKanjiColumn,
-            json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups
+            json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups,
+            json_group_array(DISTINCT ve.$sqlExampleUidColumn) AS $sqlVocabularyExamples
         FROM $tableName AS v
                  LEFT JOIN $sqlKanjiReadingsTable AS kr
                            ON v.$sqlUidColumn = kr.$sqlVocabularyUidColumn
                  LEFT JOIN $sqlRelatedKanjiTable AS vrk
                            ON v.$sqlUidColumn = vrk.$sqlVocabularyUidColumn
                  LEFT JOIN $sqlVocabularyGroupsTable AS vg
+                           ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
+                 LEFT JOIN $sqlVocabularyExamplesTable AS ve
                            ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
         WHERE v.$sqlUidColumn = ?
         GROUP BY v.$sqlUidColumn
@@ -122,6 +131,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
       batch.insert(tableName, _buildMainColumns(item));
     }
 
+    // Kanji
     for (final relatedKanjiUid in item.relatedKanjis) {
       batch.insert(sqlRelatedKanjiTable, {
         sqlVocabularyUidColumn: item.uid.uid,
@@ -136,6 +146,14 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         sqlGroupUidColumn: groupUid.uid,
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     }
+
+    // Examples
+    for (final exampleUid in item.groups) {
+      batch.insert(sqlVocabularyExamplesTable, {
+        sqlVocabularyUidColumn: item.uid.uid,
+        sqlExampleUidColumn: exampleUid.uid,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
+    }
   }
 
   Map<String, dynamic> _buildMainColumns(Vocabulary item) =>
@@ -145,9 +163,9 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
             sqlRelatedKanjiColumn,
             sqlVocabularyGroups,
             sqlKanjiReadings,
+            sqlVocabularyExamples,
           ].contains(key),
         )
-        ..update(sqlExamplesColumn, (_) => jsonEncode(item.examples))
         ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings))
         ..update(sqlKanaSyllablesColumn, (_) => jsonEncode(item.kanaSyllables));
 
@@ -156,11 +174,12 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         jsonDecode(row[sqlKanjiReadings]) as List<dynamic>..removeWhere(
           (e) => e is Map<String, dynamic> && e[sqlReadingColumn] == null,
         );
-    final examples = jsonDecode(row[sqlExamplesColumn]);
     final relatedKanji =
         jsonDecode(row[sqlRelatedKanjiColumn]) as List<dynamic>..remove(null);
     final groups =
         jsonDecode(row[sqlVocabularyGroups]) as List<dynamic>..remove(null);
+    final examples =
+        jsonDecode(row[sqlVocabularyExamples]) as List<dynamic>..remove(null);
     final kanaSyllables = jsonDecode(row[sqlKanaSyllablesColumn]);
     final meanings = jsonDecode(row[sqlMeaningsColumn]);
 
@@ -169,7 +188,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
       sqlKanjiReadings: kanjiReadings,
       sqlRelatedKanjiColumn: relatedKanji,
       sqlVocabularyGroups: groups,
-      sqlExamplesColumn: examples,
+      sqlVocabularyExamples: examples,
       sqlKanaSyllablesColumn: kanaSyllables,
       sqlMeaningsColumn: meanings,
     });

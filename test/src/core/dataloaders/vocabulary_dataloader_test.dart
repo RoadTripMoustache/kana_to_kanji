@@ -121,7 +121,7 @@ void main() {
             vocabularyService.upsertAll(any, forceReload: true),
           ).thenAnswer((_) async => {});
 
-          await dataLoader.loadCollection(
+          await dataLoader.fetchAll(
             latestVersion: "2025_01_01",
             forceReload: true,
           );
@@ -141,7 +141,7 @@ void main() {
             vocabularyService.upsertAll(any, forceReload: false),
           ).thenAnswer((_) async => {});
 
-          await dataLoader.loadCollection(
+          await dataLoader.fetchAll(
             latestVersion: "2025_01_01",
             // ignore: avoid_redundant_argument_values
             forceReload: false,
@@ -169,7 +169,7 @@ void main() {
           vocabularyService.upsertAll(any, forceReload: false),
         ).thenAnswer((_) async => {});
 
-        await dataLoader.loadCollection(
+        await dataLoader.fetchAll(
           latestVersion: "2025_01_01",
           // ignore: avoid_redundant_argument_values
           forceReload: false,
@@ -189,7 +189,7 @@ void main() {
         vocabularyService.upsertAll(any, forceReload: false),
       ).thenAnswer((_) async => {});
 
-      await dataLoader.loadCollection(latestVersion: "2025_01_01");
+      await dataLoader.fetchAll(latestVersion: "2025_01_01");
 
       verify(
         apiService.get("/v1/vocabulary?version[current]=2025_01_01"),

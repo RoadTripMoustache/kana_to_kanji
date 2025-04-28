@@ -8,6 +8,8 @@ import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 
+const _kBatchSize = 1000;
+
 class ResourceDataLoader<T extends Resource> {
   final Logger _logger = locator<Logger>();
   final ApiService _apiService = locator<ApiService>();
@@ -26,10 +28,10 @@ class ResourceDataLoader<T extends Resource> {
   /// Load all the resource from the API.
   /// If [forceReload] is true, the collection is cleared and populated again
   Future fetchAll({String? latestVersion, bool forceReload = false}) async {
-    var versionQueryParam = "";
+    var versionQueryParam = "?page[size]=$_kBatchSize";
 
     if (!forceReload && latestVersion != null) {
-      versionQueryParam = "?version[current]=$latestVersion";
+      versionQueryParam += "&version[current]=$latestVersion";
     }
 
     String url = "/v1/$apiResourceType$versionQueryParam";

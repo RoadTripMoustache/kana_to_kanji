@@ -3,6 +3,15 @@
 
 
 -- RESOURCES
+-- Examples
+CREATE TABLE examples
+(
+    uid         TEXT PRIMARY KEY,
+    sentence    TEXT NOT NULL,
+    translation TEXT NOT NULL,
+    kanji       TEXT NOT NULL, -- Stored as JSON array
+    reading     TEXT NOT NULL  -- Stored as JSON array
+);
 -- Groups
 CREATE TABLE groups
 (
@@ -16,13 +25,13 @@ CREATE TABLE groups
 -- Kana
 CREATE TABLE kana
 (
-    uid           TEXT PRIMARY KEY,
-    alphabet      TEXT    NOT NULL,
-    group_uid     TEXT    NOT NULL,
-    kana          TEXT    NOT NULL,
-    romaji        TEXT    NOT NULL,
-    version       TEXT    NOT NULL,
-    position      INTEGER NOT NULL,
+    uid       TEXT PRIMARY KEY,
+    alphabet  TEXT    NOT NULL,
+    group_uid TEXT    NOT NULL,
+    kana      TEXT    NOT NULL,
+    romaji    TEXT    NOT NULL,
+    version   TEXT    NOT NULL,
+    position  INTEGER NOT NULL,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
 );
 -- Kanji
@@ -34,7 +43,6 @@ CREATE TABLE kanjis
     number_of_strokes INTEGER,
     grade             INTEGER,
     version           TEXT    NOT NULL,
-    examples          TEXT    NOT NULL, -- Stored as JSON array
     jp_sort_syllables TEXT    NOT NULL, -- Stored as JSON array
     pronunciations    TEXT    NOT NULL, -- Stored as JSON array
     main_meaning      TEXT,
@@ -66,6 +74,15 @@ CREATE TABLE kanji_groups
         ON DELETE CASCADE
 );
 
+CREATE TABLE kanji_examples
+(
+    kanji_uid   TEXT NOT NULL,
+    example_uid TEXT NOT NULL, -- not a foreign key as Examples as stored on demand
+    PRIMARY KEY (kanji_uid, example_uid),
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
+        ON DELETE CASCADE
+);
+
 -- Vocabulary
 CREATE TABLE vocabulary
 (
@@ -75,7 +92,6 @@ CREATE TABLE vocabulary
     jlpt_level     INTEGER NOT NULL,
     romaji         TEXT    NOT NULL,
     version        TEXT    NOT NULL,
-    examples       TEXT    NOT NULL, -- Stored as JSON array
     kana_syllables TEXT    NOT NULL, -- Stored as JSON array
     meanings       TEXT    NOT NULL  -- Stored as JSON array
 );
@@ -112,5 +128,14 @@ CREATE TABLE vocabulary_groups
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE vocabulary_examples
+(
+    vocabulary_uid TEXT NOT NULL,
+    example_uid    TEXT NOT NULL, -- not a foreign key as Examples as stored on demand
+    PRIMARY KEY (vocabulary_uid, example_uid),
+    FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE
 );

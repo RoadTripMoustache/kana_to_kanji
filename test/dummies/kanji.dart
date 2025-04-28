@@ -29,6 +29,7 @@ final Kanji dummyKanjiWithRelatedData = Kanji(
   jpSortSyllables: [164, 218],
   mainMeaning: "book",
   relatedVocabulary: [ResourceUid.fromJson("vocabulary-kanji_related")],
+  examples: [ResourceUid.fromJson("example-kanji_related")],
   groups: [ResourceUid.fromJson("group-kanji_related")],
 );
 
@@ -75,6 +76,10 @@ VALUES
 INSERT OR IGNORE INTO kanji_groups (kanji_uid, group_uid)
 VALUES
 ('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.groups.first.uid}');
+
+INSERT OR IGNORE INTO kanji_examples (kanji_uid, example_uid)
+VALUES
+('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.examples.first.uid}');
 
 INSERT OR IGNORE INTO kanji_related_vocabulary (kanji_uid, vocabulary_uid)
 VALUES ('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}');
