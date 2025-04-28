@@ -110,19 +110,19 @@ void main() {
           kanjiDataLoaderMock.latestVersion,
           vocabularyDataLoaderMock.latestVersion,
           apiServiceMock.get("/v1/sync?version[current]=2025_01_01"),
-          groupDataLoaderMock.loadCollection(
+          groupDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
-          kanaDataLoaderMock.loadCollection(
+          kanaDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
-          kanjiDataLoaderMock.loadCollection(
+          kanjiDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
-          vocabularyDataLoaderMock.loadCollection(
+          vocabularyDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
@@ -158,25 +158,25 @@ void main() {
         await service.sync();
 
         verifyNever(
-          groupDataLoaderMock.loadCollection(
+          groupDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
             latestVersion: anyNamed("latestVersion"),
           ),
         );
         verifyNever(
-          kanaDataLoaderMock.loadCollection(
+          kanaDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
             latestVersion: anyNamed("latestVersion"),
           ),
         );
         verifyNever(
-          kanjiDataLoaderMock.loadCollection(
+          kanjiDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
             latestVersion: anyNamed("latestVersion"),
           ),
         );
         verifyNever(
-          vocabularyDataLoaderMock.loadCollection(
+          vocabularyDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
             latestVersion: anyNamed("latestVersion"),
           ),
@@ -219,22 +219,16 @@ void main() {
         // Verify we called the API with no version parameter
         verify(apiServiceMock.get("/v1/sync")).called(1);
         verify(
-          groupDataLoaderMock.loadCollection(
-            forceReload: anyNamed("forceReload"),
-          ),
+          groupDataLoaderMock.fetchAll(forceReload: anyNamed("forceReload")),
         );
         verify(
-          kanaDataLoaderMock.loadCollection(
-            forceReload: anyNamed("forceReload"),
-          ),
+          kanaDataLoaderMock.fetchAll(forceReload: anyNamed("forceReload")),
         );
         verify(
-          kanjiDataLoaderMock.loadCollection(
-            forceReload: anyNamed("forceReload"),
-          ),
+          kanjiDataLoaderMock.fetchAll(forceReload: anyNamed("forceReload")),
         );
         verify(
-          vocabularyDataLoaderMock.loadCollection(
+          vocabularyDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
           ),
         );
@@ -320,14 +314,14 @@ void main() {
 
         // Verify that only the services with true flags were called
         verify(
-          groupDataLoaderMock.loadCollection(
+          groupDataLoaderMock.fetchAll(
             // ignore: avoid_redundant_argument_values
             forceReload: false,
             latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
-          kanjiDataLoaderMock.loadCollection(
+          kanjiDataLoaderMock.fetchAll(
             // ignore: avoid_redundant_argument_values
             forceReload: false,
             latestVersion: "2025_01_01",
@@ -343,13 +337,13 @@ void main() {
 
         // Verify that services with false flags were not called
         verifyNever(
-          kanaDataLoaderMock.loadCollection(
+          kanaDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
             latestVersion: anyNamed("latestVersion"),
           ),
         );
         verifyNever(
-          vocabularyDataLoaderMock.loadCollection(
+          vocabularyDataLoaderMock.fetchAll(
             forceReload: anyNamed("forceReload"),
             latestVersion: anyNamed("latestVersion"),
           ),
@@ -365,25 +359,25 @@ void main() {
 
         // Verify all loaders were called with forceReload true
         verify(
-          groupDataLoaderMock.loadCollection(
+          groupDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
-          kanaDataLoaderMock.loadCollection(
+          kanaDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
-          kanjiDataLoaderMock.loadCollection(
+          kanjiDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
-          vocabularyDataLoaderMock.loadCollection(
+          vocabularyDataLoaderMock.fetchAll(
             forceReload: true,
             latestVersion: "2025_01_01",
           ),
@@ -407,25 +401,25 @@ void main() {
 
           // Verify no loaders were called since all flags should be false
           verifyNever(
-            groupDataLoaderMock.loadCollection(
+            groupDataLoaderMock.fetchAll(
               forceReload: anyNamed("forceReload"),
               latestVersion: anyNamed("latestVersion"),
             ),
           );
           verifyNever(
-            kanaDataLoaderMock.loadCollection(
+            kanaDataLoaderMock.fetchAll(
               forceReload: anyNamed("forceReload"),
               latestVersion: anyNamed("latestVersion"),
             ),
           );
           verifyNever(
-            kanjiDataLoaderMock.loadCollection(
+            kanjiDataLoaderMock.fetchAll(
               forceReload: anyNamed("forceReload"),
               latestVersion: anyNamed("latestVersion"),
             ),
           );
           verifyNever(
-            vocabularyDataLoaderMock.loadCollection(
+            vocabularyDataLoaderMock.fetchAll(
               forceReload: anyNamed("forceReload"),
               latestVersion: anyNamed("latestVersion"),
             ),

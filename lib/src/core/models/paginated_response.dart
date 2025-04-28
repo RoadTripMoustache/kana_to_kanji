@@ -27,9 +27,8 @@ sealed class PageLinks with _$PageLinks {
   const factory PageLinks({
     required String first,
     required String previous,
-    required String next,
     required String self,
-    required String prev,
+    required String next,
     required String last,
     required bool hasMore,
   }) = _PageLinks;

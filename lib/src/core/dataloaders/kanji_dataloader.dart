@@ -1,6 +1,4 @@
-import "dart:convert";
-
-import "package:http/http.dart";
+import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
 import "package:kana_to_kanji/src/core/services/kanji_service.dart";
@@ -11,30 +9,17 @@ class KanjiDataLoader extends ResourceDataLoader<Kanji> {
   KanjiDataLoader({KanjiService? service})
     : super(
         service: service ?? KanjiService(),
-        fromJson: Kanji.fromJson,
+        fromJson: deserialize,
         apiResourceType: "kanjis",
       );
 
-  @override
-  List<Kanji> extractItems(Response response) {
-    if (response.statusCode == 200) {
-      final List<Kanji> items = [];
-      final rawItems = jsonDecode(response.body);
-      // ignore: avoid_dynamic_calls
-      for (final g in rawItems["data"]) {
-        items.add(
-          fromJson({...g, sqlJpSortSyllablesColumn: _buildSortSyllables(g)}),
-        );
-      }
-      return items;
-    } else {
-      // If the server did not return a 200 OK response,
-      // then return an empty list.
-      return List.empty();
-    }
-  }
+  @visibleForTesting
+  static Kanji deserialize(Map<String, dynamic> item) => Kanji.fromJson({
+    ...item,
+    sqlJpSortSyllablesColumn: _buildSortSyllables(item),
+  });
 
-  List<int> _buildSortSyllables(Map<String, dynamic> json) {
+  static List<int> _buildSortSyllables(Map<String, dynamic> json) {
     List<int> sortSyllables = [];
 
     // TODO : To clean up once migrated to pronunciations

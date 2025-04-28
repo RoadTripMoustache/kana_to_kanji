@@ -51,25 +51,25 @@ class SyncService {
     final sync = await _getSyncData();
 
     if (sync.group) {
-      await _groupDataLoader.loadCollection(
+      await _groupDataLoader.fetchAll(
         forceReload: sync.forceReload,
         latestVersion: sync.groupVersion,
       );
     }
     if (sync.kana) {
-      await _kanaDataLoader.loadCollection(
+      await _kanaDataLoader.fetchAll(
         forceReload: sync.forceReload,
         latestVersion: sync.kanaVersion,
       );
     }
     if (sync.kanji) {
-      await _kanjiDataLoader.loadCollection(
+      await _kanjiDataLoader.fetchAll(
         forceReload: sync.forceReload,
         latestVersion: sync.kanjiVersion,
       );
     }
     if (sync.vocabulary) {
-      await _vocabularyDataLoader.loadCollection(
+      await _vocabularyDataLoader.fetchAll(
         forceReload: sync.forceReload,
         latestVersion: sync.vocabularyVersion,
       );

@@ -1,6 +1,4 @@
-import "dart:convert";
-
-import "package:http/http.dart";
+import "package:flutter/cupertino.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
@@ -11,30 +9,15 @@ class VocabularyDataLoader extends ResourceDataLoader<Vocabulary> {
   VocabularyDataLoader({VocabularyService? service})
     : super(
         service: service ?? VocabularyService(),
-        fromJson: Vocabulary.fromJson,
+        fromJson: deserialize,
         apiResourceType: "vocabulary",
       );
 
-  @override
-  List<Vocabulary> extractItems(Response response) {
-    if (response.statusCode == 200) {
-      final List<Vocabulary> items = [];
-      final rawItems = jsonDecode(response.body);
-      // ignore: avoid_dynamic_calls
-      for (final g in rawItems["data"]) {
-        items.add(
-          fromJson({
-            ...g,
-            // ignore: avoid_dynamic_calls
-            sqlKanaSyllablesColumn: splitBySyllable(g[sqlKanaColumn] as String),
-          }),
-        );
-      }
-      return items;
-    } else {
-      // If the server did not return a 200 OK response,
-      // then return an empty list.
-      return List.empty();
-    }
-  }
+  @visibleForTesting
+  static Vocabulary deserialize(Map<String, dynamic> item) =>
+      Vocabulary.fromJson({
+        ...item,
+        // ignore: avoid_dynamic_calls
+        sqlKanaSyllablesColumn: splitBySyllable(item[sqlKanaColumn] as String),
+      });
 }
