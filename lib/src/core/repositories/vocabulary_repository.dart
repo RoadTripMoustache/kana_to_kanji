@@ -19,23 +19,23 @@ class VocabularyRepository {
   }
 
   /// Retrieve all the vocabulary
-  List<Vocabulary> getAll() {
+  Future<List<Vocabulary>> getAll() async {
     if (vocabularies.isNotEmpty) {
       return vocabularies;
     }
 
-    vocabularies.addAll(_vocabularyService.getAll());
+    vocabularies.addAll(await _vocabularyService.getAll());
 
     return vocabularies;
   }
 
-  List<Vocabulary> searchVocabulary(
+  Future<List<Vocabulary>> searchVocabulary(
     String searchTxt,
     List<KnowledgeLevel> selectedKnowledgeLevel,
     List<JLPTLevel> selectedJLPTLevel,
     SortOrder selectedOrder,
-  ) {
-    getAll();
+  ) async {
+    await getAll();
     bool Function(Vocabulary) txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter =

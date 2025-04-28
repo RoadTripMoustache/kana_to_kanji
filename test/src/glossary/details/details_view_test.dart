@@ -30,7 +30,7 @@ void main() {
     });
 
     testWidgets("Kana", (WidgetTester tester) async {
-      await pump(tester, const DetailsView(item: dummyHiragana));
+      await pump(tester, DetailsView(item: dummyHiragana));
       final theme = AppTheme.lightTheme;
 
       // Check title section

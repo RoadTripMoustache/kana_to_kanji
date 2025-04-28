@@ -108,13 +108,13 @@ class _QuestionTileState extends State<QuestionTile> {
             flipped: widget.question.remainingAttempt == 0,
             front: AutoSizeText(
               widget.question.question,
-              key: ValueKey("q${widget.question.kana.id}"),
+              key: ValueKey("q${widget.question.kana.uid.uid}"),
               style: textTheme.displayLarge!.copyWith(fontSize: 96),
               maxLines: 1,
             ),
             back: AutoSizeText(
               widget.question.answer,
-              key: ValueKey("a${widget.question.kana.id}"),
+              key: ValueKey("a${widget.question.kana.uid.uid}"),
               style: textTheme.displayLarge,
               maxLines: 1,
             ),

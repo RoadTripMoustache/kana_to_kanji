@@ -20,22 +20,22 @@ class KanjiRepository {
   }
 
   /// Retrieve all the kanji from the database
-  List<Kanji> getAll() {
+  Future<List<Kanji>> getAll() async {
     if (kanjis.isNotEmpty) {
       return kanjis;
     }
-    kanjis.addAll(_kanjiService.getAll());
+    kanjis.addAll(await _kanjiService.getAll());
 
     return kanjis;
   }
 
-  List<Kanji> searchKanji(
+  Future<List<Kanji>> searchKanji(
     String searchTxt,
     List<KnowledgeLevel> selectedKnowledgeLevel,
     List<JLPTLevel> selectedJLPTLevel,
     SortOrder selectedOrder,
-  ) {
-    getAll();
+  ) async {
+    await getAll();
 
     var txtFilter = (Kanji element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {

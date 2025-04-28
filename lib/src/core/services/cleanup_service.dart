@@ -1,57 +1,46 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
-import "package:isar/isar.dart";
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/cleanup.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
-import "package:kana_to_kanji/src/core/repositories/groups_repository.dart";
-import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
-import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
-import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
+import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/group_service.dart";
+import "package:kana_to_kanji/src/core/services/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
+import "package:sqflite/sqflite.dart";
 
 class CleanUpService {
   final ApiService _apiService = locator<ApiService>();
-  final Isar _isar = locator<Isar>();
-  final GroupsRepository _groupsRepository = locator<GroupsRepository>();
-  final KanaRepository _kanaRepository = locator<KanaRepository>();
-  final KanjiRepository _kanjiRepository = locator<KanjiRepository>();
-  final VocabularyRepository _vocabularyRepository =
-      locator<VocabularyRepository>();
+  final DatabaseService _databaseService = locator<DatabaseService>();
 
-  Future<List<ResourceUid>> getSyncData({bool forceReload = false}) {
-    final lastLoadedVersionGroups =
-        _isar.groups.where().versionProperty().max();
-    final lastLoadedVersionKanas = _isar.kanas.where().versionProperty().max();
-    final lastLoadedVersionKanjis =
-        _isar.kanjis.where().versionProperty().max();
-    final lastLoadedVersionVocabulary =
-        _isar.vocabularys.where().versionProperty().max();
+  final GroupService _groupService;
+  final KanaService _kanaService;
+  final KanjiService _kanjiService;
+  final VocabularyService _vocabularyService;
 
+  /// [groupService], [kanaService], [kanjiService], and [vocabularyService]
+  /// are injected for testability only.
+  CleanUpService({
+    GroupService? groupService,
+    KanaService? kanaService,
+    KanjiService? kanjiService,
+    VocabularyService? vocabularyService,
+  }) : _groupService = groupService ?? GroupService(),
+       _kanaService = kanaService ?? KanaService(),
+       _kanjiService = kanjiService ?? KanjiService(),
+       _vocabularyService = vocabularyService ?? VocabularyService();
+
+  Future<List<ResourceUid>> _getResourceToCleanUp({
+    bool forceReload = false,
+    String? version,
+  }) async {
     var versionQueryParam = "";
-    if (!forceReload) {
-      if (lastLoadedVersionGroups != null &&
-          lastLoadedVersionGroups.compareTo(versionQueryParam) > 0) {
-        versionQueryParam = "?version[current]=$lastLoadedVersionGroups";
-      }
-      if (lastLoadedVersionKanas != null &&
-          lastLoadedVersionKanas.compareTo(versionQueryParam) > 0) {
-        versionQueryParam = "?version[current]=$lastLoadedVersionKanas";
-      }
-      if (lastLoadedVersionKanjis != null &&
-          lastLoadedVersionKanjis.compareTo(versionQueryParam) > 0) {
-        versionQueryParam = "?version[current]=$lastLoadedVersionKanjis";
-      }
-      if (lastLoadedVersionVocabulary != null &&
-          lastLoadedVersionVocabulary.compareTo(versionQueryParam) > 0) {
-        versionQueryParam = "?version[current]=$lastLoadedVersionVocabulary";
-      }
+    if (!forceReload && version != null) {
+      versionQueryParam = "?version[current]=$version";
     }
 
     return _apiService.get("/v1/cleanup$versionQueryParam").then(_extractData);
@@ -70,26 +59,46 @@ class CleanUpService {
     }
   }
 
-  Future<void> executeCleanUp({bool forceReload = false}) async {
-    final resourcesToDelete = await getSyncData(forceReload: forceReload);
-
-    await Future.wait(
-      resourcesToDelete.map((element) {
-        switch (element.resourceType) {
-          case ResourceType.group:
-            return _groupsRepository.delete(element);
-          case ResourceType.kana:
-            return _kanaRepository.delete(element);
-          case ResourceType.kanji:
-            return _kanjiRepository.delete(element);
-          case ResourceType.vocabulary:
-            return _vocabularyRepository.delete(element);
-          case ResourceType.level:
-            return Future.value();
-          case ResourceType.stage:
-            return Future.value();
-        }
-      }),
+  Future<void> executeCleanUp({
+    bool forceReload = false,
+    String? version,
+  }) async {
+    final resourcesToDelete = await _getResourceToCleanUp(
+      forceReload: forceReload,
+      version: version,
     );
+
+    final groupToDelete =
+        resourcesToDelete
+            .where((e) => e.resourceType == ResourceType.group)
+            .toList();
+    final kanaToDelete =
+        resourcesToDelete
+            .where((e) => e.resourceType == ResourceType.kana)
+            .toList();
+    final kanjiToDelete =
+        resourcesToDelete
+            .where((e) => e.resourceType == ResourceType.kanji)
+            .toList();
+    final vocabularyToDelete =
+        resourcesToDelete
+            .where((e) => e.resourceType == ResourceType.vocabulary)
+            .toList();
+
+    await _databaseService.transaction((transaction) async {
+      final Batch batch = transaction.batch();
+      await Future.wait([
+        if (groupToDelete.isNotEmpty)
+          _groupService.deleteAll(groupToDelete, batch: batch),
+        if (kanaToDelete.isNotEmpty)
+          _kanaService.deleteAll(kanaToDelete, batch: batch),
+        if (kanjiToDelete.isNotEmpty)
+          _kanjiService.deleteAll(kanjiToDelete, batch: batch),
+        if (vocabularyToDelete.isNotEmpty)
+          _vocabularyService.deleteAll(vocabularyToDelete, batch: batch),
+      ]);
+
+      return batch.commit();
+    });
   }
 }

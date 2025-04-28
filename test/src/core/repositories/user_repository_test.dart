@@ -11,6 +11,7 @@ import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
+import "../../../helpers.dart";
 @GenerateNiceMocks([
   MockSpec<Logger>(),
   MockSpec<UserService>(),
@@ -34,10 +35,27 @@ void main() {
     setUpAll(() async {
       locator
         ..registerSingleton<Logger>(loggerMock)
-        ..registerSingleton<UserService>(userServiceMock)
         ..registerSingleton<TokenService>(tokenServiceMock)
         ..registerSingleton<AuthService>(authServiceMock);
-      repository = UserRepository();
+    });
+
+    setUp(() {
+      repository = UserRepository(userService: userServiceMock);
+    });
+
+    tearDown(() {
+      reset(loggerMock);
+      reset(userServiceMock);
+      reset(authServiceMock);
+      reset(tokenServiceMock);
+    });
+
+    tearDownAll(() async {
+      await Future.wait([
+        unregister<Logger>(),
+        unregister<TokenService>(),
+        unregister<AuthService>(),
+      ]);
     });
 
     group("register", () {

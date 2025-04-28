@@ -149,13 +149,13 @@ void main() {
         ) async {
           final widget = await pump(
             tester,
-            FuriganaText.kanji(dummyKanjiWithoutOnMeaning, showFurigana: true),
+            FuriganaText.kanji(dummyKanjiWithoutKunReading, showFurigana: true),
           );
 
           expect(
             find.descendant(
               of: widget,
-              matching: find.text(dummyKanjiWithoutOnMeaning.onReadings[0]),
+              matching: find.text(dummyKanjiWithoutKunReading.onReadings[0]),
             ),
             findsOneWidget,
             reason:
@@ -165,7 +165,7 @@ void main() {
           expect(
             find.descendant(
               of: widget,
-              matching: find.text(dummyKanjiWithoutOnMeaning.kanji),
+              matching: find.text(dummyKanjiWithoutKunReading.kanji),
             ),
             findsOneWidget,
             reason: "Kanji should be used as main text",

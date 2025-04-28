@@ -25,18 +25,20 @@ void main() {
     });
 
     group("getAll", () {
-      test("it should load all the kanji from the service", () {
-        when(vocabularyServiceMock.getAll()).thenReturn([dummyVocabulary]);
+      test("it should load all the kanji from the service", () async {
+        when(
+          vocabularyServiceMock.getAll(),
+        ).thenAnswer((_) => Future.value([dummyVocabulary]));
 
-        expect(repository.getAll(), [dummyVocabulary]);
+        expect(await repository.getAll(), [dummyVocabulary]);
         verify(vocabularyServiceMock.getAll());
         verifyNoMoreInteractions(vocabularyServiceMock);
       });
 
-      test("it should not call the service", () {
+      test("it should not call the service", () async {
         repository.vocabularies.add(dummyVocabulary);
 
-        expect(repository.getAll(), [dummyVocabulary]);
+        expect(await repository.getAll(), [dummyVocabulary]);
         verifyZeroInteractions(vocabularyServiceMock);
       });
     });

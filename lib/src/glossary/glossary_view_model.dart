@@ -52,12 +52,13 @@ class GlossaryViewModel extends FutureViewModel {
   @override
   Future futureToRun() async {
     _tabController.addListener(_handleTabSelection);
-    _setToDisplay();
+    await _setToDisplay();
   }
 
   void _handleTabSelection() {
     if (_currentTab != _tabController.index) {
       _currentTab = _tabController.index;
+      // ignore: discarded_futures
       _setToDisplay();
     }
   }
@@ -65,12 +66,14 @@ class GlossaryViewModel extends FutureViewModel {
   /// Update the current searched text and update the lists to display.
   void searchGlossary(String searchText) {
     _currentSearch = searchText;
+    // ignore: discarded_futures
     _setToDisplay();
     notifyListeners();
   }
 
   /// Triggers list update following the change of filters.
   void filterGlossary() {
+    // ignore: discarded_futures
     _setToDisplay();
     notifyListeners();
   }
@@ -78,37 +81,38 @@ class GlossaryViewModel extends FutureViewModel {
   /// Update the selected order and update the lists to display.
   void sortGlossary(SortOrder newSelectedOrder) {
     selectedOrder = newSelectedOrder;
+    // ignore: discarded_futures
     _setToDisplay();
     notifyListeners();
   }
 
   /// Update the list of values to display of the current tab.
-  void _setToDisplay() {
+  Future<void> _setToDisplay() async {
     switch (GlossaryTab.getValue(_tabController.index)) {
       case GlossaryTab.hiragana:
-        _updateHiraganaList();
+        await _updateHiraganaList();
       case GlossaryTab.katakana:
-        _updateKatakanaList();
+        await _updateKatakanaList();
       case GlossaryTab.kanji:
-        _updateKanjiList();
+        await _updateKanjiList();
       case GlossaryTab.vocabulary:
-        _updateVocabularyList();
+        await _updateVocabularyList();
     }
   }
 
   /// Update the hiragana list to display based on the current search
   /// and selected knowledge levels.
-  void _updateHiraganaList() {
+  Future<void> _updateHiraganaList() async {
     if (_hiraganaList.isEmpty) {
       _hiraganaList.addAll(
-        _kanaRepository.getHiragana().map(
-          (kana) => (kana: kana, disabled: false),
+        await _kanaRepository.getHiragana().then(
+          (result) => result.map((kana) => (kana: kana, disabled: false)),
         ),
       );
     }
-    final hiraganaIdsFiltered = _kanaRepository
+    final hiraganaIdsFiltered = await _kanaRepository
         .searchHiragana(_currentSearch, _selectedKnowledgeLevel)
-        .map((e) => e.uid);
+        .then((result) => result.map((e) => e.uid));
     for (final ({Kana kana, bool disabled}) pair in _hiraganaList) {
       _hiraganaList[pair.kana.position] = (
         kana: pair.kana,
@@ -119,17 +123,17 @@ class GlossaryViewModel extends FutureViewModel {
 
   /// Update the katakana list to display based on the current search
   /// and selected knowledge levels.
-  void _updateKatakanaList() {
+  Future<void> _updateKatakanaList() async {
     if (_katakanaList.isEmpty) {
       _katakanaList.addAll(
-        _kanaRepository.getKatakana().map(
-          (kana) => (kana: kana, disabled: false),
+        await _kanaRepository.getKatakana().then(
+          (result) => result.map((kana) => (kana: kana, disabled: false)),
         ),
       );
     }
-    final katakanaIdsFiltered = _kanaRepository
+    final katakanaIdsFiltered = await _kanaRepository
         .searchKatakana(_currentSearch, _selectedKnowledgeLevel)
-        .map((e) => e.uid);
+        .then((result) => result.map((e) => e.uid));
     for (final ({Kana kana, bool disabled}) pair in _katakanaList) {
       _katakanaList[pair.kana.position] = (
         kana: pair.kana,
@@ -139,11 +143,11 @@ class GlossaryViewModel extends FutureViewModel {
   }
 
   /// Update the kanji list to display based on all the filter/search configurations.
-  void _updateKanjiList() {
+  Future<void> _updateKanjiList() async {
     _kanjiList
       ..clear()
       ..addAll(
-        _kanjiRepository.searchKanji(
+        await _kanjiRepository.searchKanji(
           _currentSearch,
           _selectedKnowledgeLevel,
           _selectedJlptLevel,
@@ -153,11 +157,11 @@ class GlossaryViewModel extends FutureViewModel {
   }
 
   /// Update the vocabulary list to display based on all the filter/search configurations.
-  void _updateVocabularyList() {
+  Future<void> _updateVocabularyList() async {
     _vocabularyList
       ..clear()
       ..addAll(
-        _vocabularyRepository.searchVocabulary(
+        await _vocabularyRepository.searchVocabulary(
           _currentSearch,
           _selectedKnowledgeLevel,
           _selectedJlptLevel,

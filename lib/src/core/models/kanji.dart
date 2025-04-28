@@ -1,101 +1,60 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:isar/isar.dart";
-import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/example.dart";
-import "package:kana_to_kanji/src/core/models/pronunciations.dart";
+import "package:kana_to_kanji/src/core/models/pronunciation.dart";
+import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/core/utils/isar_utils.dart";
 
+part "kanji.freezed.dart";
 part "kanji.g.dart";
 
-@collection
-@Name("Kanjis")
-@JsonSerializable()
-class Kanji {
-  @Default(ResourceUid("", ResourceType.kanji))
-  final ResourceUid uid;
-  int get id => fastHash(uid.uid);
+@freezed
+abstract class Kanji extends Resource with _$Kanji {
+  const Kanji._() : super();
 
-  final String kanji;
+  const factory Kanji({
+    required ResourceUid uid,
+    required String kanji,
+    required int jlptLevel,
 
-  /// Number of strokes necessary to draw the kanji
-  @JsonKey(name: "nbr_strokes")
-  final int? numberOfStrokes;
+    required String version,
 
-  /// Class in which kanji is taught
-  final int? grade;
-  @JsonKey(name: "jlpt_level")
-  final int jlptLevel;
-  @Default([])
-  final List<String> meanings; // TODO : To delete
+    /// List of syllables of the first kanji Kun reading
+    /// to facilitate the kanji sorting
+    required List<int> jpSortSyllables,
 
-  /// Pronunciations in sino-Japanese
-  ///
-  /// TODO : To delete once migrated to "pronunciations"
-  @Default([])
-  @JsonKey(name: "on_readings")
-  final List<String> onReadings;
+    /// Number of strokes necessary to draw the kanji
+    int? numberOfStrokes,
 
-  /// Pronunciations in Japanese
-  ///
-  /// TODO : To delete once migrated to "pronunciations"
-  @Default([])
-  @JsonKey(name: "kun_readings")
-  final List<String> kunReadings;
+    /// Class in which kanji is taught
+    int? grade,
 
-  /// Pronunciations of the kanji
-  @Default([])
-  final List<Pronunciation> pronunciations;
+    /// TODO :  To delete once migrated to "pronunciations"
+    @Default([]) List<String> meanings,
 
-  final String version;
+    /// Pronunciations in sino-Japanese
+    ///
+    /// TODO : To delete once migrated to "pronunciations"
+    @Default([]) List<String> onReadings,
 
-  /// List of vocabulary word ids that use the kanji
-  ///
-  /// TODO : To delete once migrated to "relatedVocabulary"
-  @Default([])
-  @JsonKey(name: "vocabulary_ids")
-  final List<int>? vocabularyIds;
+    /// Pronunciations in Japanese
+    ///
+    /// TODO : To delete once migrated to "pronunciations"
+    @Default([]) List<String> kunReadings,
 
-  /// List of vocabulary words that use the kanji
-  @Default([])
-  @JsonKey(name: "related_vocabulary")
-  final List<int>? relatedVocabulary;
+    /// Pronunciations of the kanji
+    @Default([]) List<Pronunciation> pronunciations,
 
-  /// List of syllables of the first kanji Kun reading
-  /// to facilitate the kanji sorting
-  @JsonKey(name: "jp_sort_syllables")
-  final List<int> jpSortSyllables;
+    /// List of vocabulary words that use the kanji
+    @Default([]) List<ResourceUid> relatedVocabulary,
 
-  /// Usage examples of the kanji
-  @Default([])
-  final List<Example>? examples;
+    /// Usage examples of the kanji
+    @Default([]) List<Example> examples,
 
-  /// Groups related to the kanji
-  @Default([])
-  @JsonKey(name: "groups")
-  final List<ResourceUid> groupList;
+    /// Groups related to the kanji
+    @Default([]) List<ResourceUid> groups,
 
-  @JsonKey(name: "main_meaning")
-  final String? mainMeaning;
-
-  const Kanji(
-    this.uid,
-    this.kanji,
-    this.numberOfStrokes,
-    this.grade,
-    this.jlptLevel,
-    this.meanings,
-    this.onReadings,
-    this.kunReadings,
-    this.pronunciations,
-    this.version,
-    this.vocabularyIds,
-    this.relatedVocabulary,
-    this.jpSortSyllables,
-    this.examples,
-    this.groupList,
-    this.mainMeaning,
-  );
+    String? mainMeaning,
+  }) = _Kanji;
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);
 

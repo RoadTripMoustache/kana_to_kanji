@@ -3,7 +3,9 @@ import "package:flutter_test/flutter_test.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
+import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
+import "package:sqflite_common_ffi/sqflite_ffi.dart";
 
 /// Unregister the service [T] from GetIt
 Future<void> unregister<T extends Object>() async {
@@ -106,3 +108,23 @@ extension WidgetTesterExtension on WidgetTester {
 /// Load the l10n class
 Future<AppLocalizations> setupLocalizations([String locale = "en"]) async =>
     AppLocalizations.delegate.load(Locale(locale));
+
+/// Setup and register the database service
+/// This setup an in-memory database for testing following
+/// [DatabaseService.initialize] method but do not inject any data.
+Future<DatabaseService> setupDatabaseService() async {
+  // Initialize FFI
+  sqfliteFfiInit();
+  // Change the default factory
+  databaseFactory = databaseFactoryFfi;
+  final instance = DatabaseService();
+
+  await instance.initialize(path: inMemoryDatabasePath);
+
+  locator.registerSingleton<DatabaseService>(
+    instance,
+    dispose: (service) => service.dispose,
+  );
+
+  return instance;
+}

@@ -1,34 +1,24 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:isar/isar.dart";
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 
-part "resource_uid.g.dart";
+part "resource_uid.freezed.dart";
 
-@embedded
-@JsonSerializable()
-@immutable
-class ResourceUid {
-  final String uid;
+@Freezed(fromJson: false, toJson: false, toStringOverride: false)
+abstract class ResourceUid with _$ResourceUid {
+  const ResourceUid._();
 
-  @enumValue
-  final ResourceType resourceType;
+  const factory ResourceUid(String uid, ResourceType resourceType) =
+      _ResourceUid;
 
-  const ResourceUid(this.uid, this.resourceType);
-
-  factory ResourceUid.fromJson(String uid) => ResourceUid.fromString(uid);
-
-  factory ResourceUid.fromString(String uid) => ResourceUid(
+  factory ResourceUid.fromJson(String uid) => ResourceUid(
     uid,
     ResourceType.values.firstWhere(
       (element) => element.name == uid.split("-")[0],
     ),
   );
 
-  @override
-  bool operator ==(covariant ResourceUid other) =>
-      identical(this, other) ||
-      (other.uid == uid && other.resourceType == resourceType);
+  String toJson() => uid;
 
   @override
-  int get hashCode => uid.hashCode + resourceType.hashCode;
+  String toString() => uid;
 }

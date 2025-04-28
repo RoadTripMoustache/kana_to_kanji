@@ -1,25 +1,22 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:isar/isar.dart";
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 
+part "user_learning_progression.freezed.dart";
 part "user_learning_progression.g.dart";
 
-@embedded
-@JsonSerializable()
-class UserLearningProgression {
-  /// Uid of the current learning stage
-  @Default(ResourceUid("", ResourceType.stage))
-  final ResourceUid stage;
+@freezed
+abstract class UserLearningProgression with _$UserLearningProgression {
+  const factory UserLearningProgression({
+    /// Index of the last resource shown in the current level
+    required int resource,
 
-  /// Uid of the current learning level
-  @Default(ResourceUid("", ResourceType.level))
-  final ResourceUid level;
+    /// Uid of the current learning stage
+    @Default(ResourceUid("", ResourceType.stage)) ResourceUid stage,
 
-  /// Index of the last resource shown in the current level
-  final int resource;
-
-  const UserLearningProgression(this.stage, this.level, this.resource);
+    /// Uid of the current learning level
+    @Default(ResourceUid("", ResourceType.level)) ResourceUid level,
+  }) = _UserLearningProgression;
 
   factory UserLearningProgression.fromJson(Map<String, dynamic> json) =>
       _$UserLearningProgressionFromJson(json);

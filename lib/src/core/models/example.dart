@@ -1,16 +1,14 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:isar/isar.dart";
 
+part "example.freezed.dart";
 part "example.g.dart";
 
-@JsonSerializable()
-@embedded
-/// Example of a usage of a resource
-class Example {
-  final String japanese;
-  final String translation;
-
-  const Example(this.japanese, this.translation);
+@freezed
+abstract class Example with _$Example {
+  const factory Example({
+    required String japanese,
+    required String translation,
+  }) = _Example;
 
   factory Example.fromJson(Map<String, dynamic> json) =>
       _$ExampleFromJson(json);

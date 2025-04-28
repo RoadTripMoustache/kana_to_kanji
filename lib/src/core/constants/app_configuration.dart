@@ -2,7 +2,7 @@ import "package:envied/envied.dart";
 
 part "app_configuration.g.dart";
 
-@Envied()
+@Envied(path: ".env")
 abstract class AppConfiguration {
   /// General configs
   @EnviedField(varName: "API_URL")
