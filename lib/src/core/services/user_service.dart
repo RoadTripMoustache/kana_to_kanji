@@ -8,11 +8,15 @@ import "package:kana_to_kanji/src/locator.dart";
 
 class UserService {
   final PreferencesService _preferencesService = locator<PreferencesService>();
-  final UserDataLoader _userDataLoader = locator<UserDataLoader>();
+  final UserDataLoader _userDataLoader = UserDataLoader();
 
   /// Get the current user
   Future<User?> getUser() async {
-    await _userDataLoader.sync();
+    final latestUser = await _userDataLoader.sync();
+
+    if (latestUser != null) {
+      await updateUser(latestUser);
+    }
 
     final record = await _preferencesService.getString(PreferenceFlags.user);
 

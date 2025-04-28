@@ -3,20 +3,13 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/user.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/user_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 
 class UserDataLoader {
   final ApiService _apiService = locator<ApiService>();
-  final UserService _service = UserService();
 
   /// Load all the user data from the API.
-  Future sync() async =>
-      _apiService.get("/v1/user").then(_extractUser).then((user) {
-        if (user != null) {
-          _service.updateUser(user);
-        }
-      });
+  Future<User?> sync() async => _apiService.get("/v1/user").then(_extractUser);
 
   /// Extract the user from the API Response.
   User? _extractUser(http.Response response) {

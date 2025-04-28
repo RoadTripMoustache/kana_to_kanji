@@ -10,7 +10,7 @@ import "package:stacked/stacked.dart";
 
 class UserRepository with ListenableServiceMixin {
   final Logger _logger = locator<Logger>();
-  final UserService _userService = locator<UserService>();
+  final UserService _userService = UserService();
   final AuthService _authService = locator<AuthService>();
   final TokenService _tokenService = locator<TokenService>();
 
