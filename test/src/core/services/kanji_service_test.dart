@@ -146,14 +146,14 @@ void main() {
       test("should update multiple existing kanji", () async {
         final updatedKanjis = [
           dummyKanji.copyWith(mainMeaning: "book-updated"),
-          dummyKanjiWithoutOnMeaning.copyWith(mainMeaning: "origin-updated"),
+          dummyKanjiWithoutOnReading.copyWith(mainMeaning: "origin-updated"),
         ];
 
         await service.upsertAll(updatedKanjis);
 
         // Get updated kanji
         final kanji1 = await service.get(dummyKanji.uid);
-        final kanji2 = await service.get(dummyKanjiWithoutOnMeaning.uid);
+        final kanji2 = await service.get(dummyKanjiWithoutOnReading.uid);
 
         expect(kanji1, updatedKanjis[0]);
         expect(kanji2, updatedKanjis[1]);
@@ -214,7 +214,7 @@ void main() {
 
     group("deleteAll", () {
       test("should remove multiple kanji", () async {
-        final kanjiToDelete = [dummyKanji.uid, dummyKanjiWithoutOnMeaning.uid];
+        final kanjiToDelete = [dummyKanji.uid, dummyKanjiWithoutOnReading.uid];
 
         await service.deleteAll(kanjiToDelete);
 

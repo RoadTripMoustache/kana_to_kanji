@@ -32,7 +32,7 @@ final Kanji dummyKanjiWithRelatedData = Kanji(
   groups: [ResourceUid.fromJson("group-kanji_related")],
 );
 
-const Kanji dummyKanjiWithoutOnMeaning = Kanji(
+const Kanji dummyKanjiWithoutOnReading = Kanji(
   uid: ResourceUid("kanji-3", ResourceType.kanji),
   kanji: "本",
   jlptLevel: 5,
@@ -40,6 +40,19 @@ const Kanji dummyKanjiWithoutOnMeaning = Kanji(
   numberOfStrokes: 5,
   meanings: ["book"],
   kunReadings: ["ほん"],
+  version: "2025_01_01",
+  jpSortSyllables: [164, 218],
+  mainMeaning: "book",
+);
+
+const Kanji dummyKanjiWithoutKunReading = Kanji(
+  uid: ResourceUid("kanji-3", ResourceType.kanji),
+  kanji: "本",
+  jlptLevel: 5,
+  grade: 1,
+  numberOfStrokes: 5,
+  meanings: ["book"],
+  onReadings: ["ほん"],
   version: "2025_01_01",
   jpSortSyllables: [164, 218],
   mainMeaning: "book",
@@ -57,7 +70,7 @@ INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables
 VALUES
   ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '["ほん"]', '["ほん"]', '[]', '[]', 'book'),
   ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '["ほん"]', '["ほん"]', '[]', '[]', 'book'),
-  ('${dummyKanjiWithoutOnMeaning.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '[]', '["ほん"]', '[]', '[]', 'book');
+  ('${dummyKanjiWithoutOnReading.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '[]', '["ほん"]', '[]', '[]', 'book');
   
 INSERT OR IGNORE INTO kanji_groups (kanji_uid, group_uid)
 VALUES
@@ -70,5 +83,5 @@ VALUES ('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.rel
 final List<Kanji> dummiesKanji = [
   dummyKanji,
   dummyKanjiWithRelatedData,
-  dummyKanjiWithoutOnMeaning,
+  dummyKanjiWithoutOnReading,
 ];
