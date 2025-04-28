@@ -58,6 +58,7 @@ class GlossaryViewModel extends FutureViewModel {
   void _handleTabSelection() {
     if (_currentTab != _tabController.index) {
       _currentTab = _tabController.index;
+      // ignore: discarded_futures
       _setToDisplay();
     }
   }
@@ -65,12 +66,14 @@ class GlossaryViewModel extends FutureViewModel {
   /// Update the current searched text and update the lists to display.
   void searchGlossary(String searchText) {
     _currentSearch = searchText;
+    // ignore: discarded_futures
     _setToDisplay();
     notifyListeners();
   }
 
   /// Triggers list update following the change of filters.
   void filterGlossary() {
+    // ignore: discarded_futures
     _setToDisplay();
     notifyListeners();
   }
@@ -78,6 +81,7 @@ class GlossaryViewModel extends FutureViewModel {
   /// Update the selected order and update the lists to display.
   void sortGlossary(SortOrder newSelectedOrder) {
     selectedOrder = newSelectedOrder;
+    // ignore: discarded_futures
     _setToDisplay();
     notifyListeners();
   }
