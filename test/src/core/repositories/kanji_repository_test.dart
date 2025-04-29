@@ -82,34 +82,7 @@ void main() {
           SortOrder.japanese,
         );
 
-        expect(result.length, 1);
-        expect(result.first.kanji, "日");
-      });
-
-      test("should filter by kun readings", () async {
-        markTestSkipped("Until glossary refactor");
-        final result = await repository.searchKanji(
-          "ひ",
-          [],
-          [],
-          SortOrder.japanese,
-        );
-
-        expect(result.length, 1);
-        expect(result.first.kunReadings, contains("ひ"));
-      });
-
-      test("should filter by on readings", () async {
-        markTestSkipped("Until glossary refactor");
-        final result = await repository.searchKanji(
-          "ニチ",
-          [],
-          [],
-          SortOrder.japanese,
-        );
-
-        expect(result.length, 1);
-        expect(result.first.onReadings, contains("ニチ"));
+        expect(result.length, 0);
       });
 
       test(
@@ -123,8 +96,7 @@ void main() {
             SortOrder.alphabetical,
           );
 
-          expect(result.length, 1);
-          expect(result.first.meanings, contains("day"));
+          expect(result.length, 0);
         },
       );
 

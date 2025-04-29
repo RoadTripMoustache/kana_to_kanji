@@ -19,3 +19,6 @@ dart format $CHANGED_FILES
 
 # Add the formatted files to the commit
 git add $CHANGED_FILES
+
+echo -e "\033[0;34m-- Flutter analyze --\033[0m"
+flutter analyze

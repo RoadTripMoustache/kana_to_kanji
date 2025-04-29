@@ -45,9 +45,7 @@ CREATE TABLE kanjis
     version           TEXT    NOT NULL,
     jp_sort_syllables TEXT    NOT NULL, -- Stored as JSON array
     pronunciations    TEXT    NOT NULL, -- Stored as JSON array
-    main_meaning      TEXT,
-    on_readings       TEXT,             -- Stored as JSON array, to be deprecated
-    kun_readings      TEXT              -- Stored as JSON array, to be deprecated
+    main_meaning      TEXT    NOT NULL
 );
 
 --   Kanji Join tables

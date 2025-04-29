@@ -16,8 +16,6 @@ const sqlNumberOfStrokesColumn = "number_of_strokes";
 const sqlGradeColumn = "grade";
 const sqlJpSortSyllablesColumn = "jp_sort_syllables";
 const sqlMainMeaningColumn = "main_meaning";
-const sqlOnReadingsColumn = "on_readings";
-const sqlKunReadingsColumn = "kun_readings";
 const sqlPronunciationsColumn = "pronunciations";
 
 /// Related vocabulary table and columns
@@ -51,8 +49,6 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlGradeColumn,
           sqlJpSortSyllablesColumn,
           sqlMainMeaningColumn,
-          sqlOnReadingsColumn,
-          sqlKunReadingsColumn,
           sqlPronunciationsColumn,
         ],
         dataLoader: dataLoader ?? KanjiDataLoader(),
@@ -147,8 +143,6 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlPronunciationsColumn,
           (_) => jsonEncode(item.pronunciations),
         )
-        ..update(sqlOnReadingsColumn, (_) => jsonEncode(item.onReadings))
-        ..update(sqlKunReadingsColumn, (_) => jsonEncode(item.kunReadings))
         ..update(
           sqlJpSortSyllablesColumn,
           (_) => jsonEncode(item.jpSortSyllables),
@@ -162,9 +156,6 @@ class KanjiService extends ResourceDataService<Kanji> {
     final groups =
         jsonDecode(row[sqlKanjiGroups]) as List<dynamic>..remove(null);
     final sortSyllables = jsonDecode(row[sqlJpSortSyllablesColumn]);
-    // TODO delete once migrated to "pronunciations"
-    final onReadings = jsonDecode(row[sqlOnReadingsColumn]);
-    final kunReadings = jsonDecode(row[sqlKunReadingsColumn]);
 
     return Kanji.fromJson({
       ...row,
@@ -172,8 +163,6 @@ class KanjiService extends ResourceDataService<Kanji> {
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
       sqlJpSortSyllablesColumn: sortSyllables,
-      sqlOnReadingsColumn: onReadings,
-      sqlKunReadingsColumn: kunReadings,
     });
   }
 }

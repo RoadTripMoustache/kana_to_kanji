@@ -78,7 +78,7 @@ void main() {
       );
 
       // Check the pronunciation section
-      expect(find.widgetWithText(PronunciationCard, "ほん"), findsNWidgets(2));
+      expect(find.widgetWithText(PronunciationCard, "ほん"), findsNWidgets(1));
 
       // Check the meaning section
       expect(find.byType(Chip), findsNWidgets(dummyKanji.meanings.length));

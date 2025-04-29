@@ -2,6 +2,7 @@ import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/pronunciation.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/kanji_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
@@ -43,12 +44,8 @@ class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
       txtFilter =
           (kanji) =>
               kanji.kanji == searchTxt ||
-              kanji.kunReadings
-                  .where((String reading) => reading.contains(searchTxt))
-                  .toList()
-                  .isNotEmpty ||
-              kanji.onReadings
-                  .where((String reading) => reading.contains(searchTxt))
+              kanji.pronunciations
+                  .where((Pronunciation p) => p.readings.contains(searchTxt))
                   .toList()
                   .isNotEmpty;
     }

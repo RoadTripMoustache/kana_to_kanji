@@ -22,32 +22,22 @@ abstract class Kanji extends Resource with _$Kanji {
     /// to facilitate the kanji sorting
     required List<int> jpSortSyllables,
 
+    /// Pronunciations of the kanji
+    required List<Pronunciation> pronunciations,
+
+    required String mainMeaning,
+
     /// Number of strokes necessary to draw the kanji
     int? numberOfStrokes,
 
     /// Class in which kanji is taught
     int? grade,
 
-    /// Pronunciations in sino-Japanese
-    ///
-    /// TODO : To delete once migrated to "pronunciations"
-    @Default([]) List<String> onReadings,
-
-    /// Pronunciations in Japanese
-    ///
-    /// TODO : To delete once migrated to "pronunciations"
-    @Default([]) List<String> kunReadings,
-
-    /// Pronunciations of the kanji
-    @Default([]) List<Pronunciation> pronunciations,
-
     /// List of vocabulary words that use the kanji
     @Default([]) List<ResourceUid> relatedVocabulary,
 
     /// Groups related to the kanji
     @Default([]) List<ResourceUid> groups,
-
-    String? mainMeaning,
   }) = _Kanji;
 
   factory Kanji.fromJson(Map<String, dynamic> json) => _$KanjiFromJson(json);

@@ -41,7 +41,7 @@ void main() {
         "last": "/v1/kanjis?page=2",
         "has_more": true,
       },
-      "data": testKanjiData.sublist(0, 2),
+      "data": [testKanjiData.first],
     };
 
     // Create second page response with no more pages
@@ -55,7 +55,7 @@ void main() {
         "last": "/v1/kanjis?page=2",
         "has_more": false,
       },
-      "data": testKanjiData.sublist(2),
+      "data": [testKanjiData.last],
     };
 
     setUpAll(() {
@@ -110,7 +110,7 @@ void main() {
 
         verify(apiService.get("/v1/kanjis?page[size]=1000")).called(1);
 
-        expect(result.data.length, 2);
+        expect(result.data.length, 1);
         expect(result.hasMore, isTrue);
 
         // Fetch next page
@@ -122,7 +122,7 @@ void main() {
 
         // Check all resources were collected
         final allResources = [...result.data, ...nextPage.data];
-        expect(allResources.length, 3);
+        expect(allResources.length, 2);
       });
 
       test("should fetch kanji with version parameter", () async {
@@ -134,62 +134,18 @@ void main() {
           ),
         ).called(1);
 
-        expect(result.data.length, 2);
+        expect(result.data.length, 1);
         expect(result.hasMore, isTrue);
       });
     });
 
     group("deserialize", () {
-      test(
-        "should prioritize kun readings for sort syllables when available",
-        () {
-          final kanjiWithKun = {
-            "uid": "kanji-1",
-            "kanji": "日",
-            "jlpt_level": 5,
-            "version": "2025_01_01",
-            "kun_readings": ["ひ", "び"],
-            "on_readings": ["ニチ", "ジツ"],
-            "meanings": ["day", "sun"],
-            "main_meaning": "day",
-          };
-
-          final result = KanjiDataLoader.deserialize(kanjiWithKun);
-
-          // Should use first kun reading (ひ)
-          expect(result.jpSortSyllables.isNotEmpty, true);
-        },
-      );
-
-      test(
-        "should fall back to on readings when kun readings are not available",
-        () {
-          final kanjiWithoutKun = {
-            "uid": "kanji-4",
-            "jlpt_level": 5,
-            "kanji": "火",
-            "version": "2025_01_01",
-            "kun_readings": [], // empty kun readings
-            "on_readings": ["カ"], // only on reading available
-            "meanings": ["fire"],
-            "main_meaning": "fire",
-          };
-
-          final result = KanjiDataLoader.deserialize(kanjiWithoutKun);
-
-          expect(result.uid.uid, "kanji-4");
-          expect(result.jpSortSyllables.isNotEmpty, true);
-        },
-      );
-
       test("should use pronunciations when available", () {
         final kanjiWithPronunciations = {
           "uid": "kanji-4",
           "kanji": "火",
           "jlpt_level": 5,
           "version": "2025_01_01",
-          "kun_readings": [], // empty kun readings
-          "on_readings": [], // empty on readings
           "meanings": ["fire"],
           "main_meaning": "fire",
           "pronunciations": [
