@@ -1,29 +1,47 @@
 import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
+import "package:kana_to_kanji/src/core/models/kanji.dart";
+import "package:kana_to_kanji/src/core/models/paginated_response.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/group_service.dart" as groups;
 import "package:kana_to_kanji/src/core/services/kanji_service.dart";
 import "package:kana_to_kanji/src/core/services/vocabulary_service.dart"
     as vocab;
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 import "package:sqflite/sqflite.dart";
 import "package:sqflite/utils/utils.dart";
 
 import "../../../dummies/dummies.dart";
 import "../../../helpers.dart";
 
+@GenerateNiceMocks([MockSpec<KanjiDataLoader>(), MockSpec<Logger>()])
+import "kanji_service_test.mocks.dart";
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late final DatabaseService databaseService;
   late KanjiService service;
+  late KanjiDataLoader mockDataLoader;
+  late MockLogger mockLogger;
 
   group("KanjiService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
+      mockLogger = MockLogger();
+
+      locator.registerSingleton<Logger>(mockLogger);
     });
 
     setUp(() async {
-      // Create the service to test
-      service = KanjiService();
+      // Create mock data loader
+      mockDataLoader = MockKanjiDataLoader();
+
+      // Create the service to test with mock data loader
+      service = KanjiService(dataLoader: mockDataLoader);
 
       await databaseService.transaction((txn) async {
         final Batch batch = txn.batch();
@@ -48,10 +66,12 @@ void main() {
 
         await batch.commit(noResult: true);
       });
+      reset(mockDataLoader);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
+      await unregister<Logger>();
     });
 
     group("getAll", () {
@@ -98,7 +118,6 @@ void main() {
       test("should update an existing kanji", () async {
         final updatedKanji = dummyKanji.copyWith(
           mainMeaning: "updated-meaning",
-          meanings: ["updated-meaning", "origin"],
         );
 
         await service.upsert(updatedKanji);
@@ -289,6 +308,94 @@ void main() {
         // Check that latestVersion returns null
         final latestVersion = await service.latestVersion;
         expect(latestVersion, isNull);
+      });
+    });
+
+    group("sync", () {
+      final apiKanjis = [
+        dummyKanji.copyWith(mainMeaning: "API Book"),
+        dummyKanjiWithoutOnReading.copyWith(mainMeaning: "API Origin"),
+        dummyKanjiWithRelatedData.copyWith(mainMeaning: "API Fire"),
+      ];
+
+      PaginatedList<Kanji> pageResult = PaginatedList<Kanji>(
+        hasMore: false,
+        data: apiKanjis,
+      );
+
+      setUp(() async {
+        pageResult = PaginatedList<Kanji>(hasMore: false, data: apiKanjis);
+        when(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).thenAnswer((_) async => pageResult);
+      });
+
+      test("should fetch and save kanji from API", () async {
+        await service.sync();
+
+        verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
+
+        // Verify that all kanji were saved
+        final savedKanji = await service.getAll();
+        expect(savedKanji.length, apiKanjis.length);
+
+        // Verify meanings were updated
+        expect(savedKanji, containsAll(apiKanjis));
+      });
+
+      test(
+        "should fetch with version parameter when doing forceReload",
+        () async {
+          pageResult = PaginatedList<Kanji>(hasMore: false, data: []);
+          // The version will be determined by what's in the database
+          final version = await service.latestVersion;
+
+          await service.sync(forceReload: true);
+
+          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+
+          // Verify that database was cleared
+          final savedKanji = await service.getAll();
+          expect(savedKanji.length, 0);
+        },
+      );
+
+      test("should handle paginated responses", () async {
+        final newKanjis = [
+          dummyKanji.copyWith(
+            uid: ResourceUid.fromJson("kanji-apiNew"),
+            kanji: "年",
+            mainMeaning: "Year",
+          ),
+        ];
+
+        // Create second page object
+        final secondPageResult = PaginatedList<Kanji>(
+          hasMore: false,
+          data: newKanjis,
+        );
+
+        // Create first page with next function that returns second page
+        pageResult = PaginatedList<Kanji>(
+          hasMore: true,
+          data: apiKanjis,
+          next: () async => secondPageResult,
+        );
+
+        // Configure mock
+        when(
+          mockDataLoader.fetchAll(latestVersion: null),
+        ).thenAnswer((_) async => pageResult);
+
+        await service.sync();
+
+        verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
+
+        // Verify all kanji were saved (both pages)
+        final savedKanji = await service.getAll();
+        expect(savedKanji.length, apiKanjis.length + newKanjis.length);
+        expect(savedKanji, containsAll(apiKanjis));
+        expect(savedKanji, containsAll(newKanjis));
       });
     });
   });

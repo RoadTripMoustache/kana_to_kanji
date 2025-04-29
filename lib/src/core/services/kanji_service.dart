@@ -39,7 +39,8 @@ const sqlExampleUidColumn = "example_uid";
 class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  KanjiService()
+  /// [dataLoader] should only be used for testing
+  KanjiService({KanjiDataLoader? dataLoader})
     : super(
         tableName: sqlKanjiTable,
         transformer: Kanji.fromJson,
@@ -54,7 +55,7 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlKunReadingsColumn,
           sqlPronunciationsColumn,
         ],
-        dataLoader: KanjiDataLoader(),
+        dataLoader: dataLoader ?? KanjiDataLoader(),
       );
 
   /// Retrieve all the kanji
