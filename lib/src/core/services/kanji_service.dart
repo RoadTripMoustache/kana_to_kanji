@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -15,7 +16,6 @@ const sqlNumberOfStrokesColumn = "number_of_strokes";
 const sqlGradeColumn = "grade";
 const sqlJpSortSyllablesColumn = "jp_sort_syllables";
 const sqlMainMeaningColumn = "main_meaning";
-const sqlMeaningsColumn = "meanings";
 const sqlOnReadingsColumn = "on_readings";
 const sqlKunReadingsColumn = "kun_readings";
 const sqlPronunciationsColumn = "pronunciations";
@@ -50,11 +50,11 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlGradeColumn,
           sqlJpSortSyllablesColumn,
           sqlMainMeaningColumn,
-          sqlMeaningsColumn,
           sqlOnReadingsColumn,
           sqlKunReadingsColumn,
           sqlPronunciationsColumn,
         ],
+        dataLoader: KanjiDataLoader(),
       );
 
   /// Retrieve all the kanji
@@ -146,7 +146,6 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlPronunciationsColumn,
           (_) => jsonEncode(item.pronunciations),
         )
-        ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings))
         ..update(sqlOnReadingsColumn, (_) => jsonEncode(item.onReadings))
         ..update(sqlKunReadingsColumn, (_) => jsonEncode(item.kunReadings))
         ..update(
@@ -156,7 +155,6 @@ class KanjiService extends ResourceDataService<Kanji> {
 
   Kanji _transformer(Map<String, dynamic> row) {
     final pronunciations = jsonDecode(row[sqlPronunciationsColumn]);
-    final meanings = jsonDecode(row[sqlMeaningsColumn]);
     final relatedVocabulary =
         jsonDecode(row[sqlRelatedVocabularyColumn]) as List<dynamic>
           ..remove(null);
@@ -170,7 +168,6 @@ class KanjiService extends ResourceDataService<Kanji> {
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
-      sqlMeaningsColumn: meanings,
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
       sqlJpSortSyllablesColumn: sortSyllables,

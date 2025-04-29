@@ -1,78 +1,61 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
-import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
-import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/sync.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
 import "package:kana_to_kanji/src/core/services/group_service.dart";
 import "package:kana_to_kanji/src/core/services/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 
 class SyncService {
   final ApiService _apiService = locator<ApiService>();
+  final Logger _logger = locator<Logger>();
 
-  final ResourceDataLoader<Group> _groupDataLoader;
-  final ResourceDataLoader<Kana> _kanaDataLoader;
-  final KanjiDataLoader _kanjiDataLoader;
-  final VocabularyDataLoader _vocabularyDataLoader;
+  final GroupService _groupService;
+  final KanaService _kanaService;
+  final KanjiService _kanjiService;
+  final VocabularyService _vocabularyService;
   final CleanUpService _cleanUpService;
 
-  /// [groupDataLoader], [kanaDataLoader], [kanjiDataLoader],
+  bool _syncInProgress = false;
+  bool get syncInProgress => _syncInProgress;
+
+  /// [groupService], [kanaService], [kanjiService], [vocabularyService] are
+  /// visible for testing purpose
   SyncService({
-    ResourceDataLoader<Group>? groupDataLoader,
-    ResourceDataLoader<Kana>? kanaDataLoader,
-    KanjiDataLoader? kanjiDataLoader,
-    VocabularyDataLoader? vocabularyDataLoader,
+    GroupService? groupService,
+    KanaService? kanaService,
+    KanjiService? kanjiService,
+    VocabularyService? vocabularyService,
     CleanUpService? cleanUpService,
-  }) : _groupDataLoader =
-           groupDataLoader ??
-           ResourceDataLoader<Group>(
-             service: GroupService(),
-             fromJson: Group.fromJson,
-             apiResourceType: "groups",
-           ),
-       _kanaDataLoader =
-           kanaDataLoader ??
-           ResourceDataLoader<Kana>(
-             service: KanaService(),
-             fromJson: Kana.fromJson,
-             apiResourceType: "kanas",
-           ),
-       _kanjiDataLoader = kanjiDataLoader ?? KanjiDataLoader(),
-       _vocabularyDataLoader = vocabularyDataLoader ?? VocabularyDataLoader(),
+  }) : _groupService = groupService ?? GroupService(),
+       _kanaService = kanaService ?? KanaService(),
+       _kanjiService = kanjiService ?? KanjiService(),
+       _vocabularyService = vocabularyService ?? VocabularyService(),
        _cleanUpService = cleanUpService ?? CleanUpService();
 
   Future<void> sync() async {
+    if (_syncInProgress) {
+      _logger.w("SyncService: sync in progress. Skipping for now");
+    }
+    _syncInProgress = true;
     final sync = await _getSyncData();
 
     if (sync.group) {
-      await _groupDataLoader.fetchAll(
-        forceReload: sync.forceReload,
-        latestVersion: sync.groupVersion,
-      );
+      await _groupService.sync(forceReload: sync.forceReload);
     }
     if (sync.kana) {
-      await _kanaDataLoader.fetchAll(
-        forceReload: sync.forceReload,
-        latestVersion: sync.kanaVersion,
-      );
+      await _kanaService.sync(forceReload: sync.forceReload);
     }
     if (sync.kanji) {
-      await _kanjiDataLoader.fetchAll(
-        forceReload: sync.forceReload,
-        latestVersion: sync.kanjiVersion,
-      );
+      await _kanjiService.sync(forceReload: sync.forceReload);
     }
     if (sync.vocabulary) {
-      await _vocabularyDataLoader.fetchAll(
-        forceReload: sync.forceReload,
-        latestVersion: sync.vocabularyVersion,
-      );
+      await _vocabularyService.sync(forceReload: sync.forceReload);
     }
     if (sync.cleanup) {
       await _cleanUpService.executeCleanUp(
@@ -80,14 +63,14 @@ class SyncService {
         version: sync.latestVersion,
       );
     }
+    _syncInProgress = false;
   }
 
   Future<SyncConfiguration> _getSyncData() async {
-    final lastLoadedVersionGroups = await _groupDataLoader.latestVersion;
-    final lastLoadedVersionKanas = await _kanaDataLoader.latestVersion;
-    final lastLoadedVersionKanjis = await _kanjiDataLoader.latestVersion;
-    final lastLoadedVersionVocabulary =
-        await _vocabularyDataLoader.latestVersion;
+    final lastLoadedVersionGroups = await _groupService.latestVersion;
+    final lastLoadedVersionKanas = await _kanaService.latestVersion;
+    final lastLoadedVersionKanjis = await _kanjiService.latestVersion;
+    final lastLoadedVersionVocabulary = await _vocabularyService.latestVersion;
 
     var versionQueryParam = "";
     if (lastLoadedVersionGroups != null &&

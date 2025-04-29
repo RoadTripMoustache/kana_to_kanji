@@ -18,7 +18,7 @@ class DatabaseService {
     // Make sure the directory exists
     await Directory(dir).create(recursive: true);
 
-    // await deleteDatabase(dbPath);
+    await deleteDatabase(dbPath);
 
     // open the database
     _db = await openDatabase(

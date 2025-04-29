@@ -1,5 +1,4 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/example.dart";
 import "package:kana_to_kanji/src/core/models/kanji_reading.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";

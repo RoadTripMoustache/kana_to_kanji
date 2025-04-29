@@ -36,3 +36,11 @@ sealed class PageLinks with _$PageLinks {
   factory PageLinks.fromJson(Map<String, dynamic> json) =>
       _$PageLinksFromJson(json);
 }
+
+class PaginatedList<T extends Resource> {
+  final Future<PaginatedList<T>> Function()? next;
+  final bool hasMore;
+  final List<T> data;
+
+  const PaginatedList({required this.data, required this.hasMore, this.next});
+}

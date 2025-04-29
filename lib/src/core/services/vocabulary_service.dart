@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -60,6 +61,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlKanaSyllablesColumn,
           sqlMeaningsColumn,
         ],
+        dataLoader: VocabularyDataLoader(),
       );
 
   /// Get all the vocabulary

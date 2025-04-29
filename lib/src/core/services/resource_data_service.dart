@@ -1,17 +1,25 @@
 import "package:flutter/foundation.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
+import "package:kana_to_kanji/src/core/models/paginated_response.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:sqflite/sqflite.dart";
 import "package:sqflite/utils/utils.dart";
+import "package:stacked/stacked.dart";
 
 const sqlUidColumn = "uid";
 const sqlVersionColumn = "version";
 const sqlWhereUidColumn = "uid = ?";
 
-abstract class ResourceDataService<T extends Resource> {
+abstract class ResourceDataService<T extends Resource>
+    with ListenableServiceMixin {
+  final Logger _logger = locator<Logger>();
   final DatabaseService _databaseService = locator<DatabaseService>();
+
+  final ResourceDataLoader<T> dataLoader;
 
   final String tableName;
 
@@ -22,6 +30,7 @@ abstract class ResourceDataService<T extends Resource> {
   ResourceDataService({
     required this.tableName,
     required this.transformer,
+    required this.dataLoader,
     List<String> resourceColumns = const [],
   }) : columns = [sqlUidColumn, ...resourceColumns, sqlVersionColumn];
 
@@ -116,39 +125,23 @@ abstract class ResourceDataService<T extends Resource> {
   ///
   /// Note that this method only works for simple resource that are contained in
   /// a single table (no join or secondary table).
-  Future<void> upsertAll(
-    List<T> items, {
-    bool forceReload = false,
-    Transaction? transaction,
-  }) async {
-    if (transaction != null) {
-      await _upsertAll(items, transaction, forceReload);
-    } else {
-      await _databaseService.transaction((Transaction txn) async {
-        await _upsertAll(items, txn, forceReload);
-      });
-    }
-  }
+  Future<void> upsertAll(List<T> items, {bool forceReload = false}) async {
+    await _databaseService.transaction((Transaction transaction) async {
+      final existingUids = [];
+      final batch = transaction.batch();
 
-  Future<void> _upsertAll(
-    List<T> items,
-    Transaction transaction,
-    bool forceReload,
-  ) async {
-    final existingUids = [];
-    final batch = transaction.batch();
+      if (forceReload) {
+        batch.delete(tableName);
+      } else {
+        existingUids.addAll(await existsAll(items, transaction));
+      }
 
-    if (forceReload) {
-      batch.delete(tableName);
-    } else {
-      existingUids.addAll(await existsAll(items, transaction));
-    }
+      for (final item in items) {
+        upsertData(item, batch, exists: existingUids.contains(item.uid));
+      }
 
-    for (final item in items) {
-      upsertData(item, batch, exists: existingUids.contains(item.uid));
-    }
-
-    await batch.commit(noResult: true);
+      await batch.commit(noResult: true);
+    });
   }
 
   /// Upsert item and related data into the [batch]
@@ -201,5 +194,32 @@ abstract class ResourceDataService<T extends Resource> {
         );
       });
     }
+  }
+
+  /// If [forceReload] is true, the collection is cleared and populated again
+  Future sync({bool forceReload = false}) async {
+    _logger.i("ResourceDataService<$T>: syncing");
+    final version = forceReload ? await latestVersion : null;
+
+    if (forceReload) {
+      await _databaseService.delete(tableName);
+    }
+
+    PaginatedList<T> cursor = await dataLoader.fetchAll(latestVersion: version);
+    bool hasMore = true;
+
+    do {
+      _logger.d(
+        "ResourceDataService<$T>: inserting ${cursor.data.length} items",
+      );
+      await upsertAll(cursor.data);
+
+      hasMore = cursor.hasMore;
+      if (cursor.hasMore) {
+        cursor = await cursor.next!();
+      }
+    } while (hasMore);
+    _logger.i("ResourceDataService<$T>: sync ended");
+    notifyListeners();
   }
 }

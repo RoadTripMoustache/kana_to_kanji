@@ -23,7 +23,7 @@ CREATE TABLE groups
     localized_name TEXT
 );
 -- Kana
-CREATE TABLE kana
+CREATE TABLE kanas
 (
     uid       TEXT PRIMARY KEY,
     alphabet  TEXT    NOT NULL,
@@ -46,7 +46,6 @@ CREATE TABLE kanjis
     jp_sort_syllables TEXT    NOT NULL, -- Stored as JSON array
     pronunciations    TEXT    NOT NULL, -- Stored as JSON array
     main_meaning      TEXT,
-    meanings          TEXT,             -- Stored as JSON array, to be deprecated
     on_readings       TEXT,             -- Stored as JSON array, to be deprecated
     kun_readings      TEXT              -- Stored as JSON array, to be deprecated
 );

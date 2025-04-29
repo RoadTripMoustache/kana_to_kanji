@@ -5,13 +5,7 @@ import "package:kana_to_kanji/src/core/services/kanji_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class KanjiDataLoader extends ResourceDataLoader<Kanji> {
-  /// [service] should only be used for testing
-  KanjiDataLoader({KanjiService? service})
-    : super(
-        service: service ?? KanjiService(),
-        fromJson: deserialize,
-        apiResourceType: "kanjis",
-      );
+  KanjiDataLoader() : super(fromJson: deserialize, apiResourceType: "kanjis");
 
   @visibleForTesting
   static Kanji deserialize(Map<String, dynamic> item) => Kanji.fromJson({

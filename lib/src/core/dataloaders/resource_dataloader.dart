@@ -5,7 +5,6 @@ import "package:kana_to_kanji/src/core/models/paginated_response.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 
@@ -14,54 +13,37 @@ const _kBatchSize = 1000;
 class ResourceDataLoader<T extends Resource> {
   final Logger _logger = locator<Logger>();
   final ApiService _apiService = locator<ApiService>();
-  final ResourceDataService<T> service;
   final T Function(Map<String, dynamic>) fromJson;
   final String apiResourceType;
 
-  ResourceDataLoader({
-    required this.service,
-    required this.fromJson,
-    required this.apiResourceType,
-  });
-
-  Future<String?> get latestVersion => service.latestVersion;
+  ResourceDataLoader({required this.fromJson, required this.apiResourceType});
 
   /// Load all the resource from the API.
-  /// If [forceReload] is true, the collection is cleared and populated again
-  Future fetchAll({String? latestVersion, bool forceReload = false}) async {
+  /// Returns a [PaginatedList] with a cursor to the next page, each page
+  /// contains a thousand (1000) items maximum
+  Future<PaginatedList<T>> fetchAll({String? latestVersion}) async {
     var versionQueryParam = "?page[size]=$_kBatchSize";
 
-    if (!forceReload && latestVersion != null) {
+    if (latestVersion != null) {
       versionQueryParam += "&version[current]=$latestVersion";
     }
 
-    String url = "/v1/$apiResourceType$versionQueryParam";
-    final List<T> items = [];
-    bool hasMore = true;
+    return _fetchPaginated("/v1/$apiResourceType$versionQueryParam");
+  }
 
-    while (hasMore) {
-      _logger.d("ResourceDataLoader<$T>: fetchAll: $url");
-      final response = await _apiService.get(url);
-      final result = _extractPaginatedResponse(response);
+  Future<PaginatedList<T>> _fetchPaginated(String url) async {
+    _logger.d("ResourceDataLoader<$T>: fetching: $url");
+    final response = await _apiService.get(url).then(_extractPaginatedResponse);
 
-      if (result != null) {
-        items.addAll(result.data);
-        hasMore = result.hasMore;
-
-        // If there are more pages, update the URL to the next page
-        if (hasMore) {
-          url = result.links.next;
-        }
-      } else {
-        hasMore = false;
-      }
+    if (response != null) {
+      return PaginatedList<T>(
+        hasMore: response.hasMore,
+        data: response.data,
+        next: () => _fetchPaginated(response.links.next),
+      );
     }
 
-    _logger.d(
-      "ResourceDataLoader<$T>: fetchAll ended retrieved ${items.length} items.",
-    );
-
-    return service.upsertAll(items, forceReload: forceReload);
+    return PaginatedList<T>(hasMore: false, data: []);
   }
 
   /// Fetch a specific kanji in full details
