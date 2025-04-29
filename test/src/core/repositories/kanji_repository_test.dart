@@ -34,7 +34,7 @@ void main() {
       });
 
       test("it should not call the service", () async {
-        repository.kanjis.add(dummyKanji);
+        repository.items.add(dummyKanji);
 
         expect(await repository.getAll(), [dummyKanji]);
         verifyZeroInteractions(kanjiServiceMock);

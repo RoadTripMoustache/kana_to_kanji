@@ -57,7 +57,7 @@ void main() {
     setUp(() async {
       service = SyncService(
         cleanUpService: cleanUpServiceMock,
-        groupDataLoader: groupDataLoaderMock,
+        groupService: groupDataLoaderMock,
         kanaDataLoader: kanaDataLoaderMock,
         kanjiDataLoader: kanjiDataLoaderMock,
         vocabularyDataLoader: vocabularyDataLoaderMock,

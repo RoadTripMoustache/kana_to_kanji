@@ -3,6 +3,7 @@ import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/glossary_tab.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
@@ -47,12 +48,35 @@ class GlossaryViewModel extends FutureViewModel {
   List<KnowledgeLevel> get selectedKnowledgeLevel => _selectedKnowledgeLevel;
   SortOrder selectedOrder = SortOrder.japanese;
 
-  GlossaryViewModel(this.router, this._tabController);
+  GlossaryViewModel(this.router, this._tabController) {
+    _kanaRepository.addListener(() => _onRepositoryUpdate(ResourceType.kana));
+    _kanjiRepository.addListener(() => _onRepositoryUpdate(ResourceType.kanji));
+    _vocabularyRepository.addListener(
+      () => _onRepositoryUpdate(ResourceType.vocabulary),
+    );
+  }
 
   @override
   Future futureToRun() async {
     _tabController.addListener(_handleTabSelection);
     await _setToDisplay();
+  }
+
+  void _onRepositoryUpdate(ResourceType type) {
+    final tab = GlossaryTab.getValue(_tabController.index);
+
+    if (tab == GlossaryTab.hiragana && type == ResourceType.kana) {
+      _hiraganaList.clear();
+    } else if (tab == GlossaryTab.katakana && type == ResourceType.kana) {
+      _katakanaList.clear();
+    } else if (tab == GlossaryTab.kanji && type == ResourceType.kanji) {
+      _kanjiList.clear();
+    } else if (tab == GlossaryTab.vocabulary &&
+        type == ResourceType.vocabulary) {
+      _vocabularyList.clear();
+    }
+    // ignore: discarded_futures
+    _setToDisplay();
   }
 
   void _handleTabSelection() {
@@ -98,6 +122,7 @@ class GlossaryViewModel extends FutureViewModel {
       case GlossaryTab.vocabulary:
         await _updateVocabularyList();
     }
+    notifyListeners();
   }
 
   /// Update the hiragana list to display based on the current search

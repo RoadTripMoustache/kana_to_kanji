@@ -33,7 +33,7 @@ void main() {
         ).thenAnswer((_) => Future.value([dummyKatakana]));
 
         expect(
-          repository.kana.length,
+          repository.items.length,
           0,
           reason: "Should be empty after initialization",
         );
@@ -45,7 +45,7 @@ void main() {
           kanaServiceMock.getKatakana(),
         ]);
         expect(
-          repository.kana,
+          repository.items,
           [dummyHiragana, dummyKatakana],
           reason:
               "Hiragana and katakana from the KanaService should be present",
@@ -55,19 +55,19 @@ void main() {
       test(
         "it should not call the KanaService if kanas are already loaded",
         () async {
-          repository.kana.add(dummyHiragana);
+          repository.items.add(dummyHiragana);
 
           await repository.loadKana();
 
           verifyZeroInteractions(kanaServiceMock);
-          expect(repository.kana, [dummyHiragana]);
+          expect(repository.items, [dummyHiragana]);
         },
       );
     });
 
     group("getHiragana", () {
       test("it should return all the hiragana", () async {
-        repository.kana.addAll([dummyHiragana, dummyKatakana]);
+        repository.items.addAll([dummyHiragana, dummyKatakana]);
 
         expect(
           await repository.getHiragana(),
@@ -79,7 +79,7 @@ void main() {
 
     group("getKatakana", () {
       test("it should return all the katakana", () async {
-        repository.kana.addAll([dummyHiragana, dummyKatakana]);
+        repository.items.addAll([dummyHiragana, dummyKatakana]);
 
         expect(
           await repository.getKatakana(),
@@ -93,7 +93,7 @@ void main() {
       test(
         "it should return all the kana related to the group id passed",
         () async {
-          repository.kana.addAll([dummyHiragana, dummyKatakana]);
+          repository.items.addAll([dummyHiragana, dummyKatakana]);
 
           expect(
             await repository.getByGroupIds([dummyHiragana.groupUid]),
@@ -106,7 +106,7 @@ void main() {
       test(
         "it should return all the kana related to all the group ids passed",
         () async {
-          repository.kana.addAll([dummyHiragana, dummyKatakana]);
+          repository.items.addAll([dummyHiragana, dummyKatakana]);
 
           expect(
             await repository.getByGroupIds([
@@ -124,7 +124,7 @@ void main() {
       test(
         "it should return all the kana related to the group id passed",
         () async {
-          repository.kana.addAll([dummyHiragana, dummyKatakana]);
+          repository.items.addAll([dummyHiragana, dummyKatakana]);
 
           expect(
             await repository.getByGroupId(dummyHiragana.groupUid),

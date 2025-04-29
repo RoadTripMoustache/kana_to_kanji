@@ -1,3 +1,4 @@
+import "dart:async";
 import "dart:ui";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
@@ -43,7 +44,8 @@ class LandingViewModel extends BaseViewModel {
   /// if everything goes well.
   Future<void> getStarted(GoRouter router) async {
     if (await _userRepository.register(AuthenticationMethod.anonymous)) {
-      await locator<SyncService>().sync();
+      // Don't wait for the sync. It will be done in parallel
+      unawaited(locator<SyncService>().sync());
       await router.replace(GlossaryView.routeName);
     }
   }

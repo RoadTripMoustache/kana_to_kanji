@@ -1,32 +1,26 @@
-import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/kanji_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
-class KanjiRepository {
-  late final KanjiService _kanjiService;
-
-  @visibleForTesting
-  final List<Kanji> kanjis = [];
+class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
   /// [kanjiService] should only be used for testing
-  KanjiRepository({KanjiService? kanjiService}) {
-    _kanjiService = kanjiService ?? KanjiService();
-  }
+  KanjiRepository({KanjiService? kanjiService})
+    : super(service: kanjiService ?? KanjiService());
 
   /// Retrieve all the kanji from the database
   Future<List<Kanji>> getAll() async {
-    if (kanjis.isNotEmpty) {
-      return kanjis;
+    if (items.isNotEmpty) {
+      return items;
     }
-    kanjis.addAll(await _kanjiService.getAll());
+    items.addAll(await service.getAll());
 
-    return kanjis;
+    return items;
   }
 
   Future<List<Kanji>> searchKanji(
@@ -72,7 +66,7 @@ class KanjiRepository {
               selectedJLPTLevel.contains(JLPTLevel.getValue(kanji.jlptLevel));
     }
     final kanjiList =
-        kanjis
+        items
             .where(txtFilter)
             .where(knowledgeLevelFilter)
             .where(jlptLevelFilter)
@@ -90,10 +84,5 @@ class KanjiRepository {
     }
 
     return kanjiList;
-  }
-
-  Future delete(ResourceUid uid) async {
-    kanjis.removeWhere((element) => element.uid == uid);
-    await _kanjiService.delete(uid);
   }
 }

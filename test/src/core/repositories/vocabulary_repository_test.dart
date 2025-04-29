@@ -36,7 +36,7 @@ void main() {
       });
 
       test("it should not call the service", () async {
-        repository.vocabularies.add(dummyVocabulary);
+        repository.items.add(dummyVocabulary);
 
         expect(await repository.getAll(), [dummyVocabulary]);
         verifyZeroInteractions(vocabularyServiceMock);

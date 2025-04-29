@@ -4,8 +4,13 @@ import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/group_service.dart";
 
 class GroupRepository {
-  final GroupService _groupsService = GroupService();
+  final GroupService _groupsService;
   final List<Group> _groups = [];
+
+  GroupRepository({GroupService? groupService})
+    : _groupsService = groupService ?? GroupService() {
+    _groupsService.addListener(_groups.clear);
+  }
 
   Future<List<Group>> getGroups(
     Alphabets alphabet, {
