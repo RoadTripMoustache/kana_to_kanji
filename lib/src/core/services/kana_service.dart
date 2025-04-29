@@ -16,7 +16,8 @@ const sqlPositionColumn = "position";
 class KanaService extends ResourceDataService<Kana> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  KanaService()
+  /// [dataLoader] is only visible for testing purposes
+  KanaService({ResourceDataLoader<Kana>? dataLoader})
     : super(
         tableName: sqlKanaTable,
         resourceColumns: [
@@ -27,10 +28,12 @@ class KanaService extends ResourceDataService<Kana> {
           sqlPositionColumn,
         ],
         transformer: Kana.fromJson,
-        dataLoader: ResourceDataLoader<Kana>(
-          fromJson: Kana.fromJson,
-          apiResourceType: sqlKanaTable,
-        ),
+        dataLoader:
+            dataLoader ??
+            ResourceDataLoader<Kana>(
+              fromJson: Kana.fromJson,
+              apiResourceType: sqlKanaTable,
+            ),
       );
 
   /// Get all the kana related to the group ids given in parameter.

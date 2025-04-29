@@ -31,7 +31,7 @@ VALUES
   ("${dummyHiragana.groupUid.uid}", "katakana", "Katakana", "Katakana", "main", "2025_01_01"),
   ("${dummyKatakana.groupUid.uid}", "hiragana", "Hiragana", "Hiragana", "main", "2025_01_01");
   
-INSERT OR IGNORE INTO kana (uid, alphabet, group_uid, kana, romaji, version, position)
+INSERT OR IGNORE INTO kanas (uid, alphabet, group_uid, kana, romaji, version, position)
 VALUES
   ("${dummyHiragana.uid.uid}", "hiragana", "${dummyHiragana.groupUid.uid}", "あ", "a", "2025_01_01", 1),
   ("${dummyKatakana.uid.uid}", "katakana", "${dummyKatakana.groupUid.uid}", "ア", "a", "2025_01_01", 2);
