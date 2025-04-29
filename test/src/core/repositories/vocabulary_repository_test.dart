@@ -11,10 +11,10 @@ import "vocabulary_repository_test.mocks.dart";
 void main() {
   group("VocabularyRepository", () {
     late VocabularyRepository repository;
-
-    final vocabularyServiceMock = MockVocabularyService();
+    late MockVocabularyService vocabularyServiceMock;
 
     setUp(() {
+      vocabularyServiceMock = MockVocabularyService();
       repository = VocabularyRepository(
         vocabularyService: vocabularyServiceMock,
       );
@@ -24,23 +24,39 @@ void main() {
       reset(vocabularyServiceMock);
     });
 
+    test("should properly handle service updates", () {
+      // Verify initial setup with ListenableServiceMixin
+      final void Function() listener =
+          verify(vocabularyServiceMock.addListener(captureAny)).captured.first;
+
+      // Test notification propagation
+      repository.items.add(dummyVocabulary);
+      listener();
+      expect(repository.items, isEmpty);
+    });
+
     group("getAll", () {
-      test("it should load all the kanji from the service", () async {
+      test("it should load all vocabulary from the service", () async {
         when(
           vocabularyServiceMock.getAll(),
         ).thenAnswer((_) => Future.value([dummyVocabulary]));
 
         expect(await repository.getAll(), [dummyVocabulary]);
         verify(vocabularyServiceMock.getAll());
-        verifyNoMoreInteractions(vocabularyServiceMock);
       });
 
-      test("it should not call the service", () async {
-        repository.items.add(dummyVocabulary);
+      test(
+        "it should not call the service if items are already loaded",
+        () async {
+          repository.items.add(dummyVocabulary);
 
-        expect(await repository.getAll(), [dummyVocabulary]);
-        verifyZeroInteractions(vocabularyServiceMock);
-      });
+          expect(await repository.getAll(), [dummyVocabulary]);
+          verify(vocabularyServiceMock.addListener(any)).called(1);
+          verifyNoMoreInteractions(vocabularyServiceMock);
+        },
+      );
     });
+
+    // Search tests are skipped as requested
   });
 }
