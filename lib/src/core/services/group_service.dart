@@ -15,7 +15,7 @@ const sqlLocalizedNameColumn = "localized_name";
 class GroupService extends ResourceDataService<Group> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  GroupService()
+  GroupService({ResourceDataLoader<Group>? dataLoader})
     : super(
         tableName: sqlGroupsTable,
         resourceColumns: [
@@ -25,10 +25,12 @@ class GroupService extends ResourceDataService<Group> {
           sqlLocalizedNameColumn,
         ],
         transformer: Group.fromJson,
-        dataLoader: ResourceDataLoader<Group>(
-          fromJson: Group.fromJson,
-          apiResourceType: sqlGroupsTable,
-        ),
+        dataLoader:
+            dataLoader ??
+            ResourceDataLoader<Group>(
+              fromJson: Group.fromJson,
+              apiResourceType: sqlGroupsTable,
+            ),
       );
 
   /// Get all the groups related to the alphabet given in parameter.
