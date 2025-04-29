@@ -3,6 +3,15 @@
 
 
 -- RESOURCES
+-- Examples
+CREATE TABLE examples
+(
+    uid         TEXT PRIMARY KEY,
+    sentence    TEXT NOT NULL,
+    translation TEXT NOT NULL,
+    kanji       TEXT NOT NULL, -- Stored as JSON array
+    reading     TEXT NOT NULL  -- Stored as JSON array
+);
 -- Groups
 CREATE TABLE groups
 (
@@ -14,15 +23,15 @@ CREATE TABLE groups
     localized_name TEXT
 );
 -- Kana
-CREATE TABLE kana
+CREATE TABLE kanas
 (
-    uid           TEXT PRIMARY KEY,
-    alphabet      TEXT    NOT NULL,
-    group_uid     TEXT    NOT NULL,
-    kana          TEXT    NOT NULL,
-    romaji        TEXT    NOT NULL,
-    version       TEXT    NOT NULL,
-    position      INTEGER NOT NULL,
+    uid       TEXT PRIMARY KEY,
+    alphabet  TEXT    NOT NULL,
+    group_uid TEXT    NOT NULL,
+    kana      TEXT    NOT NULL,
+    romaji    TEXT    NOT NULL,
+    version   TEXT    NOT NULL,
+    position  INTEGER NOT NULL,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
 );
 -- Kanji
@@ -34,13 +43,9 @@ CREATE TABLE kanjis
     number_of_strokes INTEGER,
     grade             INTEGER,
     version           TEXT    NOT NULL,
-    examples          TEXT    NOT NULL, -- Stored as JSON array
     jp_sort_syllables TEXT    NOT NULL, -- Stored as JSON array
     pronunciations    TEXT    NOT NULL, -- Stored as JSON array
-    main_meaning      TEXT,
-    meanings          TEXT,             -- Stored as JSON array, to be deprecated
-    on_readings       TEXT,             -- Stored as JSON array, to be deprecated
-    kun_readings      TEXT              -- Stored as JSON array, to be deprecated
+    main_meaning      TEXT    NOT NULL
 );
 
 --   Kanji Join tables
@@ -75,7 +80,6 @@ CREATE TABLE vocabulary
     jlpt_level     INTEGER NOT NULL,
     romaji         TEXT    NOT NULL,
     version        TEXT    NOT NULL,
-    examples       TEXT    NOT NULL, -- Stored as JSON array
     kana_syllables TEXT    NOT NULL, -- Stored as JSON array
     meanings       TEXT    NOT NULL  -- Stored as JSON array
 );

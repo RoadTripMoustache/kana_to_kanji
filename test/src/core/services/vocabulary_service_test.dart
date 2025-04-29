@@ -1,28 +1,46 @@
 import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
+import "package:kana_to_kanji/src/core/models/paginated_response.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/group_service.dart" as groups;
 import "package:kana_to_kanji/src/core/services/kanji_service.dart" as kanji;
 import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 import "package:sqflite/sqflite.dart";
 import "package:sqflite/utils/utils.dart";
 
 import "../../../dummies/dummies.dart";
 import "../../../helpers.dart";
 
+@GenerateNiceMocks([MockSpec<VocabularyDataLoader>(), MockSpec<Logger>()])
+import "vocabulary_service_test.mocks.dart";
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late final DatabaseService databaseService;
   late VocabularyService service;
+  late VocabularyDataLoader mockDataLoader;
+  late MockLogger mockLogger;
 
   group("VocabularyService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
+      mockLogger = MockLogger();
+
+      locator.registerSingleton<Logger>(mockLogger);
     });
 
     setUp(() async {
-      // Create the service to test
-      service = VocabularyService();
+      // Create mock data loader
+      mockDataLoader = MockVocabularyDataLoader();
+
+      // Create the service to test with mock data loader
+      service = VocabularyService(dataLoader: mockDataLoader);
 
       await databaseService.transaction((txn) async {
         final Batch batch = txn.batch();
@@ -50,10 +68,12 @@ void main() {
 
         await batch.commit(noResult: true);
       });
+      reset(mockDataLoader);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
+      await unregister<Logger>();
     });
 
     group("getAll", () {
@@ -313,6 +333,103 @@ void main() {
         // Check that latestVersion returns null
         final latestVersion = await service.latestVersion;
         expect(latestVersion, isNull);
+      });
+    });
+
+    group("sync", () {
+      final apiVocabularies = [
+        dummyVocabulary.copyWith(meanings: ["API test meaning"]),
+        dummyVocabularyWithoutKanji.copyWith(meanings: ["API hiragana word"]),
+        dummyVocabularyWithRelatedData.copyWith(
+          meanings: ["API full data example"],
+        ),
+      ];
+
+      PaginatedList<Vocabulary> pageResult = PaginatedList<Vocabulary>(
+        hasMore: false,
+        data: apiVocabularies,
+      );
+
+      setUp(() async {
+        pageResult = PaginatedList<Vocabulary>(
+          hasMore: false,
+          data: apiVocabularies,
+        );
+        when(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).thenAnswer((_) async => pageResult);
+      });
+
+      test("should fetch and save vocabulary from API", () async {
+        await service.sync();
+
+        verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
+
+        // Verify that all vocabulary items were saved
+        final savedItems = await service.getAll();
+        expect(savedItems.length, apiVocabularies.length);
+
+        // Verify meanings were updated
+        expect(savedItems, containsAll(apiVocabularies));
+      });
+
+      test(
+        "should fetch with version parameter when doing forceReload",
+        () async {
+          pageResult = PaginatedList<Vocabulary>(hasMore: false, data: []);
+          // The version will be determined by what's in the database
+          final version = await service.latestVersion;
+
+          await service.sync(forceReload: true);
+
+          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+
+          // Verify that database was cleared
+          final savedItems = await service.getAll();
+          expect(savedItems.length, 0);
+        },
+      );
+
+      test("should handle paginated responses", () async {
+        final newVocabularies = [
+          dummyVocabulary.copyWith(
+            uid: ResourceUid.fromJson("vocabulary-apiNew"),
+            kanji: "学校",
+            kana: "がっこう",
+            meanings: ["school"],
+          ),
+        ];
+
+        // Create second page object
+        final secondPageResult = PaginatedList<Vocabulary>(
+          hasMore: false,
+          data: newVocabularies,
+        );
+
+        // Create first page with next function that returns second page
+        pageResult = PaginatedList<Vocabulary>(
+          hasMore: true,
+          data: apiVocabularies,
+          next: () async => secondPageResult,
+        );
+
+        // Configure mock
+        when(
+          mockDataLoader.fetchAll(latestVersion: null),
+        ).thenAnswer((_) async => pageResult);
+
+        await service.sync();
+
+        verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
+
+        // Verify all vocabulary items were saved (both pages)
+        final savedItems = await service.getAll();
+        expect(
+          savedItems.length,
+          apiVocabularies.length + newVocabularies.length,
+        );
+        expect(savedItems, containsAll(apiVocabularies));
+        expect(savedItems, containsAll(newVocabularies));
       });
     });
   });

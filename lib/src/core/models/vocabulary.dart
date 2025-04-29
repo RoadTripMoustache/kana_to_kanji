@@ -1,5 +1,4 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/example.dart";
 import "package:kana_to_kanji/src/core/models/kanji_reading.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
@@ -39,9 +38,6 @@ abstract class Vocabulary extends Resource with _$Vocabulary {
 
     /// List of kanji which are in the vocabulary with their respective reading
     @Default([]) List<KanjiReading> kanjiReadings,
-
-    /// Usage examples of the vocabulary
-    @Default([]) List<Example> examples,
 
     /// Groups related to the vocabulary
     @Default([]) List<ResourceUid> groups,

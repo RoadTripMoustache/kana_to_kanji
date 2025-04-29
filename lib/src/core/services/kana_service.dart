@@ -1,11 +1,12 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 
-const sqlKanaTable = "kana";
+const sqlKanaTable = "kanas";
 const sqlAlphabetColumn = "alphabet";
 const sqlGroupUidColumn = "group_uid";
 const sqlKanaColumn = "kana";
@@ -15,7 +16,8 @@ const sqlPositionColumn = "position";
 class KanaService extends ResourceDataService<Kana> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  KanaService()
+  /// [dataLoader] is only visible for testing purposes
+  KanaService({ResourceDataLoader<Kana>? dataLoader})
     : super(
         tableName: sqlKanaTable,
         resourceColumns: [
@@ -26,6 +28,12 @@ class KanaService extends ResourceDataService<Kana> {
           sqlPositionColumn,
         ],
         transformer: Kana.fromJson,
+        dataLoader:
+            dataLoader ??
+            ResourceDataLoader<Kana>(
+              fromJson: Kana.fromJson,
+              apiResourceType: sqlKanaTable,
+            ),
       );
 
   /// Get all the kana related to the group ids given in parameter.

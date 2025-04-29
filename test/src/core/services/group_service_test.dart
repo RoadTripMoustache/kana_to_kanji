@@ -1,35 +1,55 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
+import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/paginated_response.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/group_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
+import "package:mockito/annotations.dart";
+import "package:mockito/mockito.dart";
 
 import "../../../dummies/group.dart";
 import "../../../helpers.dart";
+
+@GenerateNiceMocks([MockSpec<ResourceDataLoader>(), MockSpec<Logger>()])
+import "group_service_test.mocks.dart";
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late final DatabaseService databaseService;
   late GroupService service;
+  late MockResourceDataLoader<Group> mockDataLoader;
+  late MockLogger mockLogger;
 
   group("GroupService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
+      mockLogger = MockLogger();
+
+      locator.registerSingleton<Logger>(mockLogger);
     });
 
     setUp(() async {
-      // Create the service to test
-      service = GroupService();
+      // Create mock data loader
+      mockDataLoader = MockResourceDataLoader<Group>();
+
+      // Create the service to test with mock data loader
+      service = GroupService(dataLoader: mockDataLoader);
 
       await databaseService.rawQuery(sqlInsertDummiesGroups);
     });
 
     tearDown(() async {
       await databaseService.rawQuery("DELETE FROM ${service.tableName};");
+      reset(mockDataLoader);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
+      await unregister<Logger>();
     });
 
     group("getAll", () {
@@ -55,30 +75,24 @@ void main() {
 
     group("getGroups", () {
       test("should return only hiragana groups", () async {
-        // Act
         final groups = await service.getGroups(Alphabets.hiragana);
 
-        // Assert
         expect(groups, isNotEmpty);
         expect(groups.length, 1);
         expect(groups[0], dummyHiraganaGroup);
       });
 
       test("should return only katakana groups", () async {
-        // Act
         final groups = await service.getGroups(Alphabets.katakana);
 
-        // Assert
         expect(groups, isNotEmpty);
         expect(groups.length, 1);
         expect(groups[0], dummyKatakanaGroup);
       });
 
       test("should return only kanji groups", () async {
-        // Act
         final groups = await service.getGroups(Alphabets.kanji);
 
-        // Assert
         expect(groups, isNotEmpty);
         expect(groups.length, 1);
         expect(groups[0], dummyKanjiGroup);
@@ -134,34 +148,28 @@ void main() {
 
     group("upsertAll", () {
       test("should insert multiple new groups", () async {
-        // Arrange
         final newGroups = [
           dummyHiraganaGroup.copyWith(uid: ResourceUid.fromJson("group-new1")),
           dummyKatakanaGroup.copyWith(uid: ResourceUid.fromJson("group-new2")),
         ];
 
-        // Act
         await service.upsertAll(newGroups);
         final retrievedGroups = await service.getAll();
 
-        // Assert
         expect(retrievedGroups.length, 5); // 3 initial + 2 new
         expect(retrievedGroups.any((g) => g.uid.uid == "group-new1"), isTrue);
         expect(retrievedGroups.any((g) => g.uid.uid == "group-new2"), isTrue);
       });
 
       test("should update existing groups", () async {
-        // Arrange
         final updatedGroups = [
           dummyHiraganaGroup.copyWith(name: "Updated Hiragana Group"),
           dummyKatakanaGroup.copyWith(name: "Updated Katakana Group"),
         ];
 
-        // Act
         await service.upsertAll(updatedGroups);
         final retrievedGroups = await service.getAll();
 
-        // Assert
         expect(retrievedGroups.length, 3); // No new groups added
         expect(
           retrievedGroups.any((g) => g.name == "Updated Hiragana Group"),
@@ -239,7 +247,7 @@ void main() {
 
         // Verify all groups still exist
         final remainingGroups = await service.getAll();
-        expect(remainingGroups.length, 3); // All groups should remain
+        expect(remainingGroups.length, 3);
       });
     });
 
@@ -260,6 +268,93 @@ void main() {
         // Check that latestVersion returns null
         final latestVersion = await service.latestVersion;
         expect(latestVersion, isNull);
+      });
+    });
+
+    group("sync", () {
+      final apiGroups = [
+        dummyHiraganaGroup.copyWith(name: "API Hiragana Group"),
+        dummyKatakanaGroup.copyWith(name: "API Katakana Group"),
+        dummyKanjiGroup.copyWith(name: "API Kanji Group"),
+      ];
+
+      PaginatedList<Group> pageResult = PaginatedList<Group>(
+        hasMore: false,
+        data: apiGroups,
+      );
+
+      setUp(() async {
+        pageResult = PaginatedList<Group>(hasMore: false, data: apiGroups);
+        when(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).thenAnswer((_) async => pageResult);
+      });
+
+      test("should fetch and save groups from API", () async {
+        await service.sync();
+
+        verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
+
+        // Verify that all groups were saved
+        final savedGroups = await service.getAll();
+        expect(savedGroups.length, apiGroups.length);
+
+        // Verify names were updated
+        expect(savedGroups, containsAll(apiGroups));
+      });
+
+      test(
+        "should fetch with version parameter when doing forceReload",
+        () async {
+          pageResult = PaginatedList<Group>(hasMore: false, data: []);
+          // The version will be determined by what's in the database
+          final version = await service.latestVersion;
+
+          await service.sync(forceReload: true);
+
+          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+
+          // Verify that database was cleared
+          final savedGroups = await service.getAll();
+          expect(savedGroups.length, 0);
+        },
+      );
+
+      test("should handle paginated responses", () async {
+        final newGroups = [
+          dummyKanjiGroup.copyWith(
+            uid: ResourceUid.fromJson("group-apiNew"),
+            name: "API Kanji Group",
+          ),
+        ];
+
+        // Create second page object
+        final secondPageResult = PaginatedList<Group>(
+          hasMore: false,
+          data: newGroups,
+        );
+
+        // Create first page with next function that returns second page
+        pageResult = PaginatedList<Group>(
+          hasMore: true,
+          data: apiGroups,
+          next: () async => secondPageResult,
+        );
+
+        // Configure mock
+        when(
+          mockDataLoader.fetchAll(latestVersion: null),
+        ).thenAnswer((_) async => pageResult);
+
+        await service.sync();
+
+        verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
+
+        // Verify all groups were saved (both pages)
+        final savedGroups = await service.getAll();
+        expect(savedGroups.length, apiGroups.length + newGroups.length);
+        expect(savedGroups, containsAll(apiGroups));
+        expect(savedGroups, containsAll(newGroups));
       });
     });
   });

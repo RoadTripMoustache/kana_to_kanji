@@ -1,32 +1,28 @@
-import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
-class VocabularyRepository {
-  late final VocabularyService _vocabularyService;
-  @visibleForTesting
-  final List<Vocabulary> vocabularies = [];
+class VocabularyRepository
+    extends ResourceRepository<Vocabulary, VocabularyService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
   /// [vocabularyService] should only be specified for testing purpose
-  VocabularyRepository({VocabularyService? vocabularyService}) {
-    _vocabularyService = vocabularyService ?? VocabularyService();
-  }
+  VocabularyRepository({VocabularyService? vocabularyService})
+    : super(service: vocabularyService ?? VocabularyService());
 
   /// Retrieve all the vocabulary
   Future<List<Vocabulary>> getAll() async {
-    if (vocabularies.isNotEmpty) {
-      return vocabularies;
+    if (items.isNotEmpty) {
+      return items;
     }
 
-    vocabularies.addAll(await _vocabularyService.getAll());
+    items.addAll(await service.getAll());
 
-    return vocabularies;
+    return items;
   }
 
   Future<List<Vocabulary>> searchVocabulary(
@@ -67,7 +63,7 @@ class VocabularyRepository {
     }
 
     final vocabularyList =
-        vocabularies
+        items
             .where(txtFilter)
             .where(knowledgeLevelFilter)
             .where(jlptLevelFilter)
@@ -85,10 +81,5 @@ class VocabularyRepository {
     }
 
     return vocabularyList;
-  }
-
-  Future delete(ResourceUid uid) async {
-    vocabularies.removeWhere((element) => element.uid == uid);
-    await _vocabularyService.delete(uid);
   }
 }

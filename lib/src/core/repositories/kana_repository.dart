@@ -1,27 +1,23 @@
-import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/kana_service.dart";
 
-class KanaRepository {
-  late final KanaService _kanaService;
-  @visibleForTesting
-  final List<Kana> kana = [];
+class KanaRepository extends ResourceRepository<Kana, KanaService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
   /// [kanaService] should only be used for testing
-  KanaRepository({KanaService? kanaService}) {
-    _kanaService = kanaService ?? KanaService();
-  }
+  KanaRepository({KanaService? kanaService})
+    : super(service: kanaService ?? KanaService());
 
   /// Loads kana data asynchronously
   Future<void> loadKana() async {
-    if (kana.isEmpty) {
-      kana.addAll([
-        ...await _kanaService.getHiragana(),
-        ...await _kanaService.getKatakana(),
+    if (items.isEmpty) {
+      items.addAll([
+        ...await service.getHiragana(),
+        ...await service.getKatakana(),
       ]);
     }
   }
@@ -30,7 +26,7 @@ class KanaRepository {
   Future<List<Kana>> getByGroupIds(List<ResourceUid> groupIds) async {
     await loadKana();
     final kanaFiltered =
-        kana.where((element) => groupIds.contains(element.groupUid)).toList();
+        items.where((element) => groupIds.contains(element.groupUid)).toList();
 
     return kanaFiltered;
   }
@@ -43,7 +39,7 @@ class KanaRepository {
   Future<List<Kana>> getHiragana() async {
     await loadKana();
     final listKana =
-        kana
+        items
             .where((element) => Alphabets.hiragana == element.alphabet)
             .toList();
 
@@ -78,7 +74,7 @@ class KanaRepository {
       knowledgeLevelFilter = (element) => false;
     }
     final listKana =
-        kana
+        items
             .where((element) => Alphabets.hiragana == element.alphabet)
             .where(txtFilter)
             .where(knowledgeLevelFilter)
@@ -94,7 +90,7 @@ class KanaRepository {
   Future<List<Kana>> getKatakana() async {
     await loadKana();
     final listKana =
-        kana
+        items
             .where((element) => Alphabets.katakana == element.alphabet)
             .toList();
 
@@ -130,7 +126,7 @@ class KanaRepository {
     }
 
     final listKana =
-        kana
+        items
             .where((element) => Alphabets.katakana == element.alphabet)
             .where(txtFilter)
             .where(knowledgeLevelFilter)
@@ -140,11 +136,5 @@ class KanaRepository {
     listKana.sort((Kana a, Kana b) => a.position.compareTo(b.position));
 
     return listKana;
-  }
-
-  /// Deletes a kana by its UID asynchronously
-  Future<void> delete(ResourceUid uid) async {
-    kana.removeWhere((element) => element.uid == uid);
-    await _kanaService.delete(uid);
   }
 }

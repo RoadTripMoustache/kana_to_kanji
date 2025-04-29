@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -15,11 +16,7 @@ const sqlNumberOfStrokesColumn = "number_of_strokes";
 const sqlGradeColumn = "grade";
 const sqlJpSortSyllablesColumn = "jp_sort_syllables";
 const sqlMainMeaningColumn = "main_meaning";
-const sqlMeaningsColumn = "meanings";
-const sqlOnReadingsColumn = "on_readings";
-const sqlKunReadingsColumn = "kun_readings";
 const sqlPronunciationsColumn = "pronunciations";
-const sqlExamplesColumn = "examples";
 
 /// Related vocabulary table and columns
 const sqlRelatedVocabularyTable = "kanji_related_vocabulary";
@@ -32,10 +29,16 @@ const sqlKanjiGroupsTable = "kanji_groups";
 const sqlKanjiGroups = "groups";
 const sqlGroupUidColumn = "group_uid";
 
+/// Kanji examples table and columns
+const sqlKanjiExamplesTable = "kanji_examples";
+const sqlKanjiExamples = "examples";
+const sqlExampleUidColumn = "example_uid";
+
 class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  KanjiService()
+  /// [dataLoader] should only be used for testing
+  KanjiService({KanjiDataLoader? dataLoader})
     : super(
         tableName: sqlKanjiTable,
         transformer: Kanji.fromJson,
@@ -46,12 +49,9 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlGradeColumn,
           sqlJpSortSyllablesColumn,
           sqlMainMeaningColumn,
-          sqlMeaningsColumn,
-          sqlOnReadingsColumn,
-          sqlKunReadingsColumn,
           sqlPronunciationsColumn,
-          sqlExamplesColumn,
         ],
+        dataLoader: dataLoader ?? KanjiDataLoader(),
       );
 
   /// Retrieve all the kanji
@@ -113,6 +113,7 @@ class KanjiService extends ResourceDataService<Kanji> {
       batch.insert(tableName, _buildMainColumns(item));
     }
 
+    // Vocabulary
     for (final relatedVocabularyUid in item.relatedVocabulary) {
       batch.insert(sqlRelatedVocabularyTable, {
         sqlKanjiUidColumn: item.uid.uid,
@@ -132,17 +133,16 @@ class KanjiService extends ResourceDataService<Kanji> {
   Map<String, dynamic> _buildMainColumns(Kanji item) =>
       item.toJson()
         ..removeWhere(
-          (key, _) =>
-              [sqlRelatedVocabularyColumn, sqlKanjiGroups].contains(key),
+          (key, _) => [
+            sqlRelatedVocabularyColumn,
+            sqlKanjiGroups,
+            sqlKanjiExamples,
+          ].contains(key),
         )
         ..update(
           sqlPronunciationsColumn,
           (_) => jsonEncode(item.pronunciations),
         )
-        ..update(sqlExamplesColumn, (_) => jsonEncode(item.examples))
-        ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings))
-        ..update(sqlOnReadingsColumn, (_) => jsonEncode(item.onReadings))
-        ..update(sqlKunReadingsColumn, (_) => jsonEncode(item.kunReadings))
         ..update(
           sqlJpSortSyllablesColumn,
           (_) => jsonEncode(item.jpSortSyllables),
@@ -150,28 +150,19 @@ class KanjiService extends ResourceDataService<Kanji> {
 
   Kanji _transformer(Map<String, dynamic> row) {
     final pronunciations = jsonDecode(row[sqlPronunciationsColumn]);
-    final examples = jsonDecode(row[sqlExamplesColumn]);
-    final meanings = jsonDecode(row[sqlMeaningsColumn]);
     final relatedVocabulary =
         jsonDecode(row[sqlRelatedVocabularyColumn]) as List<dynamic>
           ..remove(null);
     final groups =
         jsonDecode(row[sqlKanjiGroups]) as List<dynamic>..remove(null);
     final sortSyllables = jsonDecode(row[sqlJpSortSyllablesColumn]);
-    // TODO delete once migrated to "pronunciations"
-    final onReadings = jsonDecode(row[sqlOnReadingsColumn]);
-    final kunReadings = jsonDecode(row[sqlKunReadingsColumn]);
 
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
-      sqlExamplesColumn: examples ?? [],
-      sqlMeaningsColumn: meanings,
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
       sqlJpSortSyllablesColumn: sortSyllables,
-      sqlOnReadingsColumn: onReadings,
-      sqlKunReadingsColumn: kunReadings,
     });
   }
 }

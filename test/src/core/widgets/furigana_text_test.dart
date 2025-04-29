@@ -130,43 +130,15 @@ void main() {
           expect(
             find.descendant(
               of: widget,
-              matching: find.text(dummyKanji.kunReadings[0]),
+              matching: find.text(dummyKanji.pronunciations.first.readings[0]),
             ),
             findsOneWidget,
             reason:
-                "When furigana isn't precised and kun reading are available, "
-                "the first kun reading should be used as furigana",
+                "When furigana isn't precised, it should used the first "
+                "pronunciation available",
           );
           expect(
             find.descendant(of: widget, matching: find.text(dummyKanji.kanji)),
-            findsOneWidget,
-            reason: "Kanji should be used as main text",
-          );
-        });
-
-        testWidgets("On reading should be used if there is no kun reading", (
-          WidgetTester tester,
-        ) async {
-          final widget = await pump(
-            tester,
-            FuriganaText.kanji(dummyKanjiWithoutKunReading, showFurigana: true),
-          );
-
-          expect(
-            find.descendant(
-              of: widget,
-              matching: find.text(dummyKanjiWithoutKunReading.onReadings[0]),
-            ),
-            findsOneWidget,
-            reason:
-                "When furigana isn't precised and kun reading unavailable, "
-                "the first on reading should be used as furigana",
-          );
-          expect(
-            find.descendant(
-              of: widget,
-              matching: find.text(dummyKanjiWithoutKunReading.kanji),
-            ),
             findsOneWidget,
             reason: "Kanji should be used as main text",
           );

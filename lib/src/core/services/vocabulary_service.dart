@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/models/vocabulary.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -16,7 +17,6 @@ const sqlRomajiColumn = "romaji";
 const sqlVersionColumn = "version";
 const sqlKanaSyllablesColumn = "kana_syllables";
 const sqlMeaningsColumn = "meanings";
-const sqlExamplesColumn = "examples";
 
 /// Kanji related table and columns
 const sqlRelatedKanjiColumn = "related_kanjis";
@@ -40,10 +40,16 @@ const sqlVocabularyGroups = "groups";
 const sqlVocabularyGroupsTable = "vocabulary_groups";
 const sqlGroupUidColumn = "group_uid";
 
+/// Vocabulary groups table and columns
+const sqlVocabularyExamples = "examples";
+const sqlVocabularyExamplesTable = "vocabulary_examples";
+const sqlExampleUidColumn = "example_uid";
+
 class VocabularyService extends ResourceDataService<Vocabulary> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  VocabularyService()
+  /// [dataLoader] should only be used for testing
+  VocabularyService({VocabularyDataLoader? dataLoader})
     : super(
         tableName: sqlVocabularyTable,
         transformer: Vocabulary.fromJson,
@@ -55,8 +61,8 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlVersionColumn,
           sqlKanaSyllablesColumn,
           sqlMeaningsColumn,
-          sqlExamplesColumn,
         ],
+        dataLoader: dataLoader ?? VocabularyDataLoader(),
       );
 
   /// Get all the vocabulary
@@ -122,6 +128,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
       batch.insert(tableName, _buildMainColumns(item));
     }
 
+    // Kanji
     for (final relatedKanjiUid in item.relatedKanjis) {
       batch.insert(sqlRelatedKanjiTable, {
         sqlVocabularyUidColumn: item.uid.uid,
@@ -145,9 +152,9 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
             sqlRelatedKanjiColumn,
             sqlVocabularyGroups,
             sqlKanjiReadings,
+            sqlVocabularyExamples,
           ].contains(key),
         )
-        ..update(sqlExamplesColumn, (_) => jsonEncode(item.examples))
         ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings))
         ..update(sqlKanaSyllablesColumn, (_) => jsonEncode(item.kanaSyllables));
 
@@ -156,7 +163,6 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         jsonDecode(row[sqlKanjiReadings]) as List<dynamic>..removeWhere(
           (e) => e is Map<String, dynamic> && e[sqlReadingColumn] == null,
         );
-    final examples = jsonDecode(row[sqlExamplesColumn]);
     final relatedKanji =
         jsonDecode(row[sqlRelatedKanjiColumn]) as List<dynamic>..remove(null);
     final groups =
@@ -169,7 +175,6 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
       sqlKanjiReadings: kanjiReadings,
       sqlRelatedKanjiColumn: relatedKanji,
       sqlVocabularyGroups: groups,
-      sqlExamplesColumn: examples,
       sqlKanaSyllablesColumn: kanaSyllables,
       sqlMeaningsColumn: meanings,
     });

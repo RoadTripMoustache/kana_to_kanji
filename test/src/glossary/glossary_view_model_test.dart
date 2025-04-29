@@ -77,8 +77,10 @@ void main() {
           kanaRepositoryMock.getHiragana(),
           kanaRepositoryMock.searchHiragana("", []),
         ]);
-        verifyZeroInteractions(kanjiRepositoryMock);
-        verifyZeroInteractions(vocabularyRepositoryMock);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
+        verifyNoMoreInteractions(kanjiRepositoryMock);
+        verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
 
       testWidgets("search", (WidgetTester tester) async {
@@ -91,9 +93,12 @@ void main() {
           kanaRepositoryMock.getHiragana(),
           kanaRepositoryMock.searchHiragana("toto", []),
         ]);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
         verifyNoMoreInteractions(kanaRepositoryMock);
-        verifyZeroInteractions(kanjiRepositoryMock);
-        verifyZeroInteractions(vocabularyRepositoryMock);
+        verifyNoMoreInteractions(kanjiRepositoryMock);
+        verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
     });
 
@@ -116,9 +121,12 @@ void main() {
           kanaRepositoryMock.getKatakana(),
           kanaRepositoryMock.searchKatakana("", []),
         ]);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
         verifyNoMoreInteractions(kanaRepositoryMock);
-        verifyZeroInteractions(kanjiRepositoryMock);
-        verifyZeroInteractions(vocabularyRepositoryMock);
+        verifyNoMoreInteractions(kanjiRepositoryMock);
+        verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
 
       testWidgets("search", (WidgetTester tester) async {
@@ -131,9 +139,12 @@ void main() {
           kanaRepositoryMock.getKatakana(),
           kanaRepositoryMock.searchKatakana("toto", []),
         ]);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
         verifyNoMoreInteractions(kanaRepositoryMock);
-        verifyZeroInteractions(kanjiRepositoryMock);
-        verifyZeroInteractions(vocabularyRepositoryMock);
+        verifyNoMoreInteractions(kanjiRepositoryMock);
+        verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
     });
 
@@ -152,9 +163,12 @@ void main() {
         verify(
           kanjiRepositoryMock.searchKanji("", [], [], SortOrder.japanese),
         ).called(1);
-        verifyZeroInteractions(kanaRepositoryMock);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
+        verifyNoMoreInteractions(kanaRepositoryMock);
         verifyNoMoreInteractions(kanjiRepositoryMock);
-        verifyZeroInteractions(vocabularyRepositoryMock);
+        verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
 
       testWidgets("search", (WidgetTester tester) async {
@@ -168,9 +182,12 @@ void main() {
         verify(
           kanjiRepositoryMock.searchKanji("toto", [], [], SortOrder.japanese),
         ).called(1);
-        verifyZeroInteractions(kanaRepositoryMock);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
+        verifyNoMoreInteractions(kanaRepositoryMock);
         verifyNoMoreInteractions(kanjiRepositoryMock);
-        verifyZeroInteractions(vocabularyRepositoryMock);
+        verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
     });
 
@@ -199,8 +216,11 @@ void main() {
             SortOrder.japanese,
           ),
         ).called(1);
-        verifyZeroInteractions(kanaRepositoryMock);
-        verifyZeroInteractions(kanjiRepositoryMock);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
+        verifyNoMoreInteractions(kanaRepositoryMock);
+        verifyNoMoreInteractions(kanjiRepositoryMock);
         verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
 
@@ -225,8 +245,11 @@ void main() {
             SortOrder.japanese,
           ),
         ).called(1);
-        verifyZeroInteractions(kanaRepositoryMock);
-        verifyZeroInteractions(kanjiRepositoryMock);
+        verify(kanaRepositoryMock.addListener(any)).called(1);
+        verify(kanjiRepositoryMock.addListener(any)).called(1);
+        verify(vocabularyRepositoryMock.addListener(any)).called(1);
+        verifyNoMoreInteractions(kanaRepositoryMock);
+        verifyNoMoreInteractions(kanjiRepositoryMock);
         verifyNoMoreInteractions(vocabularyRepositoryMock);
       });
     });
@@ -237,9 +260,12 @@ void main() {
       when(tabControllerMock.index).thenAnswer((_) => 0);
 
       checkLists(viewModel, 0, 0, 0, 0);
-      verifyZeroInteractions(kanaRepositoryMock);
-      verifyZeroInteractions(kanjiRepositoryMock);
-      verifyZeroInteractions(vocabularyRepositoryMock);
+      verify(kanaRepositoryMock.addListener(any)).called(1);
+      verify(kanjiRepositoryMock.addListener(any)).called(1);
+      verify(vocabularyRepositoryMock.addListener(any)).called(1);
+      verifyNoMoreInteractions(kanaRepositoryMock);
+      verifyNoMoreInteractions(kanjiRepositoryMock);
+      verifyNoMoreInteractions(vocabularyRepositoryMock);
     });
 
     testWidgets("Switch between tabs", (WidgetTester tester) async {

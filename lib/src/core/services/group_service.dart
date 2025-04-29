@@ -1,4 +1,5 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/group.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
@@ -14,7 +15,7 @@ const sqlLocalizedNameColumn = "localized_name";
 class GroupService extends ResourceDataService<Group> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  GroupService()
+  GroupService({ResourceDataLoader<Group>? dataLoader})
     : super(
         tableName: sqlGroupsTable,
         resourceColumns: [
@@ -24,6 +25,12 @@ class GroupService extends ResourceDataService<Group> {
           sqlLocalizedNameColumn,
         ],
         transformer: Group.fromJson,
+        dataLoader:
+            dataLoader ??
+            ResourceDataLoader<Group>(
+              fromJson: Group.fromJson,
+              apiResourceType: sqlGroupsTable,
+            ),
       );
 
   /// Get all the groups related to the alphabet given in parameter.
