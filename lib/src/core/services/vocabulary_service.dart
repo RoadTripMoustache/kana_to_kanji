@@ -48,7 +48,8 @@ const sqlExampleUidColumn = "example_uid";
 class VocabularyService extends ResourceDataService<Vocabulary> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  VocabularyService()
+  /// [dataLoader] should only be used for testing
+  VocabularyService({VocabularyDataLoader? dataLoader})
     : super(
         tableName: sqlVocabularyTable,
         transformer: Vocabulary.fromJson,
@@ -61,7 +62,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlKanaSyllablesColumn,
           sqlMeaningsColumn,
         ],
-        dataLoader: VocabularyDataLoader(),
+        dataLoader: dataLoader ?? VocabularyDataLoader(),
       );
 
   /// Get all the vocabulary
