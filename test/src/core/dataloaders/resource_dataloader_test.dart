@@ -8,18 +8,13 @@ import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resource.dart";
 import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
 import "../../../helpers.dart";
-@GenerateNiceMocks([
-  MockSpec<ApiService>(),
-  MockSpec<ResourceDataService>(),
-  MockSpec<Logger>(),
-])
+@GenerateNiceMocks([MockSpec<ApiService>(), MockSpec<Logger>()])
 import "../dataloaders/resource_dataloader_test.mocks.dart";
 
 // Create a test resource implementation
@@ -53,7 +48,6 @@ void main() {
   group("ResourceDataLoader", () {
     late ResourceDataLoader<TestResource> dataLoader;
     late MockApiService apiService;
-    late MockResourceDataService<TestResource> service;
     late MockLogger mockLogger;
     late http.Response mockResponse;
     late http.Response mockNextPageResponse;
@@ -102,7 +96,6 @@ void main() {
 
     setUpAll(() {
       apiService = MockApiService();
-      service = MockResourceDataService<TestResource>();
       mockLogger = MockLogger();
 
       locator
@@ -118,7 +111,6 @@ void main() {
     setUp(() async {
       // Setup the dataLoader with test dependencies
       dataLoader = ResourceDataLoader<TestResource>(
-        service: service,
         fromJson: TestResource.fromJson,
         apiResourceType: "test-resources",
       );
@@ -149,84 +141,61 @@ void main() {
 
     tearDown(() {
       reset(apiService);
-      reset(service);
     });
 
     group("fetchAll", () {
       test(
-        "should fetch resources with no version when forceReload is true",
+        "should fetch resources without version parameter by default",
         () async {
-          await dataLoader.fetchAll(
-            latestVersion: "2025_01_01",
-            forceReload: true,
-          );
+          final result = await dataLoader.fetchAll();
 
-          verifyInOrder([
-            apiService.get("/v1/test-resources"),
-            apiService.get("/v1/test-resources?page=2"),
-            service.upsertAll(resources, forceReload: true),
-          ]);
-        },
-      );
-
-      test(
-        "should fetch resources with version when forceReload is false",
-        () async {
-          await dataLoader.fetchAll(
-            latestVersion: "2025_01_01",
-            // ignore: avoid_redundant_argument_values
-            forceReload: false,
-          );
-
-          verifyInOrder([
-            apiService.get("/v1/test-resources?version[current]=2025_01_01"),
-            apiService.get("/v1/test-resources?page=2"),
-            service.upsertAll(resources, forceReload: false),
-          ]);
-        },
-      );
-
-      test(
-        "should fetch resources with no version parameter when latestVersion "
-        "is null",
-        () async {
-          await dataLoader.fetchAll(
-            // ignore: avoid_redundant_argument_values
-            latestVersion: null,
-            // ignore: avoid_redundant_argument_values
-            forceReload: false,
-          );
-
-          verifyInOrder([
-            apiService.get("/v1/test-resources"),
-            apiService.get("/v1/test-resources?page=2"),
-            service.upsertAll(resources, forceReload: false),
-          ]);
-        },
-      );
-    });
-
-    test("end-to-end flow with successful API call", () async {
-      when(
-        service.upsertAll(any, forceReload: false),
-      ).thenAnswer((_) async => {});
-
-      await dataLoader.fetchAll(latestVersion: "2025_01_01");
-
-      verifyInOrder([
-        apiService.get("/v1/test-resources?version[current]=2025_01_01"),
-        apiService.get("/v1/test-resources?page=2"),
-      ]);
-      // Capture the actual list passed to upsertAll
-      final captured =
           verify(
-                service.upsertAll(captureAny, forceReload: false),
-              ).captured.first
-              as List<TestResource>;
+            apiService.get("/v1/test-resources?page[size]=1000"),
+          ).called(1);
 
-      // Should contain items from both pages (4 total)
-      expect(captured.length, 4);
-      expect(captured, resources, reason: "should contain both pages data");
+          expect(result.data.length, 2);
+          expect(result.hasMore, isTrue);
+
+          // Fetch next page
+          final nextPage = await result.next!();
+          expect(nextPage.data.length, 2);
+          expect(nextPage.hasMore, isFalse);
+
+          verify(apiService.get("/v1/test-resources?page=2")).called(1);
+
+          // Check all 4 resources were collected
+          final allResources = [...result.data, ...nextPage.data];
+          expect(allResources.length, resources.length);
+          expect(allResources, resources);
+
+          verifyNoMoreInteractions(apiService);
+        },
+      );
+
+      test(
+        "should fetch resources with version parameter when specified",
+        () async {
+          final result = await dataLoader.fetchAll(latestVersion: "2025_01_01");
+
+          verify(
+            apiService.get(
+              "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
+            ),
+          ).called(1);
+
+          expect(result.data.length, 2);
+          expect(result.hasMore, isTrue);
+
+          // Fetch next page
+          final nextPage = await result.next!();
+          expect(nextPage.data.length, 2);
+          expect(nextPage.hasMore, isFalse);
+
+          verify(apiService.get("/v1/test-resources?page=2")).called(1);
+
+          verifyNoMoreInteractions(apiService);
+        },
+      );
     });
 
     test("should handle API error gracefully", () async {
@@ -234,18 +203,49 @@ void main() {
       final errorResponse = http.Response("", HttpStatus.internalServerError);
 
       when(
-        apiService.get("/v1/test-resources?version[current]=2025_01_01"),
+        apiService.get(
+          "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
+        ),
       ).thenAnswer((_) async => Future.value(errorResponse));
 
-      await dataLoader.fetchAll(latestVersion: "2025_01_01");
+      final result = await dataLoader.fetchAll(latestVersion: "2025_01_01");
 
       verify(
-        apiService.get("/v1/test-resources?version[current]=2025_01_01"),
+        apiService.get(
+          "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
+        ),
       ).called(1);
-      verifyNoMoreInteractions(apiService);
 
-      // Should call upsertAll with empty list when API returns error
-      verify(service.upsertAll([], forceReload: false)).called(1);
+      // Should return empty list when API returns error
+      expect(result.data, isEmpty);
+      expect(result.hasMore, isFalse);
+    });
+
+    test("should extract paginated response correctly", () async {
+      // Testing the private method via its public usage
+      final result = await dataLoader.fetchAll();
+
+      // First page should be properly parsed
+      expect(result.data.length, 2);
+      expect(result.data[0].uid.uid, "group-1");
+      expect(result.data[0].version, "2025_01_01");
+      expect(result.data[1].uid.uid, "group-2");
+      expect(result.hasMore, isTrue);
+
+      // Second page should be properly parsed when accessed
+      final nextPage = await result.next!();
+      expect(nextPage.data.length, 2);
+      expect(nextPage.data[0].uid.uid, "group-3");
+      expect(nextPage.data[1].uid.uid, "group-4");
+      expect(nextPage.hasMore, isFalse);
+    });
+
+    test("fetch method should throw UnimplementedError", () {
+      expect(
+        () async =>
+            await dataLoader.fetch(ResourceUid.fromJson("group-resource")),
+        throwsA(isA<UnimplementedError>()),
+      );
     });
   });
 }

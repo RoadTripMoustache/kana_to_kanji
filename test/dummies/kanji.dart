@@ -8,7 +8,6 @@ const Kanji dummyKanji = Kanji(
   jlptLevel: 5,
   grade: 1,
   numberOfStrokes: 5,
-  meanings: ["book"],
   onReadings: ["ほん"],
   kunReadings: ["ほん"],
   version: "2025_01_01",
@@ -22,14 +21,12 @@ final Kanji dummyKanjiWithRelatedData = Kanji(
   jlptLevel: 5,
   grade: 1,
   numberOfStrokes: 5,
-  meanings: ["book"],
   onReadings: ["ほん"],
   kunReadings: ["ほん"],
   version: "2025_01_01",
   jpSortSyllables: [164, 218],
   mainMeaning: "book",
   relatedVocabulary: [ResourceUid.fromJson("vocabulary-kanji_related")],
-  examples: [ResourceUid.fromJson("example-kanji_related")],
   groups: [ResourceUid.fromJson("group-kanji_related")],
 );
 
@@ -39,7 +36,6 @@ const Kanji dummyKanjiWithoutOnReading = Kanji(
   jlptLevel: 5,
   grade: 1,
   numberOfStrokes: 5,
-  meanings: ["book"],
   kunReadings: ["ほん"],
   version: "2025_01_01",
   jpSortSyllables: [164, 218],
@@ -52,7 +48,6 @@ const Kanji dummyKanjiWithoutKunReading = Kanji(
   jlptLevel: 5,
   grade: 1,
   numberOfStrokes: 5,
-  meanings: ["book"],
   onReadings: ["ほん"],
   version: "2025_01_01",
   jpSortSyllables: [164, 218],
@@ -64,22 +59,18 @@ INSERT OR IGNORE INTO groups (uid, alphabet, name, kana_type, version)
 VALUES
   ('${dummyKanjiWithRelatedData.groups.first.uid}', 'kanji', '', 'main', '2025_01_01');
 
-INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings, examples) VALUES
-('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["に","ほ","ん","ご"]', '["Japanese language"]', '[2]');
+INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings) VALUES
+('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["に","ほ","ん","ご"]', '["Japanese language"]');
 
-INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables, number_of_strokes, grade, meanings, on_readings, kun_readings, pronunciations, examples, main_meaning)
+INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables, number_of_strokes, grade, on_readings, kun_readings, pronunciations, main_meaning)
 VALUES
-  ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '["ほん"]', '["ほん"]', '[]', '[]', 'book'),
-  ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '["ほん"]', '["ほん"]', '[]', '[]', 'book'),
-  ('${dummyKanjiWithoutOnReading.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["book"]', '[]', '["ほん"]', '[]', '[]', 'book');
+  ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["ほん"]', '["ほん"]', '[]', 'book'),
+  ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '["ほん"]', '["ほん"]', '[]', 'book'),
+  ('${dummyKanjiWithoutOnReading.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '[]', '["ほん"]', '[]', 'book');
   
 INSERT OR IGNORE INTO kanji_groups (kanji_uid, group_uid)
 VALUES
 ('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.groups.first.uid}');
-
-INSERT OR IGNORE INTO kanji_examples (kanji_uid, example_uid)
-VALUES
-('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.examples.first.uid}');
 
 INSERT OR IGNORE INTO kanji_related_vocabulary (kanji_uid, vocabulary_uid)
 VALUES ('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}');

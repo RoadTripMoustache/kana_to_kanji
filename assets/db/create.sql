@@ -73,15 +73,6 @@ CREATE TABLE kanji_groups
         ON DELETE CASCADE
 );
 
-CREATE TABLE kanji_examples
-(
-    kanji_uid   TEXT NOT NULL,
-    example_uid TEXT NOT NULL, -- not a foreign key as Examples as stored on demand
-    PRIMARY KEY (kanji_uid, example_uid),
-    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
-        ON DELETE CASCADE
-);
-
 -- Vocabulary
 CREATE TABLE vocabulary
 (
@@ -127,14 +118,5 @@ CREATE TABLE vocabulary_groups
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
-        ON DELETE CASCADE
-);
-
-CREATE TABLE vocabulary_examples
-(
-    vocabulary_uid TEXT NOT NULL,
-    example_uid    TEXT NOT NULL, -- not a foreign key as Examples as stored on demand
-    PRIMARY KEY (vocabulary_uid, example_uid),
-    FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE
 );

@@ -31,7 +31,6 @@ final Vocabulary dummyVocabularyWithRelatedData = Vocabulary(
     ),
   ],
   relatedKanjis: [ResourceUid.fromJson("kanji-vocabulary_related")],
-  examples: [ResourceUid.fromJson("example-vocabulary_related")],
   groups: [ResourceUid.fromJson("group-vocabulary_related")],
 );
 
@@ -55,19 +54,16 @@ INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables
 VALUES
 ('${dummyVocabularyWithRelatedData.relatedKanjis.first.uid}', '亜', 1, '2025_01_01', '', 0, 0, '[]', '[]', '[]', '[]', '[]', '');
 
-INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings, examples) VALUES
-('${dummyVocabulary.uid.uid}', '亜', 'あ', 1, 'a', '2025_01_01', '[0]', '["inferior"]', '[]'),
-('${dummyVocabularyWithRelatedData.uid.uid}', '亜', 'あ', 1, 'a', '2025_01_01', '[0]', '["inferior"]', '[]'),
-('${dummyVocabularyWithoutKanji.uid.uid}', '', 'あ', 1, 'a', '2025_01_01', '[0]', '["inferior"]', '[]');
+INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings) VALUES
+('${dummyVocabulary.uid.uid}', '亜', 'あ', 1, 'a', '2025_01_01', '[0]', '["inferior"]'),
+('${dummyVocabularyWithRelatedData.uid.uid}', '亜', 'あ', 1, 'a', '2025_01_01', '[0]', '["inferior"]'),
+('${dummyVocabularyWithoutKanji.uid.uid}', '', 'あ', 1, 'a', '2025_01_01', '[0]', '["inferior"]');
 
 INSERT OR IGNORE INTO vocabulary_kanji_readings (vocabulary_uid, kanji_uid, kanji, reading) VALUES
 ('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.kanjiReadings.first.uid.uid}', '亜', 'あ');
 
 INSERT OR IGNORE INTO vocabulary_groups (vocabulary_uid, group_uid) VALUES
 ('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.groups.first.uid}');
-
-INSERT OR IGNORE INTO vocabulary_examples (vocabulary_uid, example_uid) VALUES
-('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.examples.first.uid}');
 
 INSERT OR IGNORE INTO vocabulary_related_kanjis (vocabulary_uid, kanji_uid) VALUES
 ('${dummyVocabularyWithRelatedData.uid.uid}', '${dummyVocabularyWithRelatedData.relatedKanjis.first.uid}');
