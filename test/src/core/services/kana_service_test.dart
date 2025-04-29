@@ -373,7 +373,6 @@ void main() {
         final secondPageResult = PaginatedList<Kana>(
           hasMore: false,
           data: newKanas,
-          next: null,
         );
 
         // Create first page with next function that returns second page

@@ -332,7 +332,6 @@ void main() {
         final secondPageResult = PaginatedList<Group>(
           hasMore: false,
           data: newGroups,
-          next: null,
         );
 
         // Create first page with next function that returns second page

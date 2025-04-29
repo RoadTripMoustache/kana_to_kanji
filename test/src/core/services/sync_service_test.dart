@@ -2,25 +2,29 @@ import "dart:convert";
 
 import "package:flutter_test/flutter_test.dart";
 import "package:http/http.dart" as http;
-import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
-import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
 import "package:kana_to_kanji/src/core/models/sync.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
+import "package:kana_to_kanji/src/core/services/group_service.dart";
+import "package:kana_to_kanji/src/core/services/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
 import "package:kana_to_kanji/src/core/services/sync_service.dart";
+import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
 @GenerateNiceMocks([
   MockSpec<ApiService>(),
-  MockSpec<ResourceDataLoader>(),
-  MockSpec<KanjiDataLoader>(),
-  MockSpec<VocabularyDataLoader>(),
+  MockSpec<ResourceDataService>(),
+  MockSpec<GroupService>(),
+  MockSpec<KanaService>(),
+  MockSpec<KanjiService>(),
+  MockSpec<VocabularyService>(),
   MockSpec<CleanUpService>(),
+  MockSpec<Logger>(),
 ])
 import "./sync_service_test.mocks.dart";
 
@@ -29,10 +33,13 @@ void main() {
     late SyncService service;
     final apiServiceMock = MockApiService();
     final cleanUpServiceMock = MockCleanUpService();
-    final groupDataLoaderMock = MockResourceDataLoader<Group>();
-    final kanaDataLoaderMock = MockResourceDataLoader<Kana>();
-    final kanjiDataLoaderMock = MockKanjiDataLoader();
-    final vocabularyDataLoaderMock = MockVocabularyDataLoader();
+    final mockLogger = MockLogger();
+
+    // Service instances with mocked data-services
+    final MockGroupService groupServiceMock = MockGroupService();
+    final MockKanaService kanaServiceMock = MockKanaService();
+    final MockKanjiService kanjiServiceMock = MockKanjiService();
+    final MockVocabularyService vocabularyServiceMock = MockVocabularyService();
 
     Sync syncMock = Sync(
       groups: true,
@@ -47,20 +54,24 @@ void main() {
     );
 
     setUpAll(() {
-      locator.registerSingleton<ApiService>(apiServiceMock);
+      locator
+        ..registerSingleton<ApiService>(apiServiceMock)
+        ..registerSingleton<Logger>(mockLogger);
     });
 
     tearDownAll(() async {
       await locator.unregister<ApiService>();
+      await locator.unregister<Logger>();
     });
 
     setUp(() async {
+      // Create SyncService with mocked services
       service = SyncService(
+        groupService: groupServiceMock,
+        kanaService: kanaServiceMock,
+        kanjiService: kanjiServiceMock,
+        vocabularyService: vocabularyServiceMock,
         cleanUpService: cleanUpServiceMock,
-        groupService: groupDataLoaderMock,
-        kanaDataLoader: kanaDataLoaderMock,
-        kanjiDataLoader: kanjiDataLoaderMock,
-        vocabularyDataLoader: vocabularyDataLoaderMock,
       );
 
       syncMock = Sync(
@@ -79,24 +90,22 @@ void main() {
         (_) => Future.value(http.Response(jsonEncode(syncMock.toJson()), 200)),
       );
 
-      for (final ResourceDataLoader loader in [
-        groupDataLoaderMock,
-        kanaDataLoaderMock,
-        kanjiDataLoaderMock,
-        vocabularyDataLoaderMock,
+      for (final ResourceDataService service in [
+        groupServiceMock,
+        kanaServiceMock,
+        kanjiServiceMock,
+        vocabularyServiceMock,
       ]) {
-        when(
-          loader.latestVersion,
-        ).thenAnswer((_) async => Future.value("2025_01_01"));
+        when(service.latestVersion).thenAnswer((_) async => "2025_01_01");
       }
     });
 
     tearDown(() {
       reset(cleanUpServiceMock);
-      reset(groupDataLoaderMock);
-      reset(kanaDataLoaderMock);
-      reset(kanjiDataLoaderMock);
-      reset(vocabularyDataLoaderMock);
+      reset(groupServiceMock);
+      reset(kanaServiceMock);
+      reset(kanjiServiceMock);
+      reset(vocabularyServiceMock);
       reset(apiServiceMock);
     });
 
@@ -105,27 +114,15 @@ void main() {
         await service.sync();
 
         verifyInOrder([
-          groupDataLoaderMock.latestVersion,
-          kanaDataLoaderMock.latestVersion,
-          kanjiDataLoaderMock.latestVersion,
-          vocabularyDataLoaderMock.latestVersion,
+          groupServiceMock.latestVersion,
+          kanaServiceMock.latestVersion,
+          kanjiServiceMock.latestVersion,
+          vocabularyServiceMock.latestVersion,
           apiServiceMock.get("/v1/sync?version[current]=2025_01_01"),
-          groupDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-          kanaDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-          kanjiDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-          vocabularyDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
+          groupServiceMock.sync(forceReload: true),
+          kanaServiceMock.sync(forceReload: true),
+          kanjiServiceMock.sync(forceReload: true),
+          vocabularyServiceMock.sync(forceReload: true),
           cleanUpServiceMock.executeCleanUp(
             forceReload: true,
             version: "2025_01_01",
@@ -134,10 +131,10 @@ void main() {
 
         [
           apiServiceMock,
-          groupDataLoaderMock,
-          kanaDataLoaderMock,
-          kanjiDataLoaderMock,
-          vocabularyDataLoaderMock,
+          groupServiceMock,
+          kanaServiceMock,
+          kanjiServiceMock,
+          vocabularyServiceMock,
           cleanUpServiceMock,
         ].forEach(verifyNoMoreInteractions);
       });
@@ -158,28 +155,14 @@ void main() {
         await service.sync();
 
         verifyNever(
-          groupDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-            latestVersion: anyNamed("latestVersion"),
-          ),
+          groupServiceMock.sync(forceReload: anyNamed("forceReload")),
+        );
+        verifyNever(kanaServiceMock.sync(forceReload: anyNamed("forceReload")));
+        verifyNever(
+          kanjiServiceMock.sync(forceReload: anyNamed("forceReload")),
         );
         verifyNever(
-          kanaDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-            latestVersion: anyNamed("latestVersion"),
-          ),
-        );
-        verifyNever(
-          kanjiDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-            latestVersion: anyNamed("latestVersion"),
-          ),
-        );
-        verifyNever(
-          vocabularyDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-            latestVersion: anyNamed("latestVersion"),
-          ),
+          vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
         );
         verifyNever(
           cleanUpServiceMock.executeCleanUp(
@@ -205,32 +188,24 @@ void main() {
       );
 
       test("should handle null versions", () async {
-        for (final ResourceDataLoader l in [
-          groupDataLoaderMock,
-          kanaDataLoaderMock,
-          kanjiDataLoaderMock,
-          vocabularyDataLoaderMock,
+        for (final ResourceDataService service in [
+          groupServiceMock,
+          kanaServiceMock,
+          kanjiServiceMock,
+          vocabularyServiceMock,
         ]) {
-          when(l.latestVersion).thenAnswer((_) async => null);
+          when(service.latestVersion).thenAnswer((_) async => null);
         }
 
         await service.sync();
 
         // Verify we called the API with no version parameter
         verify(apiServiceMock.get("/v1/sync")).called(1);
+        verify(groupServiceMock.sync(forceReload: anyNamed("forceReload")));
+        verify(kanaServiceMock.sync(forceReload: anyNamed("forceReload")));
+        verify(kanjiServiceMock.sync(forceReload: anyNamed("forceReload")));
         verify(
-          groupDataLoaderMock.fetchAll(forceReload: anyNamed("forceReload")),
-        );
-        verify(
-          kanaDataLoaderMock.fetchAll(forceReload: anyNamed("forceReload")),
-        );
-        verify(
-          kanjiDataLoaderMock.fetchAll(forceReload: anyNamed("forceReload")),
-        );
-        verify(
-          vocabularyDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-          ),
+          vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
         );
       });
 
@@ -238,9 +213,7 @@ void main() {
         const version = "2025_01_30";
 
         test("group", () async {
-          when(
-            groupDataLoaderMock.latestVersion,
-          ).thenAnswer((_) async => version);
+          when(groupServiceMock.latestVersion).thenAnswer((_) async => version);
 
           await service.sync();
 
@@ -251,9 +224,7 @@ void main() {
         });
 
         test("kana", () async {
-          when(
-            kanaDataLoaderMock.latestVersion,
-          ).thenAnswer((_) async => version);
+          when(kanaServiceMock.latestVersion).thenAnswer((_) async => version);
 
           await service.sync();
 
@@ -264,9 +235,7 @@ void main() {
         });
 
         test("kanji", () async {
-          when(
-            kanjiDataLoaderMock.latestVersion,
-          ).thenAnswer((_) async => version);
+          when(kanjiServiceMock.latestVersion).thenAnswer((_) async => version);
 
           await service.sync();
 
@@ -278,7 +247,7 @@ void main() {
 
         test("vocabulary", () async {
           when(
-            vocabularyDataLoaderMock.latestVersion,
+            vocabularyServiceMock.latestVersion,
           ).thenAnswer((_) async => version);
 
           await service.sync();
@@ -314,17 +283,15 @@ void main() {
 
         // Verify that only the services with true flags were called
         verify(
-          groupDataLoaderMock.fetchAll(
+          groupServiceMock.sync(
             // ignore: avoid_redundant_argument_values
             forceReload: false,
-            latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
-          kanjiDataLoaderMock.fetchAll(
+          kanjiServiceMock.sync(
             // ignore: avoid_redundant_argument_values
             forceReload: false,
-            latestVersion: "2025_01_01",
           ),
         ).called(1);
         verify(
@@ -336,17 +303,9 @@ void main() {
         ).called(1);
 
         // Verify that services with false flags were not called
+        verifyNever(kanaServiceMock.sync(forceReload: anyNamed("forceReload")));
         verifyNever(
-          kanaDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-            latestVersion: anyNamed("latestVersion"),
-          ),
-        );
-        verifyNever(
-          vocabularyDataLoaderMock.fetchAll(
-            forceReload: anyNamed("forceReload"),
-            latestVersion: anyNamed("latestVersion"),
-          ),
+          vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
         );
       });
 
@@ -358,30 +317,10 @@ void main() {
         await service.sync();
 
         // Verify all loaders were called with forceReload true
-        verify(
-          groupDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-        ).called(1);
-        verify(
-          kanaDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-        ).called(1);
-        verify(
-          kanjiDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-        ).called(1);
-        verify(
-          vocabularyDataLoaderMock.fetchAll(
-            forceReload: true,
-            latestVersion: "2025_01_01",
-          ),
-        ).called(1);
+        verify(groupServiceMock.sync(forceReload: true)).called(1);
+        verify(kanaServiceMock.sync(forceReload: true)).called(1);
+        verify(kanjiServiceMock.sync(forceReload: true)).called(1);
+        verify(vocabularyServiceMock.sync(forceReload: true)).called(1);
         verify(
           cleanUpServiceMock.executeCleanUp(
             forceReload: true,
@@ -401,28 +340,16 @@ void main() {
 
           // Verify no loaders were called since all flags should be false
           verifyNever(
-            groupDataLoaderMock.fetchAll(
-              forceReload: anyNamed("forceReload"),
-              latestVersion: anyNamed("latestVersion"),
-            ),
+            groupServiceMock.sync(forceReload: anyNamed("forceReload")),
           );
           verifyNever(
-            kanaDataLoaderMock.fetchAll(
-              forceReload: anyNamed("forceReload"),
-              latestVersion: anyNamed("latestVersion"),
-            ),
+            kanaServiceMock.sync(forceReload: anyNamed("forceReload")),
           );
           verifyNever(
-            kanjiDataLoaderMock.fetchAll(
-              forceReload: anyNamed("forceReload"),
-              latestVersion: anyNamed("latestVersion"),
-            ),
+            kanjiServiceMock.sync(forceReload: anyNamed("forceReload")),
           );
           verifyNever(
-            vocabularyDataLoaderMock.fetchAll(
-              forceReload: anyNamed("forceReload"),
-              latestVersion: anyNamed("latestVersion"),
-            ),
+            vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
           );
           verifyNever(
             cleanUpServiceMock.executeCleanUp(
