@@ -15,7 +15,6 @@ class UserDataLoader {
   User? _extractUser(http.Response response) {
     if (response.statusCode == 200) {
       final jsonUser = jsonDecode(response.body);
-      print(response.body);
       return User.fromJson(jsonUser);
     } else {
       // If the server did not return a 200 OK response,
