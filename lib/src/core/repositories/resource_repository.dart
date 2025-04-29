@@ -12,6 +12,7 @@ abstract class ResourceRepository<
   final S service;
 
   @protected
+  @visibleForTesting
   final List<T> items = [];
 
   ResourceRepository({required this.service}) {

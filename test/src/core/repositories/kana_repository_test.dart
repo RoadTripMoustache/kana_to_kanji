@@ -1,4 +1,5 @@
 import "package:flutter_test/flutter_test.dart";
+import "package:kana_to_kanji/src/core/models/resource_uid.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/services/kana_service.dart";
 import "package:mockito/annotations.dart";
@@ -12,15 +13,26 @@ import "kana_repository_test.mocks.dart";
 void main() {
   group("KanaRepository", () {
     late KanaRepository repository;
-
-    final kanaServiceMock = MockKanaService();
+    late MockKanaService kanaServiceMock;
 
     setUp(() {
+      kanaServiceMock = MockKanaService();
       repository = KanaRepository(kanaService: kanaServiceMock);
     });
 
     tearDown(() {
       reset(kanaServiceMock);
+    });
+
+    test("should properly handle service updates", () {
+      // Verify initial setup with ListenableServiceMixin
+      final void Function() onUpdate =
+          verify(kanaServiceMock.addListener(captureAny)).captured.first;
+
+      // Test notification propagation
+      repository.items.add(dummyHiragana);
+      onUpdate();
+      expect(repository.items, isEmpty);
     });
 
     group("loadKana", () {
@@ -59,7 +71,8 @@ void main() {
 
           await repository.loadKana();
 
-          verifyZeroInteractions(kanaServiceMock);
+          verify(kanaServiceMock.addListener(captureAny)).called(1);
+          verifyNoMoreInteractions(kanaServiceMock);
           expect(repository.items, [dummyHiragana]);
         },
       );
@@ -87,6 +100,81 @@ void main() {
           reason: "it should only return the katakana",
         );
       });
+    });
+
+    group("searchHiragana", () {
+      test("should return empty list when search text is too long", () async {
+        repository.items.addAll([dummyHiragana, dummyKatakana]);
+
+        final result = await repository.searchHiragana("abcd", []);
+
+        expect(result, isEmpty);
+        verify(kanaServiceMock.addListener(captureAny)).called(1);
+        verifyNoMoreInteractions(kanaServiceMock);
+      });
+
+      test(
+        "should filter by romaji when search text is alphabetical",
+        () async {
+          when(
+            kanaServiceMock.getHiragana(),
+          ).thenAnswer((_) => Future.value([dummyHiragana]));
+          when(
+            kanaServiceMock.getKatakana(),
+          ).thenAnswer((_) => Future.value([dummyKatakana]));
+
+          final result = await repository.searchHiragana("a", []);
+
+          expect(result.length, 1);
+          expect(result.first.romaji, contains("a"));
+        },
+      );
+
+      test(
+        "should filter by kana when search text is not alphabetical",
+        () async {
+          when(
+            kanaServiceMock.getHiragana(),
+          ).thenAnswer((_) => Future.value([dummyHiragana]));
+          when(
+            kanaServiceMock.getKatakana(),
+          ).thenAnswer((_) => Future.value([dummyKatakana]));
+
+          final result = await repository.searchHiragana("あ", []);
+
+          expect(result.length, 1);
+          expect(result.first.kana, contains("あ"));
+        },
+      );
+    });
+
+    group("searchKatakana", () {
+      test("should return empty list when search text is too long", () async {
+        repository.items.addAll([dummyHiragana, dummyKatakana]);
+        final result = await repository.searchKatakana("abcd", []);
+
+        expect(result, isEmpty);
+
+        verify(kanaServiceMock.addListener(captureAny)).called(1);
+        verifyNoMoreInteractions(kanaServiceMock);
+      });
+
+      test(
+        "should filter by romaji when search text is alphabetical",
+        () async {
+          when(
+            kanaServiceMock.getHiragana(),
+          ).thenAnswer((_) => Future.value([dummyHiragana]));
+          when(
+            kanaServiceMock.getKatakana(),
+          ).thenAnswer((_) => Future.value([dummyKatakana]));
+
+          final result = await repository.searchKatakana("a", []);
+
+          expect(result.length, 1);
+          expect(result.first.romaji, contains("a"));
+        },
+      );
     });
 
     group("getByGroupIds", () {
@@ -126,8 +214,9 @@ void main() {
         () async {
           repository.items.addAll([dummyHiragana, dummyKatakana]);
 
+          final ResourceUid groupId = dummyHiragana.groupUid;
           expect(
-            await repository.getByGroupId(dummyHiragana.groupUid),
+            await repository.getByGroupId(groupId),
             [dummyHiragana],
             reason: "should contains the hiragana sample",
           );
