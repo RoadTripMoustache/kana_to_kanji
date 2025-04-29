@@ -230,10 +230,7 @@ class _GlossarySearchBarState extends State<GlossarySearchBarContent> {
           child: Row(
             children: [
               Expanded(child: Container()),
-              Expanded(
-                flex: 2,
-                child: Center(child: Text(l10n.glossary_view_title)),
-              ),
+              Expanded(child: Center(child: Text(l10n.glossary_view_title))),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
