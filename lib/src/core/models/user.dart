@@ -1,5 +1,6 @@
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:kana_to_kanji/src/core/models/user_achievement.dart";
+import "package:kana_to_kanji/src/core/models/user_learning.dart";
 import "package:kana_to_kanji/src/core/models/user_preferences.dart";
 
 part "user.freezed.dart";
@@ -17,7 +18,7 @@ abstract class User with _$User {
     String? avatar,
     String? streakStartDate,
     String? streakLastUpdate,
-    // UserLearning? learning,
+    UserLearning? learning,
     @Default([]) List<UserAchievement> achievements,
   }) = _User;
 
