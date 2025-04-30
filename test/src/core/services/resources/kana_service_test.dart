@@ -1,7 +1,7 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/paginated_response.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
@@ -313,13 +313,11 @@ void main() {
         ),
       ];
 
-      PaginatedList<Kana> pageResult = PaginatedList<Kana>(
-        hasMore: false,
-        data: apiKanas,
-      );
+      PaginatedData<Kana> pageResult = PaginatedData<Kana>(data: apiKanas);
 
       setUp(() async {
-        pageResult = PaginatedList<Kana>(hasMore: false, data: apiKanas);
+        pageResult = PaginatedData<Kana>(data: apiKanas);
+        provideDummy<PaginatedData<Kana>>(pageResult);
         when(
           mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
         ).thenAnswer((_) async => pageResult);
@@ -341,7 +339,7 @@ void main() {
       test(
         "should fetch with version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedList<Kana>(hasMore: false, data: []);
+          pageResult = PaginatedData<Kana>(data: []);
           // The version will be determined by what's in the database
           final version = await service.latestVersion;
 
@@ -369,14 +367,10 @@ void main() {
         ];
 
         // Create second page object
-        final secondPageResult = PaginatedList<Kana>(
-          hasMore: false,
-          data: newKanas,
-        );
+        final secondPageResult = PaginatedData<Kana>(data: newKanas);
 
         // Create first page with next function that returns second page
-        pageResult = PaginatedList<Kana>(
-          hasMore: true,
+        pageResult = PaginatedData<Kana>(
           data: apiKanas,
           next: () async => secondPageResult,
         );

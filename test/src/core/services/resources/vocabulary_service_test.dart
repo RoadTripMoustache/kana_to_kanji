@@ -1,6 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/paginated_response.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -347,19 +347,16 @@ void main() {
         ),
       ];
 
-      PaginatedList<Vocabulary> pageResult = PaginatedList<Vocabulary>(
-        hasMore: false,
+      PaginatedData<Vocabulary> pageResult = PaginatedData<Vocabulary>(
         data: apiVocabularies,
       );
 
       setUp(() async {
-        pageResult = PaginatedList<Vocabulary>(
-          hasMore: false,
-          data: apiVocabularies,
-        );
+        pageResult = PaginatedData<Vocabulary>(data: apiVocabularies);
+        provideDummy<PaginatedData<Vocabulary>>(pageResult);
         when(
           mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
-        ).thenAnswer((_) async => pageResult);
+        ).thenAnswer((_) => Future.value(pageResult));
       });
 
       test("should fetch and save vocabulary from API", () async {
@@ -378,7 +375,7 @@ void main() {
       test(
         "should fetch with version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedList<Vocabulary>(hasMore: false, data: []);
+          pageResult = PaginatedData<Vocabulary>(data: []);
           // The version will be determined by what's in the database
           final version = await service.latestVersion;
 
@@ -403,14 +400,12 @@ void main() {
         ];
 
         // Create second page object
-        final secondPageResult = PaginatedList<Vocabulary>(
-          hasMore: false,
+        final secondPageResult = PaginatedData<Vocabulary>(
           data: newVocabularies,
         );
 
         // Create first page with next function that returns second page
-        pageResult = PaginatedList<Vocabulary>(
-          hasMore: true,
+        pageResult = PaginatedData<Vocabulary>(
           data: apiVocabularies,
           next: () async => secondPageResult,
         );

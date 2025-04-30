@@ -1,23 +1,21 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/resources/resource.dart";
 
-part "paginated_response.freezed.dart";
-
-part "paginated_response.g.dart";
+part "paginated_api_response.freezed.dart";
+part "paginated_api_response.g.dart";
 
 @Freezed(toJson: false, genericArgumentFactories: true)
-sealed class PaginatedResponse<T extends Resource> with _$PaginatedResponse<T> {
-  const PaginatedResponse._();
+sealed class PaginatedApiResponse<T> with _$PaginatedApiResponse<T> {
+  const PaginatedApiResponse._();
 
-  const factory PaginatedResponse({
+  const factory PaginatedApiResponse({
     required PageLinks links,
     required List<T> data,
-  }) = _PaginatedResponse;
+  }) = _PaginatedApiResponse;
 
-  factory PaginatedResponse.fromJson(
+  factory PaginatedApiResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Object?) fromJsonT,
-  ) => _$PaginatedResponseFromJson(json, fromJsonT);
+  ) => _$PaginatedApiResponseFromJson(json, fromJsonT);
 
   bool get hasMore => links.hasMore;
 }
@@ -35,12 +33,4 @@ sealed class PageLinks with _$PageLinks {
 
   factory PageLinks.fromJson(Map<String, dynamic> json) =>
       _$PageLinksFromJson(json);
-}
-
-class PaginatedList<T extends Resource> {
-  final Future<PaginatedList<T>> Function()? next;
-  final bool hasMore;
-  final List<T> data;
-
-  const PaginatedList({required this.data, required this.hasMore, this.next});
 }

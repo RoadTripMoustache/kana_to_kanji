@@ -1,7 +1,7 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/paginated_response.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -277,13 +277,11 @@ void main() {
         dummyKanjiGroup.copyWith(name: "API Kanji Group"),
       ];
 
-      PaginatedList<Group> pageResult = PaginatedList<Group>(
-        hasMore: false,
-        data: apiGroups,
-      );
+      PaginatedData<Group> pageResult = PaginatedData<Group>(data: apiGroups);
 
       setUp(() async {
-        pageResult = PaginatedList<Group>(hasMore: false, data: apiGroups);
+        pageResult = PaginatedData<Group>(data: apiGroups);
+        provideDummy<PaginatedData<Group>>(pageResult);
         when(
           mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
         ).thenAnswer((_) async => pageResult);
@@ -305,7 +303,7 @@ void main() {
       test(
         "should fetch with version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedList<Group>(hasMore: false, data: []);
+          pageResult = PaginatedData<Group>(data: []);
           // The version will be determined by what's in the database
           final version = await service.latestVersion;
 
@@ -328,14 +326,10 @@ void main() {
         ];
 
         // Create second page object
-        final secondPageResult = PaginatedList<Group>(
-          hasMore: false,
-          data: newGroups,
-        );
+        final secondPageResult = PaginatedData<Group>(data: newGroups);
 
         // Create first page with next function that returns second page
-        pageResult = PaginatedList<Group>(
-          hasMore: true,
+        pageResult = PaginatedData<Group>(
           data: apiGroups,
           next: () async => secondPageResult,
         );

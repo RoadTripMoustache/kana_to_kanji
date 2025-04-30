@@ -1,6 +1,6 @@
 import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/paginated_response.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Resource, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -205,7 +205,7 @@ abstract class ResourceDataService<T extends Resource>
       await _databaseService.delete(tableName);
     }
 
-    PaginatedList<T> cursor = await dataLoader.fetchAll(latestVersion: version);
+    PaginatedData<T> cursor = await dataLoader.fetchAll(latestVersion: version);
     bool hasMore = true;
 
     do {

@@ -8,8 +8,6 @@ import "package:stacked/stacked.dart";
 class SplashViewModel extends FutureViewModel {
   final GoRouter goRouter;
 
-  final UserRepository _userRepository = locator<UserRepository>();
-
   SplashViewModel(this.goRouter);
 
   /// Here we check that everything is ready before moving to the main screen
@@ -22,9 +20,11 @@ class SplashViewModel extends FutureViewModel {
       ), // Wait 1s to have the time to load the animation
     ]);
 
+    final UserRepository userRepository = locator<UserRepository>();
+
     // Move to main screen
     await goRouter.replace(
-      await _userRepository.silentSignIn()
+      await userRepository.silentSignIn()
           ? GlossaryView.routeName
           : LandingView.routeName,
     );
