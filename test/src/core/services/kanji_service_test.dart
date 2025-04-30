@@ -1,8 +1,8 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
 import "package:kana_to_kanji/src/core/models/paginated_response.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/group_service.dart" as groups;
 import "package:kana_to_kanji/src/core/services/kanji_service.dart";
@@ -17,7 +17,6 @@ import "package:sqflite/utils/utils.dart";
 
 import "../../../dummies/dummies.dart";
 import "../../../helpers.dart";
-
 @GenerateNiceMocks([MockSpec<KanjiDataLoader>(), MockSpec<Logger>()])
 import "kanji_service_test.mocks.dart";
 

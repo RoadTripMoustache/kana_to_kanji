@@ -1,7 +1,7 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
-import "package:kana_to_kanji/src/core/models/user.dart";
+import "package:kana_to_kanji/src/core/models/user/user.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 

@@ -1,7 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/user_achievement.dart";
-import "package:kana_to_kanji/src/core/models/user_learning.dart";
-import "package:kana_to_kanji/src/core/models/user_preferences.dart";
+import "package:kana_to_kanji/src/core/models/user/user_achievement.dart";
+import "package:kana_to_kanji/src/core/models/user/user_learning.dart";
+import "package:kana_to_kanji/src/core/models/user/user_preferences.dart";
 
 part "user.freezed.dart";
 part "user.g.dart";

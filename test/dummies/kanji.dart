@@ -1,7 +1,5 @@
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/pronunciation.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 
 const Kanji dummyKanji = Kanji(
   uid: ResourceUid("kanji-1", ResourceType.kanji),

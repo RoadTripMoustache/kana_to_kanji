@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart";
 
 import "../../../../dummies/group.dart";

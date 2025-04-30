@@ -1,6 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
 import "package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart";
 

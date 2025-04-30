@@ -1,5 +1,5 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/resource.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource.dart";
 
 part "paginated_response.freezed.dart";
 

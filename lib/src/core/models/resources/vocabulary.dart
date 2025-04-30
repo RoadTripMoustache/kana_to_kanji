@@ -1,7 +1,7 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/kanji_reading.dart";
-import "package:kana_to_kanji/src/core/models/resource.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/kanji_reading.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 
 part "vocabulary.freezed.dart";
 part "vocabulary.g.dart";

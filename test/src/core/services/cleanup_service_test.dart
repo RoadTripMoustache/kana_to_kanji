@@ -4,7 +4,7 @@ import "dart:io";
 import "package:flutter_test/flutter_test.dart";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/cleanup.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";

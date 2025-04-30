@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 
 class GroupCard extends StatelessWidget {
   final Group group;

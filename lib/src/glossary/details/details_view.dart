@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/models/resources/kana.dart";
+import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/details/details_view_model.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/details.dart";
 import "package:stacked/stacked.dart";

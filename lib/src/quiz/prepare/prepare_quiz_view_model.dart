@@ -1,6 +1,6 @@
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/repositories/group_repository.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:kana_to_kanji/src/quiz/quiz_view.dart";

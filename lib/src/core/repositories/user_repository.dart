@@ -1,7 +1,7 @@
 import "package:firebase_auth/firebase_auth.dart" as firebase;
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
-import "package:kana_to_kanji/src/core/models/user.dart";
+import "package:kana_to_kanji/src/core/models/user/user.dart";
 import "package:kana_to_kanji/src/core/services/user_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
