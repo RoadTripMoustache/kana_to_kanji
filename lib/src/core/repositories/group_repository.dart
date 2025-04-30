@@ -1,7 +1,7 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
-import "package:kana_to_kanji/src/core/services/group_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
 
 class GroupRepository {
   final GroupService _groupsService;

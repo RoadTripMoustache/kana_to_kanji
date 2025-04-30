@@ -1,6 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
-import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 

@@ -3,7 +3,7 @@ import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Kana, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
-import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 
 const sqlKanaTable = "kanas";

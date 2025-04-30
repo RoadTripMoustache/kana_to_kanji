@@ -3,7 +3,7 @@ import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/models/resources/kana.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
-import "package:kana_to_kanji/src/core/services/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
 
 class KanaRepository extends ResourceRepository<Kana, KanaService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");

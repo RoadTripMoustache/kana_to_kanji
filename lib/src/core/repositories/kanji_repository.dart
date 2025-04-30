@@ -4,7 +4,7 @@ import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resources/pronunciation.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
-import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {

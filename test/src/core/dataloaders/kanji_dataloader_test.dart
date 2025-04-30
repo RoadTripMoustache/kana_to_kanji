@@ -6,7 +6,7 @@ import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";

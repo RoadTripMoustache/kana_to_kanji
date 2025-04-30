@@ -3,7 +3,7 @@ import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
-import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class VocabularyRepository

@@ -11,7 +11,7 @@ import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
-import "package:kana_to_kanji/src/core/services/sync_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/sync_service.dart";
 import "package:kana_to_kanji/src/core/services/toaster_service.dart";
 import "package:logger/logger.dart";
 
