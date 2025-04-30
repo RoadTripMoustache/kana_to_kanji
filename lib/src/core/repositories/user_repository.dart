@@ -1,8 +1,7 @@
-import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_auth/firebase_auth.dart" as firebase;
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
-import "package:kana_to_kanji/src/core/models/user.dart" as ktk_user;
-import "package:kana_to_kanji/src/core/services/token_service.dart";
+import "package:kana_to_kanji/src/core/models/user.dart";
 import "package:kana_to_kanji/src/core/services/user_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
@@ -11,7 +10,6 @@ import "package:stacked/stacked.dart";
 class UserRepository with ListenableServiceMixin {
   final Logger _logger = locator<Logger>();
   final AuthService _authService = locator<AuthService>();
-  final TokenService _tokenService = locator<TokenService>();
   late final UserService _userService;
 
   /// [userService] is visible for testing purpose.
@@ -20,18 +18,19 @@ class UserRepository with ListenableServiceMixin {
     listenToReactiveValues([_self]);
   }
 
-  ktk_user.User? _self;
+  User? _self;
 
-  ktk_user.User? get self => _self;
+  User? get self => _self;
 
   Future<bool> signOut() {
     _self = null;
     return Future.value(true);
   }
 
+  Future<bool> silentSignIn() => _authService.silentSignIn();
+
   Future<bool> signIn(
     AuthenticationMethod method, {
-    bool isSilent = false,
     String? email,
     String? password,
   }) {
@@ -45,10 +44,11 @@ class UserRepository with ListenableServiceMixin {
   /// Otherwise `Future.value(false)`.
   Future<bool> register(AuthenticationMethod method) async {
     try {
-      final userCredential = await _authService.signInAnonymously();
-      _tokenService.token = userCredential;
-      return _userService.getUser().then((value) => true);
-    } on FirebaseAuthException catch (e) {
+      await _authService.signInAnonymously();
+      final User? user = await _userService.getUser();
+
+      return user != null;
+    } on firebase.FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
           _logger.e("Anonymous auth hasn't been enabled for this project.");
@@ -59,7 +59,7 @@ class UserRepository with ListenableServiceMixin {
     }
   }
 
-  Future<bool> updateSelf(ktk_user.User updatedUser) {
+  Future<bool> updateSelf(User updatedUser) {
     throw UnimplementedError();
   }
 
