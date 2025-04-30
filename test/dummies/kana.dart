@@ -1,7 +1,6 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 
 final Kana dummyHiragana = Kana(
   uid: ResourceUid.fromJson("kana-0"),

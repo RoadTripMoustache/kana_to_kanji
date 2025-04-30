@@ -1,7 +1,7 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
-import "package:kana_to_kanji/src/core/services/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 

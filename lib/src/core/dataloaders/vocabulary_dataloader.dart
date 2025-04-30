@@ -1,7 +1,7 @@
 import "package:flutter/cupertino.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
-import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
+import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class VocabularyDataLoader extends ResourceDataLoader<Vocabulary> {

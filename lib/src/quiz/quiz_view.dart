@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 import "package:kana_to_kanji/src/practice/quiz/widgets/quiz_app_bar.dart";
 import "package:kana_to_kanji/src/quiz/quiz_view_model.dart";

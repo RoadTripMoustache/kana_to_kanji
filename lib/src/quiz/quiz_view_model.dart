@@ -1,5 +1,5 @@
 import "package:go_router/go_router.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/settings_repository.dart";
 import "package:kana_to_kanji/src/locator.dart";

@@ -1,15 +1,14 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
-import "package:kana_to_kanji/src/core/services/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 
 const sqlGroupsTable = "groups";
 const sqlAlphabetColumn = "alphabet";
 const sqlNameColumn = "name";
 const sqlKanaTypeColumn = "kana_type";
-const sqlVersionColumn = "version";
 const sqlLocalizedNameColumn = "localized_name";
 
 class GroupService extends ResourceDataService<Group> {

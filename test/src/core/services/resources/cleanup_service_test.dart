@@ -4,14 +4,14 @@ import "dart:io";
 import "package:flutter_test/flutter_test.dart";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/cleanup.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
-import "package:kana_to_kanji/src/core/services/group_service.dart";
-import "package:kana_to_kanji/src/core/services/kana_service.dart";
-import "package:kana_to_kanji/src/core/services/kanji_service.dart";
-import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/cleanup_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
@@ -27,7 +27,7 @@ import "package:sqflite/sqflite.dart";
   MockSpec<Transaction>(),
   MockSpec<Batch>(),
 ])
-import "./cleanup_service_test.mocks.dart";
+import "cleanup_service_test.mocks.dart";
 
 void main() {
   group("CleanUpService", () {

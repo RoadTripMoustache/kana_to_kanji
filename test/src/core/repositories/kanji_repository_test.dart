@@ -2,7 +2,7 @@ import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
-import "package:kana_to_kanji/src/core/services/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 

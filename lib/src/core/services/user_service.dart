@@ -2,7 +2,7 @@ import "dart:convert";
 
 import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/user_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/user.dart";
+import "package:kana_to_kanji/src/core/models/user/user.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 

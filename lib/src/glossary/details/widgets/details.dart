@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
-import "package:kana_to_kanji/src/core/models/kanji.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/models/resources/kana.dart";
+import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
+import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/section_title.dart";

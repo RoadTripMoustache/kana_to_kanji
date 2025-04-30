@@ -3,7 +3,7 @@ import "dart:ui";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
-import "package:kana_to_kanji/src/core/services/sync_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/sync_service.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:rive/rive.dart";

@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
-import "package:kana_to_kanji/src/core/models/group.dart";
+import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/quiz/prepare/widgets/group_card.dart";
 import "package:kana_to_kanji/src/quiz/prepare/widgets/kana_groups.dart";
 

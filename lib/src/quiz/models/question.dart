@@ -2,7 +2,7 @@
 // ignore_for_file: avoid_final_parameters
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/resources/kana.dart";
 import "package:kana_to_kanji/src/quiz/constants/question_types.dart";
 
 part "question.freezed.dart";

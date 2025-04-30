@@ -3,11 +3,11 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/sync.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/cleanup_service.dart";
-import "package:kana_to_kanji/src/core/services/group_service.dart";
-import "package:kana_to_kanji/src/core/services/kana_service.dart";
-import "package:kana_to_kanji/src/core/services/kanji_service.dart";
-import "package:kana_to_kanji/src/core/services/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/cleanup_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 

@@ -1,7 +1,5 @@
 import "package:kana_to_kanji/src/core/constants/resource_type.dart";
-import "package:kana_to_kanji/src/core/models/kanji_reading.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
-import "package:kana_to_kanji/src/core/models/vocabulary.dart";
+import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 
 const Vocabulary dummyVocabulary = Vocabulary(
   uid: ResourceUid("vocabulary-1", ResourceType.vocabulary),

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
-import "package:kana_to_kanji/src/core/models/kana.dart";
+import "package:kana_to_kanji/src/core/models/resources/kana.dart";
 
 class KanaListTile extends StatelessWidget {
   final Kana kana;

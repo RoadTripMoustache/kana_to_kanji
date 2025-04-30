@@ -1,5 +1,5 @@
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:kana_to_kanji/src/core/models/resource_uid.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 
 part "cleanup.freezed.dart";
 
