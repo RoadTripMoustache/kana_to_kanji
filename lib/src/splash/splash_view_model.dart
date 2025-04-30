@@ -1,10 +1,14 @@
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/authentication/landing_view.dart";
+import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
+import "package:kana_to_kanji/src/glossary/glossary_view.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
 class SplashViewModel extends FutureViewModel {
   final GoRouter goRouter;
+
+  final UserRepository _userRepository = locator<UserRepository>();
 
   SplashViewModel(this.goRouter);
 
@@ -19,6 +23,10 @@ class SplashViewModel extends FutureViewModel {
     ]);
 
     // Move to main screen
-    await goRouter.replace(LandingView.routeName);
+    await goRouter.replace(
+      await _userRepository.silentSignIn()
+          ? GlossaryView.routeName
+          : LandingView.routeName,
+    );
   }
 }

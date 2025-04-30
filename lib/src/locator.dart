@@ -13,7 +13,6 @@ import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/sync_service.dart";
 import "package:kana_to_kanji/src/core/services/toaster_service.dart";
-import "package:kana_to_kanji/src/core/services/token_service.dart";
 import "package:logger/logger.dart";
 
 final GetIt locator = GetIt.instance;
@@ -27,11 +26,10 @@ void setupLocator() {
     ..registerSingletonAsync<AuthService>(() async => AuthService())
     ..registerSingleton<DialogService>(DialogService())
     ..registerLazySingleton<PreferencesService>(PreferencesService.new)
-    ..registerSingletonAsync<TokenService>(() async => TokenService())
     ..registerSingleton<ToasterService>(ToasterService())
     ..registerSingletonWithDependencies<ApiService>(
       ApiService.new,
-      dependsOn: [TokenService],
+      dependsOn: [AuthService],
     )
     ..registerSingletonAsync<InfoService>(() async {
       final instance = InfoService();
@@ -77,12 +75,12 @@ void setupLocator() {
     // ------------------------ //
     ..registerSingletonAsync<SyncService>(() async {
       final instance = SyncService();
-      final TokenService tokenService = locator<TokenService>();
+      final AuthService authService = locator<AuthService>();
 
-      if (await tokenService.getToken() != null) {
+      if (await authService.getAuthToken() != null) {
         await instance.sync();
       }
 
       return instance;
-    }, dependsOn: [ApiService, DatabaseService]);
+    }, dependsOn: [AuthService, ApiService, DatabaseService]);
 }

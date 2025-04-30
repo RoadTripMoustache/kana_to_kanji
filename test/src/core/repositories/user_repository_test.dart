@@ -1,10 +1,9 @@
-import "package:firebase_auth/firebase_auth.dart";
-import "package:firebase_core/firebase_core.dart";
+import "package:firebase_auth/firebase_auth.dart" as firebase;
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/constants/authentication_method.dart";
+import "package:kana_to_kanji/src/core/models/user.dart";
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
-import "package:kana_to_kanji/src/core/services/token_service.dart";
 import "package:kana_to_kanji/src/core/services/user_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
@@ -15,27 +14,24 @@ import "../../../helpers.dart";
 @GenerateNiceMocks([
   MockSpec<Logger>(),
   MockSpec<UserService>(),
-  MockSpec<TokenService>(),
-  MockSpec<FirebaseAuth>(),
-  MockSpec<UserCredential>(),
-  MockSpec<FirebaseApp>(),
+  MockSpec<firebase.FirebaseAuth>(),
+  MockSpec<firebase.UserCredential>(),
+  MockSpec<User>(),
   MockSpec<AuthService>(),
 ])
 import "user_repository_test.mocks.dart";
 
-final loggerMock = MockLogger();
-final userServiceMock = MockUserService();
-final tokenServiceMock = MockTokenService();
-final authServiceMock = MockAuthService();
-
 void main() {
+  final loggerMock = MockLogger();
+  final userServiceMock = MockUserService();
+  final authServiceMock = MockAuthService();
+
   group("UserRepository", () {
     late UserRepository repository;
 
     setUpAll(() async {
       locator
         ..registerSingleton<Logger>(loggerMock)
-        ..registerSingleton<TokenService>(tokenServiceMock)
         ..registerSingleton<AuthService>(authServiceMock);
     });
 
@@ -47,24 +43,19 @@ void main() {
       reset(loggerMock);
       reset(userServiceMock);
       reset(authServiceMock);
-      reset(tokenServiceMock);
     });
 
     tearDownAll(() async {
-      await Future.wait([
-        unregister<Logger>(),
-        unregister<TokenService>(),
-        unregister<AuthService>(),
-      ]);
+      await Future.wait([unregister<Logger>(), unregister<AuthService>()]);
     });
 
     group("register", () {
       test("Correct registration", () async {
-        final UserCredential userCredential = MockUserCredential();
+        final firebase.UserCredential userCredential = MockUserCredential();
         when(
           authServiceMock.signInAnonymously(),
         ).thenAnswer((_) => Future.value(userCredential));
-        when(userServiceMock.getUser()).thenAnswer((_) => Future.value());
+        when(userServiceMock.getUser()).thenAnswer((_) async => MockUser());
 
         final result = await repository.register(
           AuthenticationMethod.anonymous,
@@ -74,14 +65,13 @@ void main() {
           authServiceMock.signInAnonymously(),
           userServiceMock.getUser(),
         ]);
-        verifyNever(loggerMock.e(any));
         expect(result, true);
       });
 
       test("Incorrect registration - operation not allowed", () async {
-        when(
-          authServiceMock.signInAnonymously(),
-        ).thenThrow(FirebaseAuthException(code: "operation-not-allowed"));
+        when(authServiceMock.signInAnonymously()).thenThrow(
+          firebase.FirebaseAuthException(code: "operation-not-allowed"),
+        );
 
         final result = await repository.register(
           AuthenticationMethod.anonymous,
@@ -101,7 +91,7 @@ void main() {
       test("Incorrect registration - default", () async {
         when(
           authServiceMock.signInAnonymously(),
-        ).thenThrow(FirebaseAuthException(code: "operwed"));
+        ).thenThrow(firebase.FirebaseAuthException(code: "operwed"));
 
         final result = await repository.register(
           AuthenticationMethod.anonymous,
