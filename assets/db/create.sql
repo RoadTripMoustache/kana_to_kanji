@@ -80,7 +80,6 @@ CREATE TABLE vocabulary
     jlpt_level     INTEGER NOT NULL,
     romaji         TEXT    NOT NULL,
     version        TEXT    NOT NULL,
-    kana_syllables TEXT    NOT NULL, -- Stored as JSON array
     meanings       TEXT    NOT NULL  -- Stored as JSON array
 );
 
