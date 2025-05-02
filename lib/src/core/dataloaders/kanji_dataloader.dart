@@ -16,7 +16,6 @@ class KanjiDataLoader extends ResourceDataLoader<Kanji> {
   static List<int> _buildSortSyllables(Map<String, dynamic> json) {
     List<int> sortSyllables = [];
 
-    // TODO : To clean up once migrated to pronunciations
     if (json["pronunciations"] != null &&
         // ignore: avoid_dynamic_calls
         !json["pronunciations"].isEmpty) {

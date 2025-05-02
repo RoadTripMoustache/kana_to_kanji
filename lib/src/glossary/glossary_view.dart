@@ -3,10 +3,7 @@ import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
 import "package:kana_to_kanji/src/glossary/glossary_view_model.dart";
-import "package:kana_to_kanji/src/glossary/widgets/kana_list.dart";
-import "package:kana_to_kanji/src/glossary/widgets/kanji_list.dart";
 import "package:kana_to_kanji/src/glossary/widgets/search_bar.dart";
-import "package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart";
 import "package:stacked/stacked.dart";
 
 class GlossaryView extends StatefulWidget {
@@ -84,24 +81,7 @@ class _GlossaryViewState extends State<GlossaryView>
               padding: const EdgeInsets.only(top: 8.0),
               child: TabBarView(
                 controller: _tabController,
-                children: <Widget>[
-                  KanaList(
-                    items: viewModel.hiraganaList,
-                    onPressed: viewModel.onTilePressed,
-                  ),
-                  KanaList(
-                    items: viewModel.katakanaList,
-                    onPressed: viewModel.onTilePressed,
-                  ),
-                  KanjiList(
-                    items: viewModel.kanjiList,
-                    onPressed: viewModel.onTilePressed,
-                  ),
-                  VocabularyList(
-                    items: viewModel.vocabularyList,
-                    onPressed: viewModel.onTilePressed,
-                  ),
-                ],
+                children: <Widget>[],
               ),
             ),
           ),

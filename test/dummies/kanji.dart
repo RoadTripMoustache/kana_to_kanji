@@ -36,8 +36,8 @@ INSERT OR IGNORE INTO groups (uid, alphabet, name, kana_type, version)
 VALUES
   ('${dummyKanjiWithRelatedData.groups.first.uid}', 'kanji', '', 'main', '2025_01_01');
 
-INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings) VALUES
-('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["に","ほ","ん","ご"]', '["Japanese language"]');
+INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, meanings) VALUES
+('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["Japanese language"]');
 
 INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables, number_of_strokes, grade, pronunciations, main_meaning)
 VALUES

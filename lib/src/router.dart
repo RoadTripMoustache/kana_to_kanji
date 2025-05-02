@@ -5,7 +5,7 @@ import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
 import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_not_found_view.dart";
-import "package:kana_to_kanji/src/glossary/glossary_view.dart";
+import "package:kana_to_kanji/src/glossary_new/view.dart";
 import "package:kana_to_kanji/src/practice/quiz/practice_view.dart";
 import "package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart";
 import "package:kana_to_kanji/src/quiz/models/question.dart";
