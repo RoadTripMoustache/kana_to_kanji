@@ -238,6 +238,8 @@
   "glossary_tab_kanji": "Kanji",
   "glossary_search_bar_hint": "日本, にほん, Japon",
   "glossary_filter_by_title": "Filtrer par",
+  "glossary_filter_by_apply": "Appliquer",
+  "glossary_filter_by_clear": "Éffacer les filtres",
   "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} autres}}}",
   "@glossary_tile_meanings": {
     "description": "Principal traduction du kanji ou mot de vocabulaire",
@@ -284,7 +286,7 @@
     }
   },
   "jlpt_level_title": "Niveau JLPT",
-  "jlpt_level_short": "JLPT-{level}",
+  "jlpt_level_short": "N{level}",
   "@jlpt_level_short": {
     "description": "Affiche le niveau JLPT",
     "placeholders": {

@@ -115,7 +115,7 @@ void main() {
 
       test("should filter by JLPT level", () async {
         final result = await repository.searchKanji("", [], [
-          JLPTLevel.level5,
+          JLPTLevel.n5,
         ], SortOrder.japanese);
 
         expect(result.length, 1);

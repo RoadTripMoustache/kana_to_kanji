@@ -1,35 +1,35 @@
 import "package:flutter/material.dart";
 
 abstract class JLPTLevelColors {
-  static const Color level5 = Color(0xff3498da);
-  static const Color level4 = Color(0xff2ecc71);
-  static const Color level3 = Color(0xfff1c40f);
-  static const Color level2 = Color(0xfff39c13);
-  static const Color level1 = Color(0xffe74b3c);
+  static const Color n5 = Color(0xff3498da);
+  static const Color n4 = Color(0xff2ecc71);
+  static const Color n3 = Color(0xfff1c40f);
+  static const Color n2 = Color(0xfff39c13);
+  static const Color n1 = Color(0xffe74b3c);
 
   static Color level(int level) {
     switch (level) {
       case 1:
-        return level1;
+        return n1;
       case 2:
-        return level2;
+        return n2;
       case 3:
-        return level3;
+        return n3;
       case 4:
-        return level4;
+        return n4;
       case 5:
       default:
-        return level5;
+        return n5;
     }
   }
 }
 
 enum JLPTLevel {
-  level1(1),
-  level2(2),
-  level3(3),
-  level4(4),
-  level5(5);
+  n1(1),
+  n2(2),
+  n3(3),
+  n4(4),
+  n5(5);
 
   final int value;
 
@@ -38,16 +38,16 @@ enum JLPTLevel {
   static JLPTLevel getValue(int level) {
     switch (level) {
       case 1:
-        return JLPTLevel.level1;
+        return JLPTLevel.n1;
       case 2:
-        return JLPTLevel.level2;
+        return JLPTLevel.n2;
       case 3:
-        return JLPTLevel.level3;
+        return JLPTLevel.n3;
       case 4:
-        return JLPTLevel.level4;
+        return JLPTLevel.n4;
       case 5:
       default:
-        return JLPTLevel.level5;
+        return JLPTLevel.n5;
     }
   }
 }

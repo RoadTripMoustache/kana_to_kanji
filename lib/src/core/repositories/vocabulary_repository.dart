@@ -1,9 +1,11 @@
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
+import "package:kana_to_kanji/src/core/utils/extensions.dart";
 
 class VocabularyRepository
     extends ResourceRepository<Vocabulary, VocabularyService> {
@@ -18,6 +20,23 @@ class VocabularyRepository
     items.addAll(await service.getAll());
 
     return items;
+  }
+
+  @override
+  Future<PaginatedData<Vocabulary>> get({
+    Map<String, dynamic> filterBy = const {},
+  }) async {
+    final List<JLPTLevel> jlptFilter = filterBy["jlpt"] ?? [];
+
+    final paginatedData = await service.getPage(
+      0,
+      where: jlptFilter.toSql(),
+      whereArgs: jlptFilter.map((e) => e.value).toList(),
+    );
+
+    return paginatedData.copyWith(
+      next: paginatedData.hasMore ? () => nextPage(paginatedData.next!) : null,
+    );
   }
 
   Future<List<Vocabulary>> searchVocabulary(

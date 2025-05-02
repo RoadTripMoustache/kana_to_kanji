@@ -243,6 +243,8 @@
   "glossary_tab_kanji": "Kanji",
   "glossary_search_bar_hint": "日本, にほん, Japan",
   "glossary_filter_by_title": "Filter by",
+  "glossary_filter_by_apply": "Apply",
+  "glossary_filter_by_clear": "Reset all",
   "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} other}}}",
   "@glossary_tile_meanings": {
     "description": "Present the main meaning of the kanji or vocabulary and the number of other meanings",
@@ -289,7 +291,7 @@
     }
   },
   "jlpt_level_title": "JLPT Level",
-  "jlpt_level_short": "JLPT-{level}",
+  "jlpt_level_short": "N{level}",
   "@jlpt_level_short": {
     "description": "Display the JLPT level",
     "placeholders": {

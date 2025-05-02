@@ -31,17 +31,20 @@ abstract class ResourceRepository<
     items.clear();
   }
 
-  Future<PaginatedData<T>> get() async {
+  Future<PaginatedData<T>> get({
+    Map<String, dynamic> filterBy = const {},
+  }) async {
     final paginatedData = await service.getPage(0);
 
     items.addAll(paginatedData.data);
 
     return paginatedData.copyWith(
-      next: paginatedData.hasMore ? () => _nextPage(paginatedData.next!) : null,
+      next: paginatedData.hasMore ? () => nextPage(paginatedData.next!) : null,
     );
   }
 
-  Future<PaginatedData<T>> _nextPage(
+  @protected
+  Future<PaginatedData<T>> nextPage(
     Future<PaginatedData<T>> Function() next,
   ) async {
     final paginatedData = await next();
@@ -53,7 +56,7 @@ abstract class ResourceRepository<
     }
 
     return paginatedData.copyWith(
-      next: paginatedData.hasMore ? () => _nextPage(paginatedData.next!) : null,
+      next: paginatedData.hasMore ? () => nextPage(paginatedData.next!) : null,
     );
   }
 }

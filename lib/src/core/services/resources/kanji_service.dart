@@ -1,4 +1,5 @@
 import "dart:convert";
+import "dart:math";
 
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
@@ -69,7 +70,7 @@ class KanjiService extends ResourceDataService<Kanji> {
         where: where,
         orderBy: orderBy,
         limit: pageSize,
-        offset: (page - 1) * pageSize,
+        offset: max((page - 1) * pageSize, 0),
       ),
       arguments: whereArgs ?? [],
       transformer: _transformer,

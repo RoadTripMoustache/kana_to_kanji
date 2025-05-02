@@ -25,11 +25,11 @@ void main() {
   group("FilterBy", () {
     final List<FilterByTestCase> cases = [
       FilterByTestCase("default view", [], [], []),
-      FilterByTestCase("JLPT 1 selected", [JLPTLevel.level1], [], [0]),
-      FilterByTestCase("JLPT 2 selected", [JLPTLevel.level2], [], [1]),
-      FilterByTestCase("JLPT 3 selected", [JLPTLevel.level3], [], [2]),
-      FilterByTestCase("JLPT 4 selected", [JLPTLevel.level4], [], [3]),
-      FilterByTestCase("JLPT 5 selected", [JLPTLevel.level5], [], [4]),
+      FilterByTestCase("JLPT 1 selected", [JLPTLevel.n1], [], [0]),
+      FilterByTestCase("JLPT 2 selected", [JLPTLevel.n2], [], [1]),
+      FilterByTestCase("JLPT 3 selected", [JLPTLevel.n3], [], [2]),
+      FilterByTestCase("JLPT 4 selected", [JLPTLevel.n4], [], [3]),
+      FilterByTestCase("JLPT 5 selected", [JLPTLevel.n5], [], [4]),
       FilterByTestCase(
         "Knowledge level 'Learned' selected",
         [],
@@ -56,7 +56,7 @@ void main() {
       ),
       FilterByTestCase(
         "Multiple selections",
-        [JLPTLevel.level1, JLPTLevel.level4],
+        [JLPTLevel.n1, JLPTLevel.n4],
         [KnowledgeLevel.other, KnowledgeLevel.practicing],
         [0, 3, 6, 8],
       ),
@@ -90,7 +90,7 @@ void main() {
       await tester.pumpLocalizedWidget(
         FilterBy(
           filterGlossary: () => {isClicked = true},
-          selectedJlptLevel: const [JLPTLevel.level1, JLPTLevel.level4],
+          selectedJlptLevel: const [JLPTLevel.n1, JLPTLevel.n4],
           selectedKnowledgeLevel: const [
             KnowledgeLevel.other,
             KnowledgeLevel.practicing,
@@ -109,7 +109,7 @@ void main() {
 
     testWidgets("Click on clear all", (WidgetTester tester) async {
       var isClicked = false;
-      final selectedJlptLevelList = [JLPTLevel.level1, JLPTLevel.level4];
+      final selectedJlptLevelList = [JLPTLevel.n1, JLPTLevel.n4];
       final selectedKnowledgeLevelList = [
         KnowledgeLevel.other,
         KnowledgeLevel.practicing,

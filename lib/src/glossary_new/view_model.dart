@@ -3,7 +3,9 @@ import "dart:async";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/kana_type.dart";
+import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
@@ -11,6 +13,7 @@ import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/glossary/details/details_view.dart";
 import "package:kana_to_kanji/src/glossary_new/pagination_helper.dart";
+import "package:kana_to_kanji/src/glossary_new/widgets/filter_by_dialog.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
@@ -28,6 +31,9 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     hiraganaStream: StreamController<KanaMap>(),
     katakanaStream: StreamController<KanaMap>(),
   };
+
+  final List<JLPTLevel> _selectedJlptLevel = [];
+  final List<KnowledgeLevel> _selectedKnowledgeLevel = [];
 
   final DialogService _dialogService = locator<DialogService>();
   final KanaRepository _kanaRepository = locator<KanaRepository>();
@@ -87,6 +93,32 @@ class GlossaryViewModel extends MultipleStreamViewModel {
       isScrollControlled: true,
       builder: (context) => DetailsView(item: item),
     );
+  }
+
+  Future<void> onFilterByPressed() async {
+    await _dialogService.showModalBottomSheet(
+      showDragHandle: true,
+      builder:
+          (context) => FilterByDialog(
+            selectedJlptLevel: _selectedJlptLevel,
+            selectedKnowledgeLevel: _selectedKnowledgeLevel,
+            onSubmit: _updateFilters,
+          ),
+    );
+  }
+
+  void _updateFilters(
+    List<JLPTLevel> jlptLevels,
+    List<KnowledgeLevel> knowledgeLevels,
+  ) {
+    _selectedJlptLevel
+      ..clear()
+      ..addAll(jlptLevels);
+    _selectedKnowledgeLevel
+      ..clear()
+      ..addAll(knowledgeLevels);
+    kanji.updateFilters(_selectedJlptLevel);
+    vocabulary.updateFilters(_selectedJlptLevel);
   }
 
   @override

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
@@ -45,6 +46,12 @@ class _GlossaryViewState extends State<GlossaryView>
           (context, viewModel, child) => AppScaffold(
             showBottomBar: true,
             appBar: AppBar(
+              actions: [
+                RTMIconButton(
+                  onPressed: viewModel.onFilterByPressed,
+                  icon: const Icon(Icons.filter_list_rounded),
+                ),
+              ],
               bottom: TabBar.secondary(
                 controller: _tabController,
                 tabs: <Widget>[
