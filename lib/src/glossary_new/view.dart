@@ -79,13 +79,11 @@ class _GlossaryViewState extends State<GlossaryView>
                   ),
                   KanjiList(
                     onPressed: viewModel.onTilePressed,
-                    pagingState: viewModel.kanji,
-                    fetchNextPage: viewModel.kanjiNextPage,
+                    pagination: viewModel.kanji,
                   ),
                   VocabularyList(
                     onPressed: viewModel.onTilePressed,
-                    pagingState: viewModel.vocabulary,
-                    fetchNextPage: viewModel.vocabularyNextPage,
+                    pagination: viewModel.vocabulary,
                   ),
                 ],
               ),

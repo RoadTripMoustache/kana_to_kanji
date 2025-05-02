@@ -2,25 +2,19 @@ import "package:flutter/material.dart";
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
+import "package:kana_to_kanji/src/glossary_new/pagination_helper.dart";
 
 class VocabularyList extends StatelessWidget {
   final Function(Vocabulary)? onPressed;
 
-  final PagingState<int, Vocabulary> pagingState;
+  final PaginationHelper<Vocabulary, dynamic> pagination;
 
-  final VoidCallback fetchNextPage;
-
-  const VocabularyList({
-    required this.pagingState,
-    required this.fetchNextPage,
-    super.key,
-    this.onPressed,
-  });
+  const VocabularyList({required this.pagination, super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) => PagedListView<int, Vocabulary>(
-    state: pagingState,
-    fetchNextPage: fetchNextPage,
+    state: pagination.pagingState,
+    fetchNextPage: pagination.fetchNextPage,
     builderDelegate: PagedChildBuilderDelegate(
       itemBuilder:
           (context, item, index) => GlossaryListTile.vocabulary(
