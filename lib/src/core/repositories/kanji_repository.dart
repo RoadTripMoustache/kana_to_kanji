@@ -10,10 +10,6 @@ import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
-  /// [kanjiService] should only be used for testing
-  KanjiRepository({KanjiService? kanjiService})
-    : super(service: kanjiService ?? KanjiService());
-
   /// Retrieve all the kanji from the database
   Future<List<Kanji>> getAll() async {
     if (items.isNotEmpty) {

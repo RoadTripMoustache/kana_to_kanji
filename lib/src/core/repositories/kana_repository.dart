@@ -1,30 +1,39 @@
+import "dart:async";
+
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/kana_type.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/models/resources/kana.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
 
+const _mainKanaLastId = 46;
+const _dakutenLastId = 71;
+
 class KanaRepository extends ResourceRepository<Kana, KanaService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
 
-  /// [kanaService] should only be used for testing
-  KanaRepository({KanaService? kanaService})
-    : super(service: kanaService ?? KanaService());
+  final Map<KanaTypes, List<Kana>> _sortedHiragana = {};
+  final Map<KanaTypes, List<Kana>> _sortedKatakana = {};
 
   /// Loads kana data asynchronously
-  Future<void> loadKana() async {
+  Future<void> initialize() async {
     if (items.isEmpty) {
-      items.addAll([
-        ...await service.getHiragana(),
-        ...await service.getKatakana(),
-      ]);
+      items.addAll(await service.getAll());
+      logger.f("KanaRepository: ${items.length} kana loaded");
+      notifyListeners();
     }
+  }
+
+  @override
+  void onServiceUpdate() {
+    super.onServiceUpdate();
+    unawaited(initialize());
   }
 
   /// Gets kana by group IDs asynchronously
   Future<List<Kana>> getByGroupIds(List<ResourceUid> groupIds) async {
-    await loadKana();
     final kanaFiltered =
         items.where((element) => groupIds.contains(element.groupUid)).toList();
 
@@ -35,9 +44,28 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
   Future<List<Kana>> getByGroupId(ResourceUid groupId) async =>
       getByGroupIds([groupId]);
 
+  Future<Map<KanaTypes, List<Kana>>> getSorted(Alphabets alphabet) async {
+    final bool isHiragana = alphabet == Alphabets.hiragana;
+    final Map<KanaTypes, List<Kana>> sorted =
+        isHiragana ? _sortedHiragana : _sortedKatakana;
+
+    if (sorted.isNotEmpty) {
+      return sorted;
+    }
+    final listKana =
+        items.where((element) => alphabet == element.alphabet).toList()
+          ..sort((Kana a, Kana b) => a.position.compareTo(b.position));
+
+    sorted.addAll({
+      KanaTypes.main: listKana.sublist(0, _mainKanaLastId),
+      KanaTypes.dakuten: listKana.sublist(_mainKanaLastId, _dakutenLastId),
+      KanaTypes.combination: listKana.sublist(_dakutenLastId),
+    });
+    return sorted;
+  }
+
   /// Gets all hiragana characters asynchronously
   Future<List<Kana>> getHiragana() async {
-    await loadKana();
     final listKana =
         items
             .where((element) => Alphabets.hiragana == element.alphabet)
@@ -60,7 +88,6 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
       return List.empty();
     }
 
-    await loadKana();
     bool Function(Kana) txtFilter = (Kana element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (Kana element) => element.romaji.contains(searchTxt);
@@ -88,7 +115,6 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
 
   /// Gets all katakana characters asynchronously
   Future<List<Kana>> getKatakana() async {
-    await loadKana();
     final listKana =
         items
             .where((element) => Alphabets.katakana == element.alphabet)
@@ -111,7 +137,6 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
       return List.empty();
     }
 
-    await loadKana();
     bool Function(Kana) txtFilter = (element) => true;
     if (searchTxt != "" && alphabeticalRegex.hasMatch(searchTxt)) {
       txtFilter = (element) => element.romaji.contains(searchTxt);

@@ -16,6 +16,7 @@ import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
+import "../../../../helpers.dart";
 @GenerateNiceMocks([
   MockSpec<ApiService>(),
   MockSpec<ResourceDataService>(),
@@ -32,14 +33,14 @@ void main() {
   group("SyncService", () {
     late SyncService service;
     final apiServiceMock = MockApiService();
-    final cleanUpServiceMock = MockCleanUpService();
     final mockLogger = MockLogger();
 
-    // Service instances with mocked data-services
+    // Service instances
     final MockGroupService groupServiceMock = MockGroupService();
     final MockKanaService kanaServiceMock = MockKanaService();
     final MockKanjiService kanjiServiceMock = MockKanjiService();
     final MockVocabularyService vocabularyServiceMock = MockVocabularyService();
+    final cleanUpServiceMock = MockCleanUpService();
 
     Sync syncMock = Sync(
       groups: true,
@@ -56,23 +57,29 @@ void main() {
     setUpAll(() {
       locator
         ..registerSingleton<ApiService>(apiServiceMock)
+        ..registerSingleton<GroupService>(groupServiceMock)
+        ..registerSingleton<KanaService>(kanaServiceMock)
+        ..registerSingleton<KanjiService>(kanjiServiceMock)
+        ..registerSingleton<VocabularyService>(vocabularyServiceMock)
+        ..registerSingleton<CleanUpService>(cleanUpServiceMock)
         ..registerSingleton<Logger>(mockLogger);
     });
 
     tearDownAll(() async {
-      await locator.unregister<ApiService>();
-      await locator.unregister<Logger>();
+      await Future.wait([
+        unregister<ApiService>(),
+        unregister<GroupService>(),
+        unregister<KanaService>(),
+        unregister<KanjiService>(),
+        unregister<VocabularyService>(),
+        unregister<CleanUpService>(),
+        unregister<Logger>(),
+      ]);
     });
 
     setUp(() async {
       // Create SyncService with mocked services
-      service = SyncService(
-        groupService: groupServiceMock,
-        kanaService: kanaServiceMock,
-        kanjiService: kanjiServiceMock,
-        vocabularyService: vocabularyServiceMock,
-        cleanUpService: cleanUpServiceMock,
-      );
+      service = SyncService();
 
       syncMock = Sync(
         groups: true,

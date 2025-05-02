@@ -3,25 +3,38 @@ import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
 import "../../../dummies/kanji.dart";
-@GenerateNiceMocks([MockSpec<KanjiService>()])
+import "../../../helpers.dart";
+@GenerateNiceMocks([MockSpec<KanjiService>(), MockSpec<Logger>()])
 import "kanji_repository_test.mocks.dart";
 
 void main() {
   group("KanjiRepository", () {
     late KanjiRepository repository;
-    late MockKanjiService kanjiServiceMock;
+    final MockKanjiService kanjiServiceMock = MockKanjiService();
+
+    setUpAll(() {
+      locator
+        ..registerSingleton<Logger>(MockLogger())
+        ..registerSingleton<KanjiService>(kanjiServiceMock);
+    });
 
     setUp(() {
-      kanjiServiceMock = MockKanjiService();
-      repository = KanjiRepository(kanjiService: kanjiServiceMock);
+      repository = KanjiRepository();
     });
 
     tearDown(() {
       reset(kanjiServiceMock);
+    });
+
+    tearDownAll(() async {
+      await unregister<Logger>();
+      await unregister<KanjiService>();
     });
 
     test("should properly handle service updates", () {

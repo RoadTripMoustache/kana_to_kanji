@@ -75,6 +75,35 @@ abstract class ResourceDataService<T extends Resource>
         .toList();
   }
 
+  Future<PaginatedData<T>> getPage(
+    int page, {
+    int pageSize = 100,
+    String? orderBy,
+    String? where,
+    List<dynamic>? whereArgs,
+  }) async {
+    final snapshot = await _databaseService.queryTrans(
+      tableName,
+      transformer: transformer,
+      columns: columns,
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+      orderBy: orderBy,
+      where: where,
+      whereArgs: whereArgs,
+    );
+
+    return PaginatedData<T>(
+      data: snapshot,
+      next:
+          snapshot.length == pageSize
+              ? () => getPage(page + 1, pageSize: pageSize)
+              : null,
+    );
+  }
+
+  /// Retrieve all the resource.
+  /// Be aware that this will load ALL the resource of the database in memory.
   Future<List<T>> getAll() => _databaseService.queryTrans(
     tableName,
     transformer: transformer,
@@ -198,7 +227,7 @@ abstract class ResourceDataService<T extends Resource>
 
   /// If [forceReload] is true, the collection is cleared and populated again
   Future sync({bool forceReload = false}) async {
-    _logger.i("ResourceDataService<$T>: syncing");
+    _logger.d("ResourceDataService<$T>: start syncing");
     final version = forceReload ? await latestVersion : null;
 
     if (forceReload) {
@@ -219,7 +248,7 @@ abstract class ResourceDataService<T extends Resource>
         cursor = await cursor.next!();
       }
     } while (hasMore);
-    _logger.i("ResourceDataService<$T>: sync ended");
+    _logger.i("ResourceDataService<$T>: sync success");
     notifyListeners();
   }
 }

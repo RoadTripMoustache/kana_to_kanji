@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:get_it/get_it.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
 import "package:kana_to_kanji/src/core/repositories/group_repository.dart";
@@ -11,7 +13,12 @@ import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/cleanup_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/sync_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/core/services/toaster_service.dart";
 import "package:logger/logger.dart";
 
@@ -46,25 +53,35 @@ void setupLocator() {
 
       return instance;
     }, dispose: (DatabaseService instance) => instance.dispose)
+    ..registerSingletonWithDependencies<GroupService>(
+      GroupService.new,
+      dependsOn: [DatabaseService],
+    )
+    ..registerSingletonWithDependencies<KanaService>(
+      KanaService.new,
+      dependsOn: [DatabaseService],
+    )
+    ..registerSingletonWithDependencies<KanjiService>(
+      KanjiService.new,
+      dependsOn: [DatabaseService],
+    )
+    ..registerSingletonWithDependencies<VocabularyService>(
+      VocabularyService.new,
+      dependsOn: [DatabaseService],
+    )
     // ------------------------ //
     // ----- Repositories ----- //
     // ------------------------ //
-    ..registerSingletonWithDependencies<GroupRepository>(
-      GroupRepository.new,
-      dependsOn: [DatabaseService],
-    )
-    ..registerSingletonWithDependencies<KanaRepository>(
-      KanaRepository.new,
-      dependsOn: [DatabaseService],
-    )
-    ..registerSingletonWithDependencies<KanjiRepository>(
-      KanjiRepository.new,
-      dependsOn: [DatabaseService],
-    )
-    ..registerSingletonWithDependencies<VocabularyRepository>(
-      VocabularyRepository.new,
-      dependsOn: [DatabaseService],
-    )
+    ..registerLazySingleton<GroupRepository>(GroupRepository.new)
+    ..registerSingletonAsync<KanaRepository>(() async {
+      final instance = KanaRepository();
+
+      await instance.initialize();
+
+      return instance;
+    }, dependsOn: [KanaService])
+    ..registerLazySingleton<KanjiRepository>(KanjiRepository.new)
+    ..registerLazySingleton<VocabularyRepository>(VocabularyRepository.new)
     ..registerSingleton<SettingsRepository>(SettingsRepository())
     ..registerSingletonWithDependencies<UserRepository>(
       UserRepository.new,
@@ -73,14 +90,25 @@ void setupLocator() {
     // ------------------------ //
     // ----- Data Loaders ----- //
     // ------------------------ //
-    ..registerSingletonAsync<SyncService>(() async {
-      final instance = SyncService();
-      final AuthService authService = locator<AuthService>();
+    ..registerLazySingleton<CleanUpService>(CleanUpService.new)
+    ..registerSingletonAsync<SyncService>(
+      () async {
+        final instance = SyncService();
+        final AuthService authService = locator<AuthService>();
 
-      if (await authService.getAuthToken() != null) {
-        await instance.sync();
-      }
+        if (await authService.getAuthToken() != null) {
+          unawaited(instance.sync());
+        }
 
-      return instance;
-    }, dependsOn: [AuthService, ApiService, DatabaseService]);
+        return instance;
+      },
+      dependsOn: [
+        AuthService,
+        ApiService,
+        GroupService,
+        KanaService,
+        KanjiService,
+        VocabularyService,
+      ],
+    );
 }

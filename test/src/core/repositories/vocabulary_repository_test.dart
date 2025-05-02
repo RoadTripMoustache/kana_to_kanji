@@ -1,27 +1,39 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
 import "../../../dummies/vocabulary.dart";
-@GenerateNiceMocks([MockSpec<VocabularyService>()])
+import "../../../helpers.dart";
+
+@GenerateNiceMocks([MockSpec<VocabularyService>(), MockSpec<Logger>()])
 import "vocabulary_repository_test.mocks.dart";
 
 void main() {
   group("VocabularyRepository", () {
     late VocabularyRepository repository;
-    late MockVocabularyService vocabularyServiceMock;
+    final MockVocabularyService vocabularyServiceMock = MockVocabularyService();
+
+    setUpAll(() {
+      locator
+        ..registerSingleton<Logger>(MockLogger())
+        ..registerSingleton<VocabularyService>(vocabularyServiceMock);
+    });
 
     setUp(() {
-      vocabularyServiceMock = MockVocabularyService();
-      repository = VocabularyRepository(
-        vocabularyService: vocabularyServiceMock,
-      );
+      repository = VocabularyRepository();
     });
 
     tearDown(() {
       reset(vocabularyServiceMock);
+    });
+
+    tearDownAll(() async {
+      await unregister<Logger>();
+      await unregister<VocabularyService>();
     });
 
     test("should properly handle service updates", () {

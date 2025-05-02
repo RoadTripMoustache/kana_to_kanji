@@ -1,37 +1,30 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
+import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
 
-class GroupRepository {
-  final GroupService _groupsService;
-  final List<Group> _groups = [];
-
-  GroupRepository({GroupService? groupService})
-    : _groupsService = groupService ?? GroupService() {
-    _groupsService.addListener(_groups.clear);
-  }
-
+class GroupRepository extends ResourceRepository<Group, GroupService> {
   Future<List<Group>> getGroups(
     Alphabets alphabet, {
     bool reload = false,
   }) async {
     final groups =
-        _groups.where((element) => element.alphabet == alphabet).toList();
+        items.where((element) => element.alphabet == alphabet).toList();
     if (reload || groups.isEmpty) {
-      _groups.removeWhere((element) => element.alphabet == alphabet);
+      items.removeWhere((element) => element.alphabet == alphabet);
       groups
         ..clear()
-        ..addAll(await _groupsService.getGroups(alphabet));
+        ..addAll(await service.getGroups(alphabet));
 
-      _groups.addAll(groups);
+      items.addAll(groups);
     }
 
     return groups;
   }
 
   Future delete(ResourceUid uid) async {
-    _groups.removeWhere((element) => element.uid == uid);
-    await _groupsService.delete(uid);
+    items.removeWhere((element) => element.uid == uid);
+    await service.delete(uid);
   }
 }

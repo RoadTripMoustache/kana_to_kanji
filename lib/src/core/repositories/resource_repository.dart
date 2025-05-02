@@ -1,6 +1,9 @@
 import "package:flutter/foundation.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:stacked/stacked.dart";
 
 abstract class ResourceRepository<
@@ -9,19 +12,48 @@ abstract class ResourceRepository<
 >
     with ListenableServiceMixin {
   @protected
-  final S service;
+  final Logger logger = locator<Logger>();
+
+  @protected
+  final S service = locator<S>();
 
   @protected
   @visibleForTesting
-  final List<T> items = [];
+  final ReactiveList<T> items = ReactiveList<T>();
 
-  ResourceRepository({required this.service}) {
-    service.addListener(_onServiceUpdate);
+  ResourceRepository() {
+    service.addListener(onServiceUpdate);
     listenToReactiveValues([items]);
   }
 
-  void _onServiceUpdate() {
+  @visibleForOverriding
+  void onServiceUpdate() {
     items.clear();
-    notifyListeners();
+  }
+
+  Future<PaginatedData<T>> get() async {
+    final paginatedData = await service.getPage(0);
+
+    items.addAll(paginatedData.data);
+
+    return paginatedData.copyWith(
+      next: paginatedData.hasMore ? () => _nextPage(paginatedData.next!) : null,
+    );
+  }
+
+  Future<PaginatedData<T>> _nextPage(
+    Future<PaginatedData<T>> Function() next,
+  ) async {
+    final paginatedData = await next();
+
+    for (final item in paginatedData.data) {
+      if (!items.contains(item)) {
+        items.add(item);
+      }
+    }
+
+    return paginatedData.copyWith(
+      next: paginatedData.hasMore ? () => _nextPage(paginatedData.next!) : null,
+    );
   }
 }

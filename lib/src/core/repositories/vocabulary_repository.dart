@@ -4,15 +4,10 @@ import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
-import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
 
 class VocabularyRepository
     extends ResourceRepository<Vocabulary, VocabularyService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
-
-  /// [vocabularyService] should only be specified for testing purpose
-  VocabularyRepository({VocabularyService? vocabularyService})
-    : super(service: vocabularyService ?? VocabularyService());
 
   /// Retrieve all the vocabulary
   Future<List<Vocabulary>> getAll() async {
@@ -69,16 +64,17 @@ class VocabularyRepository
             .where(jlptLevelFilter)
             .toList();
 
-    if (selectedOrder == SortOrder.japanese) {
-      vocabularyList.sort(
-        (Vocabulary a, Vocabulary b) =>
-            sortBySyllables(a.kanaSyllables, b.kanaSyllables),
-      );
-    } else {
-      vocabularyList.sort(
-        (Vocabulary a, Vocabulary b) => a.romaji.compareTo(b.romaji),
-      );
-    }
+    // TODO: fix sortBySyllables to use kanjiReadings
+    // if (selectedOrder == SortOrder.japanese) {
+    //   vocabularyList.sort(
+    //     (Vocabulary a, Vocabulary b) =>
+    //         sortBySyllables(a.kanaSyllables, b.kanaSyllables),
+    //   );
+    // } else {
+    //   vocabularyList.sort(
+    //     (Vocabulary a, Vocabulary b) => a.romaji.compareTo(b.romaji),
+    //   );
+    // }
 
     return vocabularyList;
   }
