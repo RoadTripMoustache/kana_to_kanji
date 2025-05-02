@@ -43,9 +43,9 @@ CREATE TABLE kanjis
     number_of_strokes INTEGER,
     grade             INTEGER,
     version           TEXT    NOT NULL,
-    jp_sort_syllables TEXT    NOT NULL, -- Stored as JSON array
     pronunciations    TEXT    NOT NULL, -- Stored as JSON array
-    main_meaning      TEXT    NOT NULL
+    main_meaning      TEXT    NOT NULL,
+    main_reading      TEXT    NOT NULL
 );
 
 --   Kanji Join tables
