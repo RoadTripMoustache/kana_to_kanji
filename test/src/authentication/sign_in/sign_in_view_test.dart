@@ -7,7 +7,7 @@ import "package:kana_to_kanji/src/authentication/sign_in/sign_in_view.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_email.dart";
 import "package:kana_to_kanji/src/authentication/widgets/input_password.dart";
 import "package:kana_to_kanji/src/authentication/widgets/third_party_round_icon_button.dart";
-import "package:kana_to_kanji/src/glossary_new/view.dart";
+import "package:kana_to_kanji/src/glossary/view.dart";
 
 import "../../../helpers.dart";
 

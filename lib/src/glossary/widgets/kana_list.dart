@@ -3,8 +3,8 @@ import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/kana_type.dart";
 import "package:kana_to_kanji/src/core/models/resources/kana.dart";
-import "package:kana_to_kanji/src/glossary_new/view_model.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/kana_tile.dart";
+import "package:kana_to_kanji/src/glossary/view_model.dart";
+import "package:kana_to_kanji/src/glossary/widgets/kana_tile.dart";
 
 const _emptyTiles = [44, 45, 46, 37, 36];
 

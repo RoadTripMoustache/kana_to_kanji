@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
-import "package:kana_to_kanji/src/glossary_new/view.dart";
+import "package:kana_to_kanji/src/glossary/view.dart";
 import "package:stacked/stacked.dart";
 
 class CreateAccountViewModel extends BaseViewModel {

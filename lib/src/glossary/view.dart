@@ -3,12 +3,12 @@ import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
-import "package:kana_to_kanji/src/glossary_new/view_model.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/kana_list.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/kanji_list.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/loading_tab.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/search_bar.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/vocabulary_list.dart";
+import "package:kana_to_kanji/src/glossary/view_model.dart";
+import "package:kana_to_kanji/src/glossary/widgets/kana_list.dart";
+import "package:kana_to_kanji/src/glossary/widgets/kanji_list.dart";
+import "package:kana_to_kanji/src/glossary/widgets/loading_tab.dart";
+import "package:kana_to_kanji/src/glossary/widgets/search_bar.dart";
+import "package:kana_to_kanji/src/glossary/widgets/vocabulary_list.dart";
 import "package:stacked/stacked.dart";
 
 class GlossaryView extends StatefulWidget {

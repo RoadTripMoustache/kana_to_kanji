@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
+import "package:kana_to_kanji/src/glossary/pagination_helper.dart";
 import "package:kana_to_kanji/src/glossary/widgets/glossary_list_tile.dart";
-import "package:kana_to_kanji/src/glossary_new/pagination_helper.dart";
 
 class VocabularyList extends StatelessWidget {
   final Function(Vocabulary)? onPressed;

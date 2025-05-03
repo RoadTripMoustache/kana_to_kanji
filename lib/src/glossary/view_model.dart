@@ -13,8 +13,8 @@ import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/glossary/details/details_view.dart";
-import "package:kana_to_kanji/src/glossary_new/pagination_helper.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/sort_filter_by_dialog.dart";
+import "package:kana_to_kanji/src/glossary/pagination_helper.dart";
+import "package:kana_to_kanji/src/glossary/widgets/sort_filter_by_dialog.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
