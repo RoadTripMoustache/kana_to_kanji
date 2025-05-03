@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 
 const _duration = Duration(milliseconds: 500);
+final RegExp _allowRegexp = RegExp("[a-zA-Zぁ-んァ-ン一-龥々〆〤]+");
 
 class HiddenSearchBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -136,6 +138,11 @@ class _SearchBarState extends State<HiddenSearchBar>
                                       controller: _controller,
                                       focusNode: _focusNode,
                                       textInputAction: TextInputAction.search,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                          _allowRegexp,
+                                        ),
+                                      ],
                                       decoration: InputDecoration(
                                         hintText: l10n.glossary_search_bar_hint,
                                         suffixIcon:
