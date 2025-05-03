@@ -1,5 +1,6 @@
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
@@ -20,9 +21,17 @@ class PaginationHelper<
 
   final List<JLPTLevel> _jlptFilter = [];
 
-  PaginationHelper();
+  SortOrder _sortOrder;
 
-  void updateFilters(List<JLPTLevel> jlptFilter) {
+  PaginationHelper({
+    SortOrder? sortOrder = SortOrder.alphabetical,
+    List<JLPTLevel> jlptFilter = const [],
+  }) : _sortOrder = sortOrder ?? SortOrder.alphabetical {
+    _jlptFilter.addAll(jlptFilter);
+  }
+
+  void update(List<JLPTLevel> jlptFilter, SortOrder sortOrder) {
+    _sortOrder = sortOrder;
     _jlptFilter
       ..clear()
       ..addAll(jlptFilter);
@@ -37,7 +46,10 @@ class PaginationHelper<
 
     _nextPage =
         await (_nextPage?.next!() ??
-            repository.get(filterBy: {"jlpt": _jlptFilter}));
+            repository.get(
+              where: {JLPTLevel: _jlptFilter},
+              orderBy: _sortOrder,
+            ));
 
     _pagingState = _pagingState.copyWith(
       pages: [...?pagingState.pages, _nextPage!.data],

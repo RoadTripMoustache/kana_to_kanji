@@ -50,4 +50,7 @@ enum JLPTLevel {
         return JLPTLevel.n5;
     }
   }
+
+  @override
+  String toString() => value.toString();
 }

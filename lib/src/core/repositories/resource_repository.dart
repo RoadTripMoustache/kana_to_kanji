@@ -2,6 +2,8 @@ import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
+import "package:kana_to_kanji/src/core/utils/sql/where.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 import "package:stacked/stacked.dart";
@@ -26,15 +28,25 @@ abstract class ResourceRepository<
     listenToReactiveValues([items]);
   }
 
-  @visibleForOverriding
+  @protected
   void onServiceUpdate() {
     items.clear();
   }
 
+  /// Retrieve items from the database.
+  /// - [where] is supposed to be a list of [Where] objects, but for overloading
+  ///   reasons, it is typed as dynamic.
+  /// - [orderBy] is supposed to be a list of [OrderBy] objects, but for
+  ///   overloading reasons, it is typed as dynamic.
   Future<PaginatedData<T>> get({
-    Map<String, dynamic> filterBy = const {},
+    dynamic where = const [],
+    dynamic orderBy,
   }) async {
-    final paginatedData = await service.getPage(0);
+    final paginatedData = await service.getPage(
+      0,
+      where: where as List<Where>,
+      orderBy: orderBy as List<OrderBy>,
+    );
 
     items.addAll(paginatedData.data);
 

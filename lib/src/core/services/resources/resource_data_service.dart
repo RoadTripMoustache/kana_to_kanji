@@ -1,9 +1,13 @@
+import "dart:math";
+
 import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Resource, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
+import "package:kana_to_kanji/src/core/utils/sql/where.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 import "package:sqflite/sqflite.dart";
@@ -16,7 +20,8 @@ const sqlWhereUidColumn = "uid = ?";
 
 abstract class ResourceDataService<T extends Resource>
     with ListenableServiceMixin {
-  final Logger _logger = locator<Logger>();
+  @protected
+  final Logger logger = locator<Logger>();
   final DatabaseService _databaseService = locator<DatabaseService>();
 
   final ResourceDataLoader<T> dataLoader;
@@ -78,6 +83,21 @@ abstract class ResourceDataService<T extends Resource>
   Future<PaginatedData<T>> getPage(
     int page, {
     int pageSize = 100,
+    List<OrderBy> orderBy = const [],
+    List<Where> where = const [],
+    List<dynamic>? whereArgs,
+  }) async => getPaginated(
+    page,
+    pageSize: pageSize,
+    orderBy: orderBy.map((by) => by.build()).join(", "),
+    where: where.map((where) => where.build()).join(" "),
+    whereArgs: whereArgs ?? where.expand((where) => where.buildArgs()).toList(),
+  );
+
+  @protected
+  Future<PaginatedData<T>> getPaginated(
+    int page, {
+    int pageSize = 100,
     String? orderBy,
     String? where,
     List<dynamic>? whereArgs,
@@ -87,7 +107,7 @@ abstract class ResourceDataService<T extends Resource>
       transformer: transformer,
       columns: columns,
       limit: pageSize,
-      offset: (page - 1) * pageSize,
+      offset: max((page - 1) * pageSize, 0),
       orderBy: orderBy,
       where: where,
       whereArgs: whereArgs,
@@ -97,7 +117,13 @@ abstract class ResourceDataService<T extends Resource>
       data: snapshot,
       next:
           snapshot.length == pageSize
-              ? () => getPage(page + 1, pageSize: pageSize)
+              ? () => getPaginated(
+                page + 1,
+                pageSize: pageSize,
+                orderBy: orderBy,
+                where: where,
+                whereArgs: whereArgs,
+              )
               : null,
     );
   }
@@ -227,7 +253,7 @@ abstract class ResourceDataService<T extends Resource>
 
   /// If [forceReload] is true, the collection is cleared and populated again
   Future sync({bool forceReload = false}) async {
-    _logger.d("ResourceDataService<$T>: start syncing");
+    logger.d("ResourceDataService<$T>: start syncing");
     final version = forceReload ? await latestVersion : null;
 
     if (forceReload) {
@@ -238,7 +264,7 @@ abstract class ResourceDataService<T extends Resource>
     bool hasMore = true;
 
     do {
-      _logger.d(
+      logger.d(
         "ResourceDataService<$T>: inserting ${cursor.data.length} items",
       );
       await upsertAll(cursor.data);
@@ -248,7 +274,7 @@ abstract class ResourceDataService<T extends Resource>
         cursor = await cursor.next!();
       }
     } while (hasMore);
-    _logger.i("ResourceDataService<$T>: sync success");
+    logger.i("ResourceDataService<$T>: sync success");
     notifyListeners();
   }
 }

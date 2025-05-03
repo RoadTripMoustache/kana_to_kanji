@@ -6,7 +6,6 @@ import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
-import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
@@ -26,9 +25,7 @@ void main() {
     late http.Response mockNextPageResponse;
 
     final List<Map<String, dynamic>> testKanjiData =
-        dummiesKanji
-            .map((k) => k.toJson()..remove(sqlJpSortSyllablesColumn))
-            .toList();
+        dummiesKanji.map((k) => k.toJson()).toList();
 
     // Create paginated response structure
     final Map<String, dynamic> firstPageResponse = {
@@ -136,31 +133,6 @@ void main() {
 
         expect(result.data.length, 1);
         expect(result.hasMore, isTrue);
-      });
-    });
-
-    group("deserialize", () {
-      test("should use pronunciations when available", () {
-        final kanjiWithPronunciations = {
-          "uid": "kanji-4",
-          "kanji": "火",
-          "jlpt_level": 5,
-          "version": "2025_01_01",
-          "meanings": ["fire"],
-          "main_meaning": "fire",
-          "pronunciations": [
-            {
-              "index": 0,
-              "meanings": ["fire"],
-              "readings": ["カ"],
-            },
-          ],
-        };
-
-        final result = KanjiDataLoader.deserialize(kanjiWithPronunciations);
-
-        expect(result.uid.uid, "kanji-4");
-        expect(result.jpSortSyllables.isNotEmpty, true);
       });
     });
 

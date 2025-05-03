@@ -6,6 +6,7 @@ import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/kana_type.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
+import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
@@ -13,7 +14,7 @@ import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/glossary/details/details_view.dart";
 import "package:kana_to_kanji/src/glossary_new/pagination_helper.dart";
-import "package:kana_to_kanji/src/glossary_new/widgets/filter_by_dialog.dart";
+import "package:kana_to_kanji/src/glossary_new/widgets/sort_filter_by_dialog.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
@@ -31,6 +32,8 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     hiraganaStream: StreamController<KanaMap>(),
     katakanaStream: StreamController<KanaMap>(),
   };
+
+  SortOrder _sortOrder = SortOrder.alphabetical;
 
   final List<JLPTLevel> _selectedJlptLevel = [];
   final List<KnowledgeLevel> _selectedKnowledgeLevel = [];
@@ -99,9 +102,10 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     await _dialogService.showModalBottomSheet(
       showDragHandle: true,
       builder:
-          (context) => FilterByDialog(
+          (context) => SortFilterByDialog(
             selectedJlptLevel: _selectedJlptLevel,
             selectedKnowledgeLevel: _selectedKnowledgeLevel,
+            sortOrder: _sortOrder,
             onSubmit: _updateFilters,
           ),
     );
@@ -110,15 +114,17 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   void _updateFilters(
     List<JLPTLevel> jlptLevels,
     List<KnowledgeLevel> knowledgeLevels,
+    SortOrder sortOrder,
   ) {
+    _sortOrder = sortOrder;
     _selectedJlptLevel
       ..clear()
       ..addAll(jlptLevels);
     _selectedKnowledgeLevel
       ..clear()
       ..addAll(knowledgeLevels);
-    kanji.updateFilters(_selectedJlptLevel);
-    vocabulary.updateFilters(_selectedJlptLevel);
+    kanji.update(_selectedJlptLevel, _sortOrder);
+    vocabulary.update(_selectedJlptLevel, _sortOrder);
   }
 
   @override

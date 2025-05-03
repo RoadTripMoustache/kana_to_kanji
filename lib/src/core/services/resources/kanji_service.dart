@@ -1,12 +1,14 @@
 import "dart:convert";
 import "dart:math";
 
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Kanji, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/sql_column.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:sqflite/sqflite.dart";
 
@@ -16,7 +18,7 @@ const sqlKanjiColumn = "kanji";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlNumberOfStrokesColumn = "number_of_strokes";
 const sqlGradeColumn = "grade";
-const sqlJpSortSyllablesColumn = "jp_sort_syllables";
+const sqlMainReadingColumn = "main_reading";
 const sqlMainMeaningColumn = "main_meaning";
 const sqlPronunciationsColumn = "pronunciations";
 
@@ -36,6 +38,25 @@ const sqlKanjiExamplesTable = "kanji_examples";
 const sqlKanjiExamples = "examples";
 const sqlExampleUidColumn = "example_uid";
 
+enum KanjiColumn implements SqlColumn {
+  uid("k.$sqlUidColumn"),
+  kanji("k.$sqlKanjiColumn"),
+  jlptLevel("k.$sqlJlptLevelColumn"),
+  numberOfStrokes("k.$sqlNumberOfStrokesColumn"),
+  grade("k.$sqlGradeColumn"),
+  mainMeaning("k.$sqlMainMeaningColumn"),
+
+  // Only used for sorting
+  mainReading("k.$sqlMainReadingColumn");
+
+  @override
+  final String column;
+
+  const KanjiColumn(this.column);
+}
+
+const Map<Type, String> kKanjiColumnsAliases = {JLPTLevel: sqlJlptLevelColumn};
+
 class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
@@ -49,16 +70,14 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlJlptLevelColumn,
           sqlNumberOfStrokesColumn,
           sqlGradeColumn,
-          sqlJpSortSyllablesColumn,
           sqlMainMeaningColumn,
           sqlPronunciationsColumn,
         ],
         dataLoader: dataLoader ?? KanjiDataLoader(),
       );
 
-  /// Retrieve all the kanji
   @override
-  Future<PaginatedData<Kanji>> getPage(
+  Future<PaginatedData<Kanji>> getPaginated(
     int page, {
     int pageSize = 100,
     String? orderBy,
@@ -149,13 +168,13 @@ class KanjiService extends ResourceDataService<Kanji> {
             sqlKanjiExamples,
           ].contains(key),
         )
+        ..putIfAbsent(
+          sqlMainReadingColumn,
+          () => item.pronunciations.first.readings.first,
+        )
         ..update(
           sqlPronunciationsColumn,
           (_) => jsonEncode(item.pronunciations),
-        )
-        ..update(
-          sqlJpSortSyllablesColumn,
-          (_) => jsonEncode(item.jpSortSyllables),
         );
 
   Kanji _transformer(Map<String, dynamic> row) {
@@ -165,14 +184,12 @@ class KanjiService extends ResourceDataService<Kanji> {
           ..remove(null);
     final groups =
         jsonDecode(row[sqlKanjiGroups]) as List<dynamic>..remove(null);
-    final sortSyllables = jsonDecode(row[sqlJpSortSyllablesColumn]);
 
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
-      sqlJpSortSyllablesColumn: sortSyllables,
     });
   }
 
@@ -186,11 +203,11 @@ class KanjiService extends ResourceDataService<Kanji> {
   }) {
     final extra = [];
 
-    if (where != null) {
+    if (where != null && where.isNotEmpty) {
       extra.add("WHERE $where");
     }
     extra.add("GROUP BY k.$sqlUidColumn, k.$sqlKanjiColumn");
-    if (orderBy != null) {
+    if (orderBy != null && orderBy.isNotEmpty) {
       extra.add("ORDER BY $orderBy");
     }
     if (limit != null) {

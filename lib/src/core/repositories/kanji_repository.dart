@@ -6,8 +6,8 @@ import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resources/pronunciation.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
-import "package:kana_to_kanji/src/core/utils/extensions.dart";
-import "package:kana_to_kanji/src/core/utils/kana_utils.dart";
+import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
+import "package:kana_to_kanji/src/core/utils/sql/where.dart";
 
 class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
   final RegExp alphabeticalRegex = RegExp(r"([a-zA-Z])$");
@@ -22,21 +22,45 @@ class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
     return items;
   }
 
+  /// Retrieve kanji from the database following given criteria
+  ///
+  /// [where] is a Map{Type, List}
+  /// [orderBy] is a [SortOrder]
   @override
   Future<PaginatedData<Kanji>> get({
-    Map<String, dynamic> filterBy = const {},
+    dynamic where = const <Type, List<dynamic>>{},
+    dynamic orderBy,
   }) async {
-    final List<JLPTLevel> jlptFilter = filterBy["jlpt"] ?? [];
-
-    final paginatedData = await service.getPage(
-      0,
-      where: jlptFilter.toSql(),
-      whereArgs: jlptFilter.map((e) => e.value).toList(),
+    assert(
+      where is Map<Type, List<dynamic>>,
+      "Where should be a Map<Type, List<dynamic>>",
     );
+    assert(orderBy is SortOrder, "OrderBy should be a SortOrder");
+    final KanjiColumn by =
+        orderBy == SortOrder.japanese
+            ? KanjiColumn.mainReading
+            : KanjiColumn.mainMeaning;
+    // ignore: avoid_dynamic_calls Ignore here as assert is present.
+    final List<JLPTLevel> jlptFilter = where[JLPTLevel] ?? [];
 
-    return paginatedData.copyWith(
-      next: paginatedData.hasMore ? () => nextPage(paginatedData.next!) : null,
-    );
+    final List<Where> wheres = [
+      if (jlptFilter.isNotEmpty)
+        Where<KanjiColumn, List<JLPTLevel>>(
+          KanjiColumn.jlptLevel,
+          WhereOperator.inList,
+          jlptFilter,
+        ),
+    ];
+
+    final List<OrderBy> orderBys = [
+      OrderBy<KanjiColumn>(
+        KanjiColumn.jlptLevel,
+        direction: OrderByDirection.desc,
+      ),
+      OrderBy<KanjiColumn>(by),
+    ];
+
+    return super.get(where: wheres, orderBy: orderBys);
   }
 
   Future<List<Kanji>> searchKanji(
@@ -84,16 +108,16 @@ class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
             .where(jlptLevelFilter)
             .toList();
 
-    if (selectedOrder == SortOrder.japanese) {
-      kanjiList.sort(
-        (Kanji a, Kanji b) =>
-            sortBySyllables(a.jpSortSyllables, b.jpSortSyllables),
-      );
-    } else {
-      kanjiList.sort(
-        (Kanji a, Kanji b) => a.meanings[0].compareTo(b.meanings[0]),
-      );
-    }
+    // if (selectedOrder == SortOrder.japanese) {
+    //   kanjiList.sort(
+    //     (Kanji a, Kanji b) =>
+    //         sortBySyllables(a.jpSortSyllables, b.jpSortSyllables),
+    //   );
+    // } else {
+    //   kanjiList.sort(
+    //     (Kanji a, Kanji b) => a.meanings[0].compareTo(b.meanings[0]),
+    //   );
+    // }
 
     return kanjiList;
   }

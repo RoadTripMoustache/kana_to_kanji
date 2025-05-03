@@ -1,4 +1,5 @@
 import "dart:convert";
+import "dart:math";
 
 import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
@@ -6,6 +7,7 @@ import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show ResourceUid, Vocabulary;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/sql_column.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:sqflite/sqflite.dart";
 
@@ -15,7 +17,6 @@ const sqlKanjiColumn = "kanji";
 const sqlKanaColumn = "kana";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlRomajiColumn = "romaji";
-const sqlVersionColumn = "version";
 const sqlMeaningsColumn = "meanings";
 
 /// Kanji related table and columns
@@ -45,6 +46,20 @@ const sqlVocabularyExamples = "examples";
 const sqlVocabularyExamplesTable = "vocabulary_examples";
 const sqlExampleUidColumn = "example_uid";
 
+enum VocabularyColumn implements SqlColumn {
+  uid("v.$sqlUidColumn"),
+  kanji("v.$sqlKanjiColumn"),
+  kana("v.$sqlKanaColumn"),
+  jlptLevel("v.$sqlJlptLevelColumn"),
+  romaji("v.$sqlRomajiColumn"),
+  meanings("v.$sqlMeaningsColumn");
+
+  @override
+  final String column;
+
+  const VocabularyColumn(this.column);
+}
+
 class VocabularyService extends ResourceDataService<Vocabulary> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
@@ -58,7 +73,6 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlKanaColumn,
           sqlJlptLevelColumn,
           sqlRomajiColumn,
-          sqlVersionColumn,
           sqlMeaningsColumn,
         ],
         dataLoader: dataLoader ?? VocabularyDataLoader(),
@@ -66,7 +80,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
 
   /// Get all the vocabulary
   @override
-  Future<PaginatedData<Vocabulary>> getPage(
+  Future<PaginatedData<Vocabulary>> getPaginated(
     int page, {
     int pageSize = 100,
     String? orderBy,
@@ -78,7 +92,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         where: where,
         orderBy: orderBy,
         limit: pageSize,
-        offset: (page - 1) * pageSize,
+        offset: max((page - 1) * pageSize, 0),
       ),
       arguments: whereArgs ?? [],
       transformer: _transformer,
@@ -188,11 +202,11 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
   }) {
     final extra = [];
 
-    if (where != null) {
+    if (where != null && where.isNotEmpty) {
       extra.add("WHERE $where");
     }
     extra.add("GROUP BY v.$sqlUidColumn");
-    if (orderBy != null) {
+    if (orderBy != null && orderBy.isNotEmpty) {
       extra.add("ORDER BY $orderBy");
     }
     if (limit != null) {

@@ -5,7 +5,8 @@ import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/repositories/resource_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
-import "package:kana_to_kanji/src/core/utils/extensions.dart";
+import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
+import "package:kana_to_kanji/src/core/utils/sql/where.dart";
 
 class VocabularyRepository
     extends ResourceRepository<Vocabulary, VocabularyService> {
@@ -22,21 +23,45 @@ class VocabularyRepository
     return items;
   }
 
+  /// Retrieve vocabulary from the database following given criteria
+  ///
+  /// [where] is a Map{Type, List}
+  /// [orderBy] is a [SortOrder]
   @override
   Future<PaginatedData<Vocabulary>> get({
-    Map<String, dynamic> filterBy = const {},
+    dynamic where = const <Type, List<dynamic>>{},
+    dynamic orderBy,
   }) async {
-    final List<JLPTLevel> jlptFilter = filterBy["jlpt"] ?? [];
-
-    final paginatedData = await service.getPage(
-      0,
-      where: jlptFilter.toSql(),
-      whereArgs: jlptFilter.map((e) => e.value).toList(),
+    assert(
+      where is Map<Type, List<dynamic>>,
+      "Where should be a Map<Type, List<dynamic>>",
     );
+    assert(orderBy is SortOrder, "OrderBy should be a SortOrder");
+    final VocabularyColumn by =
+        orderBy == SortOrder.japanese
+            ? VocabularyColumn.kana
+            : VocabularyColumn.romaji;
+    // ignore: avoid_dynamic_calls Ignore here as assert is present.
+    final List<JLPTLevel> jlptFilter = where[JLPTLevel] ?? [];
 
-    return paginatedData.copyWith(
-      next: paginatedData.hasMore ? () => nextPage(paginatedData.next!) : null,
-    );
+    final List<Where> wheres = [
+      if (jlptFilter.isNotEmpty)
+        Where<VocabularyColumn, List<JLPTLevel>>(
+          VocabularyColumn.jlptLevel,
+          WhereOperator.inList,
+          jlptFilter,
+        ),
+    ];
+
+    final List<OrderBy> orderBys = [
+      OrderBy<VocabularyColumn>(
+        VocabularyColumn.jlptLevel,
+        direction: OrderByDirection.desc,
+      ),
+      OrderBy<VocabularyColumn>(by),
+    ];
+
+    return super.get(where: wheres, orderBy: orderBys);
   }
 
   Future<List<Vocabulary>> searchVocabulary(
