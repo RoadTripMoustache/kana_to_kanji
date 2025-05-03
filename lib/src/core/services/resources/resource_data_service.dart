@@ -32,6 +32,9 @@ abstract class ResourceDataService<T extends Resource>
 
   final T Function(Map<String, Object?>) transformer;
 
+  bool _isSyncing = false;
+  bool get isSyncing => _isSyncing;
+
   ResourceDataService({
     required this.tableName,
     required this.transformer,
@@ -253,6 +256,7 @@ abstract class ResourceDataService<T extends Resource>
 
   /// If [forceReload] is true, the collection is cleared and populated again
   Future sync({bool forceReload = false}) async {
+    _isSyncing = true;
     logger.d("ResourceDataService<$T>: start syncing");
     final version = forceReload ? await latestVersion : null;
 
@@ -275,6 +279,7 @@ abstract class ResourceDataService<T extends Resource>
       }
     } while (hasMore);
     logger.i("ResourceDataService<$T>: sync success");
+    _isSyncing = false;
     notifyListeners();
   }
 }

@@ -18,9 +18,8 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
 
   /// Loads kana data asynchronously
   Future<void> initialize() async {
-    if (items.isEmpty) {
+    if (items.isEmpty && !service.isSyncing) {
       items.addAll(await service.getAll());
-      notifyListeners();
     }
   }
 
@@ -28,6 +27,7 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
   void onServiceUpdate() {
     super.onServiceUpdate();
     unawaited(initialize());
+    notifyListeners();
   }
 
   /// Gets kana by group IDs asynchronously
@@ -42,10 +42,21 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
   Future<List<Kana>> getByGroupId(ResourceUid groupId) async =>
       getByGroupIds([groupId]);
 
+  /// Retrieve and sort kana by alphabet.
+  ///
+  /// Note that if the kana aren't loaded yet (e.g. during a sync),
+  /// this method will return an empty map.
   Future<Map<KanaTypes, List<Kana>>> getSorted(
     Alphabets alphabet, [
     String search = "",
   ]) async {
+    // Skipping as the kana aren't loaded. This can only happen during a sync
+    if (items.isEmpty) {
+      if (service.isSyncing) {
+        return {};
+      }
+      await initialize();
+    }
     final bool isHiragana = alphabet == Alphabets.hiragana;
     final Map<KanaTypes, List<Kana>> sorted =
         isHiragana ? _sortedHiragana : _sortedKatakana;

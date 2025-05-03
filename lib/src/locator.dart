@@ -73,13 +73,10 @@ void setupLocator() {
     // ----- Repositories ----- //
     // ------------------------ //
     ..registerLazySingleton<GroupRepository>(GroupRepository.new)
-    ..registerSingletonAsync<KanaRepository>(() async {
-      final instance = KanaRepository();
-
-      await instance.initialize();
-
-      return instance;
-    }, dependsOn: [KanaService])
+    ..registerSingletonWithDependencies<KanaRepository>(
+      KanaRepository.new,
+      dependsOn: [KanaService],
+    )
     ..registerLazySingleton<KanjiRepository>(KanjiRepository.new)
     ..registerLazySingleton<VocabularyRepository>(VocabularyRepository.new)
     ..registerSingleton<SettingsRepository>(SettingsRepository())
