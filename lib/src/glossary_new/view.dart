@@ -7,6 +7,7 @@ import "package:kana_to_kanji/src/glossary_new/view_model.dart";
 import "package:kana_to_kanji/src/glossary_new/widgets/kana_list.dart";
 import "package:kana_to_kanji/src/glossary_new/widgets/kanji_list.dart";
 import "package:kana_to_kanji/src/glossary_new/widgets/loading_tab.dart";
+import "package:kana_to_kanji/src/glossary_new/widgets/search_bar.dart";
 import "package:kana_to_kanji/src/glossary_new/widgets/vocabulary_list.dart";
 import "package:stacked/stacked.dart";
 
@@ -45,7 +46,9 @@ class _GlossaryViewState extends State<GlossaryView>
       builder:
           (context, viewModel, child) => AppScaffold(
             showBottomBar: true,
-            appBar: AppBar(
+            appBar: HiddenSearchBar(
+              title: l10n.glossary_view_title,
+              onSearch: viewModel.onSearch,
               actions: [
                 RTMIconButton(
                   onPressed: viewModel.onFilterByPressed,

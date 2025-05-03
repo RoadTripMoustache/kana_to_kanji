@@ -21,7 +21,6 @@ class KanaRepository extends ResourceRepository<Kana, KanaService> {
   Future<void> initialize() async {
     if (items.isEmpty) {
       items.addAll(await service.getAll());
-      logger.f("KanaRepository: ${items.length} kana loaded");
       notifyListeners();
     }
   }

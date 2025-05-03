@@ -98,6 +98,8 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     );
   }
 
+  void onSearch(String search) {}
+
   Future<void> onFilterByPressed() async {
     await _dialogService.showModalBottomSheet(
       showDragHandle: true,

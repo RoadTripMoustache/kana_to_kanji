@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
-import "package:kana_to_kanji/src/glossary/widgets/search_bar.dart";
+import "package:kana_to_kanji/src/glossary_new/widgets/search_bar.dart";
 
 import "../../../helpers.dart";
 
@@ -15,7 +15,7 @@ void main() {
        */
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -26,7 +26,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final searchBar = find.byType(GlossarySearchBar);
+      final searchBar = find.byType(HiddenSearchBar);
       expect(searchBar, findsOneWidget);
 
       final searchIcon = find.byKey(const Key("glossary_bar_search_icon"));
@@ -45,7 +45,7 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -73,7 +73,7 @@ void main() {
         ),
       );
 
-      final found = find.byType(GlossarySearchBar);
+      final found = find.byType(HiddenSearchBar);
       expect(found, findsOneWidget);
     });
 
@@ -88,7 +88,7 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -125,7 +125,7 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -166,7 +166,7 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -215,7 +215,7 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -278,7 +278,7 @@ void main() {
       var lastSearchTxt = "";
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) => lastSearchTxt = searchText,
           filterGlossary: () {},
           selectedJlptLevel: const [],
@@ -347,7 +347,7 @@ void main() {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedWidget(
-        GlossarySearchBar(
+        HiddenSearchBar(
           searchGlossary: (String searchText) {},
           filterGlossary: () {},
           selectedJlptLevel: const [],

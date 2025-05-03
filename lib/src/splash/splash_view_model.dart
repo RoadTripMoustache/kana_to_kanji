@@ -1,7 +1,7 @@
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/authentication/landing_view.dart";
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
-import "package:kana_to_kanji/src/glossary/glossary_view.dart";
+import "package:kana_to_kanji/src/glossary_new/view.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
