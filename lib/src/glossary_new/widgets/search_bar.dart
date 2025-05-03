@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 
-const _duration = Duration(milliseconds: 800);
+const _duration = Duration(milliseconds: 500);
 
 class HiddenSearchBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -125,10 +125,12 @@ class _SearchBarState extends State<HiddenSearchBar>
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  RTMIconButton(
-                                    icon: const Icon(Icons.arrow_back),
-                                    onPressed: _toggleSearchMode,
-                                  ),
+                                  // Animate icon sliding in and out
+                                  if (_controller.text.isEmpty)
+                                    RTMIconButton(
+                                      icon: const Icon(Icons.arrow_back),
+                                      onPressed: _toggleSearchMode,
+                                    ),
                                   Expanded(
                                     child: TextField(
                                       controller: _controller,

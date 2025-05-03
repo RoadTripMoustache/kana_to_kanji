@@ -19,12 +19,21 @@ class KanaList extends StatefulWidget {
 }
 
 class _KanaListState extends State<KanaList> {
-  late final List<KanaDisabled?> _mainWithEmptyTiles;
+  late List<KanaDisabled?> _mainWithEmptyTiles;
 
   @override
   void initState() {
     super.initState();
     _mainWithEmptyTiles = _prepareMainList();
+  }
+
+  @override
+  void didUpdateWidget(covariant KanaList oldWidget) {
+    // Rebuild the main list on every update as widget.items is
+    // passed by reference, making it complex to track changes without a deep
+    // comparison.
+    _mainWithEmptyTiles = _prepareMainList();
+    super.didUpdateWidget(oldWidget);
   }
 
   List<KanaDisabled?> _prepareMainList() {

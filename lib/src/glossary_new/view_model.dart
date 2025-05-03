@@ -38,6 +38,8 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   final List<JLPTLevel> _selectedJlptLevel = [];
   final List<KnowledgeLevel> _selectedKnowledgeLevel = [];
 
+  String _search = "";
+
   final DialogService _dialogService = locator<DialogService>();
   final KanaRepository _kanaRepository = locator<KanaRepository>();
 
@@ -73,20 +75,41 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   };
 
   Future<void> _onKanaUpdate() async {
-    _controllers[hiraganaStream]!.add(await _processKana(Alphabets.hiragana));
-    _controllers[katakanaStream]!.add(await _processKana(Alphabets.katakana));
+    _controllers[hiraganaStream]!.add(
+      await _processKana(Alphabets.hiragana, hiraganaStream),
+    );
+    _controllers[katakanaStream]!.add(
+      await _processKana(Alphabets.katakana, katakanaStream),
+    );
   }
 
-  Future<KanaMap> _processKana(Alphabets alphabet) => _kanaRepository
-      .getSorted(alphabet)
-      .then(
-        (result) => result.map(
+  Future<KanaMap> _processKana(Alphabets alphabet, String streamKey) =>
+      _kanaRepository.getSorted(alphabet, _search).then((result) {
+        final KanaMap kanaMap = dataMap![streamKey] ?? {};
+
+        // Should only be triggered when a search is started
+        if (kanaMap.isNotEmpty) {
+          kanaMap.updateAll((key, value) {
+            final filtered = result[key]!;
+
+            return value
+                .map<KanaDisabled>(
+                  (item) => (
+                    kana: item.kana,
+                    disabled: !filtered.contains(item.kana),
+                  ),
+                )
+                .toList();
+          });
+          return kanaMap;
+        }
+        return result.map(
           (key, value) => MapEntry(
             key,
             value.map((kana) => (kana: kana, disabled: false)).toList(),
           ),
-        ),
-      );
+        );
+      });
 
   /// Displays a modal with the informations of the selected item.
   Future<void> onTilePressed(dynamic item) async {
@@ -98,7 +121,13 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     );
   }
 
-  void onSearch(String search) {}
+  void onSearch(String search) {
+    if (search == _search) {
+      return;
+    }
+    _search = search;
+    _triggerUpdate(updateKana: true);
+  }
 
   Future<void> onFilterByPressed() async {
     await _dialogService.showModalBottomSheet(
@@ -125,8 +154,15 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     _selectedKnowledgeLevel
       ..clear()
       ..addAll(knowledgeLevels);
-    kanji.update(_selectedJlptLevel, _sortOrder);
-    vocabulary.update(_selectedJlptLevel, _sortOrder);
+    _triggerUpdate();
+  }
+
+  void _triggerUpdate({bool updateKana = false}) {
+    kanji.update(_search, _selectedJlptLevel, _sortOrder);
+    vocabulary.update(_search, _selectedJlptLevel, _sortOrder);
+    if (updateKana) {
+      unawaited(_onKanaUpdate());
+    }
   }
 
   @override

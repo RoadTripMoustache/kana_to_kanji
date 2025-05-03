@@ -19,18 +19,23 @@ class PaginationHelper<
   PagingState<int, T> get pagingState => _pagingState;
   PaginatedData<T>? _nextPage;
 
+  String _search = "";
+
   final List<JLPTLevel> _jlptFilter = [];
 
   SortOrder _sortOrder;
 
   PaginationHelper({
+    String search = "",
     SortOrder? sortOrder = SortOrder.alphabetical,
     List<JLPTLevel> jlptFilter = const [],
-  }) : _sortOrder = sortOrder ?? SortOrder.alphabetical {
+  }) : _search = search,
+       _sortOrder = sortOrder ?? SortOrder.alphabetical {
     _jlptFilter.addAll(jlptFilter);
   }
 
-  void update(List<JLPTLevel> jlptFilter, SortOrder sortOrder) {
+  void update(String search, List<JLPTLevel> jlptFilter, SortOrder sortOrder) {
+    _search = search;
     _sortOrder = sortOrder;
     _jlptFilter
       ..clear()
@@ -47,7 +52,7 @@ class PaginationHelper<
     _nextPage =
         await (_nextPage?.next!() ??
             repository.get(
-              where: {JLPTLevel: _jlptFilter},
+              where: {JLPTLevel: _jlptFilter, String: _search},
               orderBy: _sortOrder,
             ));
 
