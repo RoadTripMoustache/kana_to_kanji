@@ -23,6 +23,7 @@ class GlossaryView extends StatefulWidget {
 class _GlossaryViewState extends State<GlossaryView>
     with TickerProviderStateMixin {
   late final TabController _tabController;
+  final PageStorageBucket _bucket = PageStorageBucket();
 
   @override
   void initState() {
@@ -70,32 +71,35 @@ class _GlossaryViewState extends State<GlossaryView>
             ),
             body: Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  LoadingTab(
-                    isDataReady: viewModel.isHiraganaReady,
-                    child: KanaList(
-                      items: viewModel.hiragana,
-                      onPressed: viewModel.onTilePressed,
+              child: PageStorage(
+                bucket: _bucket,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    LoadingTab(
+                      isDataReady: viewModel.isHiraganaReady,
+                      child: KanaList(
+                        items: viewModel.hiragana,
+                        onPressed: viewModel.onTilePressed,
+                      ),
                     ),
-                  ),
-                  LoadingTab(
-                    isDataReady: viewModel.isKatakanaReady,
-                    child: KanaList(
-                      items: viewModel.katakana,
-                      onPressed: viewModel.onTilePressed,
+                    LoadingTab(
+                      isDataReady: viewModel.isKatakanaReady,
+                      child: KanaList(
+                        items: viewModel.katakana,
+                        onPressed: viewModel.onTilePressed,
+                      ),
                     ),
-                  ),
-                  KanjiList(
-                    onPressed: viewModel.onTilePressed,
-                    pagination: viewModel.kanji,
-                  ),
-                  VocabularyList(
-                    onPressed: viewModel.onTilePressed,
-                    pagination: viewModel.vocabulary,
-                  ),
-                ],
+                    KanjiList(
+                      onPressed: viewModel.onTilePressed,
+                      pagination: viewModel.kanji,
+                    ),
+                    VocabularyList(
+                      onPressed: viewModel.onTilePressed,
+                      pagination: viewModel.vocabulary,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

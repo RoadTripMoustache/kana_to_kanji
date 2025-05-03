@@ -60,6 +60,9 @@ class _KanaListState extends State<KanaList> {
     }
 
     return CustomScrollView(
+      key: PageStorageKey(
+        "kana_list_${dakuten.firstOrNull?.kana.alphabet.name}_key",
+      ),
       slivers: [
         _buildKanaGrid(_mainWithEmptyTiles, 5),
         _buildSectionHeader(l10n.dakuten_kana),
