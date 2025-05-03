@@ -22,6 +22,9 @@ const sqlMainReadingColumn = "main_reading";
 const sqlMainMeaningColumn = "main_meaning";
 const sqlPronunciationsColumn = "pronunciations";
 
+const _sqlReadingsColumn = "readings";
+const _sqlMeaningsColumn = "meanings";
+
 /// Related vocabulary table and columns
 const sqlRelatedVocabularyTable = "kanji_related_vocabulary";
 const sqlRelatedVocabularyColumn = "related_vocabulary";
@@ -33,26 +36,32 @@ const sqlKanjiGroupsTable = "kanji_groups";
 const sqlKanjiGroups = "groups";
 const sqlGroupUidColumn = "group_uid";
 
-/// Kanji examples table and columns
-const sqlKanjiExamplesTable = "kanji_examples";
-const sqlKanjiExamples = "examples";
-const sqlExampleUidColumn = "example_uid";
-
 enum KanjiColumn implements SqlColumn {
-  uid("k.$sqlUidColumn"),
-  kanji("k.$sqlKanjiColumn"),
-  jlptLevel("k.$sqlJlptLevelColumn"),
-  numberOfStrokes("k.$sqlNumberOfStrokesColumn"),
-  grade("k.$sqlGradeColumn"),
-  mainMeaning("k.$sqlMainMeaningColumn"),
+  uid(sqlUidColumn),
+  kanji(sqlKanjiColumn),
+  jlptLevel(sqlJlptLevelColumn),
+  numberOfStrokes(sqlNumberOfStrokesColumn),
+  grade(sqlGradeColumn),
+  mainMeaning(sqlMainMeaningColumn),
 
   // Only used for sorting
-  mainReading("k.$sqlMainReadingColumn");
+  mainReading(sqlMainReadingColumn),
+
+  // Only used for search
+  meanings(_sqlMeaningsColumn),
+  readings(_sqlReadingsColumn);
 
   @override
   final String column;
 
+  @override
+  final String prefix = "k";
+
   const KanjiColumn(this.column);
+
+  /// Returns the column name with the prefix.
+  @override
+  String get selectColumn => "$prefix.$column";
 }
 
 const Map<Type, String> kKanjiColumnsAliases = {JLPTLevel: sqlJlptLevelColumn};
@@ -99,7 +108,13 @@ class KanjiService extends ResourceDataService<Kanji> {
       data: snapshot,
       next:
           snapshot.length == pageSize
-              ? () => getPage(page + 1, pageSize: pageSize)
+              ? () => getPaginated(
+                page + 1,
+                pageSize: pageSize,
+                where: where,
+                orderBy: orderBy,
+                whereArgs: whereArgs,
+              )
               : null,
     );
   }
@@ -162,15 +177,30 @@ class KanjiService extends ResourceDataService<Kanji> {
   Map<String, dynamic> _buildMainColumns(Kanji item) =>
       item.toJson()
         ..removeWhere(
-          (key, _) => [
-            sqlRelatedVocabularyColumn,
-            sqlKanjiGroups,
-            sqlKanjiExamples,
-          ].contains(key),
+          (key, _) =>
+              [sqlRelatedVocabularyColumn, sqlKanjiGroups].contains(key),
         )
         ..putIfAbsent(
           sqlMainReadingColumn,
           () => item.pronunciations.first.readings.first,
+        )
+        ..putIfAbsent(
+          _sqlMeaningsColumn,
+          () => jsonEncode(
+            item.pronunciations
+                .map((p) => p.meanings)
+                .expand((m) => m)
+                .toList(),
+          ),
+        )
+        ..putIfAbsent(
+          _sqlReadingsColumn,
+          () => jsonEncode(
+            item.pronunciations
+                .map((p) => p.readings)
+                .expand((r) => r)
+                .toList(),
+          ),
         )
         ..update(
           sqlPronunciationsColumn,
@@ -219,7 +249,7 @@ class KanjiService extends ResourceDataService<Kanji> {
 
     return """
     SELECT
-        ${columns.map((c) => 'k.$c').join(",")},
+        DISTINCT ${columns.map((c) => 'k.$c').join(",")},k.readings,k.meanings,
         json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
         json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
     FROM $tableName AS k

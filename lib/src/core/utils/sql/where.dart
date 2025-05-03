@@ -86,7 +86,7 @@ class Where<L extends SqlColumn, R extends Object> with _$Where<L, R> {
 
   String build() {
     final String processed = operator.build(
-      left.column,
+      left.selectColumn,
       right is List ? (right as List).toSql() : "?",
     );
 

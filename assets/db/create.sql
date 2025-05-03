@@ -45,7 +45,9 @@ CREATE TABLE kanjis
     version           TEXT    NOT NULL,
     pronunciations    TEXT    NOT NULL, -- Stored as JSON array
     main_meaning      TEXT    NOT NULL,
-    main_reading      TEXT    NOT NULL
+    main_reading      TEXT    NOT NULL,
+    readings          TEXT    NOT NULL, -- Stored as JSON array
+    meanings          TEXT    NOT NULL  -- Stored as JSON array
 );
 
 --   Kanji Join tables

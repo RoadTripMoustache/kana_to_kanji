@@ -16,5 +16,5 @@ class OrderBy<L extends SqlColumn> with _$OrderBy {
   const OrderBy(this.by, {this.direction = OrderByDirection.asc});
 
   String build() =>
-      "${by.column} ${direction == OrderByDirection.asc ? 'ASC' : 'DESC'}";
+      "${by.selectColumn}${direction == OrderByDirection.asc ? '' : ' DESC'}";
 }

@@ -47,17 +47,24 @@ const sqlVocabularyExamplesTable = "vocabulary_examples";
 const sqlExampleUidColumn = "example_uid";
 
 enum VocabularyColumn implements SqlColumn {
-  uid("v.$sqlUidColumn"),
-  kanji("v.$sqlKanjiColumn"),
-  kana("v.$sqlKanaColumn"),
-  jlptLevel("v.$sqlJlptLevelColumn"),
-  romaji("v.$sqlRomajiColumn"),
-  meanings("v.$sqlMeaningsColumn");
+  uid(sqlUidColumn),
+  kanji(sqlKanjiColumn),
+  kana(sqlKanaColumn),
+  jlptLevel(sqlJlptLevelColumn),
+  romaji(sqlRomajiColumn),
+  meanings(sqlMeaningsColumn);
 
   @override
   final String column;
 
+  @override
+  final String prefix = "v";
+
   const VocabularyColumn(this.column);
+
+  /// Returns the column name with the prefix.
+  @override
+  String get selectColumn => "$prefix.$column";
 }
 
 class VocabularyService extends ResourceDataService<Vocabulary> {
@@ -102,7 +109,13 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
       data: snapshot,
       next:
           snapshot.length == pageSize
-              ? () => getPage(page + 1, pageSize: pageSize)
+              ? () => getPaginated(
+                page + 1,
+                pageSize: pageSize,
+                orderBy: orderBy,
+                where: where,
+                whereArgs: whereArgs,
+              )
               : null,
     );
   }

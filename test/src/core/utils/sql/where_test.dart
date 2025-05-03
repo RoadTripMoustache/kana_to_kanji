@@ -6,7 +6,13 @@ class TestSqlColumn implements SqlColumn {
   @override
   final String column;
 
-  TestSqlColumn(this.column);
+  @override
+  final String prefix;
+
+  TestSqlColumn(this.column, [this.prefix = "t"]);
+
+  @override
+  String get selectColumn => "$prefix.$column";
 }
 
 void main() {
@@ -109,25 +115,25 @@ void main() {
 
     test("builds simple equality condition", () {
       final where = Where(idColumn, WhereOperator.equal, 1);
-      expect(where.build(), "id = ?");
+      expect(where.build(), "t.id = ?");
       expect(where.buildArgs(), [1]);
     });
 
     test("builds string condition with quotes", () {
       final where = Where(nameColumn, WhereOperator.equal, "John");
-      expect(where.build(), "name = ?");
+      expect(where.build(), "t.name = ?");
       expect(where.buildArgs(), ["John"]);
     });
 
     test("builds in list condition", () {
       final where = Where(idColumn, WhereOperator.inList, [1, 2, 3]);
-      expect(where.build(), "id IN (?,?,?)");
+      expect(where.build(), "t.id IN (?,?,?)");
       expect(where.buildArgs(), [1, 2, 3]);
     });
 
     test("builds not in list condition", () {
       final where = Where(idColumn, WhereOperator.notInList, [1, 2, 3]);
-      expect(where.build(), "id NOT IN (?,?,?)");
+      expect(where.build(), "t.id NOT IN (?,?,?)");
       expect(where.buildArgs(), [1, 2, 3]);
     });
 
@@ -138,7 +144,7 @@ void main() {
         1,
         condition: WhereCondition.and,
       );
-      expect(where.build(), "AND id = ?");
+      expect(where.build(), "AND t.id = ?");
     });
 
     test("adds OR condition when specified", () {
@@ -148,7 +154,7 @@ void main() {
         1,
         condition: WhereCondition.or,
       );
-      expect(where.build(), "OR id = ?");
+      expect(where.build(), "OR t.id = ?");
     });
 
     test("converts non-basic right value to string", () {

@@ -26,6 +26,7 @@ void main() {
 
     setUp(() {
       repository = KanaRepository();
+      when(kanaServiceMock.isSyncing).thenReturn(false);
     });
 
     tearDown(() {
