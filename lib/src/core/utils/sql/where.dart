@@ -18,10 +18,8 @@ enum WhereOperator {
 
   const WhereOperator(this.symbol);
 
-  String build(String left, String right, {bool isRightString = false}) =>
-      left.isNotEmpty && right.isNotEmpty
-          ? "$left $symbol ${isRightString ? "'$right'" : right}"
-          : "";
+  String build(String left, String right) =>
+      left.isNotEmpty && right.isNotEmpty ? "$left $symbol $right" : "";
 }
 
 enum WhereCondition { and, or }
@@ -69,6 +67,10 @@ class Where<L extends SqlColumn, R extends Object> with _$Where<L, R> {
 
   Where(this.left, this.operator, this.right, {this.condition})
     : assert(
+        operator != WhereOperator.like || right is String,
+        "right must be a String when operator is LIKE",
+      ),
+      assert(
         right is List &&
                 [
                   WhereOperator.inList,
@@ -85,8 +87,7 @@ class Where<L extends SqlColumn, R extends Object> with _$Where<L, R> {
   String build() {
     final String processed = operator.build(
       left.column,
-      right is List ? (right as List).toSql() : right.toString(),
-      isRightString: right is String,
+      right is List ? (right as List).toSql() : "?",
     );
 
     if (condition != null) {
@@ -98,6 +99,8 @@ class Where<L extends SqlColumn, R extends Object> with _$Where<L, R> {
   List<dynamic> buildArgs() {
     if (right is List) {
       return (right as List).toSqlArgs();
+    } else if (operator == WhereOperator.like) {
+      return ["%$right%"];
     }
     return [if (right.isBasicType) right else right.toString()];
   }

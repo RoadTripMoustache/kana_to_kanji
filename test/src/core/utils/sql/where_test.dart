@@ -13,10 +13,7 @@ void main() {
   group("WhereOperator", () {
     group("builds", () {
       test("equal builds correct SQL expression", () {
-        expect(
-          WhereOperator.equal.build("name", "value", isRightString: true),
-          "name = 'value'",
-        );
+        expect(WhereOperator.equal.build("count", "1"), "count = 1");
       });
 
       test("notEqual builds correct SQL expression", () {
@@ -38,10 +35,7 @@ void main() {
       });
 
       test("like builds correct SQL expression", () {
-        expect(
-          WhereOperator.like.build("name", "%John%", isRightString: true),
-          "name LIKE '%John%'",
-        );
+        expect(WhereOperator.like.build("name", "John"), "name LIKE John");
       });
 
       test("inList builds correct SQL expression", () {
@@ -115,13 +109,13 @@ void main() {
 
     test("builds simple equality condition", () {
       final where = Where(idColumn, WhereOperator.equal, 1);
-      expect(where.build(), "id = 1");
+      expect(where.build(), "id = ?");
       expect(where.buildArgs(), [1]);
     });
 
     test("builds string condition with quotes", () {
       final where = Where(nameColumn, WhereOperator.equal, "John");
-      expect(where.build(), "name = 'John'");
+      expect(where.build(), "name = ?");
       expect(where.buildArgs(), ["John"]);
     });
 
@@ -144,7 +138,7 @@ void main() {
         1,
         condition: WhereCondition.and,
       );
-      expect(where.build(), "AND id = 1");
+      expect(where.build(), "AND id = ?");
     });
 
     test("adds OR condition when specified", () {
@@ -154,7 +148,7 @@ void main() {
         1,
         condition: WhereCondition.or,
       );
-      expect(where.build(), "OR id = 1");
+      expect(where.build(), "OR id = ?");
     });
 
     test("converts non-basic right value to string", () {

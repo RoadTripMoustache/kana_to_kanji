@@ -218,7 +218,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
 
     return """
     SELECT
-        ${columns.map((c) => 'v.$c').join(",")},
+       DISTINCT ${columns.map((c) => 'v.$c').join(",")},
         json_group_array(DISTINCT json_object(${sqlReadingsColumns.map((c) => "'$c', kr.$c").join(",")})) AS $sqlKanjiReadings,
         json_group_array(DISTINCT vrk.$sqlKanjiUidColumn) AS $sqlRelatedKanjiColumn,
         json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups

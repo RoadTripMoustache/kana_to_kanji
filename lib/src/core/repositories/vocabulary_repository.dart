@@ -29,11 +29,11 @@ class VocabularyRepository
   /// [orderBy] is a [SortOrder]
   @override
   Future<PaginatedData<Vocabulary>> get({
-    dynamic where = const <Type, List<dynamic>>{},
+    dynamic where = const <Type, dynamic>{},
     dynamic orderBy,
   }) async {
     assert(
-      where is Map<Type, List<dynamic>>,
+      where is Map<Type, dynamic>,
       "Where should be a Map<Type, List<dynamic>>",
     );
     assert(orderBy is SortOrder, "OrderBy should be a SortOrder");
@@ -43,6 +43,8 @@ class VocabularyRepository
             : VocabularyColumn.romaji;
     // ignore: avoid_dynamic_calls Ignore here as assert is present.
     final List<JLPTLevel> jlptFilter = where[JLPTLevel] ?? [];
+    // ignore: avoid_dynamic_calls
+    final String searchText = where[String] ?? "";
 
     final List<Where> wheres = [
       if (jlptFilter.isNotEmpty)
@@ -51,6 +53,8 @@ class VocabularyRepository
           WhereOperator.inList,
           jlptFilter,
         ),
+      if (searchText.isNotEmpty)
+        ..._buildSearchWhere(searchText, jlptFilter.isNotEmpty),
     ];
 
     final List<OrderBy> orderBys = [
@@ -62,6 +66,39 @@ class VocabularyRepository
     ];
 
     return super.get(where: wheres, orderBy: orderBys);
+  }
+
+  List<Where> _buildSearchWhere(String searchText, bool isSecondWhere) {
+    if (alphabeticalRegex.hasMatch(searchText)) {
+      return [
+        Where(
+          VocabularyColumn.meanings,
+          WhereOperator.like,
+          searchText,
+          condition: isSecondWhere ? WhereCondition.and : null,
+        ),
+        Where(
+          VocabularyColumn.romaji,
+          WhereOperator.like,
+          searchText,
+          condition: WhereCondition.or,
+        ),
+      ];
+    }
+    return [
+      Where(
+        VocabularyColumn.kanji,
+        WhereOperator.like,
+        searchText,
+        condition: isSecondWhere ? WhereCondition.and : null,
+      ),
+      Where(
+        VocabularyColumn.kana,
+        WhereOperator.like,
+        searchText,
+        condition: WhereCondition.or,
+      ),
+    ];
   }
 
   Future<List<Vocabulary>> searchVocabulary(
