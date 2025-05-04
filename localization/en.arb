@@ -243,6 +243,18 @@
   "glossary_tab_kanji": "Kanji",
   "glossary_search_bar_hint": "日本, にほん, Japan",
   "glossary_filter_by_title": "Filter by",
+  "glossary_filter_by_apply": "Apply",
+  "glossary_filter_by_clear": "Reset all",
+  "glossary_not_found": "No {resource, select, kanji{kanji} vocabulary{vocabulary} other{}} found",
+  "@glossary_not_found": {
+    "placeholders": {
+      "resource": {
+        "type": "String",
+        "description": "Resource type that was searched for"
+      }
+    }
+  },
+  "glossary_not_found_subtitle": "Try to search a synonym or a different spelling",
   "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} other}}}",
   "@glossary_tile_meanings": {
     "description": "Present the main meaning of the kanji or vocabulary and the number of other meanings",
@@ -289,7 +301,7 @@
     }
   },
   "jlpt_level_title": "JLPT Level",
-  "jlpt_level_short": "JLPT-{level}",
+  "jlpt_level_short": "N{level}",
   "@jlpt_level_short": {
     "description": "Display the JLPT level",
     "placeholders": {
@@ -309,9 +321,9 @@
       }
     }
   },
-  "glossary_sort_by_title": "Filter by",
-  "glossary_sort_by_alphabetical": "Alphabetical (A-Z)",
-  "glossary_sort_by_japanese": "Japanese syllable (あ-お)",
+  "glossary_sort_by_title": "Sort by",
+  "glossary_sort_by_alphabetical": "A → Z",
+  "glossary_sort_by_japanese": "あ → お",
   "snackbar_update_version_action": "Update",
   "snackbar_update_version_message": "A new version is available!",
   "practice_quiz_practice_button": "Practice",

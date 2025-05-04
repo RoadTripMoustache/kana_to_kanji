@@ -1,10 +1,13 @@
 import "dart:convert";
+import "dart:math";
 
 import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show ResourceUid, Vocabulary;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/sql_column.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:sqflite/sqflite.dart";
 
@@ -14,8 +17,6 @@ const sqlKanjiColumn = "kanji";
 const sqlKanaColumn = "kana";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlRomajiColumn = "romaji";
-const sqlVersionColumn = "version";
-const sqlKanaSyllablesColumn = "kana_syllables";
 const sqlMeaningsColumn = "meanings";
 
 /// Kanji related table and columns
@@ -45,6 +46,27 @@ const sqlVocabularyExamples = "examples";
 const sqlVocabularyExamplesTable = "vocabulary_examples";
 const sqlExampleUidColumn = "example_uid";
 
+enum VocabularyColumn implements SqlColumn {
+  uid(sqlUidColumn),
+  kanji(sqlKanjiColumn),
+  kana(sqlKanaColumn),
+  jlptLevel(sqlJlptLevelColumn),
+  romaji(sqlRomajiColumn),
+  meanings(sqlMeaningsColumn);
+
+  @override
+  final String column;
+
+  @override
+  final String prefix = "v";
+
+  const VocabularyColumn(this.column);
+
+  /// Returns the column name with the prefix.
+  @override
+  String get selectColumn => "$prefix.$column";
+}
+
 class VocabularyService extends ResourceDataService<Vocabulary> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
@@ -58,8 +80,6 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlKanaColumn,
           sqlJlptLevelColumn,
           sqlRomajiColumn,
-          sqlVersionColumn,
-          sqlKanaSyllablesColumn,
           sqlMeaningsColumn,
         ],
         dataLoader: dataLoader ?? VocabularyDataLoader(),
@@ -67,42 +87,50 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
 
   /// Get all the vocabulary
   @override
-  Future<List<Vocabulary>> getAll() => _databaseService.rawQueryTrans("""
-        SELECT
-            ${columns.map((c) => 'v.$c').join(",")},
-            json_group_array(DISTINCT json_object(${sqlReadingsColumns.map((c) => "'$c', kr.$c").join(",")})) AS $sqlKanjiReadings,
-            json_group_array(DISTINCT vrk.$sqlKanjiUidColumn) AS $sqlRelatedKanjiColumn,
-            json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups
-        FROM $tableName AS v
-                 LEFT JOIN $sqlKanjiReadingsTable AS kr
-                           ON v.$sqlUidColumn = kr.$sqlVocabularyUidColumn
-                 LEFT JOIN $sqlRelatedKanjiTable AS vrk
-                           ON v.$sqlUidColumn = vrk.$sqlVocabularyUidColumn
-                 LEFT JOIN $sqlVocabularyGroupsTable AS vg
-                           ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
-        GROUP BY v.$sqlUidColumn
-      """, transformer: _transformer);
+  Future<PaginatedData<Vocabulary>> getPaginated(
+    int page, {
+    int pageSize = 100,
+    String? orderBy,
+    String? where,
+    List<dynamic>? whereArgs,
+  }) async {
+    final snapshot = await _databaseService.rawQueryTrans(
+      _buildSelectQuery(
+        where: where,
+        orderBy: orderBy,
+        limit: pageSize,
+        offset: max((page - 1) * pageSize, 0),
+      ),
+      arguments: whereArgs ?? [],
+      transformer: _transformer,
+    );
+
+    return PaginatedData<Vocabulary>(
+      data: snapshot,
+      next:
+          snapshot.length == pageSize
+              ? () => getPaginated(
+                page + 1,
+                pageSize: pageSize,
+                orderBy: orderBy,
+                where: where,
+                whereArgs: whereArgs,
+              )
+              : null,
+    );
+  }
+
+  /// Get all the vocabulary
+  @override
+  Future<List<Vocabulary>> getAll() => _databaseService.rawQueryTrans(
+    _buildSelectQuery(),
+    transformer: _transformer,
+  );
 
   @override
   Future<Vocabulary> get(ResourceUid uid) => _databaseService
       .rawQueryTrans(
-        """
-        SELECT
-            ${columns.map((c) => 'v.$c').join(",")},
-            json_group_array(DISTINCT json_object(${sqlReadingsColumns.map((c) => "'$c', kr.$c").join(",")})) AS $sqlKanjiReadings,
-            json_group_array(DISTINCT vrk.$sqlKanjiUidColumn) AS $sqlRelatedKanjiColumn,
-            json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups
-        FROM $tableName AS v
-                 LEFT JOIN $sqlKanjiReadingsTable AS kr
-                           ON v.$sqlUidColumn = kr.$sqlVocabularyUidColumn
-                 LEFT JOIN $sqlRelatedKanjiTable AS vrk
-                           ON v.$sqlUidColumn = vrk.$sqlVocabularyUidColumn
-                 LEFT JOIN $sqlVocabularyGroupsTable AS vg
-                           ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
-        WHERE v.$sqlUidColumn = ?
-        GROUP BY v.$sqlUidColumn
-        LIMIT 1
-      """,
+        _buildSelectQuery(where: "v.$sqlUidColumn = ?", limit: 1),
         transformer: _transformer,
         arguments: [uid.uid],
       )
@@ -155,8 +183,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
             sqlVocabularyExamples,
           ].contains(key),
         )
-        ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings))
-        ..update(sqlKanaSyllablesColumn, (_) => jsonEncode(item.kanaSyllables));
+        ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings));
 
   Vocabulary _transformer(Map<String, dynamic> row) {
     final kanjiReadings =
@@ -167,16 +194,55 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         jsonDecode(row[sqlRelatedKanjiColumn]) as List<dynamic>..remove(null);
     final groups =
         jsonDecode(row[sqlVocabularyGroups]) as List<dynamic>..remove(null);
-    final kanaSyllables = jsonDecode(row[sqlKanaSyllablesColumn]);
-    final meanings = jsonDecode(row[sqlMeaningsColumn]);
+    final meanings = jsonDecode(row[sqlMeaningsColumn]) as List<dynamic>;
 
     return Vocabulary.fromJson({
       ...row,
       sqlKanjiReadings: kanjiReadings,
       sqlRelatedKanjiColumn: relatedKanji,
       sqlVocabularyGroups: groups,
-      sqlKanaSyllablesColumn: kanaSyllables,
       sqlMeaningsColumn: meanings,
     });
+  }
+
+  /// Build the select query for vocabulary.
+  /// For the [where] clause, 'k' is the alias for the kanji table.
+  String _buildSelectQuery({
+    String? where,
+    String? orderBy,
+    int? limit,
+    int? offset,
+  }) {
+    final extra = [];
+
+    if (where != null && where.isNotEmpty) {
+      extra.add("WHERE $where");
+    }
+    extra.add("GROUP BY v.$sqlUidColumn");
+    if (orderBy != null && orderBy.isNotEmpty) {
+      extra.add("ORDER BY $orderBy");
+    }
+    if (limit != null) {
+      extra.add("LIMIT $limit");
+    }
+    if (offset != null) {
+      extra.add("OFFSET $offset");
+    }
+
+    return """
+    SELECT
+       DISTINCT ${columns.map((c) => 'v.$c').join(",")},
+        json_group_array(DISTINCT json_object(${sqlReadingsColumns.map((c) => "'$c', kr.$c").join(",")})) AS $sqlKanjiReadings,
+        json_group_array(DISTINCT vrk.$sqlKanjiUidColumn) AS $sqlRelatedKanjiColumn,
+        json_group_array(DISTINCT vg.$sqlGroupUidColumn) AS $sqlVocabularyGroups
+    FROM $tableName AS v
+             LEFT JOIN $sqlKanjiReadingsTable AS kr
+                       ON v.$sqlUidColumn = kr.$sqlVocabularyUidColumn
+             LEFT JOIN $sqlRelatedKanjiTable AS vrk
+                       ON v.$sqlUidColumn = vrk.$sqlVocabularyUidColumn
+             LEFT JOIN $sqlVocabularyGroupsTable AS vg
+                       ON v.$sqlUidColumn = vg.$sqlVocabularyUidColumn
+    ${extra.join("\n")}
+    """;
   }
 }

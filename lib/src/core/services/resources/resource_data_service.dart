@@ -1,9 +1,13 @@
+import "dart:math";
+
 import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/paginated_response.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Resource, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
+import "package:kana_to_kanji/src/core/utils/sql/where.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
 import "package:sqflite/sqflite.dart";
@@ -16,7 +20,8 @@ const sqlWhereUidColumn = "uid = ?";
 
 abstract class ResourceDataService<T extends Resource>
     with ListenableServiceMixin {
-  final Logger _logger = locator<Logger>();
+  @protected
+  final Logger logger = locator<Logger>();
   final DatabaseService _databaseService = locator<DatabaseService>();
 
   final ResourceDataLoader<T> dataLoader;
@@ -26,6 +31,9 @@ abstract class ResourceDataService<T extends Resource>
   final List<String> columns;
 
   final T Function(Map<String, Object?>) transformer;
+
+  bool _isSyncing = false;
+  bool get isSyncing => _isSyncing;
 
   ResourceDataService({
     required this.tableName,
@@ -75,6 +83,56 @@ abstract class ResourceDataService<T extends Resource>
         .toList();
   }
 
+  Future<PaginatedData<T>> getPage(
+    int page, {
+    int pageSize = 100,
+    List<OrderBy> orderBy = const [],
+    List<Where> where = const [],
+    List<dynamic>? whereArgs,
+  }) async => getPaginated(
+    page,
+    pageSize: pageSize,
+    orderBy: orderBy.map((by) => by.build()).join(", "),
+    where: where.map((where) => where.build()).join(" "),
+    whereArgs: whereArgs ?? where.expand((where) => where.buildArgs()).toList(),
+  );
+
+  @protected
+  Future<PaginatedData<T>> getPaginated(
+    int page, {
+    int pageSize = 100,
+    String? orderBy,
+    String? where,
+    List<dynamic>? whereArgs,
+  }) async {
+    final snapshot = await _databaseService.queryTrans(
+      tableName,
+      transformer: transformer,
+      columns: columns,
+      limit: pageSize,
+      offset: max((page - 1) * pageSize, 0),
+      orderBy: orderBy,
+      where: where,
+      whereArgs: whereArgs,
+    );
+
+    return PaginatedData<T>(
+      data: snapshot,
+      next:
+          snapshot.length == pageSize
+              ? () => getPaginated(
+                page + 1,
+                pageSize: pageSize,
+                orderBy: orderBy,
+                where: where,
+                whereArgs: whereArgs,
+              )
+              : null,
+    );
+  }
+
+  /// Retrieve all the resource.
+  /// Be aware that this will load ALL the resource of the database in memory.
   Future<List<T>> getAll() => _databaseService.queryTrans(
     tableName,
     transformer: transformer,
@@ -198,18 +256,19 @@ abstract class ResourceDataService<T extends Resource>
 
   /// If [forceReload] is true, the collection is cleared and populated again
   Future sync({bool forceReload = false}) async {
-    _logger.i("ResourceDataService<$T>: syncing");
+    _isSyncing = true;
+    logger.d("ResourceDataService<$T>: start syncing");
     final version = forceReload ? await latestVersion : null;
 
     if (forceReload) {
       await _databaseService.delete(tableName);
     }
 
-    PaginatedList<T> cursor = await dataLoader.fetchAll(latestVersion: version);
+    PaginatedData<T> cursor = await dataLoader.fetchAll(latestVersion: version);
     bool hasMore = true;
 
     do {
-      _logger.d(
+      logger.d(
         "ResourceDataService<$T>: inserting ${cursor.data.length} items",
       );
       await upsertAll(cursor.data);
@@ -219,7 +278,8 @@ abstract class ResourceDataService<T extends Resource>
         cursor = await cursor.next!();
       }
     } while (hasMore);
-    _logger.i("ResourceDataService<$T>: sync ended");
+    logger.i("ResourceDataService<$T>: sync success");
+    _isSyncing = false;
     notifyListeners();
   }
 }

@@ -137,16 +137,6 @@ void main() {
       });
     });
 
-    group("deserialize", () {
-      test("should add kana syllables to vocabulary items", () {
-        final result = VocabularyDataLoader.deserialize(
-          testVocabularyData.first,
-        );
-
-        expect(result, dummiesVocabulary.first);
-      });
-    });
-
     test("fetch method should throw UnimplementedError", () {
       expect(
         () async => await dataLoader.fetch(dummiesVocabulary.first.uid),

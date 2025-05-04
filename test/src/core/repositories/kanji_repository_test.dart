@@ -1,27 +1,44 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
+import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
+import "package:kana_to_kanji/src/core/utils/sql/where.dart";
+import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 
 import "../../../dummies/kanji.dart";
-@GenerateNiceMocks([MockSpec<KanjiService>()])
+import "../../../helpers.dart";
+@GenerateNiceMocks([MockSpec<KanjiService>(), MockSpec<Logger>()])
 import "kanji_repository_test.mocks.dart";
 
 void main() {
   group("KanjiRepository", () {
     late KanjiRepository repository;
-    late MockKanjiService kanjiServiceMock;
+    final MockKanjiService kanjiServiceMock = MockKanjiService();
+
+    setUpAll(() {
+      locator
+        ..registerSingleton<Logger>(MockLogger())
+        ..registerSingleton<KanjiService>(kanjiServiceMock);
+    });
 
     setUp(() {
-      kanjiServiceMock = MockKanjiService();
-      repository = KanjiRepository(kanjiService: kanjiServiceMock);
+      repository = KanjiRepository();
     });
 
     tearDown(() {
       reset(kanjiServiceMock);
+    });
+
+    tearDownAll(() async {
+      await unregister<Logger>();
+      await unregister<KanjiService>();
     });
 
     test("should properly handle service updates", () {
@@ -56,74 +73,118 @@ void main() {
       );
     });
 
-    group("searchKanji", () {
-      setUp(() async {
-        when(kanjiServiceMock.getAll()).thenAnswer((_) async => [dummyKanji]);
-      });
+    group("get", () {
+      PaginatedData<Kanji> paginatedData = PaginatedData(data: [dummyKanji]);
 
-      test("should return all kanji when no filters are applied", () async {
-        final result = await repository.searchKanji(
-          "",
-          [],
-          [],
-          SortOrder.japanese,
-        );
-
-        expect(result.length, 1);
-        expect(result.first, dummyKanji);
-      });
-
-      test("should filter by kanji character", () async {
-        markTestSkipped("Until glossary refactor");
-        final result = await repository.searchKanji(
-          "日",
-          [],
-          [],
-          SortOrder.japanese,
-        );
-
-        expect(result.length, 0);
+      setUp(() {
+        paginatedData = PaginatedData(data: [dummyKanji]);
+        provideDummy<PaginatedData<Kanji>>(paginatedData);
       });
 
       test(
-        "should filter by meaning when search text is alphabetical",
+        "should call service with correct parameters when no filters",
         () async {
-          markTestSkipped("Until glossary refactor");
-          final result = await repository.searchKanji(
-            "day",
-            [],
-            [],
-            SortOrder.alphabetical,
-          );
+          when(
+            kanjiServiceMock.getPage(
+              any,
+              pageSize: anyNamed("pageSize"),
+              where: anyNamed("where"),
+              orderBy: anyNamed("orderBy"),
+            ),
+          ).thenAnswer((_) async => paginatedData);
 
-          expect(result.length, 0);
+          final result = await repository.get(orderBy: SortOrder.japanese);
+
+          final List<OrderBy> orderBys =
+              verify(
+                kanjiServiceMock.getPage(
+                  0,
+                  pageSize: anyNamed("pageSize"),
+                  where: [],
+                  orderBy: captureAnyNamed("orderBy"),
+                ),
+              ).captured.first;
+
+          expect(orderBys.length, 2);
+          expect(
+            orderBys,
+            containsAll([
+              OrderBy(KanjiColumn.jlptLevel, direction: OrderByDirection.desc),
+              OrderBy(KanjiColumn.mainReading),
+            ]),
+          );
+          expect(result.data, [dummyKanji]);
+          expect(result.hasMore, false);
         },
       );
 
-      test("should filter by JLPT level", () async {
-        final result = await repository.searchKanji("", [], [
-          JLPTLevel.level5,
-        ], SortOrder.japanese);
+      test("should apply JLPT filter correctly", () async {
+        when(
+          kanjiServiceMock.getPage(
+            any,
+            where: anyNamed("where"),
+            orderBy: anyNamed("orderBy"),
+          ),
+        ).thenAnswer((_) async => paginatedData);
 
-        expect(result.length, 1);
-        expect(result.first.jlptLevel, 5);
+        final jlptFilter = [JLPTLevel.n5];
+
+        await repository.get(
+          where: {JLPTLevel: jlptFilter},
+          orderBy: SortOrder.alphabetical,
+        );
+
+        final captured =
+            verify(
+              kanjiServiceMock.getPage(
+                0,
+                where: captureAnyNamed("where"),
+                orderBy: captureAnyNamed("orderBy"),
+              ),
+            ).captured;
+
+        final whereClause = captured.first as List<Where>;
+        expect(
+          whereClause,
+          contains(
+            Where(KanjiColumn.jlptLevel, WhereOperator.inList, jlptFilter),
+          ),
+        );
+
+        final orderByClause = captured.last as List<OrderBy>;
+        expect(orderByClause.length, 2);
+        expect(
+          orderByClause,
+          containsAll([
+            OrderBy(KanjiColumn.jlptLevel, direction: OrderByDirection.desc),
+            OrderBy(KanjiColumn.mainMeaning),
+          ]),
+        );
       });
 
-      test("should sort by Japanese syllables", () async {
-        when(kanjiServiceMock.getAll()).thenAnswer(
-          (_) => Future.value([dummyKanji, dummyKanjiWithRelatedData]),
+      test("should handle pagination correctly", () async {
+        final nextPageData = [dummyKanjiWithRelatedData];
+        paginatedData = paginatedData.copyWith(
+          next: () async => PaginatedData<Kanji>(data: nextPageData),
         );
 
-        final result = await repository.searchKanji(
-          "",
-          [],
-          [],
-          SortOrder.japanese,
-        );
+        when(
+          kanjiServiceMock.getPage(
+            any,
+            where: anyNamed("where"),
+            orderBy: anyNamed("orderBy"),
+          ),
+        ).thenAnswer((_) async => paginatedData);
 
-        expect(result.length, 2);
-        // Since sorting depends on the jpSortSyllables implementation
-        expect(result, hasLength(2));
+        final result = await repository.get(orderBy: SortOrder.japanese);
+        expect(result.data, [dummyKanji]);
+        expect(result.hasMore, true);
+
+        // Request next page
+        final secondPage = await result.next!();
+        expect(secondPage.data, nextPageData);
+        expect(secondPage.hasMore, false);
+        expect(repository.items, [dummyKanji, dummyKanjiWithRelatedData]);
       });
     });
   });

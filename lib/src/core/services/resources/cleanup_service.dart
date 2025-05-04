@@ -17,22 +17,14 @@ class CleanUpService {
   final ApiService _apiService = locator<ApiService>();
   final DatabaseService _databaseService = locator<DatabaseService>();
 
-  final GroupService _groupService;
-  final KanaService _kanaService;
-  final KanjiService _kanjiService;
-  final VocabularyService _vocabularyService;
+  final GroupService _groupService = locator<GroupService>();
+  final KanaService _kanaService = locator<KanaService>();
+  final KanjiService _kanjiService = locator<KanjiService>();
+  final VocabularyService _vocabularyService = locator<VocabularyService>();
 
   /// [groupService], [kanaService], [kanjiService], and [vocabularyService]
   /// are injected for testability only.
-  CleanUpService({
-    GroupService? groupService,
-    KanaService? kanaService,
-    KanjiService? kanjiService,
-    VocabularyService? vocabularyService,
-  }) : _groupService = groupService ?? GroupService(),
-       _kanaService = kanaService ?? KanaService(),
-       _kanjiService = kanjiService ?? KanjiService(),
-       _vocabularyService = vocabularyService ?? VocabularyService();
+  CleanUpService();
 
   Future<List<ResourceUid>> _getResourceToCleanUp({
     bool forceReload = false,

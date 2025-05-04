@@ -22,9 +22,7 @@ class KanaToKanjiApp extends StatelessWidget {
   KanaToKanjiApp({super.key});
 
   static Future initializeApp() async {
-    setupLocator();
     WidgetsFlutterBinding.ensureInitialized();
-
     // Firebase initialization
     await Firebase.initializeApp(
       // ignore: undefined_identifier
@@ -40,8 +38,7 @@ class KanaToKanjiApp extends StatelessWidget {
         return true;
       };
     }
-
-    locator.allReadySync();
+    setupLocator();
 
     // Load the user settings.
     // Need to be run before the runApp for the theme mode.

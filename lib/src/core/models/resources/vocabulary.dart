@@ -23,12 +23,6 @@ abstract class Vocabulary extends Resource with _$Vocabulary {
     required String romaji,
     required String version,
 
-    /// List of syllables forming the word in kana.
-    /// Use to facilitate vocabulary sorting.
-    ///
-    /// TODO: To remove once migrated to "kanjiReadings"
-    required List<int> kanaSyllables,
-
     /// Translations and meaning of the word
     @Default([]) List<String> meanings,
 
@@ -45,4 +39,7 @@ abstract class Vocabulary extends Resource with _$Vocabulary {
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);
+
+  /// Retrieve the vocabulary word in Japanese.
+  String get japanese => kanji.isNotEmpty ? kanji : kana;
 }

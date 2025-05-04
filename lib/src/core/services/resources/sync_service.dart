@@ -15,28 +15,14 @@ class SyncService {
   final ApiService _apiService = locator<ApiService>();
   final Logger _logger = locator<Logger>();
 
-  final GroupService _groupService;
-  final KanaService _kanaService;
-  final KanjiService _kanjiService;
-  final VocabularyService _vocabularyService;
-  final CleanUpService _cleanUpService;
+  final GroupService _groupService = locator<GroupService>();
+  final KanaService _kanaService = locator<KanaService>();
+  final KanjiService _kanjiService = locator<KanjiService>();
+  final VocabularyService _vocabularyService = locator<VocabularyService>();
+  final CleanUpService _cleanUpService = locator<CleanUpService>();
 
   bool _syncInProgress = false;
   bool get syncInProgress => _syncInProgress;
-
-  /// [groupService], [kanaService], [kanjiService], [vocabularyService] are
-  /// visible for testing purpose
-  SyncService({
-    GroupService? groupService,
-    KanaService? kanaService,
-    KanjiService? kanjiService,
-    VocabularyService? vocabularyService,
-    CleanUpService? cleanUpService,
-  }) : _groupService = groupService ?? GroupService(),
-       _kanaService = kanaService ?? KanaService(),
-       _kanjiService = kanjiService ?? KanjiService(),
-       _vocabularyService = vocabularyService ?? VocabularyService(),
-       _cleanUpService = cleanUpService ?? CleanUpService();
 
   Future<void> sync() async {
     if (_syncInProgress) {

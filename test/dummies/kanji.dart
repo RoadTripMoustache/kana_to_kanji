@@ -11,7 +11,6 @@ const Kanji dummyKanji = Kanji(
     Pronunciation(index: 0, meanings: ["book"], readings: ["ほん"]),
   ],
   version: "2025_01_01",
-  jpSortSyllables: [164, 218],
   mainMeaning: "book",
 );
 
@@ -22,7 +21,6 @@ final Kanji dummyKanjiWithRelatedData = Kanji(
   grade: 1,
   numberOfStrokes: 5,
   version: "2025_01_01",
-  jpSortSyllables: [164, 218],
   mainMeaning: "book",
   pronunciations: [
     Pronunciation(index: 0, meanings: ["book"], readings: ["ほん"]),
@@ -36,13 +34,13 @@ INSERT OR IGNORE INTO groups (uid, alphabet, name, kana_type, version)
 VALUES
   ('${dummyKanjiWithRelatedData.groups.first.uid}', 'kanji', '', 'main', '2025_01_01');
 
-INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, kana_syllables, meanings) VALUES
-('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["に","ほ","ん","ご"]', '["Japanese language"]');
+INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, meanings) VALUES
+('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["Japanese language"]');
 
-INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, jp_sort_syllables, number_of_strokes, grade, pronunciations, main_meaning)
+INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, number_of_strokes, grade, pronunciations, main_reading, main_meaning, readings, meanings)
 VALUES
-  ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '[{"index": 0, "meanings": ["book"], "readings": ["ほん"]}]', 'book'),
-  ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', '[164, 218]', 5, 1, '[{"index": 0, "meanings": ["book"], "readings": ["ほん"]}]', 'book');
+  ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', 5, 1, '[{"index": 0, "meanings": ["book"], "readings": ["ほん"]}]', 'ほん', 'book', '["ほん"]', '["book"]'),
+  ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', 5, 1, '[{"index": 0, "meanings": ["book"], "readings": ["ほん"]}]', 'ほん', 'book', '["ほん"]', '["book"]');
   
 INSERT OR IGNORE INTO kanji_groups (kanji_uid, group_uid)
 VALUES

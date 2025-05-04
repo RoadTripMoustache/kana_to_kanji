@@ -17,6 +17,7 @@ import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 import "package:sqflite/sqflite.dart";
 
+import "../../../../helpers.dart";
 @GenerateNiceMocks([
   MockSpec<ApiService>(),
   MockSpec<DatabaseService>(),
@@ -31,13 +32,14 @@ import "cleanup_service_test.mocks.dart";
 
 void main() {
   group("CleanUpService", () {
+    final MockApiService apiServiceMock = MockApiService();
+    final MockDatabaseService databaseServiceMock = MockDatabaseService();
+    final MockGroupService groupServiceMock = MockGroupService();
+    final MockKanaService kanaServiceMock = MockKanaService();
+    final MockKanjiService kanjiServiceMock = MockKanjiService();
+    final MockVocabularyService vocabularyServiceMock = MockVocabularyService();
+
     late CleanUpService service;
-    late MockApiService apiServiceMock;
-    late MockDatabaseService databaseServiceMock;
-    late MockGroupService groupServiceMock;
-    late MockKanaService kanaServiceMock;
-    late MockKanjiService kanjiServiceMock;
-    late MockVocabularyService vocabularyServiceMock;
     late MockTransaction transactionMock;
     late MockBatch batchMock;
 
@@ -53,31 +55,30 @@ void main() {
 
     setUpAll(() {
       locator
-        ..registerSingleton<ApiService>(apiServiceMock = MockApiService())
-        ..registerSingleton<DatabaseService>(
-          databaseServiceMock = MockDatabaseService(),
-        );
+        ..registerSingleton<ApiService>(apiServiceMock)
+        ..registerSingleton<DatabaseService>(databaseServiceMock)
+        ..registerSingleton<GroupService>(groupServiceMock)
+        ..registerSingleton<KanaService>(kanaServiceMock)
+        ..registerSingleton<KanjiService>(kanjiServiceMock)
+        ..registerSingleton<VocabularyService>(vocabularyServiceMock);
     });
 
     tearDownAll(() async {
-      await locator.unregister<ApiService>();
-      await locator.unregister<DatabaseService>();
+      await Future.wait([
+        unregister<ApiService>(),
+        unregister<DatabaseService>(),
+        unregister<GroupService>(),
+        unregister<KanaService>(),
+        unregister<KanjiService>(),
+        unregister<VocabularyService>(),
+      ]);
     });
 
     setUp(() async {
-      groupServiceMock = MockGroupService();
-      kanaServiceMock = MockKanaService();
-      kanjiServiceMock = MockKanjiService();
-      vocabularyServiceMock = MockVocabularyService();
       transactionMock = MockTransaction();
       batchMock = MockBatch();
 
-      service = CleanUpService(
-        groupService: groupServiceMock,
-        kanaService: kanaServiceMock,
-        kanjiService: kanjiServiceMock,
-        vocabularyService: vocabularyServiceMock,
-      );
+      service = CleanUpService();
 
       responseMock = http.Response("{\"deletedResources\": []}", HttpStatus.ok);
 

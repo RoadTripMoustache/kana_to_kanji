@@ -1,6 +1,6 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
-import "package:kana_to_kanji/src/core/models/paginated_response.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -317,13 +317,11 @@ void main() {
         dummyKanjiWithRelatedData.copyWith(mainMeaning: "API Fire"),
       ];
 
-      PaginatedList<Kanji> pageResult = PaginatedList<Kanji>(
-        hasMore: false,
-        data: apiKanjis,
-      );
+      PaginatedData<Kanji> pageResult = PaginatedData<Kanji>(data: apiKanjis);
 
       setUp(() async {
-        pageResult = PaginatedList<Kanji>(hasMore: false, data: apiKanjis);
+        pageResult = PaginatedData<Kanji>(data: apiKanjis);
+        provideDummy<PaginatedData<Kanji>>(pageResult);
         when(
           mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
         ).thenAnswer((_) async => pageResult);
@@ -345,7 +343,7 @@ void main() {
       test(
         "should fetch with version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedList<Kanji>(hasMore: false, data: []);
+          pageResult = PaginatedData<Kanji>(data: []);
           // The version will be determined by what's in the database
           final version = await service.latestVersion;
 
@@ -369,14 +367,10 @@ void main() {
         ];
 
         // Create second page object
-        final secondPageResult = PaginatedList<Kanji>(
-          hasMore: false,
-          data: newKanjis,
-        );
+        final secondPageResult = PaginatedData<Kanji>(data: newKanjis);
 
         // Create first page with next function that returns second page
-        pageResult = PaginatedList<Kanji>(
-          hasMore: true,
+        pageResult = PaginatedData<Kanji>(
           data: apiKanjis,
           next: () async => secondPageResult,
         );

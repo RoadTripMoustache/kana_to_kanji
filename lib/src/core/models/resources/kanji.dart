@@ -17,10 +17,6 @@ abstract class Kanji extends Resource with _$Kanji {
 
     required String version,
 
-    /// List of syllables of the first kanji Kun reading
-    /// to facilitate the kanji sorting
-    required List<int> jpSortSyllables,
-
     /// Pronunciations of the kanji
     required List<Pronunciation> pronunciations,
 

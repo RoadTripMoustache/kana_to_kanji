@@ -2,19 +2,14 @@ import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/src/core/models/resources/kana.dart";
 
-class KanaListTile extends StatelessWidget {
+class KanaTile extends StatelessWidget {
   final Kana kana;
 
   final VoidCallback? onPressed;
 
   final bool disabled;
 
-  const KanaListTile(
-    this.kana, {
-    super.key,
-    this.onPressed,
-    this.disabled = false,
-  });
+  const KanaTile(this.kana, {super.key, this.onPressed, this.disabled = false});
 
   @override
   Widget build(BuildContext context) {

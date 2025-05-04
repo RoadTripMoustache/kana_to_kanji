@@ -1,10 +1,14 @@
 import "dart:convert";
+import "dart:math";
 
+import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
+import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Kanji, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
+import "package:kana_to_kanji/src/core/utils/sql/sql_column.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:sqflite/sqflite.dart";
 
@@ -14,9 +18,12 @@ const sqlKanjiColumn = "kanji";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlNumberOfStrokesColumn = "number_of_strokes";
 const sqlGradeColumn = "grade";
-const sqlJpSortSyllablesColumn = "jp_sort_syllables";
+const sqlMainReadingColumn = "main_reading";
 const sqlMainMeaningColumn = "main_meaning";
 const sqlPronunciationsColumn = "pronunciations";
+
+const _sqlReadingsColumn = "readings";
+const _sqlMeaningsColumn = "meanings";
 
 /// Related vocabulary table and columns
 const sqlRelatedVocabularyTable = "kanji_related_vocabulary";
@@ -29,10 +36,35 @@ const sqlKanjiGroupsTable = "kanji_groups";
 const sqlKanjiGroups = "groups";
 const sqlGroupUidColumn = "group_uid";
 
-/// Kanji examples table and columns
-const sqlKanjiExamplesTable = "kanji_examples";
-const sqlKanjiExamples = "examples";
-const sqlExampleUidColumn = "example_uid";
+enum KanjiColumn implements SqlColumn {
+  uid(sqlUidColumn),
+  kanji(sqlKanjiColumn),
+  jlptLevel(sqlJlptLevelColumn),
+  numberOfStrokes(sqlNumberOfStrokesColumn),
+  grade(sqlGradeColumn),
+  mainMeaning(sqlMainMeaningColumn),
+
+  // Only used for sorting
+  mainReading(sqlMainReadingColumn),
+
+  // Only used for search
+  meanings(_sqlMeaningsColumn),
+  readings(_sqlReadingsColumn);
+
+  @override
+  final String column;
+
+  @override
+  final String prefix = "k";
+
+  const KanjiColumn(this.column);
+
+  /// Returns the column name with the prefix.
+  @override
+  String get selectColumn => "$prefix.$column";
+}
+
+const Map<Type, String> kKanjiColumnsAliases = {JLPTLevel: sqlJlptLevelColumn};
 
 class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
@@ -47,47 +79,59 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlJlptLevelColumn,
           sqlNumberOfStrokesColumn,
           sqlGradeColumn,
-          sqlJpSortSyllablesColumn,
           sqlMainMeaningColumn,
           sqlPronunciationsColumn,
         ],
         dataLoader: dataLoader ?? KanjiDataLoader(),
       );
 
-  /// Retrieve all the kanji
   @override
-  Future<List<Kanji>> getAll() => _databaseService.rawQueryTrans("""
-        SELECT
-            ${columns.map((c) => 'k.$c').join(",")},
-            json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
-            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
-        FROM $tableName AS k
-                 LEFT JOIN $sqlRelatedVocabularyTable AS krv
-                           ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
-                 LEFT JOIN $sqlKanjiGroupsTable AS kg
-                           ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
-        GROUP BY
-            k.$sqlUidColumn, k.$sqlKanjiColumn
-      """, transformer: _transformer);
+  Future<PaginatedData<Kanji>> getPaginated(
+    int page, {
+    int pageSize = 100,
+    String? orderBy,
+    String? where,
+    List<dynamic>? whereArgs,
+  }) async {
+    final snapshot = await _databaseService.rawQueryTrans(
+      _buildSelectQuery(
+        where: where,
+        orderBy: orderBy,
+        limit: pageSize,
+        offset: max((page - 1) * pageSize, 0),
+      ),
+      arguments: whereArgs ?? [],
+      transformer: _transformer,
+    );
+
+    return PaginatedData<Kanji>(
+      data: snapshot,
+      next:
+          snapshot.length == pageSize
+              ? () => getPaginated(
+                page + 1,
+                pageSize: pageSize,
+                where: where,
+                orderBy: orderBy,
+                whereArgs: whereArgs,
+              )
+              : null,
+    );
+  }
+
+  /// Retrieve all the kanji.
+  /// Be aware that this will load ALL the kanji of the database in memory.
+  @override
+  Future<List<Kanji>> getAll() => _databaseService.rawQueryTrans(
+    _buildSelectQuery(),
+    transformer: _transformer,
+  );
 
   /// Retrieve all the kanji
   @override
   Future<Kanji> get(ResourceUid uid) => _databaseService
       .rawQueryTrans(
-        """
-        SELECT
-            ${columns.map((c) => 'k.$c').join(",")},
-            json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
-            json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
-        FROM $tableName AS k
-                 LEFT JOIN $sqlRelatedVocabularyTable AS krv
-                           ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
-                 LEFT JOIN $sqlKanjiGroupsTable AS kg
-                           ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
-        WHERE k.$sqlUidColumn = ?
-        GROUP BY k.$sqlUidColumn, k.$sqlKanjiColumn
-        LIMIT 1
-      """,
+        _buildSelectQuery(where: "k.$sqlUidColumn = ?", limit: 1),
         transformer: _transformer,
         arguments: [uid.uid],
       )
@@ -133,19 +177,34 @@ class KanjiService extends ResourceDataService<Kanji> {
   Map<String, dynamic> _buildMainColumns(Kanji item) =>
       item.toJson()
         ..removeWhere(
-          (key, _) => [
-            sqlRelatedVocabularyColumn,
-            sqlKanjiGroups,
-            sqlKanjiExamples,
-          ].contains(key),
+          (key, _) =>
+              [sqlRelatedVocabularyColumn, sqlKanjiGroups].contains(key),
+        )
+        ..putIfAbsent(
+          sqlMainReadingColumn,
+          () => item.pronunciations.first.readings.first,
+        )
+        ..putIfAbsent(
+          _sqlMeaningsColumn,
+          () => jsonEncode(
+            item.pronunciations
+                .map((p) => p.meanings)
+                .expand((m) => m)
+                .toList(),
+          ),
+        )
+        ..putIfAbsent(
+          _sqlReadingsColumn,
+          () => jsonEncode(
+            item.pronunciations
+                .map((p) => p.readings)
+                .expand((r) => r)
+                .toList(),
+          ),
         )
         ..update(
           sqlPronunciationsColumn,
           (_) => jsonEncode(item.pronunciations),
-        )
-        ..update(
-          sqlJpSortSyllablesColumn,
-          (_) => jsonEncode(item.jpSortSyllables),
         );
 
   Kanji _transformer(Map<String, dynamic> row) {
@@ -155,14 +214,50 @@ class KanjiService extends ResourceDataService<Kanji> {
           ..remove(null);
     final groups =
         jsonDecode(row[sqlKanjiGroups]) as List<dynamic>..remove(null);
-    final sortSyllables = jsonDecode(row[sqlJpSortSyllablesColumn]);
 
     return Kanji.fromJson({
       ...row,
       sqlPronunciationsColumn: pronunciations ?? [],
       sqlRelatedVocabularyColumn: relatedVocabulary,
       sqlKanjiGroups: groups,
-      sqlJpSortSyllablesColumn: sortSyllables,
     });
+  }
+
+  /// Build the select query for kanji.
+  /// For the [where] clause, 'k' is the alias for the kanji table.
+  String _buildSelectQuery({
+    String? where,
+    String? orderBy,
+    int? limit,
+    int? offset,
+  }) {
+    final extra = [];
+
+    if (where != null && where.isNotEmpty) {
+      extra.add("WHERE $where");
+    }
+    extra.add("GROUP BY k.$sqlUidColumn, k.$sqlKanjiColumn");
+    if (orderBy != null && orderBy.isNotEmpty) {
+      extra.add("ORDER BY $orderBy");
+    }
+    if (limit != null) {
+      extra.add("LIMIT $limit");
+    }
+    if (offset != null) {
+      extra.add("OFFSET $offset");
+    }
+
+    return """
+    SELECT
+        DISTINCT ${columns.map((c) => 'k.$c').join(",")},k.readings,k.meanings,
+        json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
+        json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
+    FROM $tableName AS k
+             LEFT JOIN $sqlRelatedVocabularyTable AS krv
+                       ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
+             LEFT JOIN $sqlKanjiGroupsTable AS kg
+                       ON k.$sqlUidColumn = kg.$sqlKanjiUidColumn
+    ${extra.join("\n")}
+    """;
   }
 }
