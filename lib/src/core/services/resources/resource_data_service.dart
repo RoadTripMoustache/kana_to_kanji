@@ -1,11 +1,13 @@
 import "dart:math";
 
 import "package:flutter/foundation.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Resource, ResourceUid;
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
 import "package:kana_to_kanji/src/core/utils/sql/where.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -23,22 +25,33 @@ abstract class ResourceDataService<T extends Resource>
   @protected
   final Logger logger = locator<Logger>();
   final DatabaseService _databaseService = locator<DatabaseService>();
+  final PreferencesService _preferencesService = locator<PreferencesService>();
 
+  @protected
   final ResourceDataLoader<T> dataLoader;
 
+  @protected
+  @visibleForTesting
   final String tableName;
 
+  @protected
   final List<String> columns;
 
+  @protected
   final T Function(Map<String, Object?>) transformer;
 
+  @protected
+  final PreferenceFlags syncFlag;
+
   bool _isSyncing = false;
+
   bool get isSyncing => _isSyncing;
 
   ResourceDataService({
     required this.tableName,
     required this.transformer,
     required this.dataLoader,
+    required this.syncFlag,
     List<String> resourceColumns = const [],
   }) : columns = [sqlUidColumn, ...resourceColumns, sqlVersionColumn];
 
@@ -254,11 +267,40 @@ abstract class ResourceDataService<T extends Resource>
     }
   }
 
+  /// Validate the sync status of the resource. If the last sync failed aka
+  /// latestVersion != lastSync, the resource is synced again.
+  ///
+  /// Passing [syncRequired] as true will trigger a sync whatever the
+  /// health check result is.
+  /// If [forceReload] is true, the collection is cleared and populated again.
+  Future healthCheck({
+    bool syncRequired = false,
+    bool forceReload = false,
+  }) async {
+    if (syncRequired) {
+      return sync(forceReload: forceReload);
+    }
+    final lastSync = await _preferencesService.getString(syncFlag);
+    final highestVersion = await latestVersion;
+
+    if (highestVersion != null && lastSync != highestVersion) {
+      logger.i(
+        "ResourceDataService<$T>: previous sync failed, syncing again from "
+        "version ${lastSync ?? "zero"}",
+      );
+      return sync(forceReload: forceReload);
+    }
+    logger.d("ResourceDataService<$T> is up to date");
+  }
+
   /// If [forceReload] is true, the collection is cleared and populated again
   Future sync({bool forceReload = false}) async {
     _isSyncing = true;
-    logger.d("ResourceDataService<$T>: start syncing");
-    final version = forceReload ? await latestVersion : null;
+    final version = !forceReload ? await _getSyncVersion() : null;
+    logger.d(
+      "ResourceDataService<$T>: start syncing from "
+      "version ${version ?? "zero"}",
+    );
 
     if (forceReload) {
       await _databaseService.delete(tableName);
@@ -279,7 +321,25 @@ abstract class ResourceDataService<T extends Resource>
       }
     } while (hasMore);
     logger.i("ResourceDataService<$T>: sync success");
+
+    // Check was successful, save the latestVersion
+    await _preferencesService.setString(syncFlag, (await latestVersion)!);
     _isSyncing = false;
     notifyListeners();
+  }
+
+  Future<String?> _getSyncVersion() async {
+    final lastSync = await _preferencesService.getString(syncFlag);
+    logger.f("ResourceDataService<$T>: last sync version: $lastSync");
+    final highestVersion = await latestVersion;
+
+    if (highestVersion == null || lastSync == null) {
+      return null;
+    }
+
+    if (lastSync.compareTo(highestVersion) < 0) {
+      return lastSync;
+    }
+    return highestVersion;
   }
 }

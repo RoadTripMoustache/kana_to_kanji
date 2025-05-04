@@ -126,10 +126,13 @@ void main() {
           kanjiServiceMock.latestVersion,
           vocabularyServiceMock.latestVersion,
           apiServiceMock.get("/v1/sync?version[current]=2025_01_01"),
-          groupServiceMock.sync(forceReload: true),
-          kanaServiceMock.sync(forceReload: true),
-          kanjiServiceMock.sync(forceReload: true),
-          vocabularyServiceMock.sync(forceReload: true),
+          groupServiceMock.healthCheck(syncRequired: true, forceReload: true),
+          kanaServiceMock.healthCheck(syncRequired: true, forceReload: true),
+          kanjiServiceMock.healthCheck(syncRequired: true, forceReload: true),
+          vocabularyServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: true,
+          ),
           cleanUpServiceMock.executeCleanUp(
             forceReload: true,
             version: "2025_01_01",
@@ -162,14 +165,28 @@ void main() {
         await service.sync();
 
         verifyNever(
-          groupServiceMock.sync(forceReload: anyNamed("forceReload")),
+          groupServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
         );
-        verifyNever(kanaServiceMock.sync(forceReload: anyNamed("forceReload")));
         verifyNever(
-          kanjiServiceMock.sync(forceReload: anyNamed("forceReload")),
+          kanaServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
         );
         verifyNever(
-          vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
+          kanjiServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
+        );
+        verifyNever(
+          vocabularyServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
         );
         verifyNever(
           cleanUpServiceMock.executeCleanUp(
@@ -208,11 +225,29 @@ void main() {
 
         // Verify we called the API with no version parameter
         verify(apiServiceMock.get("/v1/sync")).called(1);
-        verify(groupServiceMock.sync(forceReload: anyNamed("forceReload")));
-        verify(kanaServiceMock.sync(forceReload: anyNamed("forceReload")));
-        verify(kanjiServiceMock.sync(forceReload: anyNamed("forceReload")));
         verify(
-          vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
+          groupServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
+        );
+        verify(
+          kanaServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
+        );
+        verify(
+          kanjiServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
+        );
+        verify(
+          vocabularyServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
         );
       });
 
@@ -290,13 +325,15 @@ void main() {
 
         // Verify that only the services with true flags were called
         verify(
-          groupServiceMock.sync(
+          groupServiceMock.healthCheck(
+            syncRequired: true,
             // ignore: avoid_redundant_argument_values
             forceReload: false,
           ),
         ).called(1);
         verify(
-          kanjiServiceMock.sync(
+          kanjiServiceMock.healthCheck(
+            syncRequired: true,
             // ignore: avoid_redundant_argument_values
             forceReload: false,
           ),
@@ -310,9 +347,17 @@ void main() {
         ).called(1);
 
         // Verify that services with false flags were not called
-        verifyNever(kanaServiceMock.sync(forceReload: anyNamed("forceReload")));
         verifyNever(
-          vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
+          kanaServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
+        );
+        verifyNever(
+          vocabularyServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: anyNamed("forceReload"),
+          ),
         );
       });
 
@@ -324,10 +369,21 @@ void main() {
         await service.sync();
 
         // Verify all loaders were called with forceReload true
-        verify(groupServiceMock.sync(forceReload: true)).called(1);
-        verify(kanaServiceMock.sync(forceReload: true)).called(1);
-        verify(kanjiServiceMock.sync(forceReload: true)).called(1);
-        verify(vocabularyServiceMock.sync(forceReload: true)).called(1);
+        verify(
+          groupServiceMock.healthCheck(syncRequired: true, forceReload: true),
+        ).called(1);
+        verify(
+          kanaServiceMock.healthCheck(syncRequired: true, forceReload: true),
+        ).called(1);
+        verify(
+          kanjiServiceMock.healthCheck(syncRequired: true, forceReload: true),
+        ).called(1);
+        verify(
+          vocabularyServiceMock.healthCheck(
+            syncRequired: true,
+            forceReload: true,
+          ),
+        ).called(1);
         verify(
           cleanUpServiceMock.executeCleanUp(
             forceReload: true,
@@ -347,16 +403,28 @@ void main() {
 
           // Verify no loaders were called since all flags should be false
           verifyNever(
-            groupServiceMock.sync(forceReload: anyNamed("forceReload")),
+            groupServiceMock.healthCheck(
+              syncRequired: true,
+              forceReload: anyNamed("forceReload"),
+            ),
           );
           verifyNever(
-            kanaServiceMock.sync(forceReload: anyNamed("forceReload")),
+            kanaServiceMock.healthCheck(
+              syncRequired: true,
+              forceReload: anyNamed("forceReload"),
+            ),
           );
           verifyNever(
-            kanjiServiceMock.sync(forceReload: anyNamed("forceReload")),
+            kanjiServiceMock.healthCheck(
+              syncRequired: true,
+              forceReload: anyNamed("forceReload"),
+            ),
           );
           verifyNever(
-            vocabularyServiceMock.sync(forceReload: anyNamed("forceReload")),
+            vocabularyServiceMock.healthCheck(
+              syncRequired: true,
+              forceReload: anyNamed("forceReload"),
+            ),
           );
           verifyNever(
             cleanUpServiceMock.executeCleanUp(

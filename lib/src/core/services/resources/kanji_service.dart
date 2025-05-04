@@ -2,7 +2,8 @@ import "dart:convert";
 import "dart:math";
 
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
-import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Kanji, ResourceUid;
@@ -70,7 +71,7 @@ class KanjiService extends ResourceDataService<Kanji> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
   /// [dataLoader] should only be used for testing
-  KanjiService({KanjiDataLoader? dataLoader})
+  KanjiService({ResourceDataLoader<Kanji>? dataLoader})
     : super(
         tableName: sqlKanjiTable,
         transformer: Kanji.fromJson,
@@ -82,7 +83,13 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlMainMeaningColumn,
           sqlPronunciationsColumn,
         ],
-        dataLoader: dataLoader ?? KanjiDataLoader(),
+        dataLoader:
+            dataLoader ??
+            ResourceDataLoader<Kanji>(
+              fromJson: Kanji.fromJson,
+              apiResourceType: sqlKanjiTable,
+            ),
+        syncFlag: PreferenceFlags.kanjiLastVersionSynced,
       );
 
   @override

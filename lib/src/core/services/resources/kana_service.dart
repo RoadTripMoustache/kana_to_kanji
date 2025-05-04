@@ -1,4 +1,5 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show Kana, ResourceUid;
@@ -34,6 +35,7 @@ class KanaService extends ResourceDataService<Kana> {
               fromJson: Kana.fromJson,
               apiResourceType: sqlKanaTable,
             ),
+        syncFlag: PreferenceFlags.kanaLastVersionSynced,
       );
 
   /// Get all the kana related to the group ids given in parameter.

@@ -1,7 +1,8 @@
 import "dart:convert";
 import "dart:math";
 
-import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart"
     show ResourceUid, Vocabulary;
@@ -71,7 +72,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
   final DatabaseService _databaseService = locator<DatabaseService>();
 
   /// [dataLoader] should only be used for testing
-  VocabularyService({VocabularyDataLoader? dataLoader})
+  VocabularyService({ResourceDataLoader<Vocabulary>? dataLoader})
     : super(
         tableName: sqlVocabularyTable,
         transformer: Vocabulary.fromJson,
@@ -82,7 +83,13 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlRomajiColumn,
           sqlMeaningsColumn,
         ],
-        dataLoader: dataLoader ?? VocabularyDataLoader(),
+        dataLoader:
+            dataLoader ??
+            ResourceDataLoader<Vocabulary>(
+              fromJson: Vocabulary.fromJson,
+              apiResourceType: sqlVocabularyTable,
+            ),
+        syncFlag: PreferenceFlags.vocabularyLastVersionSynced,
       );
 
   /// Get all the vocabulary

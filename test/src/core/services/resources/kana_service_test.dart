@@ -1,9 +1,11 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -15,7 +17,11 @@ import "package:sqflite/sqflite.dart";
 import "../../../../dummies/dummies.dart";
 import "../../../../helpers.dart";
 
-@GenerateNiceMocks([MockSpec<ResourceDataLoader>(), MockSpec<Logger>()])
+@GenerateNiceMocks([
+  MockSpec<ResourceDataLoader>(),
+  MockSpec<Logger>(),
+  MockSpec<PreferencesService>(),
+])
 import "kana_service_test.mocks.dart";
 
 void main() {
@@ -24,19 +30,23 @@ void main() {
   late KanaService service;
   late MockResourceDataLoader<Kana> mockDataLoader;
   late MockLogger mockLogger;
+  late MockPreferencesService mockPreferencesService;
 
   group("KanaService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
       mockLogger = MockLogger();
+      mockDataLoader = MockResourceDataLoader<Kana>();
+      mockPreferencesService = MockPreferencesService();
 
-      locator.registerSingleton<Logger>(mockLogger);
+      locator
+        ..registerSingleton<Logger>(mockLogger)
+        ..registerSingleton<PreferencesService>(mockPreferencesService);
+
+      provideDummy<PaginatedData<Kana>>(PaginatedData<Kana>(data: dummiesKana));
     });
 
     setUp(() async {
-      // Create mock data loader
-      mockDataLoader = MockResourceDataLoader<Kana>();
-
       // Create the service to test with mock data loader
       service = KanaService(dataLoader: mockDataLoader);
 
@@ -57,11 +67,13 @@ void main() {
         await txn.delete(sqlGroupsTable);
       });
       reset(mockDataLoader);
+      reset(mockPreferencesService);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
       await unregister<Logger>();
+      await unregister<PreferencesService>();
     });
 
     group("getByGroupIds", () {
@@ -298,6 +310,57 @@ void main() {
       });
     });
 
+    group("healthCheck", () {
+      setUp(() async {
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.kanaLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => dummyHiragana.version);
+      });
+
+      test("should not sync when versions match", () async {
+        await service.healthCheck();
+
+        // Verify that fetch was not called
+        verifyNever(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        );
+      });
+
+      test("should sync when versions don't match", () async {
+        // Setup different versions
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.kanaLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => "2024_01_01");
+
+        await service.healthCheck();
+
+        // Verify that fetch was called
+        verify(mockDataLoader.fetchAll(latestVersion: "2024_01_01")).called(1);
+      });
+
+      test("should sync when forced", () async {
+        await service.healthCheck(syncRequired: true);
+
+        // Verify that fetch was called regardless of versions
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+
+      test("should handle forceReload parameter", () async {
+        await service.healthCheck(syncRequired: true, forceReload: true);
+
+        // Verify database was cleared
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+    });
+
     group("sync", () {
       final apiKanas = [
         dummyHiragana.copyWith(kana: "わ", romaji: "wa"),
@@ -337,19 +400,22 @@ void main() {
       });
 
       test(
-        "should fetch with version parameter when doing forceReload",
+        "should fetch without version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedData<Kana>(data: []);
-          // The version will be determined by what's in the database
-          final version = await service.latestVersion;
+          when(
+            mockPreferencesService.getString(
+              PreferenceFlags.kanaLastVersionSynced,
+            ),
+          ).thenAnswer((_) async => dummyHiragana.version);
+          pageResult = PaginatedData<Kana>(data: [dummyHiragana]);
 
           await service.sync(forceReload: true);
 
-          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+          verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
 
           // Verify that database was cleared
           final savedKanas = await service.getAll();
-          expect(savedKanas.length, 0);
+          expect(savedKanas.length, 1);
         },
       );
 

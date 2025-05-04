@@ -22,6 +22,7 @@ class SyncService {
   final CleanUpService _cleanUpService = locator<CleanUpService>();
 
   bool _syncInProgress = false;
+
   bool get syncInProgress => _syncInProgress;
 
   Future<void> sync() async {
@@ -31,24 +32,29 @@ class SyncService {
     _syncInProgress = true;
     final sync = await _getSyncData();
 
-    if (sync.group) {
-      await _groupService.sync(forceReload: sync.forceReload);
-    }
-    if (sync.kana) {
-      await _kanaService.sync(forceReload: sync.forceReload);
-    }
-    if (sync.kanji) {
-      await _kanjiService.sync(forceReload: sync.forceReload);
-    }
-    if (sync.vocabulary) {
-      await _vocabularyService.sync(forceReload: sync.forceReload);
-    }
+    await _groupService.healthCheck(
+      syncRequired: sync.group,
+      forceReload: sync.forceReload,
+    );
+    await _kanaService.healthCheck(
+      syncRequired: sync.kana,
+      forceReload: sync.forceReload,
+    );
+    await _kanjiService.healthCheck(
+      syncRequired: sync.kanji,
+      forceReload: sync.forceReload,
+    );
+    await _vocabularyService.healthCheck(
+      syncRequired: sync.vocabulary,
+      forceReload: sync.forceReload,
+    );
     if (sync.cleanup) {
       await _cleanUpService.executeCleanUp(
         forceReload: sync.forceReload,
         version: sync.latestVersion,
       );
     }
+
     _syncInProgress = false;
   }
 
