@@ -133,9 +133,9 @@ void main() {
             syncRequired: true,
             forceReload: true,
           ),
-          cleanUpServiceMock.executeCleanUp(
-            forceReload: true,
+          cleanUpServiceMock.healthCheck(
             version: "2025_01_01",
+            cleanUpRequired: true,
           ),
         ]);
 
@@ -164,36 +164,13 @@ void main() {
 
         await service.sync();
 
-        verifyNever(
-          groupServiceMock.healthCheck(
-            syncRequired: true,
-            forceReload: anyNamed("forceReload"),
-          ),
-        );
-        verifyNever(
-          kanaServiceMock.healthCheck(
-            syncRequired: true,
-            forceReload: anyNamed("forceReload"),
-          ),
-        );
-        verifyNever(
-          kanjiServiceMock.healthCheck(
-            syncRequired: true,
-            forceReload: anyNamed("forceReload"),
-          ),
-        );
-        verifyNever(
-          vocabularyServiceMock.healthCheck(
-            syncRequired: true,
-            forceReload: anyNamed("forceReload"),
-          ),
-        );
-        verifyNever(
-          cleanUpServiceMock.executeCleanUp(
-            forceReload: anyNamed("forceReload"),
-            version: anyNamed("version"),
-          ),
-        );
+        verifyInOrder([
+          groupServiceMock.healthCheck(),
+          kanaServiceMock.healthCheck(),
+          kanjiServiceMock.healthCheck(),
+          vocabularyServiceMock.healthCheck(),
+          cleanUpServiceMock.healthCheck(version: anyNamed("version")),
+        ]);
       });
     });
 
@@ -339,9 +316,8 @@ void main() {
           ),
         ).called(1);
         verify(
-          cleanUpServiceMock.executeCleanUp(
-            // ignore: avoid_redundant_argument_values
-            forceReload: false,
+          cleanUpServiceMock.healthCheck(
+            cleanUpRequired: true,
             version: anyNamed("version"),
           ),
         ).called(1);
@@ -385,8 +361,8 @@ void main() {
           ),
         ).called(1);
         verify(
-          cleanUpServiceMock.executeCleanUp(
-            forceReload: true,
+          cleanUpServiceMock.healthCheck(
+            cleanUpRequired: true,
             version: anyNamed("version"),
           ),
         ).called(1);
@@ -401,37 +377,14 @@ void main() {
 
           await service.sync();
 
-          // Verify no loaders were called since all flags should be false
-          verifyNever(
-            groupServiceMock.healthCheck(
-              syncRequired: true,
-              forceReload: anyNamed("forceReload"),
-            ),
-          );
-          verifyNever(
-            kanaServiceMock.healthCheck(
-              syncRequired: true,
-              forceReload: anyNamed("forceReload"),
-            ),
-          );
-          verifyNever(
-            kanjiServiceMock.healthCheck(
-              syncRequired: true,
-              forceReload: anyNamed("forceReload"),
-            ),
-          );
-          verifyNever(
-            vocabularyServiceMock.healthCheck(
-              syncRequired: true,
-              forceReload: anyNamed("forceReload"),
-            ),
-          );
-          verifyNever(
-            cleanUpServiceMock.executeCleanUp(
-              forceReload: anyNamed("forceReload"),
-              version: anyNamed("version"),
-            ),
-          );
+          // Verify all services were called with syncRequired to false
+          verifyInOrder([
+            groupServiceMock.healthCheck(),
+            kanaServiceMock.healthCheck(),
+            kanjiServiceMock.healthCheck(),
+            vocabularyServiceMock.healthCheck(),
+            cleanUpServiceMock.healthCheck(version: anyNamed("version")),
+          ]);
         },
       );
     });
