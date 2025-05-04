@@ -84,15 +84,18 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   bool showBadge(GlossaryTab tab) {
     switch (tab) {
       case GlossaryTab.hiragana:
-        return !_visitedTabs[tab.index];
+        return !_visitedTabs[tab.index] && !_kanaFullyDisabled(hiragana);
       case GlossaryTab.katakana:
-        return !_visitedTabs[tab.index];
+        return !_visitedTabs[tab.index] && !_kanaFullyDisabled(katakana);
       case GlossaryTab.kanji:
         return !_visitedTabs[tab.index] && kanji.hasData;
       case GlossaryTab.vocabulary:
         return !_visitedTabs[tab.index] && vocabulary.hasData;
     }
   }
+
+  bool _kanaFullyDisabled(KanaMap map) =>
+      map.values.every((list) => list.every((item) => item.disabled));
 
   void _resetVisitedTabs() {
     _visitedTabs
