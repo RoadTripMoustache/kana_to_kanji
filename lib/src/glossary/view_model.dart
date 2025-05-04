@@ -4,7 +4,6 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
-import "package:kana_to_kanji/src/core/constants/kana_type.dart";
 import "package:kana_to_kanji/src/core/constants/knowledge_level.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
 import "package:kana_to_kanji/src/core/models/resources/resources.dart";
@@ -12,14 +11,12 @@ import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
+import "package:kana_to_kanji/src/glossary/constants.dart";
 import "package:kana_to_kanji/src/glossary/details/details_view.dart";
 import "package:kana_to_kanji/src/glossary/pagination_helper.dart";
 import "package:kana_to_kanji/src/glossary/widgets/sort_filter_by_dialog.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
-
-typedef KanaDisabled = ({Kana kana, bool disabled});
-typedef KanaMap = Map<KanaTypes, List<KanaDisabled>>;
 
 const String hiraganaStream = "hiragana";
 const String katakanaStream = "katakana";
@@ -27,6 +24,10 @@ const String katakanaStream = "katakana";
 class GlossaryViewModel extends MultipleStreamViewModel {
   final GoRouter router;
   final TabController tabController;
+
+  final List<bool> _visitedTabs = [];
+
+  bool isTabVisited(GlossaryTab tab) => _visitedTabs[tab.index];
 
   final Map<String, StreamController> _controllers = {
     hiraganaStream: StreamController<KanaMap>(),
@@ -52,7 +53,6 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   bool get isKatakanaReady => dataReady(katakanaStream);
 
   final PaginationHelper<Kanji, KanjiRepository> kanji = PaginationHelper();
-
   final PaginationHelper<Vocabulary, VocabularyRepository> vocabulary =
       PaginationHelper();
 
@@ -61,7 +61,9 @@ class GlossaryViewModel extends MultipleStreamViewModel {
 
   GlossaryViewModel(this.router, this.tabController) {
     _kanaRepository.addListener(_onKanaUpdate);
+    tabController.addListener(_onTabChanged);
     unawaited(_onKanaUpdate());
+    _resetVisitedTabs();
   }
 
   @override
@@ -73,6 +75,30 @@ class GlossaryViewModel extends MultipleStreamViewModel {
       _controllers[katakanaStream]!.stream as Stream<KanaMap>,
     ),
   };
+
+  void _onTabChanged() {
+    _visitedTabs[tabController.index] = true;
+    notifyListeners();
+  }
+
+  bool showBadge(GlossaryTab tab) {
+    switch (tab) {
+      case GlossaryTab.hiragana:
+        return !_visitedTabs[tab.index];
+      case GlossaryTab.katakana:
+        return !_visitedTabs[tab.index];
+      case GlossaryTab.kanji:
+        return !_visitedTabs[tab.index] && kanji.hasData;
+      case GlossaryTab.vocabulary:
+        return !_visitedTabs[tab.index] && vocabulary.hasData;
+    }
+  }
+
+  void _resetVisitedTabs() {
+    _visitedTabs
+      ..clear()
+      ..addAll(GlossaryTab.values.map((_) => _search.isEmpty));
+  }
 
   Future<void> _onKanaUpdate() async {
     _controllers[hiraganaStream]!.add(
@@ -163,6 +189,8 @@ class GlossaryViewModel extends MultipleStreamViewModel {
     if (updateKana) {
       unawaited(_onKanaUpdate());
     }
+    _resetVisitedTabs();
+    _visitedTabs[tabController.index] = true;
   }
 
   @override

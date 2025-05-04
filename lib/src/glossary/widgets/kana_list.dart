@@ -5,7 +5,7 @@ import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/kana_type.dart";
 import "package:kana_to_kanji/src/core/models/resources/kana.dart";
-import "package:kana_to_kanji/src/glossary/view_model.dart";
+import "package:kana_to_kanji/src/glossary/constants.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_tile.dart";
 
 const _emptyTiles = [44, 45, 46, 37, 36];
@@ -15,8 +15,14 @@ const _dakutenKanaRows = 25 ~/ 5;
 class KanaList extends StatefulWidget {
   final KanaMap items;
   final Function(Kana kana)? onPressed;
+  final bool visited;
 
-  const KanaList({required this.items, super.key, this.onPressed});
+  const KanaList({
+    required this.items,
+    super.key,
+    this.onPressed,
+    this.visited = false,
+  });
 
   @override
   State<KanaList> createState() => _KanaListState();
@@ -28,6 +34,9 @@ class _KanaListState extends State<KanaList> {
   final ScrollController _scrollController = ScrollController();
 
   late List<KanaDisabled?> _mainWithEmptyTiles;
+
+  /// The position of the last kana we scrolled to
+  int _lastKanaScrolledTo = 0;
 
   @override
   void initState() {
@@ -73,7 +82,17 @@ class _KanaListState extends State<KanaList> {
 
   Future<void> _scrollTo() async {
     final Kana? kana = _determineFirstTileEnabled();
-    final double offset = kana != null ? _determineScrollOffset(kana) : 0;
+
+    // No need to scroll either all kanas are disabled or
+    // the user has already visited the page and so we assume we already
+    // scrolled to the correct position.
+    if (kana == null ||
+        (widget.visited && _lastKanaScrolledTo == kana.position)) {
+      return;
+    }
+
+    final double offset = _determineScrollOffset(kana);
+    _lastKanaScrolledTo = kana.position;
     await _scrollController.animateTo(
       offset,
       duration: const Duration(milliseconds: 300),

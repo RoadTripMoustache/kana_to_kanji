@@ -3,7 +3,9 @@ import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
+import "package:kana_to_kanji/src/glossary/constants.dart";
 import "package:kana_to_kanji/src/glossary/view_model.dart";
+import "package:kana_to_kanji/src/glossary/widgets/badge_icon.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kana_list.dart";
 import "package:kana_to_kanji/src/glossary/widgets/kanji_list.dart";
 import "package:kana_to_kanji/src/glossary/widgets/loading_tab.dart";
@@ -59,12 +61,33 @@ class _GlossaryViewState extends State<GlossaryView>
               bottom: TabBar.secondary(
                 controller: _tabController,
                 tabs: <Widget>[
-                  Tab(text: l10n.glossary_tab_hiragana, icon: const Text("あ")),
-                  Tab(text: l10n.glossary_tab_katakana, icon: const Text("ア")),
-                  Tab(text: l10n.glossary_tab_kanji, icon: const Text("語")),
+                  Tab(
+                    text: l10n.glossary_tab_hiragana,
+                    icon: BadgeIcon(
+                      icon: const Text("あ"),
+                      showBadge: viewModel.showBadge(GlossaryTab.hiragana),
+                    ),
+                  ),
+                  Tab(
+                    text: l10n.glossary_tab_katakana,
+                    icon: BadgeIcon(
+                      icon: const Text("ア"),
+                      showBadge: viewModel.showBadge(GlossaryTab.katakana),
+                    ),
+                  ),
+                  Tab(
+                    text: l10n.glossary_tab_kanji,
+                    icon: BadgeIcon(
+                      icon: const Text("語"),
+                      showBadge: viewModel.showBadge(GlossaryTab.kanji),
+                    ),
+                  ),
                   Tab(
                     text: l10n.glossary_tab_vocabulary,
-                    icon: const Text("語彙"),
+                    icon: BadgeIcon(
+                      icon: const Text("語彙"),
+                      showBadge: viewModel.showBadge(GlossaryTab.vocabulary),
+                    ),
                   ),
                 ],
               ),
@@ -81,6 +104,7 @@ class _GlossaryViewState extends State<GlossaryView>
                       child: KanaList(
                         items: viewModel.hiragana,
                         onPressed: viewModel.onTilePressed,
+                        visited: viewModel.isTabVisited(GlossaryTab.hiragana),
                       ),
                     ),
                     LoadingTab(
@@ -88,6 +112,7 @@ class _GlossaryViewState extends State<GlossaryView>
                       child: KanaList(
                         items: viewModel.katakana,
                         onPressed: viewModel.onTilePressed,
+                        visited: viewModel.isTabVisited(GlossaryTab.katakana),
                       ),
                     ),
                     KanjiList(

@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:infinite_scroll_pagination/infinite_scroll_pagination.dart";
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/sort_order.dart";
@@ -15,14 +17,15 @@ class PaginationHelper<
   final R repository = locator<R>();
 
   PagingState<int, T> _pagingState = PagingState();
-
   PagingState<int, T> get pagingState => _pagingState;
+
   PaginatedData<T>? _nextPage;
 
+  bool get hasData => _nextPage?.data.isNotEmpty ?? false;
+
+  // Search and filters
   String _search = "";
-
   final List<JLPTLevel> _jlptFilter = [];
-
   SortOrder _sortOrder;
 
   PaginationHelper({
@@ -42,6 +45,7 @@ class PaginationHelper<
       ..addAll(jlptFilter);
     _pagingState = _pagingState.reset();
     _nextPage = null;
+    unawaited(fetchNextPage());
     notifyListeners();
   }
 
