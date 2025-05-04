@@ -48,10 +48,10 @@ class SyncService {
       syncRequired: sync.vocabulary,
       forceReload: sync.forceReload,
     );
-    if (sync.cleanup) {
-      await _cleanUpService.executeCleanUp(
-        forceReload: sync.forceReload,
-        version: sync.latestVersion,
+    if (sync.latestVersion != null) {
+      await _cleanUpService.healthCheck(
+        cleanUpRequired: sync.cleanup,
+        version: sync.latestVersion!,
       );
     }
 

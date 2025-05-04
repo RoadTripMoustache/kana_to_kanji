@@ -7,18 +7,22 @@ import "package:kana_to_kanji/src/core/models/cleanup.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/api_service.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/cleanup_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
+import "package:logger/logger.dart";
 import "package:mockito/annotations.dart";
 import "package:mockito/mockito.dart";
 import "package:sqflite/sqflite.dart";
 
 import "../../../../helpers.dart";
 @GenerateNiceMocks([
+  MockSpec<Logger>(),
+  MockSpec<PreferencesService>(),
   MockSpec<ApiService>(),
   MockSpec<DatabaseService>(),
   MockSpec<GroupService>(),
@@ -38,6 +42,8 @@ void main() {
     final MockKanaService kanaServiceMock = MockKanaService();
     final MockKanjiService kanjiServiceMock = MockKanjiService();
     final MockVocabularyService vocabularyServiceMock = MockVocabularyService();
+    final MockPreferencesService preferencesServiceMock =
+        MockPreferencesService();
 
     late CleanUpService service;
     late MockTransaction transactionMock;
@@ -55,6 +61,8 @@ void main() {
 
     setUpAll(() {
       locator
+        ..registerSingleton<Logger>(MockLogger())
+        ..registerSingleton<PreferencesService>(preferencesServiceMock)
         ..registerSingleton<ApiService>(apiServiceMock)
         ..registerSingleton<DatabaseService>(databaseServiceMock)
         ..registerSingleton<GroupService>(groupServiceMock)
@@ -65,6 +73,8 @@ void main() {
 
     tearDownAll(() async {
       await Future.wait([
+        unregister<Logger>(),
+        unregister<PreferencesService>(),
         unregister<ApiService>(),
         unregister<DatabaseService>(),
         unregister<GroupService>(),
@@ -102,6 +112,7 @@ void main() {
     });
 
     tearDown(() {
+      reset(preferencesServiceMock);
       reset(apiServiceMock);
       reset(databaseServiceMock);
       reset(groupServiceMock);
@@ -119,7 +130,7 @@ void main() {
         responseMock = http.Response(jsonEncode(cleanupData), HttpStatus.ok);
 
         // Execute the cleanup
-        await service.executeCleanUp();
+        await service.executeCleanUp(version: "2025_01_01");
 
         // Verify the deletion methods were called with correct resources
         verify(
@@ -146,7 +157,7 @@ void main() {
         responseMock = http.Response("", HttpStatus.notFound);
 
         // Execute the cleanup
-        await service.executeCleanUp();
+        await service.executeCleanUp(version: "2025_01_01");
 
         // Verify no deletion methods were called
         verifyNever(groupServiceMock.deleteAll(any, batch: anyNamed("batch")));
@@ -165,8 +176,7 @@ void main() {
           final version = "2025_01_01";
 
           // Execute with version parameter
-          // ignore: avoid_redundant_argument_values
-          await service.executeCleanUp(forceReload: false, version: version);
+          await service.executeCleanUp(version: version);
 
           // Verify API was called with correct version parameter
           verify(
@@ -174,28 +184,6 @@ void main() {
           ).called(1);
         },
       );
-
-      test(
-        "should not include version query when forceReload is true",
-        () async {
-          final version = "2025_01_01";
-
-          // Execute with forceReload = true
-          await service.executeCleanUp(forceReload: true, version: version);
-
-          // Verify API was called without version parameter
-          verify(apiServiceMock.get("/v1/cleanup")).called(1);
-        },
-      );
-
-      test("should not include version query when version is null", () async {
-        // Execute without version
-        // ignore: avoid_redundant_argument_values
-        await service.executeCleanUp(forceReload: false, version: null);
-
-        // Verify API was called without version parameter
-        verify(apiServiceMock.get("/v1/cleanup")).called(1);
-      });
     });
 
     group("executeCleanUp", () {
@@ -214,7 +202,7 @@ void main() {
         responseMock = http.Response(jsonEncode(cleanupData), HttpStatus.ok);
 
         // Execute the cleanup
-        await service.executeCleanUp();
+        await service.executeCleanUp(version: "2025_01_01");
 
         // Verify the deletion methods were called with correctly categorized
         // resources
@@ -248,7 +236,7 @@ void main() {
         responseMock = http.Response(jsonEncode(cleanupData), HttpStatus.ok);
 
         // Execute the cleanup
-        await service.executeCleanUp();
+        await service.executeCleanUp(version: "2025_01_01");
 
         // Verify transaction handling
         verify(databaseServiceMock.transaction(any)).called(1);
@@ -261,7 +249,7 @@ void main() {
         responseMock = http.Response(jsonEncode(cleanupData), HttpStatus.ok);
 
         // Execute the cleanup
-        await service.executeCleanUp();
+        await service.executeCleanUp(version: "2025_01_01");
 
         // Verify no deletion methods were called with any resources
         verifyZeroInteractions(groupServiceMock);
