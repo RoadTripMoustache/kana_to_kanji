@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:math";
 
 import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
@@ -125,7 +126,7 @@ class _KanaListState extends State<KanaList> {
     final double tileHeight = tileWidth / aspectRatio;
     final int row = _getIndex(kana) ~/ itemPerRow;
 
-    return row * tileHeight + _additionalOffset(kana.type);
+    return max(row - 1, 0) * tileHeight + _additionalOffset(kana.type);
   }
 
   /// Get [kana] index inside [widget.items[kana.type]]
