@@ -240,6 +240,16 @@
   "glossary_filter_by_title": "Filtrer par",
   "glossary_filter_by_apply": "Appliquer",
   "glossary_filter_by_clear": "Éffacer les filtres",
+  "glossary_not_found": "Aucun {resource, select, kanji{kanji} vocabulary{mot de vocabulaire} other{}} trouvé",
+  "@glossary_not_found": {
+    "placeholders": {
+      "resource": {
+        "type": "String",
+        "description": "Resource type that was searched for"
+      }
+    }
+  },
+  "glossary_not_found_subtitle": "Essayer de chercher un synonyme ou une autre écriture",
   "glossary_tile_meanings": "{count, plural, zero{{meaning}} other{{meaning} + {count} autres}}}",
   "@glossary_tile_meanings": {
     "description": "Principal traduction du kanji ou mot de vocabulaire",
