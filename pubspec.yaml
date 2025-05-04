@@ -106,3 +106,49 @@ flutter:
         - asset: fonts/MPLUSRounded1c/MPLUSRounded1c-Black.ttf
           weight: 900
           style: normal
+    - family: MPLUS1
+      fonts:
+        - asset: fonts/MPLUS1/MPLUS1-Thin.ttf
+          weight: 100
+          style: normal
+        - asset: fonts/MPLUS1/MPLUS1-Light.ttf
+          weight: 300
+          style: normal
+        - asset: fonts/MPLUS1/MPLUS1-Regular.ttf
+          weight: 400
+          style: normal
+        - asset: fonts/MPLUS1/MPLUS1-Medium.ttf
+          weight: 500
+          style: normal
+        - asset: fonts/MPLUS1/MPLUS1-Bold.ttf
+          weight: 700
+          style: normal
+        - asset: fonts/MPLUS1/MPLUS1-ExtraBold.ttf
+          weight: 800
+          style: normal
+        - asset: fonts/MPLUS1/MPLUS1-Black.ttf
+          weight: 900
+          style: normal
+    - family: NotoSansJP
+      fonts:
+        - asset: fonts/NotoSansJP/NotoSansJP-Thin.ttf
+          weight: 100
+          style: normal
+        - asset: fonts/NotoSansJP/NotoSansJP-Light.ttf
+          weight: 300
+          style: normal
+        - asset: fonts/NotoSansJP/NotoSansJP-Regular.ttf
+          weight: 400
+          style: normal
+        - asset: fonts/NotoSansJP/NotoSansJP-Medium.ttf
+          weight: 500
+          style: normal
+        - asset: fonts/NotoSansJP/NotoSansJP-Bold.ttf
+          weight: 700
+          style: normal
+        - asset: fonts/NotoSansJP/NotoSansJP-ExtraBold.ttf
+          weight: 800
+          style: normal
+        - asset: fonts/NotoSansJP/NotoSansJP-Black.ttf
+          weight: 900
+          style: normal

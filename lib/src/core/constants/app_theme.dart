@@ -154,8 +154,24 @@ class AppTheme {
     onErrorContainer: red[200],
   );
 
+  static final TextTheme textTheme = TextTheme(
+    displayLarge: TextStyle(fontFamily: "NotoSansJP"),
+    displayMedium: TextStyle(fontFamily: "NotoSansJP"),
+    displaySmall: TextStyle(fontFamily: "NotoSansJP"),
+    headlineLarge: TextStyle(fontFamily: "NotoSansJP"),
+    headlineMedium: TextStyle(fontFamily: "NotoSansJP"),
+    headlineSmall: TextStyle(fontFamily: "NotoSansJP"),
+    titleLarge: TextStyle(fontFamily: "NotoSansJP"),
+    titleMedium: TextStyle(fontFamily: "NotoSansJP"),
+    titleSmall: TextStyle(fontFamily: "NotoSansJP"),
+  );
+
+  static final String _defaultFontFamily = "MPLUS1";
+
   static ThemeData lightTheme = RTMTheme.light(
     colorScheme: light,
+    fontFamily: _defaultFontFamily,
+    textTheme: textTheme,
     bottomSheetTheme: RTMBottomSheetThemeData(
       light,
       BottomSheetThemeData(
@@ -178,6 +194,8 @@ class AppTheme {
 
   static ThemeData darkTheme = RTMTheme.dark(
     colorScheme: dark,
+    fontFamily: _defaultFontFamily,
+    textTheme: textTheme,
     bottomAppBarTheme: RTMBottomAppBarTheme(color: dark.surface),
     bottomNavigationBarTheme: RTMBottomNavigationBarThemeData(
       backgroundColor: dark.surface,
