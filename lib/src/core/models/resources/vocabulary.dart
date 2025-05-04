@@ -39,4 +39,7 @@ abstract class Vocabulary extends Resource with _$Vocabulary {
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>
       _$VocabularyFromJson(json);
+
+  /// Retrieve the vocabulary word in Japanese.
+  String get japanese => kanji.isNotEmpty ? kanji : kana;
 }
