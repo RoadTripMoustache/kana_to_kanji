@@ -1,9 +1,11 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/dataloaders/kanji_dataloader.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart"
     as groups;
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
@@ -18,28 +20,38 @@ import "package:sqflite/utils/utils.dart";
 
 import "../../../../dummies/dummies.dart";
 import "../../../../helpers.dart";
-@GenerateNiceMocks([MockSpec<KanjiDataLoader>(), MockSpec<Logger>()])
+@GenerateNiceMocks([
+  MockSpec<ResourceDataLoader>(),
+  MockSpec<Logger>(),
+  MockSpec<PreferencesService>(),
+])
 import "kanji_service_test.mocks.dart";
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late final DatabaseService databaseService;
   late KanjiService service;
-  late KanjiDataLoader mockDataLoader;
+  late ResourceDataLoader<Kanji> mockDataLoader;
   late MockLogger mockLogger;
+  late MockPreferencesService mockPreferencesService;
 
   group("KanjiService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
       mockLogger = MockLogger();
+      mockDataLoader = MockResourceDataLoader<Kanji>();
+      mockPreferencesService = MockPreferencesService();
 
-      locator.registerSingleton<Logger>(mockLogger);
+      locator
+        ..registerSingleton<Logger>(mockLogger)
+        ..registerSingleton<PreferencesService>(mockPreferencesService);
+
+      provideDummy<PaginatedData<Kanji>>(
+        PaginatedData<Kanji>(data: dummiesKanji),
+      );
     });
 
     setUp(() async {
-      // Create mock data loader
-      mockDataLoader = MockKanjiDataLoader();
-
       // Create the service to test with mock data loader
       service = KanjiService(dataLoader: mockDataLoader);
 
@@ -67,11 +79,13 @@ void main() {
         await batch.commit(noResult: true);
       });
       reset(mockDataLoader);
+      reset(mockPreferencesService);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
       await unregister<Logger>();
+      await unregister<PreferencesService>();
     });
 
     group("getAll", () {
@@ -311,6 +325,57 @@ void main() {
       });
     });
 
+    group("healthCheck", () {
+      setUp(() async {
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.kanjiLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => dummyKanji.version);
+      });
+
+      test("should not sync when versions match", () async {
+        await service.healthCheck();
+
+        // Verify that fetch was not called
+        verifyNever(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        );
+      });
+
+      test("should sync when versions don't match", () async {
+        // Setup different versions
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.kanjiLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => "2024_01_01");
+
+        await service.healthCheck();
+
+        // Verify that fetch was called
+        verify(mockDataLoader.fetchAll(latestVersion: "2024_01_01")).called(1);
+      });
+
+      test("should sync when forced", () async {
+        await service.healthCheck(syncRequired: true);
+
+        // Verify that fetch was called regardless of versions
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+
+      test("should handle forceReload parameter", () async {
+        await service.healthCheck(syncRequired: true, forceReload: true);
+
+        // Verify database was cleared
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+    });
+
     group("sync", () {
       final apiKanjis = [
         dummyKanji.copyWith(mainMeaning: "API Book"),
@@ -341,19 +406,22 @@ void main() {
       });
 
       test(
-        "should fetch with version parameter when doing forceReload",
+        "should fetch without version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedData<Kanji>(data: []);
-          // The version will be determined by what's in the database
-          final version = await service.latestVersion;
+          when(
+            mockPreferencesService.getString(
+              PreferenceFlags.kanjiLastVersionSynced,
+            ),
+          ).thenAnswer((_) async => dummyKanji.version);
+          pageResult = PaginatedData<Kanji>(data: [dummyKanji]);
 
           await service.sync(forceReload: true);
 
-          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+          verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
 
           // Verify that database was cleared
           final savedKanji = await service.getAll();
-          expect(savedKanji.length, 0);
+          expect(savedKanji.length, 1);
         },
       );
 

@@ -1,9 +1,11 @@
 import "package:flutter_test/flutter_test.dart";
-import "package:kana_to_kanji/src/core/dataloaders/vocabulary_dataloader.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart"
     as groups;
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart"
@@ -19,28 +21,38 @@ import "package:sqflite/utils/utils.dart";
 import "../../../../dummies/vocabulary.dart";
 import "../../../../helpers.dart";
 
-@GenerateNiceMocks([MockSpec<VocabularyDataLoader>(), MockSpec<Logger>()])
+@GenerateNiceMocks([
+  MockSpec<ResourceDataLoader>(),
+  MockSpec<Logger>(),
+  MockSpec<PreferencesService>(),
+])
 import "vocabulary_service_test.mocks.dart";
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late final DatabaseService databaseService;
   late VocabularyService service;
-  late VocabularyDataLoader mockDataLoader;
+  late ResourceDataLoader<Vocabulary> mockDataLoader;
   late MockLogger mockLogger;
+  late MockPreferencesService mockPreferencesService;
 
   group("VocabularyService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
       mockLogger = MockLogger();
+      mockDataLoader = MockResourceDataLoader<Vocabulary>();
+      mockPreferencesService = MockPreferencesService();
 
-      locator.registerSingleton<Logger>(mockLogger);
+      locator
+        ..registerSingleton<Logger>(mockLogger)
+        ..registerSingleton<PreferencesService>(mockPreferencesService);
+
+      provideDummy<PaginatedData<Vocabulary>>(
+        PaginatedData<Vocabulary>(data: dummiesVocabulary),
+      );
     });
 
     setUp(() async {
-      // Create mock data loader
-      mockDataLoader = MockVocabularyDataLoader();
-
       // Create the service to test with mock data loader
       service = VocabularyService(dataLoader: mockDataLoader);
 
@@ -71,11 +83,13 @@ void main() {
         await batch.commit(noResult: true);
       });
       reset(mockDataLoader);
+      reset(mockPreferencesService);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
       await unregister<Logger>();
+      await unregister<PreferencesService>();
     });
 
     group("getAll", () {
@@ -338,6 +352,57 @@ void main() {
       });
     });
 
+    group("healthCheck", () {
+      setUp(() async {
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.vocabularyLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => dummyVocabulary.version);
+      });
+
+      test("should not sync when versions match", () async {
+        await service.healthCheck();
+
+        // Verify that fetch was not called
+        verifyNever(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        );
+      });
+
+      test("should sync when versions don't match", () async {
+        // Setup different versions
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.vocabularyLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => "2024_01_01");
+
+        await service.healthCheck();
+
+        // Verify that fetch was called
+        verify(mockDataLoader.fetchAll(latestVersion: "2024_01_01")).called(1);
+      });
+
+      test("should sync when forced", () async {
+        await service.healthCheck(syncRequired: true);
+
+        // Verify that fetch was called regardless of versions
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+
+      test("should handle forceReload parameter", () async {
+        await service.healthCheck(syncRequired: true, forceReload: true);
+
+        // Verify database was cleared
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+    });
+
     group("sync", () {
       final apiVocabularies = [
         dummyVocabulary.copyWith(meanings: ["API test meaning"]),
@@ -373,19 +438,22 @@ void main() {
       });
 
       test(
-        "should fetch with version parameter when doing forceReload",
+        "should fetch without version parameter when doing forceReload",
         () async {
-          pageResult = PaginatedData<Vocabulary>(data: []);
-          // The version will be determined by what's in the database
-          final version = await service.latestVersion;
+          when(
+            mockPreferencesService.getString(
+              PreferenceFlags.vocabularyLastVersionSynced,
+            ),
+          ).thenAnswer((_) async => dummyVocabulary.version);
+          pageResult = PaginatedData<Vocabulary>(data: [dummyVocabulary]);
 
           await service.sync(forceReload: true);
 
-          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+          verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
 
           // Verify that database was cleared
           final savedItems = await service.getAll();
-          expect(savedItems.length, 0);
+          expect(savedItems.length, 1);
         },
       );
 

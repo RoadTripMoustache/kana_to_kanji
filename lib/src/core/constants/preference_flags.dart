@@ -1,1 +1,10 @@
-enum PreferenceFlags { themeMode, locale, user }
+enum PreferenceFlags {
+  themeMode,
+  locale,
+  user,
+  kanjiLastVersionSynced,
+  kanaLastVersionSynced,
+  groupLastVersionSynced,
+  vocabularyLastVersionSynced,
+  lastVersionCleanedUp,
+}

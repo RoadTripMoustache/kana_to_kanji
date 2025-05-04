@@ -1,10 +1,12 @@
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
+import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:logger/logger.dart";
@@ -13,7 +15,11 @@ import "package:mockito/mockito.dart";
 
 import "../../../../dummies/group.dart";
 import "../../../../helpers.dart";
-@GenerateNiceMocks([MockSpec<ResourceDataLoader>(), MockSpec<Logger>()])
+@GenerateNiceMocks([
+  MockSpec<ResourceDataLoader>(),
+  MockSpec<Logger>(),
+  MockSpec<PreferencesService>(),
+])
 import "group_service_test.mocks.dart";
 
 void main() {
@@ -22,19 +28,21 @@ void main() {
   late GroupService service;
   late MockResourceDataLoader<Group> mockDataLoader;
   late MockLogger mockLogger;
+  late MockPreferencesService mockPreferencesService;
 
   group("GroupService", () {
     setUpAll(() async {
       databaseService = await setupDatabaseService();
       mockLogger = MockLogger();
+      mockDataLoader = MockResourceDataLoader<Group>();
+      mockPreferencesService = MockPreferencesService();
 
-      locator.registerSingleton<Logger>(mockLogger);
+      locator
+        ..registerSingleton<Logger>(mockLogger)
+        ..registerSingleton<PreferencesService>(mockPreferencesService);
     });
 
     setUp(() async {
-      // Create mock data loader
-      mockDataLoader = MockResourceDataLoader<Group>();
-
       // Create the service to test with mock data loader
       service = GroupService(dataLoader: mockDataLoader);
 
@@ -44,11 +52,13 @@ void main() {
     tearDown(() async {
       await databaseService.rawQuery("DELETE FROM ${service.tableName};");
       reset(mockDataLoader);
+      reset(mockPreferencesService);
     });
 
     tearDownAll(() async {
       await unregister<DatabaseService>();
       await unregister<Logger>();
+      await unregister<PreferencesService>();
     });
 
     group("getAll", () {
@@ -298,22 +308,39 @@ void main() {
 
         // Verify names were updated
         expect(savedGroups, containsAll(apiGroups));
+
+        // Verify preference was set with latest version
+        final latestVersion = await service.latestVersion;
+        verify(
+          mockPreferencesService.setString(
+            PreferenceFlags.groupLastVersionSynced,
+            latestVersion,
+          ),
+        ).called(1);
       });
 
       test(
-        "should fetch with version parameter when doing forceReload",
+        "should fetch without version parameter when doing forceReload",
         () async {
           pageResult = PaginatedData<Group>(data: []);
           // The version will be determined by what's in the database
           final version = await service.latestVersion;
+          when(
+            mockPreferencesService.getString(
+              PreferenceFlags.groupLastVersionSynced,
+            ),
+          ).thenAnswer((_) async => version);
+          when(mockDataLoader.fetchAll(latestVersion: null)).thenAnswer(
+            (_) async => PaginatedData<Group>(data: [dummyHiraganaGroup]),
+          );
 
           await service.sync(forceReload: true);
 
-          verify(mockDataLoader.fetchAll(latestVersion: version)).called(1);
+          verify(mockDataLoader.fetchAll(latestVersion: null)).called(1);
 
           // Verify that database was cleared
           final savedGroups = await service.getAll();
-          expect(savedGroups.length, 0);
+          expect(savedGroups.length, 1);
         },
       );
 
@@ -349,6 +376,76 @@ void main() {
         expect(savedGroups, containsAll(apiGroups));
         expect(savedGroups, containsAll(newGroups));
       });
+    });
+
+    group("healthCheck", () {
+      setUp(() async {
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.groupLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => dummyHiraganaGroup.version);
+      });
+
+      test("should not sync when versions match", () async {
+        await service.healthCheck();
+
+        // Verify that fetch was not called
+        verifyNever(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        );
+      });
+
+      test("should sync when versions don't match", () async {
+        // Setup different versions
+        when(
+          mockPreferencesService.getString(
+            PreferenceFlags.groupLastVersionSynced,
+          ),
+        ).thenAnswer((_) async => "2024_01_01");
+
+        await service.healthCheck();
+
+        // Verify that fetch was called
+        verify(mockDataLoader.fetchAll(latestVersion: "2024_01_01")).called(1);
+      });
+
+      test("should sync when forced", () async {
+        await service.healthCheck(syncRequired: true);
+
+        // Verify that fetch was called regardless of versions
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+
+      test("should handle forceReload parameter", () async {
+        await service.healthCheck(syncRequired: true, forceReload: true);
+
+        // Verify database was cleared
+        verify(
+          mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+        ).called(1);
+      });
+    });
+
+    test("isSyncing should reflect sync state", () async {
+      // Setup a slow sync operation
+      when(
+        mockDataLoader.fetchAll(latestVersion: anyNamed("latestVersion")),
+      ).thenAnswer((_) async => PaginatedData<Group>(data: []));
+
+      // Start sync
+      final future = service.sync();
+
+      // Check that isSyncing is true during sync
+      expect(service.isSyncing, isTrue);
+
+      // Wait for sync to complete
+      await future;
+
+      // Check that isSyncing is false after sync
+      expect(service.isSyncing, isFalse);
     });
   });
 }

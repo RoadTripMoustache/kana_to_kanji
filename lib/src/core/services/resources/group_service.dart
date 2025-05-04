@@ -1,4 +1,5 @@
 import "package:kana_to_kanji/src/core/constants/alphabets.dart";
+import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/services/database_service.dart";
@@ -30,6 +31,7 @@ class GroupService extends ResourceDataService<Group> {
               fromJson: Group.fromJson,
               apiResourceType: sqlGroupsTable,
             ),
+        syncFlag: PreferenceFlags.groupLastVersionSynced,
       );
 
   /// Get all the groups related to the alphabet given in parameter.
