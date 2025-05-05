@@ -275,10 +275,15 @@
       }
     }
   },
-  "glossary_details_meaning": "{count, plural, one{Signification} other{Significations}}",
-  "@glossary_details_meaning": {
+  "glossary_details_readings_and_meanings": "{readings, plural, one{Lecture} other{Lectures}} et {meanings, plural, one{signification} other{significations}}",
+  "@glossary_details_readings_and_meanings": {
     "placeholders": {
-      "count": {
+      "readings": {
+        "default": 1,
+        "type": "int",
+        "description": "Nombre de lectures"
+      },
+      "meanings": {
         "default": 1,
         "type": "int",
         "description": "Nombre de significations"
