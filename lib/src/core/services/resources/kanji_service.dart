@@ -1,5 +1,4 @@
 import "dart:convert";
-import "dart:math";
 
 import "package:kana_to_kanji/src/core/constants/jlpt_levels.dart";
 import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
@@ -105,7 +104,7 @@ class KanjiService extends ResourceDataService<Kanji> {
         where: where,
         orderBy: orderBy,
         limit: pageSize,
-        offset: max((page - 1) * pageSize, 0),
+        offset: page * pageSize,
       ),
       arguments: whereArgs ?? [],
       transformer: _transformer,

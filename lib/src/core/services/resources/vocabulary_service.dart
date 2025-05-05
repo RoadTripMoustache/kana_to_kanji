@@ -1,5 +1,4 @@
 import "dart:convert";
-import "dart:math";
 
 import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
@@ -106,7 +105,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         where: where,
         orderBy: orderBy,
         limit: pageSize,
-        offset: max((page - 1) * pageSize, 0),
+        offset: page * pageSize,
       ),
       arguments: whereArgs ?? [],
       transformer: _transformer,

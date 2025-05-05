@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
@@ -123,7 +121,7 @@ abstract class ResourceDataService<T extends Resource>
       transformer: transformer,
       columns: columns,
       limit: pageSize,
-      offset: max((page - 1) * pageSize, 0),
+      offset: page * pageSize,
       orderBy: orderBy,
       where: where,
       whereArgs: whereArgs,
