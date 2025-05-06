@@ -40,32 +40,36 @@ class DetailsView extends StatelessWidget {
             late final Widget? cardBody;
             late final TextStyle? headerStyle;
 
-            switch (item) {
-              case Kana _:
-                cardBody = null;
-                headerStyle = theme.textTheme.displayLarge?.copyWith(
-                  fontSize: 90,
-                );
-              default:
-                headerStyle = theme.textTheme.displayMedium;
-                cardBody = Details(
-                  scrollController: scrollController,
-                  pronunciations: viewModel.pronunciations,
-                  toBold: viewModel.title,
-                  onSpeakerPressed: viewModel.onSpeakerPressed,
-                );
+            if (viewModel.isKana) {
+              cardBody = null;
+              headerStyle = theme.textTheme.displayLarge?.copyWith(
+                fontSize: 80,
+              );
+            } else {
+              headerStyle = theme.textTheme.displayMedium;
+              cardBody = Details(
+                scrollController: scrollController,
+                pronunciations: viewModel.pronunciations,
+                toBold: viewModel.title,
+                onSpeakerPressed: viewModel.onSpeakerPressed,
+              );
             }
 
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Header(
-                  title: viewModel.title,
-                  textStyle: headerStyle,
-                  onSpeakerPressed:
-                      viewModel.isKana ? viewModel.onSpeakerPressed : null,
-                ),
+                if (viewModel.isKana)
+                  Expanded(
+                    child: Header(
+                      title: viewModel.title,
+                      subtitle: (viewModel.item as Kana).romaji,
+                      textStyle: headerStyle,
+                      onSpeakerPressed: viewModel.onSpeakerPressed,
+                    ),
+                  )
+                else
+                  Header(title: viewModel.title, textStyle: headerStyle),
                 if (cardBody != null)
                   Expanded(
                     child: ColoredBox(

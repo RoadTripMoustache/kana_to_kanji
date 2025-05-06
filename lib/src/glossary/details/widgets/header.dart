@@ -7,12 +7,15 @@ const _iconSize = 32.0;
 class Header extends StatelessWidget {
   final String title;
 
+  final String? subtitle;
+
   final Future Function()? onSpeakerPressed;
 
   final TextStyle? textStyle;
 
   const Header({
     required this.title,
+    this.subtitle,
     this.textStyle,
     this.onSpeakerPressed,
     super.key,
@@ -27,21 +30,30 @@ class Header extends StatelessWidget {
       alignment: Alignment.topCenter,
       children: [
         DragHandle(),
-        if (onSpeakerPressed != null)
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const RTMPadding.all8(),
-              child: RTMIconButton(
-                onPressed: onSpeakerPressed,
-                icon: const Icon(Icons.volume_up_rounded, size: _iconSize),
-              ),
-            ),
-          ),
         Align(
+          alignment: Alignment.topCenter,
           child: Padding(
             padding: const RTMPadding.vertical32(),
-            child: Text(title, style: style),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title, style: style),
+                if (subtitle != null && subtitle!.isNotEmpty)
+                  Text(subtitle!, style: theme.textTheme.titleLarge),
+                if (onSpeakerPressed != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24),
+                    child: RTMIconButton(
+                      onPressed: onSpeakerPressed,
+                      icon: const Icon(
+                        Icons.volume_up_rounded,
+                        size: _iconSize,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ],

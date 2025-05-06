@@ -161,6 +161,7 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   Future<void> onFilterByPressed() async {
     await _dialogService.showModalBottomSheet(
       showDragHandle: true,
+      isScrollControlled: true,
       builder:
           (context) => SortFilterByDialog(
             selectedJlptLevel: _selectedJlptLevel,
