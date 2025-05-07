@@ -1,13 +1,19 @@
+import "dart:async";
+
 import "package:kana_to_kanji/src/core/models/resources/kana.dart";
 import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource.dart";
 import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
+import "package:kana_to_kanji/src/core/services/tts_service.dart";
 import "package:kana_to_kanji/src/glossary/details/extensions.dart";
 import "package:kana_to_kanji/src/glossary/details/models/pronunciation_details.dart";
+import "package:kana_to_kanji/src/locator.dart";
 import "package:stacked/stacked.dart";
 
 class DetailsViewModel extends BaseViewModel {
-  Resource item;
+  final TtsService _ttsService = locator<TtsService>();
+
+  final Resource item;
 
   late final String title;
 
@@ -33,12 +39,10 @@ class DetailsViewModel extends BaseViewModel {
   }
 
   Future<void> onSpeakerPressed([String? reading]) async {
-    if (isKana) {
-      // ignore: avoid_print
-      print("Kana reading");
+    if (item is Kana) {
+      await _ttsService.speak((item as Kana).kana);
     } else if (reading != null && reading.isNotEmpty) {
-      // ignore: avoid_print
-      print("Pronunciation reading: $reading");
+      await _ttsService.speak(reading);
     }
   }
 }

@@ -20,6 +20,7 @@ import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/sync_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/core/services/toaster_service.dart";
+import "package:kana_to_kanji/src/core/services/tts_service.dart";
 import "package:logger/logger.dart";
 
 final GetIt locator = GetIt.instance;
@@ -42,6 +43,13 @@ void setupLocator() {
       final instance = InfoService();
       await instance.initialize();
       return instance;
+    })
+    ..registerSingletonAsync<TtsService>(() async {
+      final service = TtsService();
+
+      await service.initialize();
+
+      return service;
     })
     // ---------------- //
     // ----- Data ----- //
