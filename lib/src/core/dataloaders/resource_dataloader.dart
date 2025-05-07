@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/paginated_api_response.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
@@ -29,10 +30,11 @@ class ResourceDataLoader<T extends Resource> {
       versionQueryParam += "&version[current]=$latestVersion";
     }
 
-    return _fetchPaginated("/v1/$apiResourceType$versionQueryParam");
+    return fetchPaginated("/v1/$apiResourceType$versionQueryParam");
   }
 
-  Future<PaginatedData<T>> _fetchPaginated(String url) async {
+  @protected
+  Future<PaginatedData<T>> fetchPaginated(String url) async {
     _logger.d("ResourceDataLoader<$T>: fetching: $url");
     final response = await _apiService.get(url).then(_extractPaginatedResponse);
 
@@ -40,9 +42,7 @@ class ResourceDataLoader<T extends Resource> {
       return PaginatedData<T>(
         data: response.data,
         next:
-            response.hasMore
-                ? () => _fetchPaginated(response.links.next)
-                : null,
+            response.hasMore ? () => fetchPaginated(response.links.next) : null,
       );
     }
 
