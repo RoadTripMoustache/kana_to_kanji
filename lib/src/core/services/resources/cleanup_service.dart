@@ -120,5 +120,6 @@ class CleanUpService {
       PreferenceFlags.lastVersionCleanedUp,
       version,
     );
+    _logger.d("CleanUpService: finished");
   }
 }

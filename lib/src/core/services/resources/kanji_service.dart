@@ -255,7 +255,7 @@ class KanjiService extends ResourceDataService<Kanji> {
 
     return """
     SELECT
-        DISTINCT ${columns.map((c) => 'k.$c').join(",")},k.readings,k.meanings,
+        DISTINCT ${columns.map((c) => 'k.$c').join(",")},
         json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
         json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
     FROM $tableName AS k

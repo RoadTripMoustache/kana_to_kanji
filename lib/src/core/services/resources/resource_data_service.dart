@@ -51,7 +51,13 @@ abstract class ResourceDataService<T extends Resource>
     required this.dataLoader,
     required this.syncFlag,
     List<String> resourceColumns = const [],
-  }) : columns = [sqlUidColumn, ...resourceColumns, sqlVersionColumn];
+  }) : columns =
+           resourceColumns..addAll(
+             [
+               sqlUidColumn,
+               sqlVersionColumn,
+             ].where((column) => !resourceColumns.contains(column)),
+           );
 
   Future<String?> get latestVersion async {
     final snapshot = await _databaseService.queryTrans(

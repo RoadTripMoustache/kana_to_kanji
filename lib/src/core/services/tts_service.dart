@@ -137,7 +137,6 @@ class TtsService {
     if (_currentState == TtsState.playing) {
       await _tts.stop();
     }
-    _logger.i("Start speaking");
     await _tts.speak(sentence);
   }
 }
