@@ -10,7 +10,8 @@ CREATE TABLE examples
     sentence    TEXT NOT NULL,
     translation TEXT NOT NULL,
     kanji       TEXT NOT NULL, -- Stored as JSON array
-    reading     TEXT NOT NULL  -- Stored as JSON array
+    reading     TEXT NOT NULL, -- Stored as JSON array
+    version     TEXT NOT NULL
 );
 -- Groups
 CREATE TABLE groups
@@ -55,7 +56,6 @@ CREATE TABLE kanji_related_vocabulary
 (
     kanji_uid      TEXT NOT NULL,
     vocabulary_uid TEXT NOT NULL,
-    PRIMARY KEY (kanji_uid, vocabulary_uid),
     FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
@@ -66,10 +66,18 @@ CREATE TABLE kanji_groups
 (
     kanji_uid TEXT NOT NULL,
     group_uid TEXT NOT NULL,
-    PRIMARY KEY (kanji_uid, group_uid),
     FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
+        ON DELETE CASCADE
+);
+CREATE TABLE kanji_examples
+(
+    kanji_uid   TEXT NOT NULL,
+    example_uid TEXT NOT NULL,
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
+        ON DELETE CASCADE,
+    FOREIGN KEY (example_uid) REFERENCES examples (uid)
         ON DELETE CASCADE
 );
 
@@ -90,7 +98,6 @@ CREATE TABLE vocabulary_related_kanjis
 (
     vocabulary_uid TEXT NOT NULL,
     kanji_uid      TEXT NOT NULL,
-    PRIMARY KEY (vocabulary_uid, kanji_uid),
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
@@ -113,9 +120,18 @@ CREATE TABLE vocabulary_groups
 (
     vocabulary_uid TEXT NOT NULL,
     group_uid      TEXT NOT NULL,
-    PRIMARY KEY (vocabulary_uid, group_uid),
     FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
         ON DELETE CASCADE,
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE vocabulary_examples
+(
+    vocabulary_uid TEXT NOT NULL,
+    example_uid    TEXT NOT NULL,
+    FOREIGN KEY (vocabulary_uid) REFERENCES vocabulary (uid)
+        ON DELETE CASCADE,
+    FOREIGN KEY (example_uid) REFERENCES examples (uid)
         ON DELETE CASCADE
 );
