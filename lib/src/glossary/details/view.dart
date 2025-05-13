@@ -25,7 +25,7 @@ class DetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return ViewModelBuilder<DetailsViewModel>.nonReactive(
+    return ViewModelBuilder<DetailsViewModel>.reactive(
       viewModelBuilder: () => DetailsViewModel(item),
       builder: (BuildContext context, DetailsViewModel viewModel, _) {
         final double initialChildSize =

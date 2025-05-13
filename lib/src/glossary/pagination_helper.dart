@@ -55,7 +55,7 @@ class PaginationHelper<
 
     _nextPage =
         await (_nextPage?.next!() ??
-            repository.get(
+            repository.getMultiple(
               where: {JLPTLevel: _jlptFilter, String: _search},
               orderBy: _sortOrder,
             ));

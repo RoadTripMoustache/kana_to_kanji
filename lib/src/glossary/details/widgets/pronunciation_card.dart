@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
+import "package:kana_to_kanji/src/core/models/resources/example.dart";
 import "package:kana_to_kanji/src/glossary/details/models/pronunciation_details.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/example_line.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_title.dart";
@@ -11,7 +12,7 @@ class PronunciationCard extends StatelessWidget {
 
   final List<String> meanings;
 
-  final List<({String japanese, String translation})> examples;
+  final List<Example> examples;
 
   final double pronunciationMinWidth;
 
@@ -36,7 +37,7 @@ class PronunciationCard extends StatelessWidget {
     pronunciation: pronunciation.reading,
     toBold: toBold,
     meanings: pronunciation.meanings,
-    examples: [],
+    examples: pronunciation.examples,
     pronunciationMinWidth: pronunciationMinWidth,
     onSpeakerPressed: onSpeakerPressed,
   );
@@ -113,19 +114,14 @@ class PronunciationCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Divider(height: 0),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: examples.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder:
-                        (context, index) => ExampleLine(
-                          sentence: examples[index].japanese,
-                          translation: examples[index].translation,
-                          toBold: toBold,
-                        ),
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: const RTMPadding.all8(),
+                  itemCount: 1,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder:
+                      (context, index) =>
+                          ExampleLine(example: examples[index], toBold: toBold),
                 ),
               ],
             ),

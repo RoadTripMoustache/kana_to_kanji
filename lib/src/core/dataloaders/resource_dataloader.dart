@@ -25,7 +25,7 @@ class ResourceDataLoader<T extends Resource> {
   /// contains a thousand (1000) items maximum
   Future<PaginatedData<T>> fetchAll({
     String? latestVersion,
-    int page = 0,
+    int page = 1,
     int pageSize = _kBatchSize,
   }) async {
     var versionQueryParam = "?page[size]=$pageSize&page[number]=$page";
