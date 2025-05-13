@@ -29,7 +29,7 @@ class VocabularyRepository
   ///   -> [String]: Search text.
   /// [orderBy] is a [SortOrder]
   @override
-  Future<PaginatedData<Vocabulary>> get({
+  Future<PaginatedData<Vocabulary>> getMultiple({
     dynamic where = const <Type, dynamic>{},
     dynamic orderBy,
   }) async {
@@ -66,7 +66,7 @@ class VocabularyRepository
       OrderBy<VocabularyColumn>(by),
     ];
 
-    return super.get(where: wheres, orderBy: orderBys);
+    return super.getMultiple(where: wheres, orderBy: orderBys);
   }
 
   List<Where> _buildSearchWhere(String searchText, bool isSecondWhere) {

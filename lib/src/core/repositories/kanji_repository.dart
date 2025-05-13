@@ -27,7 +27,7 @@ class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
   ///   -> [String]: Search text.
   /// [orderBy] is a [SortOrder]
   @override
-  Future<PaginatedData<Kanji>> get({
+  Future<PaginatedData<Kanji>> getMultiple({
     dynamic where = const <Type, dynamic>{},
     dynamic orderBy,
   }) async {
@@ -64,7 +64,7 @@ class KanjiRepository extends ResourceRepository<Kanji, KanjiService> {
       OrderBy<KanjiColumn>(by),
     ];
 
-    return super.get(where: wheres, orderBy: orderBys);
+    return super.getMultiple(where: wheres, orderBy: orderBys);
   }
 
   List<Where> _buildSearchWhere(String searchText, bool isSecondWhere) {

@@ -23,8 +23,12 @@ class ResourceDataLoader<T extends Resource> {
   /// Load all the resource from the API.
   /// Returns a [PaginatedData] with a cursor to the next page, each page
   /// contains a thousand (1000) items maximum
-  Future<PaginatedData<T>> fetchAll({String? latestVersion}) async {
-    var versionQueryParam = "?page[size]=$_kBatchSize";
+  Future<PaginatedData<T>> fetchAll({
+    String? latestVersion,
+    int page = 0,
+    int pageSize = _kBatchSize,
+  }) async {
+    var versionQueryParam = "?page[size]=$pageSize&page[number]=$page";
 
     if (latestVersion != null) {
       versionQueryParam += "&version[current]=$latestVersion";

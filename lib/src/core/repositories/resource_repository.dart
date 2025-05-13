@@ -1,6 +1,7 @@
 import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/resource.dart";
+import "package:kana_to_kanji/src/core/models/resources/resource_uid.dart";
 import "package:kana_to_kanji/src/core/services/resources/resource_data_service.dart";
 import "package:kana_to_kanji/src/core/utils/sql/order_by.dart";
 import "package:kana_to_kanji/src/core/utils/sql/where.dart";
@@ -33,12 +34,28 @@ abstract class ResourceRepository<
     items.clear();
   }
 
+  /// Retrieve single resource by using the given [uid].
+  /// @throws [Exception] if the resource is not found.
+  Future<T> get(ResourceUid uid) async {
+    final item = items.where((item) => item.uid == uid).firstOrNull;
+
+    if (item != null) {
+      return item;
+    }
+
+    final result = await service.get(uid);
+
+    items.add(result);
+
+    return result;
+  }
+
   /// Retrieve items from the database.
   /// - [where] is supposed to be a list of [Where] objects, but for overloading
   ///   reasons, it is typed as dynamic.
   /// - [orderBy] is supposed to be a list of [OrderBy] objects, but for
   ///   overloading reasons, it is typed as dynamic.
-  Future<PaginatedData<T>> get({
+  Future<PaginatedData<T>> getMultiple({
     dynamic where = const [],
     dynamic orderBy,
   }) async {
