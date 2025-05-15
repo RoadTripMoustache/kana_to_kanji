@@ -64,6 +64,28 @@ enum KanjiColumn implements SqlColumn {
   String get selectColumn => "$prefix.$column";
 }
 
+enum KanjiPronunciationColumn implements SqlColumn {
+  kanjiUid("kanji_uid"),
+  position("position"),
+  reading("reading"),
+  meanings("meanings"),
+  examples("examples");
+
+  static String table = "kanji_pronunciations";
+
+  @override
+  final String column;
+
+  @override
+  final String prefix = "kp";
+
+  const KanjiPronunciationColumn(this.column);
+
+  /// Returns the column name with the prefix.
+  @override
+  String get selectColumn => "$prefix.$column";
+}
+
 const Map<Type, String> kKanjiColumnsAliases = {JLPTLevel: sqlJlptLevelColumn};
 
 class KanjiService extends ResourceDataService<Kanji> {
@@ -80,7 +102,6 @@ class KanjiService extends ResourceDataService<Kanji> {
           sqlNumberOfStrokesColumn,
           sqlGradeColumn,
           sqlMainMeaningColumn,
-          sqlPronunciationsColumn,
         ],
         dataLoader:
             dataLoader ??
@@ -163,6 +184,25 @@ class KanjiService extends ResourceDataService<Kanji> {
       batch.insert(tableName, _buildMainColumns(item));
     }
 
+    // Pronunciations
+    for (final pronunciation in item.pronunciations) {
+      batch.insert(
+        KanjiPronunciationColumn.table,
+        {
+          KanjiPronunciationColumn.kanjiUid.column: item.uid.uid,
+          KanjiPronunciationColumn.reading.column: pronunciation.reading,
+          KanjiPronunciationColumn.position.column: pronunciation.position,
+          KanjiPronunciationColumn.meanings.column: jsonEncode(
+            pronunciation.meanings,
+          ),
+          KanjiPronunciationColumn.examples.column: jsonEncode(
+            pronunciation.examples,
+          ),
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+
     // Vocabulary
     for (final relatedVocabularyUid in item.relatedVocabulary) {
       batch.insert(sqlRelatedVocabularyTable, {
@@ -183,12 +223,15 @@ class KanjiService extends ResourceDataService<Kanji> {
   Map<String, dynamic> _buildMainColumns(Kanji item) =>
       item.toJson()
         ..removeWhere(
-          (key, _) =>
-              [sqlRelatedVocabularyColumn, sqlKanjiGroups].contains(key),
+          (key, _) => [
+            sqlRelatedVocabularyColumn,
+            sqlKanjiGroups,
+            sqlPronunciationsColumn,
+          ].contains(key),
         )
         ..putIfAbsent(
           sqlMainReadingColumn,
-          () => item.pronunciations.first.readings.first,
+          () => item.pronunciations.first.reading,
         )
         ..putIfAbsent(
           _sqlMeaningsColumn,
@@ -201,16 +244,7 @@ class KanjiService extends ResourceDataService<Kanji> {
         )
         ..putIfAbsent(
           _sqlReadingsColumn,
-          () => jsonEncode(
-            item.pronunciations
-                .map((p) => p.readings)
-                .expand((r) => r)
-                .toList(),
-          ),
-        )
-        ..update(
-          sqlPronunciationsColumn,
-          (_) => jsonEncode(item.pronunciations),
+          () => jsonEncode(item.pronunciations.map((p) => p.reading).toList()),
         );
 
   Kanji _transformer(Map<String, dynamic> row) {
@@ -253,12 +287,29 @@ class KanjiService extends ResourceDataService<Kanji> {
       extra.add("OFFSET $offset");
     }
 
+    final pronunciationsColumn = KanjiPronunciationColumn.values
+        .where((c) => c != KanjiPronunciationColumn.kanjiUid)
+        .map((c) {
+          final column =
+              [
+                    KanjiPronunciationColumn.meanings,
+                    KanjiPronunciationColumn.examples,
+                  ].contains(c)
+                  ? "json(${c.selectColumn})"
+                  : c.selectColumn;
+          return "'${c.column}', $column";
+        })
+        .join(",");
+
     return """
     SELECT
         DISTINCT ${columns.map((c) => 'k.$c').join(",")},
+        json_group_array(DISTINCT json_object($pronunciationsColumn)) AS $sqlPronunciationsColumn,
         json_group_array(DISTINCT krv.$sqlVocabularyUidColumn) AS $sqlRelatedVocabularyColumn,
         json_group_array(DISTINCT kg.$sqlGroupUidColumn) AS $sqlKanjiGroups
     FROM $tableName AS k
+             LEFT JOIN ${KanjiPronunciationColumn.table} AS kp
+                       ON k.$sqlUidColumn = ${KanjiPronunciationColumn.kanjiUid.selectColumn}
              LEFT JOIN $sqlRelatedVocabularyTable AS krv
                        ON k.$sqlUidColumn = krv.$sqlKanjiUidColumn
              LEFT JOIN $sqlKanjiGroupsTable AS kg

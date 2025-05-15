@@ -71,6 +71,7 @@ void main() {
         final Batch batch =
             txn.batch()
               ..delete(service.tableName)
+              ..delete(KanjiPronunciationColumn.table)
               ..delete(groups.sqlGroupsTable)
               ..delete(vocab.sqlVocabularyTable)
               ..delete(sqlKanjiGroupsTable)

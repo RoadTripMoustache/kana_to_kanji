@@ -44,7 +44,6 @@ CREATE TABLE kanjis
     number_of_strokes INTEGER,
     grade             INTEGER,
     version           TEXT    NOT NULL,
-    pronunciations    TEXT    NOT NULL, -- Stored as JSON array
     main_meaning      TEXT    NOT NULL,
     main_reading      TEXT    NOT NULL,
     readings          TEXT    NOT NULL, -- Stored as JSON array
@@ -71,6 +70,20 @@ CREATE TABLE kanji_groups
     FOREIGN KEY (group_uid) REFERENCES groups (uid)
         ON DELETE CASCADE
 );
+
+CREATE TABLE kanji_pronunciations
+(
+    kanji_uid TEXT    NOT NULL,
+    position  INTEGER NOT NULL,
+    reading   TEXT    NOT NULL,
+    meanings  TEXT    NOT NULL, -- Stored as JSON array
+    examples  TEXT    NOT NULL, -- Example UUID stored as JSON array
+
+    UNIQUE(kanji_uid, position),
+    FOREIGN KEY (kanji_uid) REFERENCES kanjis (uid)
+        ON DELETE CASCADE
+);
+
 CREATE TABLE kanji_examples
 (
     kanji_uid   TEXT NOT NULL,
@@ -84,13 +97,14 @@ CREATE TABLE kanji_examples
 -- Vocabulary
 CREATE TABLE vocabulary
 (
-    uid            TEXT PRIMARY KEY,
-    kanji          TEXT    NOT NULL,
-    kana           TEXT    NOT NULL,
-    jlpt_level     INTEGER NOT NULL,
-    romaji         TEXT    NOT NULL,
-    version        TEXT    NOT NULL,
-    meanings       TEXT    NOT NULL  -- Stored as JSON array
+    uid        TEXT PRIMARY KEY,
+    kanji      TEXT    NOT NULL,
+    kana       TEXT    NOT NULL,
+    jlpt_level INTEGER NOT NULL,
+    romaji     TEXT    NOT NULL,
+    version    TEXT    NOT NULL,
+    meanings   TEXT    NOT NULL, -- Stored as JSON array
+    examples   TEXT    NOT NULL -- Example UUID - stored as JSON array
 );
 
 --  Vocabulary Join tables
