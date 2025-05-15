@@ -18,6 +18,7 @@ const sqlKanaColumn = "kana";
 const sqlJlptLevelColumn = "jlpt_level";
 const sqlRomajiColumn = "romaji";
 const sqlMeaningsColumn = "meanings";
+const sqlExamplesColumn = "examples";
 
 /// Kanji related table and columns
 const sqlRelatedKanjiColumn = "related_kanjis";
@@ -52,7 +53,8 @@ enum VocabularyColumn implements SqlColumn {
   kana(sqlKanaColumn),
   jlptLevel(sqlJlptLevelColumn),
   romaji(sqlRomajiColumn),
-  meanings(sqlMeaningsColumn);
+  meanings(sqlMeaningsColumn),
+  examples(sqlExamplesColumn);
 
   @override
   final String column;
@@ -81,6 +83,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
           sqlJlptLevelColumn,
           sqlRomajiColumn,
           sqlMeaningsColumn,
+          sqlExamplesColumn,
         ],
         dataLoader:
             dataLoader ??
@@ -186,9 +189,9 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
             sqlRelatedKanjiColumn,
             sqlVocabularyGroups,
             sqlKanjiReadings,
-            sqlVocabularyExamples,
           ].contains(key),
         )
+        ..update(sqlExamplesColumn, (_) => jsonEncode(item.examples))
         ..update(sqlMeaningsColumn, (_) => jsonEncode(item.meanings));
 
   Vocabulary _transformer(Map<String, dynamic> row) {
@@ -200,6 +203,7 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
         jsonDecode(row[sqlRelatedKanjiColumn]) as List<dynamic>..remove(null);
     final groups =
         jsonDecode(row[sqlVocabularyGroups]) as List<dynamic>..remove(null);
+    final examples = jsonDecode(row[sqlExamplesColumn]) as List<dynamic>;
     final meanings = jsonDecode(row[sqlMeaningsColumn]) as List<dynamic>;
 
     return Vocabulary.fromJson({
@@ -207,7 +211,8 @@ class VocabularyService extends ResourceDataService<Vocabulary> {
       sqlKanjiReadings: kanjiReadings,
       sqlRelatedKanjiColumn: relatedKanji,
       sqlVocabularyGroups: groups,
-      sqlMeaningsColumn: meanings,
+      VocabularyColumn.meanings.column: meanings,
+      VocabularyColumn.examples.column: examples,
     });
   }
 
