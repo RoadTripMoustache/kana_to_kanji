@@ -29,7 +29,7 @@ class DetailsView extends StatelessWidget {
       viewModelBuilder: () => DetailsViewModel(item),
       builder: (BuildContext context, DetailsViewModel viewModel, _) {
         final double initialChildSize =
-            viewModel.pronunciations.length > 2 ? 0.6 : _minInitialSheetHeight;
+            viewModel.details.length > 2 ? 0.6 : _minInitialSheetHeight;
 
         return DraggableScrollableSheet(
           expand: false,
@@ -49,7 +49,7 @@ class DetailsView extends StatelessWidget {
               headerStyle = theme.textTheme.displayMedium;
               cardBody = Details(
                 scrollController: scrollController,
-                pronunciations: viewModel.pronunciations,
+                pronunciations: viewModel.details,
                 toBold: viewModel.title,
                 onSpeakerPressed: viewModel.onSpeakerPressed,
               );

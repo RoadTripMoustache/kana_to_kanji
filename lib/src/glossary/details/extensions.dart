@@ -9,21 +9,16 @@ extension ResourceToPronunciationDetails on Resource {
     switch (this) {
       case final Kanji kanji:
         // Sort pronunciations by index before expanding
-        final sortedPronunciations =
-            List<Pronunciation>.from(kanji.pronunciations)
-              ..sort((a, b) => a.position.compareTo(b.position))
-              ..map(
-                (pronunciation) => PronunciationDetails(
-                  reading: pronunciation.reading,
-                  meanings: pronunciation.meanings,
-                ),
-              );
+        final sortedPronunciations = List<Pronunciation>.from(
+          kanji.pronunciations,
+        )..sort((a, b) => a.position.compareTo(b.position));
 
         return sortedPronunciations
             .map(
               (pronunciation) => PronunciationDetails(
                 reading: pronunciation.reading,
                 meanings: pronunciation.meanings,
+                exampleUids: pronunciation.examples,
               ),
             )
             .toList();
@@ -35,6 +30,7 @@ extension ResourceToPronunciationDetails on Resource {
           PronunciationDetails(
             reading: vocabulary.kana,
             meanings: vocabulary.meanings,
+            exampleUids: vocabulary.examples,
           ),
         ];
 

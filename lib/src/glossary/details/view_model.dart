@@ -9,13 +9,9 @@ import "package:kana_to_kanji/src/core/services/tts_service.dart";
 import "package:kana_to_kanji/src/glossary/details/extensions.dart";
 import "package:kana_to_kanji/src/glossary/details/models/pronunciation_details.dart";
 import "package:kana_to_kanji/src/locator.dart";
-import "package:logger/logger.dart";
 import "package:stacked/stacked.dart";
 
 class DetailsViewModel extends FutureViewModel {
-  // TODO: Remove once examples are fully set up
-  final Logger _logger = locator<Logger>();
-
   final TtsService _ttsService = locator<TtsService>();
   final ExampleRepository _exampleRepository = locator<ExampleRepository>();
 
@@ -23,7 +19,7 @@ class DetailsViewModel extends FutureViewModel {
 
   late final String title;
 
-  final List<PronunciationDetails> pronunciations = [];
+  final List<PronunciationDetails> details = [];
 
   bool get isKana => item is Kana;
 
@@ -41,7 +37,7 @@ class DetailsViewModel extends FutureViewModel {
         title =
             vocabulary.kanji.isNotEmpty ? vocabulary.kanji : vocabulary.kana;
     }
-    pronunciations.addAll(item.pronunciationsDetails);
+    details.addAll(item.pronunciationsDetails);
   }
 
   @override
@@ -51,28 +47,20 @@ class DetailsViewModel extends FutureViewModel {
       return;
     }
 
-    // Temporary fix until the "new pronunciation" is implemented
-    _logger.i("Fetching data for ${item.uid.uid}");
-    final start = DateTime.now();
-    final examples = await _exampleRepository.getResourceExamples(item.uid);
-
-    for (final example in examples.data) {
-      for (final pronunciation in pronunciations) {
-        final indexesConcerned = example.kanji.indexed
-            .where(((int, String) e) => e.$2.contains(title))
-            .map((e) => e.$1);
-
-        for (final index in indexesConcerned) {
-          // TODO strip down . and -
-          if (example.reading[index].contains(pronunciation.reading)) {
-            pronunciation.examples.add(example);
-          }
-        }
+    final List<Future> futures = [];
+    for (final detail in details) {
+      if (detail.exampleUids.isNotEmpty) {
+        futures.add(_fetchExample(detail));
       }
     }
-    _logger.i(
-      "Sorting done: ${DateTime.now().difference(start).inMilliseconds}",
-    );
+
+    await Future.wait(futures);
+  }
+
+  Future<void> _fetchExample(PronunciationDetails details) async {
+    final example = await _exampleRepository.get(details.exampleUids.first);
+    details.examples.add(example);
+    notifyListeners();
   }
 
   Future<void> onSpeakerPressed([String? reading]) async {

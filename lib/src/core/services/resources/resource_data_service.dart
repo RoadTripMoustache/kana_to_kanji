@@ -74,13 +74,22 @@ abstract class ResourceDataService<T extends Resource>
         : null;
   }
 
-  Future<bool> exists(Transaction txn, T item) async =>
+  Future<bool> exists(ResourceUid uid, {Transaction? transaction}) {
+    if (transaction != null) {
+      return _exists(uid, transaction);
+    }
+    return databaseService.transaction(
+      (Transaction txn) async => _exists(uid, txn),
+    );
+  }
+
+  Future<bool> _exists(ResourceUid uid, Transaction txn) async =>
       firstIntValue(
         await txn.query(
           tableName,
           columns: [sqlCountColumn],
           where: sqlWhereUidColumn,
-          whereArgs: [item.uid.uid],
+          whereArgs: [uid.uid],
         ),
       ) ==
       1;
@@ -193,7 +202,11 @@ abstract class ResourceDataService<T extends Resource>
 
   Future<void> _upsert(T item, Transaction transaction) async {
     final batch = transaction.batch();
-    upsertData(item, batch, exists: await exists(transaction, item));
+    upsertData(
+      item,
+      batch,
+      exists: await exists(item.uid, transaction: transaction),
+    );
     await batch.commit(noResult: true);
   }
 

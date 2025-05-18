@@ -1,6 +1,7 @@
 import "dart:convert";
 
 import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
+import "package:kana_to_kanji/src/core/constants/resource_type.dart";
 import "package:kana_to_kanji/src/core/dataloaders/example_dataloader.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
 import "package:kana_to_kanji/src/core/models/resources/example.dart";
@@ -75,6 +76,25 @@ class ExampleService extends ResourceDataService<Example> {
         resourceColumns: ExampleColumn.values.map((e) => e.column).toList(),
         syncFlag: PreferenceFlags.exampleLastVersionSynced,
       );
+
+  @override
+  Future<Example> get(ResourceUid uid) async {
+    assert(
+      uid.resourceType == ResourceType.example,
+      "uid must be for an example",
+    );
+    if (await exists(uid)) {
+      return super.get(uid);
+    }
+    final Example example = await dataLoader.fetch(uid);
+    await databaseService.transaction((Transaction transaction) async {
+      final Batch batch = transaction.batch();
+      upsertData(example, batch, exists: false);
+
+      await batch.commit();
+    });
+    return example;
+  }
 
   /// Fetch examples from the API and save them to the database before
   /// returning them.

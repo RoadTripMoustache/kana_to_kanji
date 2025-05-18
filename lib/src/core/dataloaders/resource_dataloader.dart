@@ -53,9 +53,24 @@ class ResourceDataLoader<T extends Resource> {
     return PaginatedData<T>(data: []);
   }
 
-  /// Fetch a specific kanji in full details
-  Future<T> fetch(ResourceUid uid) async {
-    throw UnimplementedError();
+  /// Fetch a specific resource
+  Future<T> fetch(ResourceUid uid, [String? latestVersion]) async {
+    final queryParams =
+        latestVersion != null && latestVersion.isNotEmpty
+            ? "?version[current]=$latestVersion"
+            : "";
+
+    final response = await _apiService.get(
+      "/v1/$apiResourceType/$uid$queryParams",
+    );
+
+    if (response.statusCode == 200) {
+      return fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(
+        "Failed to load resource, status code: ${response.statusCode}",
+      );
+    }
   }
 
   /// Extract the paginated response from the API Response.
