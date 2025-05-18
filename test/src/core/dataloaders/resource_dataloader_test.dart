@@ -150,7 +150,7 @@ void main() {
           final result = await dataLoader.fetchAll();
 
           verify(
-            apiService.get("/v1/test-resources?page[size]=1000"),
+            apiService.get("/v1/test-resources?page[size]=1000&page[number]=1"),
           ).called(1);
 
           expect(result.data.length, 2);
@@ -179,7 +179,7 @@ void main() {
 
           verify(
             apiService.get(
-              "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
+              "/v1/test-resources?page[size]=1000&page[number]=1&version[current]=2025_01_01",
             ),
           ).called(1);
 
@@ -212,7 +212,7 @@ void main() {
 
       verify(
         apiService.get(
-          "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
+          "/v1/test-resources?page[size]=1000&page[number]=1&version[current]=2025_01_01",
         ),
       ).called(1);
 

@@ -213,7 +213,9 @@ void main() {
       test("inherits fetchAll method from ResourceDataLoader", () async {
         final result = await dataLoader.fetchAll();
 
-        verify(apiService.get("/v1/examples?page[size]=1000")).called(1);
+        verify(
+          apiService.get("/v1/examples?page[size]=1000&page[number]=1"),
+        ).called(1);
 
         expect(result.data.length, 2);
         expect(result.data[0].uid.uid, "example-1");
@@ -228,7 +230,7 @@ void main() {
 
           verify(
             apiService.get(
-              "/v1/examples?page[size]=1000&version[current]=2025_01_01",
+              "/v1/examples?page[size]=1000&page[number]=1&version[current]=2025_01_01",
             ),
           ).called(1);
 
