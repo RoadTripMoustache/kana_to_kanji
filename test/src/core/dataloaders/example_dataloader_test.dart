@@ -41,13 +41,15 @@ void main() {
 
       final data = {
         "links": {
-          "first": "/v1$resourceUrl/examples?page=1",
-          "previous": "/v1$resourceUrl/examples?page=${max(pageNumber - 1, 0)}",
-          "next": "/v1$resourceUrl/examples?page=${pageNumber + 1}",
-          "self": "/v1$resourceUrl/examples?page=$pageNumber",
-          "prev": "/v1$resourceUrl/examples?page=${max(pageNumber - 1, 0)}",
+          "first": "/v1$resourceUrl/examples?page[number]=1",
+          "previous":
+              "/v1$resourceUrl/examples?page[number]=${max(pageNumber - 1, 0)}",
+          "next": "/v1$resourceUrl/examples?page[number]=${pageNumber + 1}",
+          "self": "/v1$resourceUrl/examples?page[number]=$pageNumber",
+          "prev":
+              "/v1$resourceUrl/examples?page[number]=${max(pageNumber - 1, 0)}",
           "last":
-              "/v1$resourceUrl/examples?page=${hasMore ? pageNumber + 1 : pageNumber}",
+              "/v1$resourceUrl/examples?page[number]=${hasMore ? pageNumber + 1 : pageNumber}",
           "has_more": hasMore,
         },
         "data": [
@@ -112,7 +114,7 @@ void main() {
         );
         // Setup response for the next page
         when(
-          apiService.get("/v1/kanjis/${kanjiUid.uid}/examples?page=2"),
+          apiService.get("/v1/kanjis/${kanjiUid.uid}/examples?page[number]=2"),
         ).thenAnswer(
           (_) async =>
               buildMockResponse(uid: kanjiUid, pageNumber: 2, uidStart: 3),
@@ -143,7 +145,9 @@ void main() {
         expect(nextPage.data[1].uid.uid, "example-4");
         expect(nextPage.hasMore, isFalse);
 
-        verify(apiService.get("/v1/kanjis/kanji-1/examples?page=2")).called(1);
+        verify(
+          apiService.get("/v1/kanjis/kanji-1/examples?page[number]=2"),
+        ).called(1);
       });
 
       test("should fetch examples for vocabulary resources", () async {

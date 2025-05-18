@@ -68,11 +68,11 @@ enum VocabularyExampleColumn implements SqlColumn {
 }
 
 class ExampleService extends ResourceDataService<Example> {
-  ExampleService()
+  ExampleService({ExampleDataLoader? dataLoader})
     : super(
         tableName: "examples",
         transformer: _transformer,
-        dataLoader: ExampleDataLoader(),
+        dataLoader: dataLoader ?? ExampleDataLoader(),
         resourceColumns: ExampleColumn.values.map((e) => e.column).toList(),
         syncFlag: PreferenceFlags.exampleLastVersionSynced,
       );
@@ -202,6 +202,10 @@ class ExampleService extends ResourceDataService<Example> {
     final reading = jsonDecode(row[ExampleColumn.reading.name]);
     final kanji = jsonDecode(row[ExampleColumn.kanji.name]);
 
-    return Example.fromJson({...row, kanji: kanji, reading: reading});
+    return Example.fromJson({
+      ...row,
+      ExampleColumn.kanji.column: kanji,
+      ExampleColumn.reading.column: reading,
+    });
   }
 }
