@@ -79,7 +79,10 @@ class _SortFilterByDialogState extends State<SortFilterByDialog> {
       selectedKnowledgeLevel,
       overrideSortOrder ?? sortOrder,
     );
-    context.pop();
+    // Only present for testing
+    if (context.canPop()) {
+      context.pop();
+    }
   }
 
   @override

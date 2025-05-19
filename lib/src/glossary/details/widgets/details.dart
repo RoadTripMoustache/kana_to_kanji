@@ -56,13 +56,18 @@ class Details extends StatelessWidget {
         ),
         SliverList.builder(
           itemCount: pronunciations.length,
-          itemBuilder:
-              (context, index) => PronunciationCard.fromPronunciationDetails(
-                pronunciation: pronunciations[index],
-                toBold: toBold,
-                pronunciationMinWidth: longestTextWidth,
-                onSpeakerPressed: onSpeakerPressed,
-              ),
+          itemBuilder: (context, index) {
+            final PronunciationDetails pronunciation = pronunciations[index];
+
+            return PronunciationCard(
+              pronunciation: pronunciation.reading,
+              meanings: pronunciation.meanings,
+              examples: pronunciation.examples,
+              toBold: toBold,
+              pronunciationMinWidth: longestTextWidth,
+              onSpeakerPressed: onSpeakerPressed,
+            );
+          },
         ),
       ],
     );

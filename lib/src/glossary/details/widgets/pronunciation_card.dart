@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_rtm/flutter_rtm.dart";
 import "package:kana_to_kanji/src/core/models/resources/example.dart";
-import "package:kana_to_kanji/src/glossary/details/models/pronunciation_details.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/example_line.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_title.dart";
 
@@ -27,20 +26,6 @@ class PronunciationCard extends StatelessWidget {
     this.examples = const [],
     this.pronunciationMinWidth = 48.0,
   });
-
-  factory PronunciationCard.fromPronunciationDetails({
-    required PronunciationDetails pronunciation,
-    required String toBold,
-    required Future Function(String reading) onSpeakerPressed,
-    double pronunciationMinWidth = 48.0,
-  }) => PronunciationCard(
-    pronunciation: pronunciation.reading,
-    toBold: toBold,
-    meanings: pronunciation.meanings,
-    examples: pronunciation.examples,
-    pronunciationMinWidth: pronunciationMinWidth,
-    onSpeakerPressed: onSpeakerPressed,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +68,9 @@ class PronunciationCard extends StatelessWidget {
                                           style: theme.textTheme.bodyMedium,
                                         ),
                                         if (index < meanings.length - 1)
+                                          // TODO not really i18n compatible but
+                                          //  fine for now as we only use french
+                                          // and english
                                           TextSpan(
                                             text: ", ",
                                             style: theme.textTheme.bodyMedium,

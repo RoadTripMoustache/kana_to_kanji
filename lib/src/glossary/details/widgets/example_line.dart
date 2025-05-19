@@ -11,22 +11,25 @@ class ExampleLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bold = Theme.of(
-      context,
-    ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold);
+    final TextStyle? defaultStyle = Theme.of(context).textTheme.bodyMedium;
+    final bold = defaultStyle?.copyWith(fontWeight: FontWeight.bold);
 
     final List<String> parts = example.sentence.split(toBold);
     final List<TextSpan> text =
-        parts.map((item) => TextSpan(text: item)).toList();
-
-    for (int i = 0; i < (parts.length - 1); i++) {
-      text.insert(i, TextSpan(text: toBold, style: bold));
-    }
+        parts
+            .expand(
+              (item) => [
+                TextSpan(text: item),
+                TextSpan(text: toBold, style: bold),
+              ],
+            )
+            .toList()
+          ..removeLast();
 
     return Wrap(
       spacing: 16,
       children: [
-        Text.rich(TextSpan(children: text)),
+        RichText(text: TextSpan(children: text, style: defaultStyle)),
         Text(example.translation),
       ],
     );
