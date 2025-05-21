@@ -211,6 +211,7 @@ class AppTheme {
         ),
       ),
     ),
+    chipTheme: RTMChipThemeData(labelPadding: EdgeInsets.zero),
     navigationBarTheme: RTMNavigationBarThemeData(
       backgroundColor: dark.surface,
     ),

@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:get_it/get_it.dart";
 import "package:kana_to_kanji/src/authentication/services/auth_service.dart";
+import "package:kana_to_kanji/src/core/repositories/example_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/group_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kana_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
@@ -14,12 +15,14 @@ import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/core/services/info_service.dart";
 import "package:kana_to_kanji/src/core/services/preferences_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/cleanup_service.dart";
+import "package:kana_to_kanji/src/core/services/resources/example_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/group_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/kana_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/kanji_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/sync_service.dart";
 import "package:kana_to_kanji/src/core/services/resources/vocabulary_service.dart";
 import "package:kana_to_kanji/src/core/services/toaster_service.dart";
+import "package:kana_to_kanji/src/core/services/tts_service.dart";
 import "package:logger/logger.dart";
 
 final GetIt locator = GetIt.instance;
@@ -42,6 +45,13 @@ void setupLocator() {
       final instance = InfoService();
       await instance.initialize();
       return instance;
+    })
+    ..registerSingletonAsync<TtsService>(() async {
+      final service = TtsService();
+
+      await service.initialize();
+
+      return service;
     })
     // ---------------- //
     // ----- Data ----- //
@@ -69,6 +79,10 @@ void setupLocator() {
       VocabularyService.new,
       dependsOn: [DatabaseService],
     )
+    ..registerSingletonWithDependencies<ExampleService>(
+      ExampleService.new,
+      dependsOn: [DatabaseService],
+    )
     // ------------------------ //
     // ----- Repositories ----- //
     // ------------------------ //
@@ -79,14 +93,15 @@ void setupLocator() {
     )
     ..registerLazySingleton<KanjiRepository>(KanjiRepository.new)
     ..registerLazySingleton<VocabularyRepository>(VocabularyRepository.new)
+    ..registerLazySingleton<ExampleRepository>(ExampleRepository.new)
     ..registerSingleton<SettingsRepository>(SettingsRepository())
     ..registerSingletonWithDependencies<UserRepository>(
       UserRepository.new,
       dependsOn: [AuthService, ApiService],
     )
-    // ------------------------ //
-    // ----- Data Loaders ----- //
-    // ------------------------ //
+    // -------------------------------- //
+    // ----- Data Loader Services ----- //
+    // -------------------------------- //
     ..registerLazySingleton<CleanUpService>(CleanUpService.new)
     ..registerSingletonAsync<SyncService>(
       () async {

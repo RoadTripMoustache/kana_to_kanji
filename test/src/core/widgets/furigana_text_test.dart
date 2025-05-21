@@ -130,7 +130,7 @@ void main() {
           expect(
             find.descendant(
               of: widget,
-              matching: find.text(dummyKanji.pronunciations.first.readings[0]),
+              matching: find.text(dummyKanji.pronunciations.first.reading),
             ),
             findsOneWidget,
             reason:

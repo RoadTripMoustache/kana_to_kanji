@@ -6,5 +6,6 @@ enum PreferenceFlags {
   kanaLastVersionSynced,
   groupLastVersionSynced,
   vocabularyLastVersionSynced,
+  exampleLastVersionSynced,
   lastVersionCleanedUp,
 }

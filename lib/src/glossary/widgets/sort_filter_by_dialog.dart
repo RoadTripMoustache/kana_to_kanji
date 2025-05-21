@@ -79,7 +79,10 @@ class _SortFilterByDialogState extends State<SortFilterByDialog> {
       selectedKnowledgeLevel,
       overrideSortOrder ?? sortOrder,
     );
-    context.pop();
+    // Only present for testing
+    if (context.canPop()) {
+      context.pop();
+    }
   }
 
   @override
@@ -94,6 +97,7 @@ class _SortFilterByDialogState extends State<SortFilterByDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // // Keep sake as alternative UI
           // Text(
           //   l10n.glossary_sort_by_title,
           //   style: textTheme.titleLarge,

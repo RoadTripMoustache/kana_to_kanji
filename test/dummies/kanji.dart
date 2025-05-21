@@ -8,7 +8,12 @@ const Kanji dummyKanji = Kanji(
   grade: 1,
   numberOfStrokes: 5,
   pronunciations: [
-    Pronunciation(index: 0, meanings: ["book"], readings: ["ほん"]),
+    Pronunciation(
+      position: 0,
+      meanings: ["book"],
+      reading: "ほん",
+      examples: [ResourceUid("example-001", ResourceType.example)],
+    ),
   ],
   version: "2025_01_01",
   mainMeaning: "book",
@@ -16,14 +21,19 @@ const Kanji dummyKanji = Kanji(
 
 final Kanji dummyKanjiWithRelatedData = Kanji(
   uid: ResourceUid("kanji-2", ResourceType.kanji),
-  kanji: "本",
+  kanji: "人",
   jlptLevel: 5,
   grade: 1,
   numberOfStrokes: 5,
   version: "2025_01_01",
-  mainMeaning: "book",
+  mainMeaning: "person",
   pronunciations: [
-    Pronunciation(index: 0, meanings: ["book"], readings: ["ほん"]),
+    Pronunciation(
+      position: 0,
+      meanings: ["person"],
+      reading: "ひと",
+      examples: [ResourceUid("example-002", ResourceType.example)],
+    ),
   ],
   relatedVocabulary: [ResourceUid.fromJson("vocabulary-kanji_related")],
   groups: [ResourceUid.fromJson("group-kanji_related")],
@@ -34,13 +44,13 @@ INSERT OR IGNORE INTO groups (uid, alphabet, name, kana_type, version)
 VALUES
   ('${dummyKanjiWithRelatedData.groups.first.uid}', 'kanji', '', 'main', '2025_01_01');
 
-INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, meanings) VALUES
-('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["Japanese language"]');
+INSERT OR IGNORE INTO vocabulary (uid, kanji, kana, jlpt_level, romaji, version, meanings, examples) VALUES
+('${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}', '日本語', 'にほんご', 5, 'nihongo', '2025_01_01', '["Japanese language"]', '[]');
 
-INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, number_of_strokes, grade, pronunciations, main_reading, main_meaning, readings, meanings)
+INSERT OR IGNORE INTO kanjis (uid, kanji, jlpt_level, version, number_of_strokes, grade, main_reading, main_meaning, readings, meanings)
 VALUES
-  ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', 5, 1, '[{"index": 0, "meanings": ["book"], "readings": ["ほん"]}]', 'ほん', 'book', '["ほん"]', '["book"]'),
-  ('${dummyKanjiWithRelatedData.uid.uid}', '本', 5, '2025_01_01', 5, 1, '[{"index": 0, "meanings": ["book"], "readings": ["ほん"]}]', 'ほん', 'book', '["ほん"]', '["book"]');
+  ('${dummyKanji.uid.uid}', '本', 5, '2025_01_01', 5, 1, 'ほん', 'book', '["ほん"]', '["book"]'),
+  ('${dummyKanjiWithRelatedData.uid.uid}', '人', 5, '2025_01_01', 5, 1, 'ひと', 'person', '["ひと"]', '["person"]');
   
 INSERT OR IGNORE INTO kanji_groups (kanji_uid, group_uid)
 VALUES
@@ -48,6 +58,11 @@ VALUES
 
 INSERT OR IGNORE INTO kanji_related_vocabulary (kanji_uid, vocabulary_uid)
 VALUES ('${dummyKanjiWithRelatedData.uid.uid}', '${dummyKanjiWithRelatedData.relatedVocabulary.first.uid}');
+
+INSERT OR IGNORE INTO kanji_pronunciations (kanji_uid, position, meanings, reading, examples)
+VALUES 
+('${dummyKanji.uid.uid}', 0, '[${dummyKanji.pronunciations.first.meanings.map((m) => "\"$m\"").join(",")}]', '${dummyKanji.pronunciations.first.reading}', '[${dummyKanji.pronunciations.first.examples.map((e) => "\"$e\"").join(",")}]'),
+('${dummyKanjiWithRelatedData.uid.uid}', 0, '[${dummyKanjiWithRelatedData.pronunciations.first.meanings.map((m) => "\"$m\"").join(",")}]', '${dummyKanjiWithRelatedData.pronunciations.first.reading}', '[${dummyKanjiWithRelatedData.pronunciations.first.examples.map((e) => "\"$e\"").join(",")}]');
 """;
 
 final List<Kanji> dummiesKanji = [dummyKanji, dummyKanjiWithRelatedData];

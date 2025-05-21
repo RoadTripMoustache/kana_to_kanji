@@ -46,10 +46,5 @@ abstract class Kanji extends Resource with _$Kanji {
       });
 
   // TODO : Clean up when glossary is refactored
-  List<String> get readings => pronunciations
-      .map((p) => p.readings)
-      .fold<List<String>>([], (prev, element) {
-        prev.addAll(element);
-        return prev;
-      });
+  List<String> get readings => pronunciations.map((p) => p.reading).toList();
 }

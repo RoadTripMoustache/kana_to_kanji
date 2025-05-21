@@ -97,7 +97,9 @@ void main() {
             ),
           ).thenAnswer((_) async => paginatedData);
 
-          final result = await repository.get(orderBy: SortOrder.japanese);
+          final result = await repository.getMultiple(
+            orderBy: SortOrder.japanese,
+          );
 
           final List<OrderBy> orderBys =
               verify(
@@ -134,7 +136,7 @@ void main() {
           ),
         ).thenAnswer((_) async => paginatedData);
 
-        await repository.get(orderBy: SortOrder.alphabetical);
+        await repository.getMultiple(orderBy: SortOrder.alphabetical);
 
         final List<OrderBy> orderBys =
             verify(
@@ -168,7 +170,7 @@ void main() {
         ).thenAnswer((_) async => paginatedData);
         final jlptFilter = [JLPTLevel.n5];
 
-        await repository.get(
+        await repository.getMultiple(
           where: {JLPTLevel: jlptFilter},
           orderBy: SortOrder.alphabetical,
         );
@@ -207,7 +209,9 @@ void main() {
           ),
         ).thenAnswer((_) async => paginatedData);
 
-        final result = await repository.get(orderBy: SortOrder.japanese);
+        final result = await repository.getMultiple(
+          orderBy: SortOrder.japanese,
+        );
         expect(result.data, [dummyVocabulary]);
         expect(result.hasMore, true);
 

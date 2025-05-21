@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:kana_to_kanji/src/core/models/paginated_api_response.dart";
 import "package:kana_to_kanji/src/core/models/paginated_data.dart";
@@ -22,17 +23,22 @@ class ResourceDataLoader<T extends Resource> {
   /// Load all the resource from the API.
   /// Returns a [PaginatedData] with a cursor to the next page, each page
   /// contains a thousand (1000) items maximum
-  Future<PaginatedData<T>> fetchAll({String? latestVersion}) async {
-    var versionQueryParam = "?page[size]=$_kBatchSize";
+  Future<PaginatedData<T>> fetchAll({
+    String? latestVersion,
+    int page = 1,
+    int pageSize = _kBatchSize,
+  }) async {
+    var versionQueryParam = "?page[size]=$pageSize&page[number]=$page";
 
     if (latestVersion != null) {
       versionQueryParam += "&version[current]=$latestVersion";
     }
 
-    return _fetchPaginated("/v1/$apiResourceType$versionQueryParam");
+    return fetchPaginated("/v1/$apiResourceType$versionQueryParam");
   }
 
-  Future<PaginatedData<T>> _fetchPaginated(String url) async {
+  @protected
+  Future<PaginatedData<T>> fetchPaginated(String url) async {
     _logger.d("ResourceDataLoader<$T>: fetching: $url");
     final response = await _apiService.get(url).then(_extractPaginatedResponse);
 
@@ -40,18 +46,31 @@ class ResourceDataLoader<T extends Resource> {
       return PaginatedData<T>(
         data: response.data,
         next:
-            response.hasMore
-                ? () => _fetchPaginated(response.links.next)
-                : null,
+            response.hasMore ? () => fetchPaginated(response.links.next) : null,
       );
     }
 
     return PaginatedData<T>(data: []);
   }
 
-  /// Fetch a specific kanji in full details
-  Future<T> fetch(ResourceUid uid) async {
-    throw UnimplementedError();
+  /// Fetch a specific resource
+  Future<T> fetch(ResourceUid uid, [String? latestVersion]) async {
+    final queryParams =
+        latestVersion != null && latestVersion.isNotEmpty
+            ? "?version[current]=$latestVersion"
+            : "";
+
+    final response = await _apiService.get(
+      "/v1/$apiResourceType/$uid$queryParams",
+    );
+
+    if (response.statusCode == 200) {
+      return fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(
+        "Failed to load resource, status code: ${response.statusCode}",
+      );
+    }
   }
 
   /// Extract the paginated response from the API Response.

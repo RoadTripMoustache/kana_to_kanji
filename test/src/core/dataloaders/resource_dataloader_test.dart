@@ -143,6 +143,73 @@ void main() {
       reset(apiService);
     });
 
+    group("fetch", () {
+      test("should fetch a specific resource by uid", () async {
+        final resourceUid = ResourceUid.fromJson("group-1");
+        final singleResourceResponse = http.Response(
+          jsonEncode({"uid": "group-1", "version": "2025_01_01"}),
+          HttpStatus.ok,
+          headers: {"content-type": "application/json;charset=utf-8"},
+        );
+
+        when(
+          apiService.get("/v1/test-resources/group-1"),
+        ).thenAnswer((_) async => Future.value(singleResourceResponse));
+
+        final result = await dataLoader.fetch(resourceUid);
+
+        verify(apiService.get("/v1/test-resources/group-1")).called(1);
+
+        expect(result, isA<TestResource>());
+        expect(result.uid.uid, "group-1");
+        expect(result.version, "2025_01_01");
+      });
+
+      test("should fetch a specific resource with version parameter", () async {
+        final resourceUid = ResourceUid.fromJson("group-1");
+        final singleResourceResponse = http.Response(
+          jsonEncode({"uid": "group-1", "version": "2025_01_01"}),
+          HttpStatus.ok,
+          headers: {"content-type": "application/json;charset=utf-8"},
+        );
+
+        when(
+          apiService.get(
+            "/v1/test-resources/group-1?version[current]=2025_01_01",
+          ),
+        ).thenAnswer((_) async => Future.value(singleResourceResponse));
+
+        final result = await dataLoader.fetch(resourceUid, "2025_01_01");
+
+        verify(
+          apiService.get(
+            "/v1/test-resources/group-1?version[current]=2025_01_01",
+          ),
+        ).called(1);
+
+        expect(result, isA<TestResource>());
+        expect(result.uid.uid, "group-1");
+        expect(result.version, "2025_01_01");
+      });
+
+      test("should throw exception when API returns error", () async {
+        final resourceUid = ResourceUid.fromJson("group-error");
+        final errorResponse = http.Response(
+          "Not found",
+          HttpStatus.notFound,
+          headers: {"content-type": "application/json;charset=utf-8"},
+        );
+
+        when(
+          apiService.get("/v1/test-resources/group-error"),
+        ).thenAnswer((_) async => Future.value(errorResponse));
+
+        expect(() => dataLoader.fetch(resourceUid), throwsA(isA<Exception>()));
+
+        verify(apiService.get("/v1/test-resources/group-error")).called(1);
+      });
+    });
+
     group("fetchAll", () {
       test(
         "should fetch resources without version parameter by default",
@@ -150,7 +217,7 @@ void main() {
           final result = await dataLoader.fetchAll();
 
           verify(
-            apiService.get("/v1/test-resources?page[size]=1000"),
+            apiService.get("/v1/test-resources?page[size]=1000&page[number]=1"),
           ).called(1);
 
           expect(result.data.length, 2);
@@ -179,7 +246,7 @@ void main() {
 
           verify(
             apiService.get(
-              "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
+              "/v1/test-resources?page[size]=1000&page[number]=1&version[current]=2025_01_01",
             ),
           ).called(1);
 
@@ -196,56 +263,47 @@ void main() {
           verifyNoMoreInteractions(apiService);
         },
       );
-    });
 
-    test("should handle API error gracefully", () async {
-      // Set up error response
-      final errorResponse = http.Response("", HttpStatus.internalServerError);
+      test("should fetch resources with custom page size", () async {
+        final result = await dataLoader.fetchAll(pageSize: 50);
 
-      when(
-        apiService.get(
-          "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
-        ),
-      ).thenAnswer((_) async => Future.value(errorResponse));
+        verify(
+          apiService.get("/v1/test-resources?page[size]=50&page[number]=1"),
+        ).called(1);
 
-      final result = await dataLoader.fetchAll(latestVersion: "2025_01_01");
+        expect(result.data.length, 2);
+        expect(result.hasMore, isTrue);
+      });
 
-      verify(
-        apiService.get(
-          "/v1/test-resources?page[size]=1000&version[current]=2025_01_01",
-        ),
-      ).called(1);
+      test("should fetch resources with custom page number", () async {
+        final result = await dataLoader.fetchAll(page: 3);
 
-      // Should return empty list when API returns error
-      expect(result.data, isEmpty);
-      expect(result.hasMore, isFalse);
-    });
+        verify(
+          apiService.get("/v1/test-resources?page[size]=1000&page[number]=3"),
+        ).called(1);
 
-    test("should extract paginated response correctly", () async {
-      // Testing the private method via its public usage
-      final result = await dataLoader.fetchAll();
+        expect(result.data.length, 2);
+        expect(result.hasMore, isTrue);
+      });
 
-      // First page should be properly parsed
-      expect(result.data.length, 2);
-      expect(result.data[0].uid.uid, "group-1");
-      expect(result.data[0].version, "2025_01_01");
-      expect(result.data[1].uid.uid, "group-2");
-      expect(result.hasMore, isTrue);
+      test("should extract paginated response correctly", () async {
+        // Testing the private method via its public usage
+        final result = await dataLoader.fetchAll();
 
-      // Second page should be properly parsed when accessed
-      final nextPage = await result.next!();
-      expect(nextPage.data.length, 2);
-      expect(nextPage.data[0].uid.uid, "group-3");
-      expect(nextPage.data[1].uid.uid, "group-4");
-      expect(nextPage.hasMore, isFalse);
-    });
+        // First page should be properly parsed
+        expect(result.data.length, 2);
+        expect(result.data[0].uid.uid, "group-1");
+        expect(result.data[0].version, "2025_01_01");
+        expect(result.data[1].uid.uid, "group-2");
+        expect(result.hasMore, isTrue);
 
-    test("fetch method should throw UnimplementedError", () {
-      expect(
-        () async =>
-            await dataLoader.fetch(ResourceUid.fromJson("group-resource")),
-        throwsA(isA<UnimplementedError>()),
-      );
+        // Second page should be properly parsed when accessed
+        final nextPage = await result.next!();
+        expect(nextPage.data.length, 2);
+        expect(nextPage.data[0].uid.uid, "group-3");
+        expect(nextPage.data[1].uid.uid, "group-4");
+        expect(nextPage.hasMore, isFalse);
+      });
     });
   });
 }

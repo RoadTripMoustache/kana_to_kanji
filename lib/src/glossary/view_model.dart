@@ -12,7 +12,7 @@ import "package:kana_to_kanji/src/core/repositories/kanji_repository.dart";
 import "package:kana_to_kanji/src/core/repositories/vocabulary_repository.dart";
 import "package:kana_to_kanji/src/core/services/dialog_service.dart";
 import "package:kana_to_kanji/src/glossary/constants.dart";
-import "package:kana_to_kanji/src/glossary/details/details_view.dart";
+import "package:kana_to_kanji/src/glossary/details/view.dart";
 import "package:kana_to_kanji/src/glossary/pagination_helper.dart";
 import "package:kana_to_kanji/src/glossary/widgets/sort_filter_by_dialog.dart";
 import "package:kana_to_kanji/src/locator.dart";
@@ -144,7 +144,7 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   Future<void> onTilePressed(dynamic item) async {
     await _dialogService.showModalBottomSheet(
       useSafeArea: true,
-      showDragHandle: true,
+      showDragHandle: false,
       isScrollControlled: true,
       builder: (context) => DetailsView(item: item),
     );
@@ -161,6 +161,7 @@ class GlossaryViewModel extends MultipleStreamViewModel {
   Future<void> onFilterByPressed() async {
     await _dialogService.showModalBottomSheet(
       showDragHandle: true,
+      isScrollControlled: true,
       builder:
           (context) => SortFilterByDialog(
             selectedJlptLevel: _selectedJlptLevel,

@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:flutter/foundation.dart";
 import "package:kana_to_kanji/src/core/constants/preference_flags.dart";
 import "package:kana_to_kanji/src/core/dataloaders/resource_dataloader.dart";
@@ -24,7 +22,8 @@ abstract class ResourceDataService<T extends Resource>
     with ListenableServiceMixin {
   @protected
   final Logger logger = locator<Logger>();
-  final DatabaseService _databaseService = locator<DatabaseService>();
+  @protected
+  final DatabaseService databaseService = locator<DatabaseService>();
   final PreferencesService _preferencesService = locator<PreferencesService>();
 
   @protected
@@ -53,10 +52,16 @@ abstract class ResourceDataService<T extends Resource>
     required this.dataLoader,
     required this.syncFlag,
     List<String> resourceColumns = const [],
-  }) : columns = [sqlUidColumn, ...resourceColumns, sqlVersionColumn];
+  }) : columns =
+           resourceColumns..addAll(
+             [
+               sqlUidColumn,
+               sqlVersionColumn,
+             ].where((column) => !resourceColumns.contains(column)),
+           );
 
   Future<String?> get latestVersion async {
-    final snapshot = await _databaseService.queryTrans(
+    final snapshot = await databaseService.queryTrans(
       tableName,
       transformer: (Map<String, Object?> map) => map,
       columns: [sqlVersionColumn],
@@ -69,13 +74,22 @@ abstract class ResourceDataService<T extends Resource>
         : null;
   }
 
-  Future<bool> exists(Transaction txn, T item) async =>
+  Future<bool> exists(ResourceUid uid, {Transaction? transaction}) {
+    if (transaction != null) {
+      return _exists(uid, transaction);
+    }
+    return databaseService.transaction(
+      (Transaction txn) async => _exists(uid, txn),
+    );
+  }
+
+  Future<bool> _exists(ResourceUid uid, Transaction txn) async =>
       firstIntValue(
         await txn.query(
           tableName,
           columns: [sqlCountColumn],
           where: sqlWhereUidColumn,
-          whereArgs: [item.uid.uid],
+          whereArgs: [uid.uid],
         ),
       ) ==
       1;
@@ -118,12 +132,12 @@ abstract class ResourceDataService<T extends Resource>
     String? where,
     List<dynamic>? whereArgs,
   }) async {
-    final snapshot = await _databaseService.queryTrans(
+    final snapshot = await databaseService.queryTrans(
       tableName,
       transformer: transformer,
       columns: columns,
       limit: pageSize,
-      offset: max((page - 1) * pageSize, 0),
+      offset: page * pageSize,
       orderBy: orderBy,
       where: where,
       whereArgs: whereArgs,
@@ -146,7 +160,7 @@ abstract class ResourceDataService<T extends Resource>
 
   /// Retrieve all the resource.
   /// Be aware that this will load ALL the resource of the database in memory.
-  Future<List<T>> getAll() => _databaseService.queryTrans(
+  Future<List<T>> getAll() => databaseService.queryTrans(
     tableName,
     transformer: transformer,
     columns: columns,
@@ -155,7 +169,7 @@ abstract class ResourceDataService<T extends Resource>
   /// Retrieve a specific item from the database.
   ///
   /// @throws Exception if the item is not found.
-  Future<T> get(ResourceUid uid) => _databaseService
+  Future<T> get(ResourceUid uid) => databaseService
       .queryTrans(
         tableName,
         transformer: transformer,
@@ -180,7 +194,7 @@ abstract class ResourceDataService<T extends Resource>
     if (transaction != null) {
       await _upsert(item, transaction);
     } else {
-      await _databaseService.transaction((Transaction txn) async {
+      await databaseService.transaction((Transaction txn) async {
         await _upsert(item, txn);
       });
     }
@@ -188,7 +202,11 @@ abstract class ResourceDataService<T extends Resource>
 
   Future<void> _upsert(T item, Transaction transaction) async {
     final batch = transaction.batch();
-    upsertData(item, batch, exists: await exists(transaction, item));
+    upsertData(
+      item,
+      batch,
+      exists: await exists(item.uid, transaction: transaction),
+    );
     await batch.commit(noResult: true);
   }
 
@@ -197,7 +215,7 @@ abstract class ResourceDataService<T extends Resource>
   /// Note that this method only works for simple resource that are contained in
   /// a single table (no join or secondary table).
   Future<void> upsertAll(List<T> items, {bool forceReload = false}) async {
-    await _databaseService.transaction((Transaction transaction) async {
+    await databaseService.transaction((Transaction transaction) async {
       final existingUids = [];
       final batch = transaction.batch();
 
@@ -242,7 +260,7 @@ abstract class ResourceDataService<T extends Resource>
       );
       return;
     }
-    await _databaseService.delete(
+    await databaseService.delete(
       tableName,
       where: sqlWhereUidColumn,
       whereArgs: [resourceUid.uid],
@@ -257,7 +275,7 @@ abstract class ResourceDataService<T extends Resource>
         whereArgs: resourceUids.map((e) => e.uid).toList(),
       );
     } else {
-      await _databaseService.transaction((Transaction txn) async {
+      await databaseService.transaction((Transaction txn) async {
         await txn.delete(
           tableName,
           where: "$sqlUidColumn IN (${resourceUids.map((e) => "?").join(",")})",
@@ -303,7 +321,7 @@ abstract class ResourceDataService<T extends Resource>
     );
 
     if (forceReload) {
-      await _databaseService.delete(tableName);
+      await databaseService.delete(tableName);
     }
 
     PaginatedData<T> cursor = await dataLoader.fetchAll(latestVersion: version);

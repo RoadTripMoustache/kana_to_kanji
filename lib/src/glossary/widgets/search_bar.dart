@@ -102,16 +102,17 @@ class _SearchBarState extends State<HiddenSearchBar>
                     alignment: Alignment.centerLeft,
                     children: [
                       // Title that slides out when search is activated
-                      SlideTransition(
-                        position: Tween<Offset>(
-                          begin: Offset.zero,
-                          end: const Offset(-2.0, 0.0),
-                        ).animate(_animation),
-                        child: FadeTransition(
-                          opacity: ReverseAnimation(_animation),
-                          child: Text(widget.title),
+                      if (!_isSearchMode || _animationController.value == 0)
+                        SlideTransition(
+                          position: Tween<Offset>(
+                            begin: Offset.zero,
+                            end: const Offset(-2.0, 0.0),
+                          ).animate(_animation),
+                          child: FadeTransition(
+                            opacity: ReverseAnimation(_animation),
+                            child: Text(widget.title),
+                          ),
                         ),
-                      ),
 
                       // Search field that slides in when search is activated
                       if (_isSearchMode || _animationController.value > 0)

@@ -35,6 +35,9 @@ abstract class Vocabulary extends Resource with _$Vocabulary {
 
     /// Groups related to the vocabulary
     @Default([]) List<ResourceUid> groups,
+
+    /// List of the 5 most simpler examples that use the vocabulary.
+    @Default([]) List<ResourceUid> examples,
   }) = _Vocabulary;
 
   factory Vocabulary.fromJson(Map<String, dynamic> json) =>

@@ -1,86 +1,89 @@
+import "dart:math";
+
 import "package:flutter/material.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
-import "package:kana_to_kanji/src/core/models/resources/kana.dart";
-import "package:kana_to_kanji/src/core/models/resources/kanji.dart";
-import "package:kana_to_kanji/src/core/models/resources/vocabulary.dart";
-import "package:kana_to_kanji/src/core/widgets/app_spacer.dart";
+import "package:kana_to_kanji/src/glossary/details/models/pronunciation_details.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/pronunciation_card.dart";
 import "package:kana_to_kanji/src/glossary/details/widgets/section_title.dart";
-import "package:kana_to_kanji/src/glossary/details/widgets/wrapped_list.dart";
 
 class Details extends StatelessWidget {
-  /// All the pronunciations of the word.
-  final List<String> pronunciations;
+  final List<PronunciationDetails> pronunciations;
 
-  /// All the meanings for the word.
-  /// If empty, the meanings section will be hidden
-  final List<String> meanings;
+  final ScrollController scrollController;
 
-  const Details._({
+  /// The kanji or vocabulary in japanese not the reading
+  /// Used to determine which part of the sentence in examples to bold
+  final String toBold;
+
+  final Future Function(String reading) onSpeakerPressed;
+
+  const Details({
+    required this.scrollController,
     required this.pronunciations,
+    required this.toBold,
+    required this.onSpeakerPressed,
     super.key,
-    this.meanings = const [],
   });
-
-  /// Build the details card for a [Kana].
-  factory Details.kana({required Kana kana, Key? key}) =>
-      Details._(key: key, pronunciations: [kana.romaji]);
-
-  /// Build the details card for a [Kanji].
-  factory Details.kanji({required Kanji kanji, Key? key}) => Details._(
-    key: key,
-    pronunciations: kanji.readings,
-    meanings: kanji.meanings,
-  );
-
-  /// Build the details card for a [Vocabulary].
-  factory Details.vocabulary({required Vocabulary vocabulary, Key? key}) =>
-      Details._(
-        key: key,
-        pronunciations: [vocabulary.kana],
-        meanings: vocabulary.meanings,
-      );
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     final AppLocalizations l10n = AppLocalizations.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SectionTitle(
-              title: l10n.glossary_details_pronunciation(pronunciations.length),
+    final longestText = pronunciations
+        .map((pronunciation) => pronunciation.reading)
+        .reduce((a, b) => a.length > b.length ? a : b);
+    final double longestTextWidth = _determineLongestTitleWidth(
+      longestText,
+      theme.textTheme.titleSmall!,
+    );
+
+    final int meanings = pronunciations
+        .map((pronunciation) => pronunciation.meanings)
+        .fold(0, (count, meaning) => count + meaning.length);
+
+    return CustomScrollView(
+      controller: scrollController,
+      slivers: [
+        SliverToBoxAdapter(
+          child: SectionTitle(
+            title: l10n.glossary_details_readings_and_meanings(
+              pronunciations.length,
+              meanings,
             ),
-            WrappedList(
-              children: pronunciations
-                  .map((e) => PronunciationCard(pronunciation: e))
-                  .toList(growable: false),
-            ),
-          ],
-        ),
-        if (meanings.isNotEmpty)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppSpacer.p16(),
-              SectionTitle(
-                title: l10n.glossary_details_meaning(meanings.length),
-              ),
-              WrappedList(
-                children: meanings
-                    .map((e) => Chip(label: Text(e)))
-                    .toList(growable: false),
-              ),
-            ],
+            style: theme.textTheme.titleLarge,
           ),
-        AppSpacer.p40(),
+        ),
+        SliverList.builder(
+          itemCount: pronunciations.length,
+          itemBuilder: (context, index) {
+            final PronunciationDetails pronunciation = pronunciations[index];
+
+            return PronunciationCard(
+              pronunciation: pronunciation.reading,
+              meanings: pronunciation.meanings,
+              examples: pronunciation.examples,
+              toBold: toBold,
+              pronunciationMinWidth: longestTextWidth,
+              onSpeakerPressed: onSpeakerPressed,
+            );
+          },
+        ),
       ],
     );
+  }
+
+  double _determineLongestTitleWidth(
+    String text,
+    TextStyle style, {
+    int maxLines = 1,
+  }) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: maxLines,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    return max(textPainter.size.width, 48.0);
   }
 }
