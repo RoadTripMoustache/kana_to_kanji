@@ -51,10 +51,11 @@ class AppBottomNavigationBar extends StatelessWidget {
       label: l10n.app_bottom_bar_glossary,
       location: "/glossary",
     ),
-    // AppNavigationDestination(
-    //     icon: const Icon(Icons.account_circle_outlined),
-    //     selectedIcon: const Icon(Icons.account_circle_rounded),
-    //     label: l10n.app_bottom_bar_profile,
-    //     location: "/profile")
+    AppNavigationDestination(
+      icon: const Icon(Icons.face_outlined),
+      selectedIcon: const Icon(Icons.face_rounded),
+      label: l10n.app_bottom_bar_profile,
+      location: "/profile",
+    ),
   ];
 }
