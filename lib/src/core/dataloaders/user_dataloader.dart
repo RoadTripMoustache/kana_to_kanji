@@ -22,4 +22,16 @@ class UserDataLoader {
       return null;
     }
   }
+
+  Future<User?> updateUser(User user) async {
+    final response = await _apiService.patch("/v1/user", body: user.toJson());
+
+    if (response.statusCode == 200) {
+      return _extractUser(response);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then return `null`.
+      return null;
+    }
+  }
 }
