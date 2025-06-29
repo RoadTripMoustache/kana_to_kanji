@@ -362,5 +362,16 @@
       "count": {}
     }
   },
-  "stat_card_words_subtitle": "appris"
+  "stat_card_words_subtitle": "appris",
+  "profile_learning_since": "Apprends depuis {date}",
+  "@profile_learning_since": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMM",
+        "description": "Date of the first learning"
+      }
+    }
+  },
+  "profile_update_avatar": "Fini"
 }

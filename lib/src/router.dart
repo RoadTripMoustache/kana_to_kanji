@@ -7,6 +7,7 @@ import "package:kana_to_kanji/src/core/models/resources/group.dart";
 import "package:kana_to_kanji/src/core/widgets/app_not_found_view.dart";
 import "package:kana_to_kanji/src/glossary/view.dart";
 import "package:kana_to_kanji/src/practice/quiz/practice_view.dart";
+import "package:kana_to_kanji/src/profile/update_avatar/view.dart";
 import "package:kana_to_kanji/src/profile/view.dart";
 import "package:kana_to_kanji/src/quiz/conclusion/quiz_conclusion_view.dart";
 import "package:kana_to_kanji/src/quiz/models/question.dart";
@@ -68,10 +69,6 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
       ],
     ),
     GoRoute(
-      path: SettingsView.routeName,
-      builder: (_, __) => const SettingsView(),
-    ),
-    GoRoute(
       path: GlossaryView.routeName,
       builder: (_, __) => const GlossaryView(),
     ),
@@ -82,6 +79,18 @@ GoRouter buildRouter([GlobalKey<NavigatorState>? key]) => GoRouter(
     GoRoute(
       path: ProfileView.routeName,
       builder: (_, __) => const ProfileView(),
+      routes: [
+        GoRoute(
+          path: UpdateAvatarView.routeName.substring(
+            ProfileView.routeName.length + 1,
+          ),
+          builder: (_, __) => const UpdateAvatarView(),
+        ),
+      ],
+    ),
+    GoRoute(
+      path: SettingsView.routeName,
+      builder: (_, __) => const SettingsView(),
     ),
   ],
 );

@@ -367,5 +367,16 @@
       "count": {}
     }
   },
-  "stat_card_words_subtitle": "learned"
+  "stat_card_words_subtitle": "learned",
+  "profile_learning_since": "Learning since {date}",
+  "@profile_learning_since": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMM",
+        "description": "Date of the first learning"
+      }
+    }
+  },
+  "profile_update_avatar": "Done"
 }

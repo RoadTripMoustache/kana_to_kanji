@@ -35,6 +35,8 @@ dependencies:
     git:
       url: git@github.com:RoadTripMoustache/flutter_rtm.git
       ref: main # switch to the tag when it will be available
+  avatar_maker: ^0.4.0
+  flutter_svg: ^2.1.0
 
   # Flutter community
   package_info_plus: ^8.0.0
@@ -66,7 +68,7 @@ dev_dependencies:
   freezed: ^3.0.6
   build_runner: ^2.4.11
   json_serializable: ^6.9.5
-  mockito: ^5.4.2
+  mockito: ^5.4.6
   envied_generator: ^1.1.1
   sqflite_common_ffi: ^2.3.5
 
