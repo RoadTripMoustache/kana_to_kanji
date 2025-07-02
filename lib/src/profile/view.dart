@@ -35,10 +35,13 @@ class ProfileView extends StatelessWidget {
             body: Column(
               spacing: 12,
               children: [
-                Avatar(
-                  svg: viewModel.user.avatar,
-                  onTap: viewModel.updateAvatar,
-                ),
+                if (viewModel.user.avatar == null)
+                  RTMSpinner()
+                else
+                  Avatar(
+                    svg: viewModel.user.avatar!,
+                    onTap: viewModel.updateAvatar,
+                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

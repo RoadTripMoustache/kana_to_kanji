@@ -47,7 +47,7 @@ void main() async {
       reset(infoServiceMock);
     });
 
-    tearDownAll(() {
+    tearDownAll(() async {
       locator
         ..unregister<SettingsRepository>(instance: settingsRepositoryMock)
         ..unregister<InfoService>(instance: infoServiceMock)
@@ -74,7 +74,7 @@ void main() async {
 
       test(
         "Should update the SettingsRepository when a new theme is selected",
-        () {
+        () async {
           const ThemeMode newMode = ThemeMode.dark;
           when(
             settingsRepositoryMock.themeMode,
@@ -85,7 +85,7 @@ void main() async {
             [false, true, false],
             reason: "[light: false, system: true, dark: false]",
           );
-          viewModel.setThemeMode(2); // 0 = light, 1 = system, 2 = dark
+          await viewModel.setThemeMode(2); // 0 = light, 1 = system, 2 = dark
           expect(
             viewModel.themeModeSelected,
             [false, false, true],
@@ -113,7 +113,7 @@ void main() async {
 
       test(
         "Should update the SettingsRepository when a new locale is selected",
-        () {
+        () async {
           const Locale locale = Locale("en");
           const Locale newLocale = Locale("fr");
           when(
@@ -121,7 +121,7 @@ void main() async {
           ).thenReturnInOrder([locale, newLocale]);
 
           expect(viewModel.currentLocale, locale);
-          viewModel.setLocale(newLocale);
+          await viewModel.setLocale(newLocale);
           expect(viewModel.currentLocale, newLocale);
 
           verifyInOrder([
@@ -134,8 +134,8 @@ void main() async {
     });
 
     group("Feedback", () {
-      test("Should call dialog service", () {
-        viewModel.giveFeedback();
+      test("Should call dialog service", () async {
+        await viewModel.giveFeedback();
 
         verify(
           dialogServiceMock.showModalBottomSheet(
