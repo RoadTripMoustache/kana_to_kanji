@@ -4,7 +4,7 @@ description: A new Flutter project.
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 0.41.0+1
+version: 0.42.0+1
 
 environment:
   sdk: '>=3.7.0 <4.0.0'
@@ -34,7 +34,9 @@ dependencies:
   flutter_rtm:
     git:
       url: git@github.com:RoadTripMoustache/flutter_rtm.git
-      ref: 4a2121b # switch to the tag when it will be available
+      ref: main # switch to the tag when it will be available
+  avatar_maker: ^0.4.0
+  flutter_svg: ^2.1.0
 
   # Flutter community
   package_info_plus: ^8.0.0
@@ -61,12 +63,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analyzer: ^6.11.0
+  analyzer: ^7.4.5
   flutter_lints: ^5.0.0
   freezed: ^3.0.6
   build_runner: ^2.4.11
   json_serializable: ^6.9.5
-  mockito: ^5.4.2
+  mockito: ^5.4.6
   envied_generator: ^1.1.1
   sqflite_common_ffi: ^2.3.5
 

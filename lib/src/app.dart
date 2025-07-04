@@ -1,8 +1,11 @@
+import "dart:async";
+
 import "package:feedback/feedback.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
+
 // ignore: uri_does_not_exist
 import "package:kana_to_kanji/firebase_options.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
@@ -34,7 +37,9 @@ class KanaToKanjiApp extends StatelessWidget {
       // Pass all uncaught asynchronous errors that aren't handled
       // by the Flutter framework to Crashlytics
       PlatformDispatcher.instance.onError = (error, stack) {
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        unawaited(
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+        );
         return true;
       };
     }

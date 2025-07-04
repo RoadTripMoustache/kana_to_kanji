@@ -50,17 +50,16 @@ jobs:
           channel: 'stable'
           cache: true
       - run: flutter doctor
-      # Check the format of the code and commit the formatted files.
-      - name: Format files in lib and test directories
-        run: dart format lib test --set-exit-if-changed
-
       - name: Get dependencies
         run: |
           # Add flutter_rtm private key to the ssh-agent so we can access the depedency
           eval `ssh-agent -s`
           ssh-add - <<< '${{ secrets.FLUTTER_RTM_PRIVATE_KEY }}'
-          
+
           flutter pub get
+      # Check the format of the code and commit the formatted files. Excluding the l10n folder.
+      - name: Format files in lib and test directories
+        run: dart format lib/src lib/*.dart test --set-exit-if-changed
       - name: Setup .env
         run: cp .env.template .env
       - name: Generate files

@@ -16,17 +16,17 @@ class AppTheme {
     900: Color(0xff4A1F03),
   });
 
-  // static const ColorSwatch _purple = ColorSwatch(0xff3E58BB, {
-  //   100: Color(0xffEBEFFD),
-  //   200: Color(0xffD3DBF9),
-  //   300: Color(0xff8DA3F5),
-  //   400: Color(0xff637FEA),
-  //   500: Color(0xff3E58BB),
-  //   600: Color(0xff2A429E),
-  //   700: Color(0xff172B77),
-  //   800: Color(0xff112261),
-  //   900: Color(0xff0B1846)
-  // });
+  static const ColorSwatch purple = ColorSwatch(0xff3E58BB, {
+    100: Color(0xffEBEFFD),
+    200: Color(0xffD3DBF9),
+    300: Color(0xff8DA3F5),
+    400: Color(0xff637FEA),
+    500: Color(0xff3E58BB),
+    600: Color(0xff2A429E),
+    700: Color(0xff172B77),
+    800: Color(0xff112261),
+    900: Color(0xff0B1846),
+  });
 
   static const ColorSwatch blue = ColorSwatch(0xff0199DF, {
     100: Color(0xffFAFDFF),

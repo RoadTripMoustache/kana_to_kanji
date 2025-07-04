@@ -15,7 +15,7 @@ class UserService {
     final latestUser = await _userDataLoader.sync();
 
     if (latestUser != null) {
-      await updateUser(latestUser);
+      await _saveUser(latestUser);
     }
 
     final record = await _preferencesService.getString(PreferenceFlags.user);
@@ -28,10 +28,24 @@ class UserService {
   }
 
   /// Update the user in database with the new data given in parameter.
-  Future<bool> updateUser(User updatedUser) => _preferencesService.setString(
-    PreferenceFlags.user,
-    jsonEncode(updatedUser.toJson()),
-  );
+  Future _saveUser(User user) async {
+    await _preferencesService.setString(
+      PreferenceFlags.user,
+      jsonEncode(user.toJson()),
+    );
+  }
+
+  /// Update the user in database with the new data given in parameter.
+  Future<User?> updateUser(User updatedUser) async {
+    final user = await _userDataLoader.updateUser(
+      updatedUser.copyWith(lastUpdate: DateTime.now().toIso8601String()),
+    );
+    if (user != null) {
+      await _saveUser(user);
+    }
+
+    return user;
+  }
 
   /// Delete the user given in parameter from the database.
   Future<void> deleteUser() async =>

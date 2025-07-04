@@ -7,7 +7,7 @@ import "../../../helpers.dart";
 
 void main() {
   group("AppBottomNavigationBar", () {
-    testWidgets("should have 2 tabs", (WidgetTester tester) async {
+    testWidgets("should have 3 tabs", (WidgetTester tester) async {
       final l10n = await setupLocalizations();
 
       await tester.pumpLocalizedRouterWidget(
@@ -24,8 +24,8 @@ void main() {
           of: widget,
           matching: find.byType(NavigationDestination),
         ),
-        findsNWidgets(2),
-        reason: "Should only have 2 tabs",
+        findsNWidgets(3),
+        reason: "Should only have 3 tabs",
       );
 
       // Practice tab
@@ -60,6 +60,19 @@ void main() {
         ),
         findsOneWidget,
         reason: "Practice icon should be menu_book_outlined",
+      );
+
+      // Glossary tab
+      tab = find.ancestor(
+        of: find.text(l10n.app_bottom_bar_profile),
+        matching: find.byType(NavigationDestination),
+      );
+
+      expect(tab, findsOneWidget);
+      expect(
+        find.descendant(of: tab, matching: find.byIcon(Icons.face_outlined)),
+        findsOneWidget,
+        reason: "Profile icon should be face_outlined",
       );
     });
 
@@ -104,6 +117,33 @@ void main() {
           find.byIcon(Icons.menu_book_rounded),
           findsOneWidget,
           reason: "The selected icon of Glossary should be menu_book_rounded",
+        );
+      });
+
+      testWidgets("should open the profile", (WidgetTester tester) async {
+        final l10n = await setupLocalizations();
+
+        await tester.pumpLocalizedRouterWidget(
+          const AppBottomNavigationBar(),
+          initialLocation: PrepareQuizView.routeName,
+          allowedRoutes: ["/profile"],
+          allowedRoutesChild: const AppBottomNavigationBar(),
+        );
+        await tester.pumpAndSettle();
+
+        final Finder tab = find.ancestor(
+          of: find.text(l10n.app_bottom_bar_profile),
+          matching: find.byType(NavigationDestination),
+        );
+
+        await tester.tap(tab);
+        await tester.pumpAndSettle();
+
+        expect(find.byKey(Key(getRouterKey("/profile"))), findsOneWidget);
+        expect(
+          find.byIcon(Icons.face_rounded),
+          findsOneWidget,
+          reason: "The selected icon of Profile should be face_rounded",
         );
       });
     });

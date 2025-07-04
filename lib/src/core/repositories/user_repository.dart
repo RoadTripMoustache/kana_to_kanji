@@ -27,7 +27,17 @@ class UserRepository with ListenableServiceMixin {
     return Future.value(true);
   }
 
-  Future<bool> silentSignIn() => _authService.silentSignIn();
+  Future<bool> silentSignIn() async {
+    final success = await _authService.silentSignIn();
+    if (success) {
+      _logger.d("Silent sign in successful, fetching user data.");
+      _self = await _userService.getUser();
+      _logger.d("fetched user data.");
+      return true;
+    }
+    _logger.d("Failed");
+    return false;
+  }
 
   Future<bool> signIn(
     AuthenticationMethod method, {
@@ -59,8 +69,12 @@ class UserRepository with ListenableServiceMixin {
     }
   }
 
-  Future<bool> updateSelf(User updatedUser) {
-    throw UnimplementedError();
+  Future<bool> updateSelf(User updatedUser) async {
+    final user = await _userService.updateUser(updatedUser);
+    _self = user ?? _self;
+
+    notifyListeners();
+    return user != null;
   }
 
   Future<bool> linkAccount(

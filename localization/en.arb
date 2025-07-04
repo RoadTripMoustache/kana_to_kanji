@@ -347,5 +347,36 @@
   "input_password_confirmation_placeholder": "Password confirmation",
   "input_password_configuration_mismatch": "Both passwords should be identical",
   "create_account_view_create_account": "Create an account",
-  "create_account_view_or_separator": "OR"
+  "create_account_view_or_separator": "OR",
+  "stat_card_streak": "{count, plural, one{1 day} other{{count} days}}",
+  "@stat_card_streak": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "stat_card_streak_subtitle": "of learning",
+  "stat_card_words": "{count, plural, one{1 word} other{{count} words}}",
+  "@stat_card_words": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "stat_card_words_dense": "+{count}",
+  "@stat_card_words_dense": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "stat_card_words_subtitle": "learned",
+  "profile_learning_since": "Learning since {date}",
+  "@profile_learning_since": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMM",
+        "description": "Date of the first learning"
+      }
+    }
+  },
+  "profile_update_avatar": "Done"
 }
