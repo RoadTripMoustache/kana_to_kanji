@@ -3,7 +3,7 @@ import "package:flutter_rtm/flutter_rtm.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/widgets/app_scaffold.dart";
-import "package:kana_to_kanji/src/core/widgets/stat_card.dart";
+import "package:kana_to_kanji/src/core/widgets/stat_cards/stat_cards.dart";
 import "package:kana_to_kanji/src/profile/view_model.dart";
 import "package:kana_to_kanji/src/profile/widgets/avatar.dart";
 import "package:stacked/stacked.dart";

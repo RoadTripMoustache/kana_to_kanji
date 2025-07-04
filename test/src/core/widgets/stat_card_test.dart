@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:kana_to_kanji/l10n/app_localizations.dart";
 import "package:kana_to_kanji/src/core/constants/app_theme.dart";
-import "package:kana_to_kanji/src/core/widgets/stat_card.dart";
+import "package:kana_to_kanji/src/core/widgets/stat_cards/stat_cards.dart";
 
 import "../../../helpers.dart";
 

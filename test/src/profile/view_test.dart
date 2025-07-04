@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:go_router/go_router.dart";
 import "package:kana_to_kanji/src/core/repositories/user_repository.dart";
-import "package:kana_to_kanji/src/core/widgets/stat_card.dart";
+import "package:kana_to_kanji/src/core/widgets/stat_cards/stat_cards.dart";
 import "package:kana_to_kanji/src/locator.dart";
 import "package:kana_to_kanji/src/profile/update_avatar/view.dart";
 import "package:kana_to_kanji/src/profile/view.dart";
