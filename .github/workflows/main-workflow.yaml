@@ -20,7 +20,7 @@ jobs:
     outputs:
       version: ${{ steps.split.outputs._0 }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Get the version from the pubspec
         id: pubspecVersion
         uses: CumulusDS/get-yaml-paths-action@v1.0.2
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #### SETUP ####
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -103,7 +103,7 @@ jobs:
             asset_content_type: application/zip
     steps:
       #### SETUP ####
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install Android dependencies
         if: matrix.target == 'Android'
         uses: actions/setup-java@v4
