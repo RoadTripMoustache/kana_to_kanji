@@ -41,7 +41,7 @@ jobs:
     steps:
       #### SETUP ####
       - uses: actions/checkout@v6
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '21'
@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v6
       - name: Install Android dependencies
         if: matrix.target == 'Android'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '21'
